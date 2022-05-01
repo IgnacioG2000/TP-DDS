@@ -162,6 +162,9 @@ Organizacion --> "*" Trayecto
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
 
+Tramo --> "2" Espacio
+Tramo --> MedioDeTransporte
+
 Hogar --> TipoHogar
 
 VehiculoParticular --> TipoVehiculo
