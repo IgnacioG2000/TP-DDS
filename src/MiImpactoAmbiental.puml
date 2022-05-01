@@ -1,0 +1,176 @@
+@startuml
+class Miembro {
+nombre: String
+apellido: String
+nroDocumento: String
+tipoDocumento: TipoDocumento
+organizaciones: [Organizacion]
+ubicacion: Hogar
+usuario: Usuario
+}
+
+class Organizacion {
+razonSocial: String
+tipo: TipoOrganizacion
+clasificacion: Clasificacion
+sectores: [Area]
+trayectos: [Trayecto]
+
+void aceptarVinculacion(Trayecto)
+}
+
+class Trayecto {
+partida: Espacio
+llegada: Espacio
+tramos: [Tramo]
+}
+
+class Area {
+nombre: String
+miembros: [Miembro]
+ubicacion: EspacioDeTrabajo
+
+void registrarMiembro(Miembro, Trayecto)
+}
+
+enum TipoDocumento {
+DNI
+LE
+LC
+}
+
+enum Clasificacion {
+MINISTERIO
+UNIVERSIDAD
+ESCUELA
+ESCUELA_DEL_SECTOR_PRIMARIO
+ESCUELA_DEL_SECTOR_SECUNDARIO
+}
+
+enum TipoOrganizacion {
+GUBERNAMENTAL
+ONG
+EMPRESA
+INSTITUCION
+}
+
+abstract class MedioDeTransporte {
+
+}
+
+class Tramo {
+partida: Espacio
+llegada: Espacio
+transporte: MedioDeTransporte
+}
+
+class VehiculoParticular extends MedioDeTransporte {
+tipoVehiculo: TipoVehiculo
+tipoCombustible: TipoCombustible
+}
+
+enum TipoCombustible {
+GNC
+NAFTA
+ELECTRICO
+GASOIL
+}
+
+enum TipoVehiculo {
+AUTO
+MOTO
+CAMIONETA
+}
+
+class TransporteNoMotorizado extends MedioDeTransporte {
+tipo: TipoNoMotorizado
+}
+
+enum TipoNoMotorizado {
+BICI
+A_PIE
+OTROS
+}
+
+class ServicioContratado extends MedioDeTransporte {
+tipo: TipoServicioContratado
+}
+
+enum TipoServicioContratado {
+TAXI
+REMIS
+}
+
+class TransportePublico extends MedioDeTransporte {
+tipo: TipoTransportePublico
+}
+
+enum TipoTransportePublico {
+TREN
+SUBTE
+COLECTIVO
+}
+
+abstract class Espacio {
+latitud: Double
+longitud: Double
+direccion: String
+numero: int
+codigoPostal: int
+barrio: String
+}
+
+class DireccionIntermedia extends Espacio {
+
+}
+
+class Hogar extends Espacio {
+piso: int
+departamento: String
+tipo: TipoHogar
+}
+
+class EspacioDeTrabajo extends Espacio {
+piso: int
+unidad: String
+}
+
+enum TipoHogar {
+CASA
+DEPARTAMENTO
+RESIDENCIA
+}
+
+class Usuario {
+usuario: String
+contrasenia: String
+esAdministrador: boolean
+
+void validarContrasenia()
+}
+
+Miembro --> TipoDocumento
+Miembro --> Hogar
+Miembro --> Usuario
+Miembro ..> Trayecto
+
+Organizacion --> "*" Area
+Organizacion --> TipoOrganizacion
+Organizacion --> Clasificacion
+Organizacion --> "*" Trayecto
+
+Trayecto --> "2" Espacio
+Trayecto --> "*" Tramo
+
+Hogar --> TipoHogar
+
+VehiculoParticular --> TipoVehiculo
+VehiculoParticular --> TipoCombustible
+
+ServicioContratado --> TipoServicioContratado
+
+TransportePublico --> TipoTransportePublico
+
+TransporteNoMotorizado --> TipoNoMotorizado
+
+@enduml
