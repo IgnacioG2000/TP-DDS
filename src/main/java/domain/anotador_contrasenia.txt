@@ -1,0 +1,18 @@
+Pasos a seguir:
+
+Implementar los validaciones de manera simple mediante el uso de una clase abstracta
+
+Armar un validador que conoce a las validaciones, las cuales se van a aplicar al Usuario y Contrasenia
+
+La validacion del Usuario y Contraseña se hace dentro del constructor del Usuario (es lo primero que se hace)
+
+-------------------------------------------------------------------------------------------
+public Usuario(String usuario, String contrasenia, String nombre, String apellido) {
+    miValidador.validar(usuario, contrasenia);
+    this.contrasenia = contrasenia;
+    this.usuario = usuario;
+    this.nombre = nombre;
+    this.apellido = apellido;
+  }
+--------------------------------------------------------------------------------------------
+

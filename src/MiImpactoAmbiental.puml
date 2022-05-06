@@ -1,56 +1,57 @@
 @startuml
+skinparam classAttributeIconSize 0
 class Miembro {
-nombre: String
-apellido: String
-nroDocumento: String
-tipoDocumento: TipoDocumento
-organizaciones: [Organizacion]
-ubicacion: Hogar
-usuario: Usuario
+-nombre: String
+-apellido: String
+-nroDocumento: String
+-tipoDocumento: TipoDocumento
+-organizaciones: [Organizacion]
+-ubicacion: Hogar
+-usuario: Usuario
 }
 
 class Organizacion {
-razonSocial: String
-tipo: TipoOrganizacion
-clasificacion: Clasificacion
-sectores: [Area]
-trayectos: [Trayecto]
+-razonSocial: String
+-tipo: TipoOrganizacion
+-clasificacion: Clasificacion
+-sectores: [Area]
+-trayectos: [Trayecto]
 
-void aceptarVinculacion(Trayecto)
++void aceptarVinculacion(Trayecto)
 }
 
 class Trayecto {
-partida: Espacio
-llegada: Espacio
-tramos: [Tramo]
+-partida: Espacio
+-llegada: Espacio
+-tramos: [Tramo]
 }
 
 class Area {
-nombre: String
-miembros: [Miembro]
-ubicacion: EspacioDeTrabajo
+-nombre: String
+-miembros: [Miembro]
+-ubicacion: EspacioDeTrabajo
 
-void registrarMiembro(Miembro, Trayecto)
++void registrarMiembro(Miembro, Trayecto)
 }
 
 enum TipoDocumento {
-DNI
-LE
+DNI,
+LE,
 LC
 }
 
 enum Clasificacion {
-MINISTERIO
-UNIVERSIDAD
-ESCUELA
-ESCUELA_DEL_SECTOR_PRIMARIO
+MINISTERIO,
+UNIVERSIDAD,
+ESCUELA,
+ESCUELA_DEL_SECTOR_PRIMARIO,
 ESCUELA_DEL_SECTOR_SECUNDARIO
 }
 
 enum TipoOrganizacion {
-GUBERNAMENTAL
-ONG
-EMPRESA
+GUBERNAMENTAL,
+ONG,
+EMPRESA,
 INSTITUCION
 }
 
@@ -59,65 +60,65 @@ abstract class MedioDeTransporte {
 }
 
 class Tramo {
-partida: Espacio
-llegada: Espacio
-transporte: MedioDeTransporte
+-partida: Espacio
+-llegada: Espacio
+-transporte: MedioDeTransporte
 }
 
 class VehiculoParticular extends MedioDeTransporte {
-tipoVehiculo: TipoVehiculo
-tipoCombustible: TipoCombustible
+-tipoVehiculo: TipoVehiculo
+-tipoCombustible: TipoCombustible
 }
 
 enum TipoCombustible {
-GNC
-NAFTA
-ELECTRICO
+GNC,
+NAFTA,
+ELECTRICO,
 GASOIL
 }
 
 enum TipoVehiculo {
-AUTO
-MOTO
+AUTO,
+MOTO,
 CAMIONETA
 }
 
 class TransporteNoMotorizado extends MedioDeTransporte {
-tipo: TipoNoMotorizado
+-tipoNoMotorizado: TipoNoMotorizado
 }
 
 enum TipoNoMotorizado {
-BICI
-A_PIE
+BICI,
+A_PIE,
 OTROS
 }
 
 class ServicioContratado extends MedioDeTransporte {
-tipo: TipoServicioContratado
+-tipoServicioContratado: TipoServicioContratado
 }
 
 enum TipoServicioContratado {
-TAXI
+TAXI,
 REMIS
 }
 
 class TransportePublico extends MedioDeTransporte {
-tipo: TipoTransportePublico
+-tipoTransportePublico: TipoTransportePublico
 }
 
 enum TipoTransportePublico {
-TREN
-SUBTE
+TREN,
+SUBTE,
 COLECTIVO
 }
 
 abstract class Espacio {
-latitud: Double
-longitud: Double
-direccion: String
-numero: int
-codigoPostal: int
-barrio: String
+-latitud: Double
+-longitud: Double
+-direccion: String
+-numero: int
+-codigoPostal: int
+-barrio: String
 }
 
 class DireccionIntermedia extends Espacio {
@@ -125,28 +126,28 @@ class DireccionIntermedia extends Espacio {
 }
 
 class Hogar extends Espacio {
-piso: int
-departamento: String
-tipo: TipoHogar
+-piso: int
+-departamento: String
+-tipo: TipoHogar
 }
 
 class EspacioDeTrabajo extends Espacio {
-piso: int
-unidad: String
+-piso: int
+-unidad: String
 }
 
 enum TipoHogar {
-CASA
-DEPARTAMENTO
+CASA,
+DEPARTAMENTO,
 RESIDENCIA
 }
 
 class Usuario {
-usuario: String
-contrasenia: String
-esAdministrador: boolean
+-usuario: String
+-contrasenia: String
+-esAdministrador: boolean
 
-void validarContrasenia()
++void validarContrasenia()
 }
 
 Miembro --> TipoDocumento
