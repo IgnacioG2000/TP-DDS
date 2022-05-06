@@ -6,6 +6,7 @@
 
 |Apellido, Nombre| Curso | Legajo |
 |:-|:-|:-|
+|Añaños, Matías| K3002 | 176.467-6 |
 |D'Alessio Poisson, Julia| K3002 | 170.806-5 |
 |Flores Maquera, Juan Alberto| K3002 | 152.234-6 |
 |García, Ignacio| K3002 | 167.347-6 |
