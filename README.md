@@ -16,5 +16,5 @@
 
 ## :paperclip: Links Útiles
 
-- [Enunciado](https://drive.google.com/file/d/1kabpFOAiHu6EjXc2LZPrmE_8eA2ayqVl/view?usp=sharing)
+- [Enunciado](https://suriweb.com.ar/wp/dds/wp-content/uploads/sites/4/2022/04/Catedra-Diseno-de-Sistemas-TPA-2022-v1.0.pdf)
 - [Justificaciones](https://docs.google.com/document/d/1g6z2YplEiFeeMBCavFFcD8dcFCSYzE-xlOPHdDuve8M/edit?usp=sharing)
