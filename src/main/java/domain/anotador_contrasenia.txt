@@ -16,3 +16,29 @@ public Usuario(String usuario, String contrasenia, String nombre, String apellid
   }
 --------------------------------------------------------------------------------------------
 
+VALIDACIONES QUE VAMOS A IMPLEMENTAR
+
+- caracteres >= 8  (ya esta hecho)
+- que sea ascii, espacio o unicode
+- si hay mas de un espacio seguido, unificar. Avisar al usuario.
+- NO truncar contraseñas (o sea, guardar el hash entero)
+- tomar caracteres UNICODE como uno solo
+- guardar hash con salt (ver metodo en Discord -> @Rodri fijate nuestro TP)
+- 10k (ya esta hecho)
+- no usar contraseñas de data leaks (ver como implementar, anda saber como sacar todas) - para mi es innecesario, le agrega mucha complejidad (mecha)
+- patrones repetitivos
+- no contener nombre de usuario, nombre del sistema ni cosas similares
+
+EN CASO DE QUE LA CONTRASEÑA NO PASE ALGUNA VERIFICACIÓN => AVISAR AL USUARIO (throwExcepcion -> más adelante la catchea la UI para poder mostrar bien el mensaje de error)
+
+GUIA para seleccionar una mejor alternativa (verificador de fuerza de contraseña) - esto tmb le agrega mucha complejidad pero bueno (mecha)
+
+LIMITAR la cantidad de veces de intento de contraseña (ver como implementar un "sleep") -> poner un contador y cada vez que ingrese mal, se aumenta el tiempo para poner una nueva contra. (Nachito y Mechi)
+
+NO imponer cambios arbitrarios (periódicos), pero si hay evidencia de compromiso de seguridad entonces recomendar cambio de contraseña.
+
+Debe permitirse ver la contraseña (ojito -sentido de vista- al costado del campo o que a medida que vas metiendo los caracteres te vaya mostrando las letras y dsp transformandolas en * o puntitos)
+
+
+
+
