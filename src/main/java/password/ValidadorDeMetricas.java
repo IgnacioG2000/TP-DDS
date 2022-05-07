@@ -11,7 +11,8 @@ public class ValidadorDeMetricas{
     this.validadores = Arrays.asList(new ValidadorContraseniaComun("La contrasenia "
         + "pertenece a las 10000 más usadas. Por favor, ingrese otra contraseña"), new ValidadorLongitudContrasenia("La "
         + "contraseña es demasiado corta. Por favor, ingrese una contraseña de más de 8 caracteres."), new ValidadorContraseniaNoContieneUsuario(
- "La contraseñaa contiene al usuario. Por favor, ingrese otra contraseña."));
+ "La contraseñaa contiene al usuario. Por favor, ingrese otra contraseña."), new ValidadorCaracteres("La contrasenia no es un caracter" +
+        "valido ASCII o UNICODE"));
   }
 
 
