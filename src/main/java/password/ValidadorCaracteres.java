@@ -29,7 +29,6 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
     }
   }
 
-  // tomar caracteres UNICODE como uno solo
   boolean caracterValidoUNICODE(int caracter){
     if(caracter>=160 && caracter<=9835){
       return true;

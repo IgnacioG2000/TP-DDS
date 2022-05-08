@@ -18,12 +18,9 @@ public Usuario(String usuario, String contrasenia, String nombre, String apellid
 
 VALIDACIONES QUE VAMOS A IMPLEMENTAR
 
-- si hay mas de un espacio seguido, unificar. Avisar al usuario. TIENE QUE SER EL PRIMERO, LUEGO VERIFICAR TAMANIO CONTRASENIA
+- si hay mas de un espacio seguido, unificar. Avisar al usuario. TIENE QUE SER EL PRIMERO, LUEGO VERIFICAR TAMANIO CONTRASENIA (juan)
 - caracteres >= 8  (ya esta hecho)
 - que sea ascii, espacio o unicode (ya esta hecho)
-
-- tomar caracteres UNICODE como uno solo
-
 - NO truncar contraseñas (o sea, guardar el hash entero)
 - guardar hash con salt (ver metodo en Discord -> @Rodri fijate nuestro TP)
 - 10k (ya esta hecho)
