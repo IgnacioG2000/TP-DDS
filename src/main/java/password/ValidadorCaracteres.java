@@ -10,7 +10,6 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
   }
 
   boolean condicionInvalidez(String usuario, String contrasenia) {
-    //ascii (espacioincluido dentro de estos)
     for (int i = 0; i < contrasenia.length(); i++) {
       if (!caracterValidoAscii(contrasenia.codePointAt(i)) || !caracterValidoUNICODE((int) contrasenia.charAt(i))){
         return false;
