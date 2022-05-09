@@ -1,8 +1,5 @@
 package password;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ValidadorCaracteres extends ValidadorContrasenia{
 
   public ValidadorCaracteres(String mensaje) {
@@ -11,29 +8,24 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
 
   boolean condicionInvalidez(String usuario, String contrasenia) {
     for (int i = 0; i < contrasenia.length(); i++) {
-      if (!caracterValidoAscii(contrasenia.codePointAt(i)) || !caracterValidoUNICODE((int) contrasenia.charAt(i))){
-        return false;
+      if (!caracterEsValido(contrasenia, i)){
+        return true;
       }
-    }
-
-    return true;
-  }
-
-
-   boolean caracterValidoAscii(int caracter) {
-    if(caracter>=32 &&caracter <=126 || caracter>=128 && caracter<=255){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  boolean caracterValidoUNICODE(int caracter){
-    if(caracter>=160 && caracter<=9835){
-      return true;
     }
     return false;
   }
 
+  private boolean caracterEsValido(String contrasenia, int i) {
+    return this.caracterValidoAscii(contrasenia.codePointAt(i)) || this.caracterValidoUNICODE((int) contrasenia.charAt(i));
+  }
+
+
+  boolean caracterValidoAscii(int caracter) {
+     return caracter >= 32 && caracter <= 126 || caracter >= 128 && caracter <= 255;
+  }
+
+  boolean caracterValidoUNICODE(int caracter){
+    return caracter >= 160 && caracter <= 9835;
+  }
 }
 

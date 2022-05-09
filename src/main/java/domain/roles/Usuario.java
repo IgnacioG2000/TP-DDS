@@ -1,23 +1,22 @@
 package domain.roles;
 
 import password.ValidadorDeMetricas;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class Usuario {
-  private String usuario;
-  private String contraseniaHasheada;
-  private String salt;
+  private final String usuario;
+  private final String contraseniaHasheada;
 
   public ValidadorDeMetricas miValidador = new ValidadorDeMetricas();
 
-  public Usuario(String usuario, String contrasenia, String nombre, String apellido) {
-    String contraseniaCompactada = miValidador.validar(usuario, contrasenia);
+  public Usuario(String usuario, String contrasenia) throws NoSuchAlgorithmException {
+    miValidador.validar(usuario, contrasenia);
+    byte[] unSalt = getSalt();
     //hashear contrasenia
-    String contraHash = "";
-    this.contraseniaHasheada = contraHash;
+    this.contraseniaHasheada = generarHash(contrasenia,unSalt);
     this.usuario = usuario;
   }
 
@@ -27,10 +26,6 @@ public class Usuario {
 
     public String getContraseniaHasheada () {
       return contraseniaHasheada;
-    }
-
-    public String getSalt () {
-      return salt;
     }
 
   public static String generarHash(String contrasenia,byte[] salt) throws NoSuchAlgorithmException {
@@ -46,4 +41,12 @@ public class Usuario {
 
     return sb.toString();
   }
+
+  public static byte[] getSalt()  {
+    SecureRandom secureRandom = new SecureRandom();
+    byte[] salt = new byte[30];
+    secureRandom.nextBytes(salt); // proxima semilla
+    return salt;
+  }
+
 }

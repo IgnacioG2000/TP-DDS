@@ -1,7 +1,5 @@
 package password;
 
-import domain.roles.Usuario;
-
 import java.util.Arrays;
 import java.util.List;
 

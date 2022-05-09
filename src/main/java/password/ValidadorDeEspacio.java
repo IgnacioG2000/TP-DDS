@@ -7,7 +7,23 @@ public class ValidadorDeEspacio extends ValidadorContrasenia {
   }
 
   boolean condicionInvalidez(String usuario, String contrasenia) {
+    int contadorEspaciosSeguidos = 0;
+    for(int i = 0; i < contrasenia.length(); i++) {
+      if(esEspacio(contrasenia, i)) {
+        contadorEspaciosSeguidos++;
 
-    return contrasenia.contains(usuario);
+      }
+     if(contadorEspaciosSeguidos >= 2) {
+        return true;
+      }
+      contadorEspaciosSeguidos = 0;
+
+    }
+      return false;
+  }
+
+  private boolean esEspacio(String contrasenia, int i) {
+    return contrasenia.codePointAt(i) == 32;
+    //El 32 en DECIMAL es un espacio
   }
 }
