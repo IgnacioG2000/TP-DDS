@@ -26,4 +26,10 @@ public class ValidadorDeEspacio extends ValidadorContrasenia {
     return contrasenia.codePointAt(i) == 32;
     //El 32 en DECIMAL es un espacio
   }
+
+  public String contraseniaSinEspacios(String contrasenia){
+    //aca se usaria la logica con la cual les sacaron los espacios a las contrasenias
+    String contraseniaSinEspacios = "";
+    return contraseniaSinEspacios;
+  }
 }
