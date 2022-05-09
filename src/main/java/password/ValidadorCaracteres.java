@@ -19,7 +19,6 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
     return this.caracterValidoAscii(contrasenia.codePointAt(i)) || this.caracterValidoUNICODE((int) contrasenia.charAt(i));
   }
 
-
   boolean caracterValidoAscii(int caracter) {
      return caracter >= 32 && caracter <= 126 || caracter >= 128 && caracter <= 255;
   }
