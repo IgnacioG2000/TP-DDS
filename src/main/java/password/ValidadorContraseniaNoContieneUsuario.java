@@ -6,7 +6,8 @@ public class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia 
     super(mensaje);
   }
 
-  boolean condicionInvalidez(String usuario, String contrasenia) {
+  @Override
+  public boolean condicionInvalidez(String usuario, String contrasenia) {
     return contrasenia.contains(usuario);
   }
 

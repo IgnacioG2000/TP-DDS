@@ -18,7 +18,7 @@ public Usuario(String usuario, String contrasenia, String nombre, String apellid
 
 VALIDACIONES QUE VAMOS A IMPLEMENTAR
 
-- si hay mas de un espacio seguido, es invalido. Avisar al usuario. TIENE QUE SER EL PRIMERO, LUEGO VERIFICAR TAMANIO CONTRASENIA (juan)
+- si hay mas de un espacio seguido, es invalido. Avisar al usuario. TIENE QUE SER EL PRIMERO, LUEGO VERIFICAR TAMANIO CONTRASENIA (juan) (ya esta hecho)
 - caracteres >= 8  (ya esta hecho)
 - que sea ascii, espacio o unicode (ya esta hecho)
 - NO truncar contraseñas (o sea, guardar el hash entero)

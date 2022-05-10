@@ -6,7 +6,8 @@ public class ValidadorDeEspacio extends ValidadorContrasenia {
     super(mensaje);
   }
 
-  boolean condicionInvalidez(String usuario, String contrasenia) {
+  @Override
+  public boolean condicionInvalidez(String usuario, String contrasenia) {
     int contadorEspaciosSeguidos = 0;
     for(int i = 0; i < contrasenia.length(); i++) {
       if(esEspacio(contrasenia, i)) {

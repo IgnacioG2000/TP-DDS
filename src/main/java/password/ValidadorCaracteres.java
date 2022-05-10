@@ -6,7 +6,7 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
     super(mensaje);
   }
 
-  boolean condicionInvalidez(String usuario, String contrasenia) {
+  public boolean condicionInvalidez(String usuario, String contrasenia) {
     for (int i = 0; i < contrasenia.length(); i++) {
       if (!caracterEsValido(contrasenia, i)){
         return true;

@@ -14,6 +14,6 @@ public abstract class ValidadorContrasenia {
     }
   }
 
-  abstract boolean condicionInvalidez(String usuario, String contrasenia);
+  public abstract boolean condicionInvalidez(String usuario, String contrasenia);
 
 }

@@ -1,22 +1,69 @@
 import org.junit.jupiter.api.Test;
-import password.ValidadorDeEspacio;
 
+import password.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ContraseniaTest {
-  @Test
-  public void unaContraseniaEsValida(){
-    assertEquals(true,true);
-  }
-  //esto siempre anda
 
   @Test
   public void contaseniaConMasDeUnEspacio(){
     ValidadorDeEspacio validadorDeEspacio = new ValidadorDeEspacio("mensaje de prueba");
     String contraConEspacios = "    hola      como      andas     ";
     assertEquals(" hola como andas ", validadorDeEspacio.contraseniaSinEspacios(contraConEspacios));
-}
+  }
 
+  @Test
+  public void contaseniaConMasDe8CaracteresOIgual(){
+    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia("mensaje de prueba");
+    String usuario = "pepeElGallo";
+    String contrasenia = "tengo_mas_de_8_caracteres";
+    assertFalse(validadorLongitud.condicionInvalidez(usuario, contrasenia));
+  }
 
+  @Test
+  public void contaseniaConMenosDe8Caracteres(){
+    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia("mensaje de prueba");
+    String usuario = "pepitoElPolluelo";
+    String contrasenia = "chiqui";
+    assertTrue(validadorLongitud.condicionInvalidez(usuario, contrasenia));
+  }
+
+  @Test
+  public void laContraseniaContieneAlUsuario() {
+    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario("mensaje de prueba");
+    String usuario = "Nacho Garcia";
+    String contraEnUsuario = "Nacho";
+    assertFalse(contraNoEnUsuario.condicionInvalidez(usuario, contraEnUsuario));
+  }
+
+  @Test
+  public void laContraseniaNoCoincideContraConUsuario() {
+    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario("mensaje de prueba");
+    String usuario = "Nacho Garcia";
+    String contraEnUsuario = "Juan";
+    assertFalse(contraNoEnUsuario.condicionInvalidez(usuario, contraEnUsuario));
+  }
+
+  @Test
+  public void laContraseniaEsComun() {
+    ValidadorContraseniaComun validadorComun = new ValidadorContraseniaComun("msj de prueba");
+    assertTrue(validadorComun.condicionInvalidez("usuario", "123456"));
+  }
+
+  @Test
+  public void contaseniaConCaracteresValidos(){
+    String usuario = "Beto";
+    ValidadorCaracteres validadorCaracteres = new ValidadorCaracteres("mensaje de prueba");
+    String contraConCaracteresASCII = "estoNoEsUnaContrasenia";
+    assertFalse(validadorCaracteres.condicionInvalidez(usuario, contraConCaracteresASCII));
+  }
+
+  @Test
+  public void contaseniaEsCompletamenteValida(){
+    String usuario = "Beto";
+    ValidadorDeMetricas validadorDeMetricas = new ValidadorDeMetricas();
+    String contrasenia = "ConTra    Muy   Bu3na";
+    assertEquals("ConTra Muy Bu3na",validadorDeMetricas.validarTodo(usuario, contrasenia));
+  }
 }
