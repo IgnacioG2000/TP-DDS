@@ -13,7 +13,7 @@ public class Usuario {
   public ValidadorDeMetricas miValidador = new ValidadorDeMetricas();
 
   public Usuario(String usuario, String contrasenia) throws NoSuchAlgorithmException {
-    String contraseniaValidada = miValidador.validar(usuario, contrasenia);
+    String contraseniaValidada = miValidador.validarTodo(usuario, contrasenia);
     byte[] unSalt = getSalt();
     //hashear contrasenia
     this.contraseniaHasheada = generarHash(contraseniaValidada,unSalt);

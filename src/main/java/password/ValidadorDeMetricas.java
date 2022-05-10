@@ -15,7 +15,7 @@ public class ValidadorDeMetricas{
   }
 
 
-  public String validar(String usuario, String contrasenia) {
+  public String validarTodo(String usuario, String contrasenia) {
 
     ValidadorDeEspacio validadorEspacio = new ValidadorDeEspacio("");
 
