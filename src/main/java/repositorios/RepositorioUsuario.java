@@ -1,5 +1,7 @@
 package repositorios;
 
+import domain.roles.Usuario;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,8 +10,17 @@ import java.util.HashMap;
 
 public class RepositorioUsuario {
   byte[] salt = getSalt();
+
+
   //Key Usuario - Value Contrasenia hasheada
-  HashMap<String,String> usuarios = new HashMap<>();
+  HashMap<String,String> loginUsuarios = new HashMap<>();
+
+  //para poder tener si un user es admin de los usuarios
+  //HashMap<String, Usuario> usuarios = new HashMap<>();
+  //esto lo dejo acá comentado pero para no olvidarme -> cuando hagamos el tema de  las verificaciones para
+  // los
+//  HashMap<String, Boolean> usuarios = new HashMap<>();
+
   private static final RepositorioUsuario INSTANCE = new RepositorioUsuario();
 
   public static RepositorioUsuario getInstance() {
@@ -31,7 +42,7 @@ public class RepositorioUsuario {
   }
 
   public void agregarUsuario(String usuario, String contrasenia) throws NoSuchAlgorithmException {
-    usuarios.put(usuario, generarHash(contrasenia, salt));
+    loginUsuarios.put(usuario, generarHash(contrasenia, salt));
   }
 
   public static byte[] getSalt()  {
@@ -41,8 +52,12 @@ public class RepositorioUsuario {
     return salt;
   }
 
-  private boolean contraseniaCoincide(String usuario, String contraseniaValidar) throws NoSuchAlgorithmException {
+  public boolean contraseniaCoincide(String usuario, String contraseniaValidar) throws NoSuchAlgorithmException {
     String contraseniaAValidarHashed = generarHash(contraseniaValidar, salt);
-    return contraseniaAValidarHashed.equals(usuarios.get(usuario));
+    return contraseniaAValidarHashed.equals(loginUsuarios.get(usuario));
+  }
+
+  public boolean usuarioEstaLoggeado(String user) {
+    return loginUsuarios.containsKey(user);
   }
 }

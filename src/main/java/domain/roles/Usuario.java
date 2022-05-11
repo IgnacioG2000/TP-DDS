@@ -18,12 +18,13 @@ public class Usuario {
     String contraseniaValidada = miValidador.validarTodo(usuario, contrasenia);
     //hashear contrasenia
     this.usuario = usuario;
-    RepositorioUsuario.getInstance().agregarUsuario(usuario, contrasenia);
+    RepositorioUsuario.getInstance().agregarUsuario(usuario, contraseniaValidada);
   }
 
   public String getUsuario() {
     return usuario;
   }
+
 
 
 
