@@ -1,0 +1,69 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class VerificadorInicioSesion {
+-intentoUsuarios: <String, IntentosInicioSesion>
+
++Usuario loggearUsuario(String, String)
+}
+
+class IntentoInicioSesion {
+-usuario: String
+-cantIntentos: int
+- timestamp: long
+
++void aumentarIntentos()
++boolean puedeIntentarLoggearse()
+}
+
+class Usuario {
+-usuario: String
+-contrasenia: String
+-esAdministrador: boolean
+}
+
+class ValidadorDeMetricas {
+-validadores: [ValidadorContrasenia]
+
++String validarTodo(String, String)
+}
+
+abstract class ValidadorContrasenia {
+-mensaje: String
+
++ void validar(String, String)
++ boolean condicionInvalidez(String, String)
+}
+
+class ValidadorDeCaracteres extends ValidadorContrasenia {
+
++boolean caracterEsValido(int)
++boolean caracterValidoAscii(int)
++boolean caracterValidoUNICODE(int)
+}
+
+class ValidadorContraseniaComun extends ValidadorContrasenia {
+
+}
+
+class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia {
+
+}
+
+class ValidadorDeEspacio extends ValidadorContrasenia {
+
++String contraseniaSinEspacios(String)
+}
+
+class ValidadorLongitudContrasenia extends ValidadorContrasenia {
+
+}
+
+VerificadorInicioSesion --> IntentoInicioSesion
+VerificadorInicioSesion ..> Usuario
+
+Usuario --> ValidadorDeMetricas
+
+ValidadorDeMetricas --> ValidadorContrasenia
+
+@enduml

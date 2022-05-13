@@ -1,5 +1,6 @@
 @startuml
 skinparam classAttributeIconSize 0
+
 class Miembro {
 -nombre: String
 -apellido: String
@@ -8,6 +9,8 @@ class Miembro {
 -organizaciones: [Organizacion]
 -ubicacion: Hogar
 -usuario: Usuario
+
++ void cargarTrayecto(Trayecto)
 }
 
 class Organizacion {
@@ -16,8 +19,17 @@ class Organizacion {
 -clasificacion: Clasificacion
 -sectores: [Area]
 -trayectos: [Trayecto]
+-repoOrganizaciones: RepoOrganizaciones
 
 +void aceptarVinculacion(Trayecto)
+}
+
+class RepoOrganizaciones {
+-organizaciones: [Organizacion]
+-instance: RepoOrganizaciones
+
+-Impresora()
++RepoOrganizaciones getInstance()
 }
 
 class Trayecto {
@@ -121,14 +133,22 @@ abstract class Espacio {
 -barrio: String
 }
 
-class DireccionIntermedia extends Espacio {
-
-}
-
 class Hogar extends Espacio {
 -piso: int
 -departamento: String
 -tipo: TipoHogar
+}
+
+class Parada extends Espacio {
+
+}
+
+class RepoTransportePublico {
+-lineas: <String, [Parada]>
+-instance: RepoTransportePublico
+
+-RepoTransportePublico()
++RepoTransportePublico getInstance()
 }
 
 class EspacioDeTrabajo extends Espacio {
@@ -146,8 +166,18 @@ class Usuario {
 -usuario: String
 -contrasenia: String
 -esAdministrador: boolean
+}
 
-+void validarContrasenia()
+class RepositorioUsuarios {
+-salt: [byte]
+-usuariosLogin: <String,String>
+- instance: RepositorioUsuarios
+
+-RepositorioUsuarios()
++RepositorioUsuarios getInstance()
++String generarHash(String, String)
++String getSalt()
++void validarContrasenia(String)
 }
 
 Miembro --> TipoDocumento
@@ -159,6 +189,7 @@ Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> "*" Trayecto
+Organizacion --> RepoOrganizaciones
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
@@ -176,5 +207,9 @@ ServicioContratado --> TipoServicioContratado
 TransportePublico --> TipoTransportePublico
 
 TransporteNoMotorizado --> TipoNoMotorizado
+
+Usuario --> RepositorioUsuarios
+
+Parada ..> RepoTransportePublico
 
 @enduml
