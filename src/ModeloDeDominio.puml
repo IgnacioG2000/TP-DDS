@@ -224,4 +224,6 @@ RepoTransportePublico --> RepoTransportePublico
 
 Miembro --> Persona
 
+Persona --> Hogar
+
 @enduml
