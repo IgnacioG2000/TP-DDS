@@ -1,16 +1,12 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class Miembro {
+class Persona {
 -nombre: String
 -apellido: String
 -nroDocumento: String
 -tipoDocumento: TipoDocumento
--organizaciones: [Organizacion]
 -ubicacion: Hogar
--usuario: Usuario
-
-+ void cargarTrayecto(Trayecto)
 }
 
 class Organizacion {
@@ -18,17 +14,24 @@ class Organizacion {
 -tipo: TipoOrganizacion
 -clasificacion: Clasificacion
 -sectores: [Area]
--trayectos: [Trayecto]
 -repoOrganizaciones: RepoOrganizaciones
 
 +void aceptarVinculacion(Trayecto)
+}
+
+class Miembro {
+- persona: Persona
+- usuario: Usuario
+
++ void cargarTrayecto(Trayecto)
+
 }
 
 class RepoOrganizaciones {
 -organizaciones: [Organizacion]
 -instance: RepoOrganizaciones
 
--Impresora()
+-RepoOrganizaciones()
 +RepoOrganizaciones getInstance()
 }
 
@@ -42,6 +45,7 @@ class Area {
 -nombre: String
 -miembros: [Miembro]
 -ubicacion: EspacioDeTrabajo
+-trayectos: [Trayecto]
 
 +void registrarMiembro(Miembro, Trayecto)
 }
@@ -185,10 +189,15 @@ Miembro --> Hogar
 Miembro --> Usuario
 Miembro ..> Trayecto
 
+Area --> EspacioDeTrabajo
+Area --> "*" Miembro
+Area --> "*" Trayecto
+
+RepoOrganizaciones --> RepoOrganizaciones
+
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
-Organizacion --> "*" Trayecto
 Organizacion --> RepoOrganizaciones
 
 Trayecto --> "2" Espacio
@@ -208,8 +217,11 @@ TransportePublico --> TipoTransportePublico
 
 TransporteNoMotorizado --> TipoNoMotorizado
 
-Usuario --> RepositorioUsuarios
+RepositorioUsuarios --> Usuario
 
-Parada ..> RepoTransportePublico
+RepoTransportePublico --> Parada
+RepoTransportePublico --> RepoTransportePublico
+
+Miembro --> Persona
 
 @enduml
