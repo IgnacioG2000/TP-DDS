@@ -3,7 +3,7 @@ package seguridad.password;
 import java.util.Arrays;
 import java.util.List;
 
-public class ValidadorDeMetricas{
+public class ValidadorDeMetricas {
 
   private final List<ValidadorContrasenia> validadores;
 
@@ -14,7 +14,7 @@ public class ValidadorDeMetricas{
 
   public String validarTodo(String usuario, String contrasenia) {
 
-    ValidadorDeEspacio validadorEspacio = new ValidadorDeEspacio("");
+    ValidadorDeEspacio validadorEspacio = new ValidadorDeEspacio();
 
     //primero sacamos la contrasenia sin espacios
     String contraseniaCompactada =  validadorEspacio.contraseniaSinEspacios(contrasenia);

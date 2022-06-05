@@ -10,7 +10,7 @@ class VerificadorInicioSesion {
 class IntentoInicioSesion {
 -usuario: String
 -cantIntentos: int
-- timestamp: long
+-timestamp: long
 
 +void aumentarIntentos()
 +boolean puedeIntentarLoggearse()
@@ -29,7 +29,7 @@ class ValidadorDeMetricas {
 }
 
 abstract class ValidadorContrasenia {
--mensaje: String
+#mensajeError: String
 
 + void validar(String, String)
 + boolean condicionInvalidez(String, String)
@@ -50,14 +50,15 @@ class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia {
 
 }
 
-class ValidadorDeEspacio extends ValidadorContrasenia {
+class ValidadorLongitudContrasenia extends ValidadorContrasenia {
+
+}
+
+class CorrectorDeEspacio {
 
 +String contraseniaSinEspacios(String)
 }
 
-class ValidadorLongitudContrasenia extends ValidadorContrasenia {
-
-}
 
 VerificadorInicioSesion --> IntentoInicioSesion
 VerificadorInicioSesion ..> Usuario
@@ -65,5 +66,6 @@ VerificadorInicioSesion ..> Usuario
 Usuario --> ValidadorDeMetricas
 
 ValidadorDeMetricas --> ValidadorContrasenia
+ValidadorDeMetricas ..> CorrectorDeEspacio
 
 @enduml

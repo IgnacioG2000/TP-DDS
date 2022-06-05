@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class inicioSesionTest {
+public class InicioSesionTest {
 
    @Test
 

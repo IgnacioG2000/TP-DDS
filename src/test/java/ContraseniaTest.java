@@ -8,14 +8,14 @@ public class ContraseniaTest {
 
   @Test
   public void contaseniaConMasDeUnEspacio(){
-    ValidadorDeEspacio validadorDeEspacio = new ValidadorDeEspacio("mensaje de prueba");
+    ValidadorDeEspacio validadorDeEspacio = new ValidadorDeEspacio();
     String contraConEspacios = "    hola      como      andas     ";
     assertEquals(" hola como andas ", validadorDeEspacio.contraseniaSinEspacios(contraConEspacios));
   }
 
   @Test
   public void contaseniaConMasDe8CaracteresOIgual(){
-    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia("mensaje de prueba");
+    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia();
     String usuario = "pepeElGallo";
     String contrasenia = "tengo_mas_de_8_caracteres";
     assertFalse(validadorLongitud.condicionInvalidez(usuario, contrasenia));
@@ -23,7 +23,7 @@ public class ContraseniaTest {
 
   @Test
   public void contaseniaConMenosDe8Caracteres(){
-    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia("mensaje de prueba");
+    ValidadorLongitudContrasenia validadorLongitud = new ValidadorLongitudContrasenia();
     String usuario = "pepitoElPolluelo";
     String contrasenia = "chiqui";
     assertTrue(validadorLongitud.condicionInvalidez(usuario, contrasenia));
@@ -31,7 +31,7 @@ public class ContraseniaTest {
 
   @Test
   public void laContraseniaContieneAlUsuario() {
-    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario("mensaje de prueba");
+    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario();
     String usuario = "Nacho Garcia";
     String contraEnUsuario = "Nacho";
     assertFalse(contraNoEnUsuario.condicionInvalidez(usuario, contraEnUsuario));
@@ -39,7 +39,7 @@ public class ContraseniaTest {
 
   @Test
   public void laContraseniaNoCoincideContraConUsuario() {
-    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario("mensaje de prueba");
+    ValidadorContraseniaNoContieneUsuario contraNoEnUsuario = new ValidadorContraseniaNoContieneUsuario();
     String usuario = "Nacho Garcia";
     String contraEnUsuario = "Juan";
     assertFalse(contraNoEnUsuario.condicionInvalidez(usuario, contraEnUsuario));
@@ -47,14 +47,14 @@ public class ContraseniaTest {
 
   @Test
   public void laContraseniaEsComun() {
-    ValidadorContraseniaComun validadorComun = new ValidadorContraseniaComun("msj de prueba");
+    ValidadorContraseniaComun validadorComun = new ValidadorContraseniaComun();
     assertTrue(validadorComun.condicionInvalidez("usuario", "123456"));
   }
 
   @Test
   public void contaseniaConCaracteresValidos(){
     String usuario = "Beto";
-    ValidadorCaracteres validadorCaracteres = new ValidadorCaracteres("mensaje de prueba");
+    ValidadorCaracteres validadorCaracteres = new ValidadorCaracteres();
     String contraConCaracteresASCII = "estoNoEsUnaContrasenia";
     assertFalse(validadorCaracteres.condicionInvalidez(usuario, contraConCaracteresASCII));
   }
