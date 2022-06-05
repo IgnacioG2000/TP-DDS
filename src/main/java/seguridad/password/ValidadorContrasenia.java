@@ -1,4 +1,4 @@
-package password;
+package seguridad.password;
 import exception.ContraseniaInvalidaException;
 
 public abstract class ValidadorContrasenia {

@@ -1,4 +1,4 @@
-package password;
+package seguridad.password;
 
 public class ValidadorDeEspacio extends ValidadorContrasenia {
 

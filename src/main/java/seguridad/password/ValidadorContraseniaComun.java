@@ -1,4 +1,4 @@
-package password;
+package seguridad.password;
 
 import exception.ReadfileException;
 

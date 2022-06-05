@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import password.*;
+import seguridad.password.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

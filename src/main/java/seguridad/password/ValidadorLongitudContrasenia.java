@@ -1,6 +1,4 @@
-package password;
-
-import java.util.regex.*;
+package seguridad.password;
 
 public class ValidadorLongitudContrasenia extends ValidadorContrasenia {
 

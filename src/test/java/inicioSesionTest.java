@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 import repositorios.RepositorioUsuario;
-import verificadorSesion.VerificadorSesion;
-import org.junit.jupiter.api.Test;
+import seguridad.verificadorSesion.VerificadorSesion;
 
 import java.security.NoSuchAlgorithmException;
 

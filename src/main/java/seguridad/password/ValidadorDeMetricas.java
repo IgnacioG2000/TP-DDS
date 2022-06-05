@@ -1,4 +1,4 @@
-package password;
+package seguridad.password;
 
 import java.util.Arrays;
 import java.util.List;

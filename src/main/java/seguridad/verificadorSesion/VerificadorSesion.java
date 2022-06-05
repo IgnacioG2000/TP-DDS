@@ -1,4 +1,4 @@
-package verificadorSesion;
+package seguridad.verificadorSesion;
 
 import domain.roles.Usuario;
 import repositorios.RepositorioUsuario;

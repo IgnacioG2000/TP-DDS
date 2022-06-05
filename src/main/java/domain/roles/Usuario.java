@@ -1,12 +1,9 @@
 package domain.roles;
 
-import password.ValidadorDeMetricas;
+import seguridad.password.ValidadorDeMetricas;
 import repositorios.RepositorioUsuario;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class Usuario {
   private String usuario;

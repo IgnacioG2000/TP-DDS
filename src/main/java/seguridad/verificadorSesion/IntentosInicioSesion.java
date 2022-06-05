@@ -1,4 +1,4 @@
-package verificadorSesion;
+package seguridad.verificadorSesion;
 
 
 public class IntentosInicioSesion {
