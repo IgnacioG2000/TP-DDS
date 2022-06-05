@@ -10,8 +10,9 @@ import java.util.stream.Stream;
 
 public class ValidadorContraseniaComun extends ValidadorContrasenia {
 
-  public ValidadorContraseniaComun(String mensaje) {
-    super(mensaje);
+  public ValidadorContraseniaComun() {
+    this.mensajeError = "La contrasenia pertenece a las 10000 más usadas. Por favor," +
+        " ingrese otra contraseña";
   }
 
    public boolean  condicionInvalidez(String usuario, String contrasenia) {

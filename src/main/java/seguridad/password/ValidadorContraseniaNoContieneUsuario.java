@@ -2,8 +2,8 @@ package seguridad.password;
 
 public class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia {
 
-  public ValidadorContraseniaNoContieneUsuario(String mensaje) {
-    super(mensaje);
+  public ValidadorContraseniaNoContieneUsuario() {
+  this.mensajeError = " la contrasenia contiene al usuario";
   }
 
   @Override

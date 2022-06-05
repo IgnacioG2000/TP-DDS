@@ -2,8 +2,8 @@ package seguridad.password;
 
 public class ValidadorCaracteres extends ValidadorContrasenia{
 
-  public ValidadorCaracteres(String mensaje) {
-    super(mensaje);
+  public ValidadorCaracteres() {
+   this.mensajeError = "La contrasenia no es un caracter valido ASCII o UNICODE";
   }
 
   public boolean condicionInvalidez(String usuario, String contrasenia) {

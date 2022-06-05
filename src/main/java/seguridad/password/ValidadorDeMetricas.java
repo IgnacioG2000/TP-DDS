@@ -8,12 +8,9 @@ public class ValidadorDeMetricas{
   private final List<ValidadorContrasenia> validadores;
 
   public ValidadorDeMetricas() {
-    this.validadores = Arrays.asList(new ValidadorLongitudContrasenia("La contraseña es demasiado corta. Por favor, ingrese una contraseña" +
-        " de más de 8 caracteres."), new ValidadorContraseniaComun("La contrasenia pertenece a las 10000 más usadas. Por favor," +
-        " ingrese otra contraseña"), new ValidadorContraseniaNoContieneUsuario("La contraseña contiene al usuario. Por favor," +
-        " ingrese otra contraseña."), new ValidadorCaracteres("La contrasenia no es un caracter valido ASCII o UNICODE"));
+    this.validadores = Arrays.asList(new ValidadorLongitudContrasenia(), new ValidadorContraseniaComun(),
+        new ValidadorContraseniaNoContieneUsuario(), new ValidadorCaracteres());
   }
-
 
   public String validarTodo(String usuario, String contrasenia) {
 

@@ -2,8 +2,8 @@ package seguridad.password;
 
 public class ValidadorLongitudContrasenia extends ValidadorContrasenia {
 
-  public ValidadorLongitudContrasenia(String mensaje) {
-    super(mensaje);
+  public ValidadorLongitudContrasenia() {
+    this.mensajeError = " porque la contrasenia es demasiado corta. ";
   }
 
   @Override

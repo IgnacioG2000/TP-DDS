@@ -2,15 +2,12 @@ package seguridad.password;
 import exception.ContraseniaInvalidaException;
 
 public abstract class ValidadorContrasenia {
-  private final String mensaje;
 
-  public ValidadorContrasenia(String mensaje) {
-    this.mensaje = mensaje;
-  }
+  protected String mensajeError;
 
   void validar(String usuario, String contrasenia) {
     if (this.condicionInvalidez(usuario, contrasenia)) {
-      throw new ContraseniaInvalidaException(this.mensaje);
+      throw new ContraseniaInvalidaException("La contrasenia es invalida porque " + this.mensajeError);
     }
   }
 
