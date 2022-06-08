@@ -1,6 +1,6 @@
 package domain.miembro;
 
-import domain.roles.*;
+import seguridad.roles.*;
 import domain.huellaDeCarbono.espacio.*;
 
 public class Persona {

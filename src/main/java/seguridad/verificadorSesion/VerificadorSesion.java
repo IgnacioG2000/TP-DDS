@@ -1,6 +1,6 @@
 package seguridad.verificadorSesion;
 
-import domain.roles.Usuario;
+import seguridad.roles.Usuario;
 import repositorios.RepositorioUsuario;
 
 import java.security.NoSuchAlgorithmException;

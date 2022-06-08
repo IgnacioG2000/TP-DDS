@@ -1,4 +1,4 @@
-package domain.roles;
+package seguridad.roles;
 
 import seguridad.password.ValidadorDeMetricas;
 import repositorios.RepositorioUsuario;
