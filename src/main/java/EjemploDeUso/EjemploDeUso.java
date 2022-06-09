@@ -1,7 +1,5 @@
 package EjemploDeUso;
 
-import apiDistancia.ApiDistancia;
-import apiDistancia.ListadoPais;
 import apiDistancia.Pais;
 import apiDistancia.ServicioApiDistancia;
 
@@ -15,12 +13,13 @@ public class EjemploDeUso {
     ServicioApiDistancia servicioApiDistancia = ServicioApiDistancia.getInstancia();
    // System.out.println("Seleccione una de las siguientes provincias, ingresando su id:");
 
-    Pais listadoPaises = servicioApiDistancia.listadoDePais();
+  List<Pais> listadoPaises = servicioApiDistancia.listadoDePais();
 
-    if(listadoPaises == null) {
+
+    if(listadoPaises.size() == 0) {
       System.out.print("Estoy retornando algo nulo");
     }else {
-      System.out.print("no retorne algo nulo");
+      System.out.print(listadoPaises.get(0).getNombre());
     }
   }
 }

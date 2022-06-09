@@ -2,13 +2,16 @@ package apiDistancia;
 
 import retrofit2.http.GET;
 import retrofit2.Call;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
+import java.util.List;
+
 public interface ApiDistancia {
 
-  @GET("paises")
-  Call<Pais> paises(@Query("offset") int offset);
+  @GET("paises?offset=1")
+  Call<List<Pais>> paises(@Header("Authorization") String authHeader);
 /*
   @GET("provincias")
   Call<ListadoDeProvincias> provincias(@Query("campos") String campos);

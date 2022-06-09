@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -17,15 +19,19 @@ public class ServicioApiDistancia {
   private static String urlApi;
   private TokenInterceptor tokenInterceptor = new TokenInterceptor();
 
-  OkHttpClient client = new OkHttpClient.Builder().addInterceptor(tokenInterceptor).build();
+  //quizas en un futuro ponemos esto por si queremos agregar mas de un header (?)
+  //OkHttpClient client = new OkHttpClient.Builder().addInterceptor(tokenInterceptor).build();
 
+  Gson gson = new GsonBuilder()
+          .setLenient()
+          .create();
 
   private ServicioApiDistancia() throws IOException {
     this.setUrlApi(this.obtenerUrlAPI());
     this.retrofit = new Retrofit.Builder()
-            .client(client)
+            //.client(client)
             .baseUrl(urlApi)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
   }
 
@@ -64,20 +70,20 @@ public class ServicioApiDistancia {
     return propiedades.getProperty("tokenAutorizacionAPI");
   }
 
-  public Pais listadoDePais() {
+  public List<Pais> listadoDePais() throws IOException {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<Pais> requestPaises = apiDistancia.paises(1);
-    Response<Pais> responsePaises;
+    Call<List<Pais>> requestPaises = apiDistancia.paises("Bearer " + this.obtenerTokenAutorizacion());
+    Response<List<Pais>> responsePaises;
 
-    System.out.println(requestPaises.request().header("Authorization"));
+   // System.out.println(requestPaises.request().header("accept"));
+     try {
 
-    try {
       responsePaises = requestPaises.execute();
       System.out.println(responsePaises.code());
 
       System.out.println(responsePaises.raw());
 
-      return responsePaises.body();
+      return  responsePaises.body();
     } catch (IOException e) {
       //e.printStackTrace();
       System.out.println("tmb toi aca");
@@ -86,12 +92,12 @@ public class ServicioApiDistancia {
   }
 
 
+
 }
 /*
  public List<Pais> listarPaises() {
     return listadoDePais().getPaises();
   }
-
   public ListadoDeMunicipios listadoDeMunicipiosDeProvincia(Provincia provincia) throws IOException {
     GeorefService georefService = this.retrofit.create(GeorefService.class);
     Call<ListadoDeMunicipios> requestListadoDeMunicipios = georefService.municipios(provincia.id, "id, nombre", maximaCantidadRegistrosDefault);

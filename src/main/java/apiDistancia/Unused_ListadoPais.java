@@ -2,7 +2,7 @@ package apiDistancia;
 
 import java.util.List;
 
-public class ListadoPais {
+public class Unused_ListadoPais {
   /*public int cantidad;
   public int total;
   public int inicio;
