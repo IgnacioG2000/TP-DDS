@@ -6,7 +6,9 @@ public class ListadoPais {
   /*public int cantidad;
   public int total;
   public int inicio;
-  public Parametro parametros;*/
+  public Parametro parametros;*
+  int id;
+   */
   public List<Pais> paises;
 
   public List<Pais> getPaises() {
