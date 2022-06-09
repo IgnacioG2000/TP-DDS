@@ -36,35 +36,39 @@ public class Transformador {
       //Iterate through each rows one by one
       Iterator<Row> rowIterator = sheet.iterator();
       //nos saleamoslas prieras dos lineas del excel
+
+      TablaDatosActividad tabla = new TablaDatosActividad();
+      System.out.print(tabla.getListaDatosActividad().size());
+      System.out.println("");
+
       rowIterator.next();
       rowIterator.next();
 
       while (rowIterator.hasNext())
       {
+        DatosDeLaActividad nuevoDato = new DatosDeLaActividad();
         Row row = rowIterator.next();
-        //For each row, iterate through all the columns
-        Iterator<Cell> cellIterator = row.cellIterator();
+        nuevoDato.setActividad(row.getCell(0).getStringCellValue());
+        nuevoDato.setTipoDeConsumo(row.getCell(1).getStringCellValue());
+        Consumo consumo = new Consumo();
+        consumo.setValor(row.getCell(2).getNumericCellValue());
+        consumo.setPeriocidad(row.getCell(3).getStringCellValue());
+        nuevoDato.setConsumo(consumo);
+        nuevoDato.setPeriodoDeImputacion(row.getCell(4).getStringCellValue());
 
-        //TODO ingresar datos en orden a las clases
+        //Agrego el dato a la lista
+        tabla.getListaDatosActividad().add(nuevoDato);
+        //Verifico los datos que va a cargar // Se borra dsp
+        System.out.println(nuevoDato.getActividad());
+        System.out.println(nuevoDato.getTipoDeConsumo());
+        System.out.println(nuevoDato.getConsumo().getValor());
+        System.out.println(nuevoDato.getConsumo().getPeriocidad());
+        System.out.println(nuevoDato.getPeriodoDeImputacion());
 
-        //Cell cell = cellIterator.next();
-
-        while (cellIterator.hasNext())
-        {
-          Cell cell = cellIterator.next();
-          //Check the cell type and format accordingly
-          switch (cell.getCellType())
-          {
-            case NUMERIC:
-              System.out.print(cell.getNumericCellValue() + " ");
-              break;
-            case STRING:
-              System.out.print(cell.getStringCellValue() + " ");
-              break;
-          }
-        }
         System.out.println("");
       }
+      System.out.print(tabla.getListaDatosActividad().size());
+
       file.close();
     }
     catch (Exception e)

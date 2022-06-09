@@ -4,5 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TablaDatosActividad {
-  public List<DatosDeLaActividad> listaDatosActividad = new ArrayList();;
+  private List<DatosDeLaActividad> listaDatosActividad;
+
+  public TablaDatosActividad() {
+    this.listaDatosActividad = new ArrayList();
+  }
+
+  public List<DatosDeLaActividad> getListaDatosActividad() {
+    return listaDatosActividad;
+  }
 }
