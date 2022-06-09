@@ -17,7 +17,7 @@ public class Transformador {
   {
     try
     {
-      FileInputStream file = new FileInputStream(new File("howtodoinjava_demo.xlsx"));
+      FileInputStream file = new FileInputStream(new File("C:\\Juan\\Facultad\\Tercero\\Diseño de Sistemas\\2022\\2022-mi-ma-grupo-06\\src\\main\\java\\excel_ETL\\excelTesteo.xls"));
 
       //Create Workbook instance holding reference to .xlsx file
       HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -40,10 +40,10 @@ public class Transformador {
           switch (cell.getCellType())
           {
             case NUMERIC:
-              System.out.print(cell.getNumericCellValue() + "t");
+              System.out.print(cell.getNumericCellValue() + " ");
               break;
             case STRING:
-              System.out.print(cell.getStringCellValue() + "t");
+              System.out.print(cell.getStringCellValue() + " ");
               break;
           }
         }
