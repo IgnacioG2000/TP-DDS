@@ -1,21 +1,15 @@
 package domain.huellaDeCarbono.espacio;
 
 public abstract class Espacio {
-  private Double latitud;
-  private Double longitud;
-  private String direccion;
-  private Number numero;
-  private Number codigoPostal;
-  private String barrio;
-
-  public Espacio(Double latitud, Double longitud, String direccion, Number numero, Number codigoPostal, String barrio) {
-    this.latitud = latitud;
-    this.longitud = longitud;
-    this.direccion = direccion;
-    this.numero = numero;
-    this.codigoPostal = codigoPostal;
-    this.barrio = barrio;
-  }
+  protected Double latitud;
+  protected Double longitud;
+  protected String provincia;
+  protected String municipio;
+  protected String localidad;
+  protected String direccion;
+  protected float numero;
+  protected float codigoPostal;
+  protected String barrio;
 
   public Double getLatitud() {
     return latitud;
@@ -41,19 +35,19 @@ public abstract class Espacio {
     this.direccion = direccion;
   }
 
-  public Number getNumero() {
+  public float getNumero() {
     return numero;
   }
 
-  public void setNumero(Number numero) {
+  public void setNumero(float numero) {
     this.numero = numero;
   }
 
-  public Number getCodigoPostal() {
+  public float getCodigoPostal() {
     return codigoPostal;
   }
 
-  public void setCodigoPostal(Number codigoPostal) {
+  public void setCodigoPostal(float codigoPostal) {
     this.codigoPostal = codigoPostal;
   }
 
@@ -63,5 +57,29 @@ public abstract class Espacio {
 
   public void setBarrio(String barrio) {
     this.barrio = barrio;
+  }
+
+  public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
+  }
+
+  public String getMunicipio() {
+    return municipio;
+  }
+
+  public void setMunicipio(String municipio) {
+    this.municipio = municipio;
+  }
+
+  public String getLocalidad() {
+    return localidad;
+  }
+
+  public void setLocalidad(String localidad) {
+    this.localidad = localidad;
   }
 }

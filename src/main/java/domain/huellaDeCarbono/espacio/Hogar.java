@@ -5,8 +5,14 @@ public class Hogar extends Espacio{
   private String departamento;
   private TipoDeHogar tipoDeHogar;
 
-  public Hogar(Double latitud, Double longitud, String direccion, Number numero, Number codigoPostal, String barrio, Integer piso, String departamento, TipoDeHogar tipoDeHogar) {
-    super(latitud, longitud, direccion, numero, codigoPostal, barrio);
+  public Hogar(Double latitud, Double longitud, String direccion, float numero, float codigoPostal, String barrio, Integer piso, String departamento, TipoDeHogar tipoDeHogar) {
+    this.latitud = latitud;
+    this.longitud = longitud;
+    this.provincia = provincia;
+    this.direccion = direccion;
+    this.numero = numero;
+    this.codigoPostal = codigoPostal;
+    this.barrio = barrio;
     this.piso = piso;
     this.departamento = departamento;
     this.tipoDeHogar = tipoDeHogar;
