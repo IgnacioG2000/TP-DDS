@@ -15,6 +15,7 @@ public class ValidadorContraseniaComun extends ValidadorContrasenia {
         " ingrese otra contraseña";
   }
 
+  @Override
    public boolean  condicionInvalidez(String usuario, String contrasenia) {
     Path path = Paths.get("src/main/resources/10k-most-common.txt");
     Stream<String> stream;

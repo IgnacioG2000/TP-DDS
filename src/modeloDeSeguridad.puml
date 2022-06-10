@@ -1,57 +1,72 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class VerificadorInicioSesion {
--intentoUsuarios: <String, IntentosInicioSesion>
 
-+Usuario loggearUsuario(String, String)
+package "verificadorSesion" #DDDDDD {
+    class VerificadorInicioSesion {
+    -intentoUsuarios: <String, IntentosInicioSesion>
+
+    +Usuario loggearUsuario(String, String)
+    }
+
+    class IntentoInicioSesion {
+    -usuario: String
+    -cantIntentos: int
+    -timestamp: long
+
+    +void aumentarIntentos()
+    +boolean puedeIntentarLoggearse()
+    }
 }
 
-class IntentoInicioSesion {
--usuario: String
--cantIntentos: int
--timestamp: long
 
-+void aumentarIntentos()
-+boolean puedeIntentarLoggearse()
+package "roles" #DDDDDD {
+    class Usuario {
+    -usuario: String
+    -contrasenia: String
+    -esAdministrador: boolean
+    }
 }
 
-class ValidadorDeMetricas {
--validadores: [ValidadorContrasenia]
+package "password" #DDDDDD {
+    class ValidadorDeMetricas {
+    -validadores: [ValidadorContrasenia]
 
-+String validarTodo(String, String)
+    +String validarTodo(String, String)
+    }
+
+    abstract class ValidadorContrasenia {
+    #mensajeError: String
+
+    + void validar(String, String)
+    + boolean condicionInvalidez(String, String)
+    }
+
+    class ValidadorDeCaracteres extends ValidadorContrasenia {
+
+    +boolean caracterEsValido(int , int)
+    +boolean caracterValidoAscii(int)
+    +boolean caracterValidoUNICODE(int)
+    }
+
+    class ValidadorContraseniaComun extends ValidadorContrasenia {
+
+    }
+
+    class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia {
+
+    }
+
+    class ValidadorLongitudContrasenia extends ValidadorContrasenia {
+
+    }
+
+    class ValidadorDeEspacio {
+
+    +String contraseniaSinEspacios(String)
+    }
 }
 
-abstract class ValidadorContrasenia {
-#mensajeError: String
-
-+ void validar(String, String)
-+ boolean condicionInvalidez(String, String)
-}
-
-class ValidadorDeCaracteres extends ValidadorContrasenia {
-
-+boolean caracterEsValido(int)
-+boolean caracterValidoAscii(int)
-+boolean caracterValidoUNICODE(int)
-}
-
-class ValidadorContraseniaComun extends ValidadorContrasenia {
-
-}
-
-class ValidadorContraseniaNoContieneUsuario extends ValidadorContrasenia {
-
-}
-
-class ValidadorLongitudContrasenia extends ValidadorContrasenia {
-
-}
-
-class CorrectorDeEspacio {
-
-+String contraseniaSinEspacios(String)
-}
 
 
 VerificadorInicioSesion --> IntentoInicioSesion
@@ -59,7 +74,7 @@ VerificadorInicioSesion ..> Usuario
 
 Usuario --> ValidadorDeMetricas
 
-ValidadorDeMetricas --> ValidadorContrasenia
-ValidadorDeMetricas ..> CorrectorDeEspacio
+ValidadorDeMetricas --> "*" ValidadorContrasenia
+ValidadorDeMetricas ..> ValidadorDeEspacio
 
 @enduml
