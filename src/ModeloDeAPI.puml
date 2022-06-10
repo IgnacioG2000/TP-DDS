@@ -59,15 +59,9 @@ class ServicioApiDistancia {
 + List<Pais> listadoDePais()
 }
 
-class TokenInterceptor {
-
-+ Response intercept(Chain)
-}
-
 ApiDistancia ..> Pais
 
 ServicioApiDistancia --> ServicioApiDistancia
-ServicioApiDistancia --> TokenInterceptor
 
 ListadoProvincias --> "*" Provincia
 ListadoProvincias --* Parametro
