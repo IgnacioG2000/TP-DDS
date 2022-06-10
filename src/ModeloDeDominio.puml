@@ -26,12 +26,14 @@ package "miembro" #DDDDDD {
     }
 
 package "organizacion" #DDDDDD {
+
     class Organizacion {
     -razonSocial: String
     -tipo: TipoOrganizacion
     -clasificacion: Clasificacion
     -sectores: [Area]
     -repoOrganizaciones: RepoOrganizaciones
+    -tablaDatos: TablaDatosActividad
 
     +void aceptarVinculacion(Trayecto)
     }
@@ -62,6 +64,7 @@ package "organizacion" #DDDDDD {
 }
 
 package "repositorios" #DDDDDD {
+
     class RepoOrganizaciones {
     -organizaciones: [Organizacion]
     -instance: RepoOrganizaciones
@@ -92,6 +95,7 @@ package "repositorios" #DDDDDD {
 }
 
 package "huellaDeCarbono" #DDDDDD {
+
     package "espacio" {
         abstract class Espacio {
         -latitud: Double
@@ -111,8 +115,6 @@ package "huellaDeCarbono" #DDDDDD {
         class Parada extends Espacio {
 
         }
-
-
 
         class EspacioDeTrabajo extends Espacio {
         -piso: int
@@ -196,6 +198,27 @@ package "huellaDeCarbono" #DDDDDD {
 
     }
 }
+
+package "excel_ETL" #DDDDDD {
+
+    class TablaDatosActividad {
+    -listaDatosActividad : List<DatosDeLaActividad>
+    }
+
+    class DatosDeLaActividad {
+    -actividad:String
+    -tipoDeConsumo:String
+    -consumo:Consumo
+    -periodoDeImputacion:String
+
+    }
+
+    class Consumo {
+    -valor: int
+    -periodicidad:String
+    }
+}
+
 class Usuario {
 -usuario: String
 -contrasenia: String
@@ -218,9 +241,14 @@ Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> RepoOrganizaciones
+Organizacion --> DatosDeLaActividad
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
+
+DatosDeLaActividad --> Consumo
+
+TablaDatosActividad --> "*" DatosDeLaActividad
 
 Tramo --> "2" Espacio
 Tramo --> MedioDeTransporte

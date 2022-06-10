@@ -1,0 +1,71 @@
+@startuml
+Actor Usuario
+boundary UI_Registro
+
+Usuario -> UI_Registro : usuario,contrasenia
+activate UI_Registro
+
+UI_Registro -> ValidadorDeMetricas : new()
+activate ValidadorDeMetricas
+
+ValidadorDeMetricas -> ValidadorCaracteres : new()
+activate ValidadorCaracteres
+ValidadorCaracteres -> ValidadorDeMetricas : :validadorCaracteres
+deactivate ValidadorCaracteres
+
+ValidadorDeMetricas -> ValidadorContraseniaComun : new()
+activate ValidadorContraseniaComun
+ValidadorContraseniaComun -> ValidadorDeMetricas : :validadorContraseniaComun
+deactivate ValidadorContraseniaComun
+
+ValidadorDeMetricas -> ValidadorContraseniaNoContieneUsuario : new()
+activate ValidadorContraseniaNoContieneUsuario
+ValidadorContraseniaNoContieneUsuario -> ValidadorDeMetricas : :validadorContraseniaNoContieneUsuario
+deactivate ValidadorContraseniaNoContieneUsuario
+
+ValidadorDeMetricas -> ValidadorLongitudContrasenia : new()
+activate ValidadorLongitudContrasenia
+ValidadorLongitudContrasenia -> ValidadorDeMetricas : :validadorLongitudContrasenia
+deactivate ValidadorLongitudContrasenia
+
+ValidadorDeMetricas -> UI_Registro: :miValidador
+deactivate ValidadorDeMetricas
+
+UI_Registro -> miValidador : validarTodo(usuario,contrasenia)
+activate miValidador
+miValidador -> ValidadorDeEspacio : new()
+activate ValidadorDeEspacio
+ValidadorDeEspacio -> miValidador : :validadorDeEspacio
+deactivate ValidadorDeEspacio
+
+miValidador -> validadorDeEspacio : contraseniaSinEspacios(contrasenia)
+activate validadorDeEspacio
+validadorDeEspacio -> miValidador : contraseniaCompactada
+deactivate validadorDeEspacio
+
+miValidador -> validadorCaracteres : validar(usuario,contraseniaCompactada)
+activate validadorCaracteres
+validadorCaracteres -> miValidador : ok
+deactivate validadorCaracteres
+
+miValidador -> validadorContraseniaComun : validar(usuario,contraseniaCompactada)
+activate validadorContraseniaComun
+validadorContraseniaComun -> miValidador : ok
+deactivate validadorContraseniaComun
+
+miValidador -> validadorContraseniaNoContieneUsuario : validar(usuario,contraseniaCompactada)
+activate validadorContraseniaNoContieneUsuario
+validadorContraseniaNoContieneUsuario -> miValidador : ok
+deactivate validadorContraseniaNoContieneUsuario
+
+miValidador -> validadorLongitudContrasenia : validar(usuario,contraseniaCompactada)
+activate validadorLongitudContrasenia
+validadorLongitudContrasenia -> miValidador : ok
+deactivate validadorLongitudContrasenia
+
+miValidador -> UI_Registro : contraseniaValidadaYCorrecta
+deactivate miValidador
+
+UI_Registro -> Usuario : contraseniaCorrecta
+deactivate UI_Registro
+@enduml
