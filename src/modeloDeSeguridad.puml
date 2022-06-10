@@ -16,12 +16,6 @@ class IntentoInicioSesion {
 +boolean puedeIntentarLoggearse()
 }
 
-class Usuario {
--usuario: String
--contrasenia: String
--esAdministrador: boolean
-}
-
 class ValidadorDeMetricas {
 -validadores: [ValidadorContrasenia]
 

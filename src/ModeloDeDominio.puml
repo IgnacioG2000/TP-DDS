@@ -1,188 +1,207 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class Persona {
--nombre: String
--apellido: String
--nroDocumento: String
--tipoDocumento: TipoDocumento
--ubicacion: Hogar
+package "miembro" #DDDDDD {
+    class Persona {
+    -nombre: String
+    -apellido: String
+    -nroDocumento: String
+    -tipoDocumento: TipoDocumento
+    -ubicacion: Hogar
+    }
+
+    class Miembro {
+    - persona: Persona
+    - usuario: Usuario
+
+    + void cargarTrayecto(Trayecto)
+
+    }
+
+    enum TipoDocumento {
+    DNI,
+    LE,
+    LC
+    }
+    }
+
+package "organizacion" #DDDDDD {
+    class Organizacion {
+    -razonSocial: String
+    -tipo: TipoOrganizacion
+    -clasificacion: Clasificacion
+    -sectores: [Area]
+    -repoOrganizaciones: RepoOrganizaciones
+
+    +void aceptarVinculacion(Trayecto)
+    }
+
+    class Area {
+    -nombre: String
+    -miembros: [Miembro]
+    -ubicacion: EspacioDeTrabajo
+    -trayectos: [Trayecto]
+
+    +void registrarMiembro(Miembro, Trayecto)
+    }
+
+    enum Clasificacion {
+    MINISTERIO,
+    UNIVERSIDAD,
+    ESCUELA,
+    ESCUELA_DEL_SECTOR_PRIMARIO,
+    ESCUELA_DEL_SECTOR_SECUNDARIO
+    }
+
+    enum TipoOrganizacion {
+    GUBERNAMENTAL,
+    ONG,
+    EMPRESA,
+    INSTITUCION
+    }
 }
 
-class Organizacion {
--razonSocial: String
--tipo: TipoOrganizacion
--clasificacion: Clasificacion
--sectores: [Area]
--repoOrganizaciones: RepoOrganizaciones
+package "repositorios" #DDDDDD {
+    class RepoOrganizaciones {
+    -organizaciones: [Organizacion]
+    -instance: RepoOrganizaciones
 
-+void aceptarVinculacion(Trayecto)
+    -RepoOrganizaciones()
+    +RepoOrganizaciones getInstance()
+    }
+
+    class RepoTransportePublico {
+    -lineas: <String, [Parada]>
+    -instance: RepoTransportePublico
+
+    -RepoTransportePublico()
+    +RepoTransportePublico getInstance()
+    }
+
+    class RepositorioUsuarios {
+    -salt: [byte]
+    -usuariosLogin: <String,String>
+    - instance: RepositorioUsuarios
+
+    -RepositorioUsuarios()
+    +RepositorioUsuarios getInstance()
+    +String generarHash(String, String)
+    +String getSalt()
+    +void validarContrasenia(String)
+    }
 }
 
-class Miembro {
-- persona: Persona
-- usuario: Usuario
+package "huellaDeCarbono" #DDDDDD {
+    package "espacio" {
+        abstract class Espacio {
+        -latitud: Double
+        -longitud: Double
+        -direccion: String
+        -numero: int
+        -codigoPostal: int
+        -barrio: String
+        }
 
-+ void cargarTrayecto(Trayecto)
+        class Hogar extends Espacio {
+        -piso: int
+        -departamento: String
+        -tipo: TipoHogar
+        }
 
+        class Parada extends Espacio {
+
+        }
+
+
+
+        class EspacioDeTrabajo extends Espacio {
+        -piso: int
+        -unidad: String
+        }
+
+        enum TipoHogar {
+        CASA,
+        DEPARTAMENTO,
+        RESIDENCIA
+        }
+    }
+
+    package "medioDeTransporte" {
+
+        abstract class MedioDeTransporte {
+
+        }
+
+        class VehiculoParticular extends MedioDeTransporte {
+        -tipoVehiculo: TipoVehiculo
+        -tipoCombustible: TipoCombustible
+        }
+
+        enum TipoCombustible {
+        GNC,
+        NAFTA,
+        ELECTRICO,
+        GASOIL
+        }
+
+        enum TipoVehiculo {
+        AUTO,
+        MOTO,
+        CAMIONETA
+        }
+
+        class TransporteNoMotorizado extends MedioDeTransporte {
+        -tipoNoMotorizado: TipoNoMotorizado
+        }
+
+        enum TipoNoMotorizado {
+        BICI,
+        A_PIE,
+        OTROS
+        }
+
+        class ServicioContratado extends MedioDeTransporte {
+        -tipoServicioContratado: TipoServicioContratado
+        }
+
+        enum TipoServicioContratado {
+        TAXI,
+        REMIS
+        }
+
+        class TransportePublico extends MedioDeTransporte {
+        -tipoTransportePublico: TipoTransportePublico
+        }
+
+        enum TipoTransportePublico {
+        TREN,
+        SUBTE,
+        COLECTIVO
+        }
+
+    }
+
+    package "trayecto" {
+        class Trayecto {
+        -partida: Espacio
+        -llegada: Espacio
+        -tramos: [Tramo]
+        }
+
+        class Tramo {
+        -partida: Espacio
+        -llegada: Espacio
+        -transporte: MedioDeTransporte
+        }
+
+    }
 }
-
-class RepoOrganizaciones {
--organizaciones: [Organizacion]
--instance: RepoOrganizaciones
-
--RepoOrganizaciones()
-+RepoOrganizaciones getInstance()
-}
-
-class Trayecto {
--partida: Espacio
--llegada: Espacio
--tramos: [Tramo]
-}
-
-class Area {
--nombre: String
--miembros: [Miembro]
--ubicacion: EspacioDeTrabajo
--trayectos: [Trayecto]
-
-+void registrarMiembro(Miembro, Trayecto)
-}
-
-enum TipoDocumento {
-DNI,
-LE,
-LC
-}
-
-enum Clasificacion {
-MINISTERIO,
-UNIVERSIDAD,
-ESCUELA,
-ESCUELA_DEL_SECTOR_PRIMARIO,
-ESCUELA_DEL_SECTOR_SECUNDARIO
-}
-
-enum TipoOrganizacion {
-GUBERNAMENTAL,
-ONG,
-EMPRESA,
-INSTITUCION
-}
-
-abstract class MedioDeTransporte {
-
-}
-
-class Tramo {
--partida: Espacio
--llegada: Espacio
--transporte: MedioDeTransporte
-}
-
-class VehiculoParticular extends MedioDeTransporte {
--tipoVehiculo: TipoVehiculo
--tipoCombustible: TipoCombustible
-}
-
-enum TipoCombustible {
-GNC,
-NAFTA,
-ELECTRICO,
-GASOIL
-}
-
-enum TipoVehiculo {
-AUTO,
-MOTO,
-CAMIONETA
-}
-
-class TransporteNoMotorizado extends MedioDeTransporte {
--tipoNoMotorizado: TipoNoMotorizado
-}
-
-enum TipoNoMotorizado {
-BICI,
-A_PIE,
-OTROS
-}
-
-class ServicioContratado extends MedioDeTransporte {
--tipoServicioContratado: TipoServicioContratado
-}
-
-enum TipoServicioContratado {
-TAXI,
-REMIS
-}
-
-class TransportePublico extends MedioDeTransporte {
--tipoTransportePublico: TipoTransportePublico
-}
-
-enum TipoTransportePublico {
-TREN,
-SUBTE,
-COLECTIVO
-}
-
-abstract class Espacio {
--latitud: Double
--longitud: Double
--direccion: String
--numero: int
--codigoPostal: int
--barrio: String
-}
-
-class Hogar extends Espacio {
--piso: int
--departamento: String
--tipo: TipoHogar
-}
-
-class Parada extends Espacio {
-
-}
-
-class RepoTransportePublico {
--lineas: <String, [Parada]>
--instance: RepoTransportePublico
-
--RepoTransportePublico()
-+RepoTransportePublico getInstance()
-}
-
-class EspacioDeTrabajo extends Espacio {
--piso: int
--unidad: String
-}
-
-enum TipoHogar {
-CASA,
-DEPARTAMENTO,
-RESIDENCIA
-}
-
 class Usuario {
 -usuario: String
 -contrasenia: String
 -esAdministrador: boolean
 }
 
-class RepositorioUsuarios {
--salt: [byte]
--usuariosLogin: <String,String>
-- instance: RepositorioUsuarios
-
--RepositorioUsuarios()
-+RepositorioUsuarios getInstance()
-+String generarHash(String, String)
-+String getSalt()
-+void validarContrasenia(String)
-}
 
 Miembro --> TipoDocumento
 Miembro --> Hogar
@@ -218,6 +237,7 @@ TransportePublico --> TipoTransportePublico
 TransporteNoMotorizado --> TipoNoMotorizado
 
 RepositorioUsuarios --> Usuario
+RepositorioUsuarios --> RepositorioUsuarios
 
 RepoTransportePublico --> Parada
 RepoTransportePublico --> RepoTransportePublico
