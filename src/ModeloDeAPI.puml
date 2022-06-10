@@ -1,0 +1,85 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface ApiDistancia {
++ Call<List<Pais>> paises(String)
+}
+
+class Distancia {
+- valor: float
+- unidad: String
+}
+
+class ListadoProvincias {
+- cantidad: int
+- total: int
+- inicio: int
+- parametro : Parametro
+- provincias : List<Provincia>
+
++ public Optional<Provincia> provinciaDeId(int)
+}
+
+class Parametro {
+- campos : List<String>
+}
+
+class Municipio {
+- id: String
+- nombre: String
+}
+
+class Pais {
+- id: String
+- nombre: String
+}
+
+class Provincia {
+- id: String
+- nombre: String
+}
+
+class Localidad {
+- id: String
+- nombre : String
+- codPostal : String
+}
+
+class ServicioApiDistancia {
+- instance: ServicioApiDistancia
+- retrofit : Retrofit
+- urlApi : String
+- tokenInterceptor : TokenInterceptor
+- gson : Gson
+
+-ServicioApiDistancia()
++ServicioApiDistancia getInstance()
++ String obtenerUrlAPI()
++ String obtenerTokenAutorizacion()
++ List<Pais> listadoDePais()
+}
+
+class TokenInterceptor {
+
++ Response intercept(Chain)
+}
+
+ApiDistancia ..> Pais
+
+ServicioApiDistancia --> ServicioApiDistancia
+ServicioApiDistancia --> TokenInterceptor
+
+ListadoProvincias --> "*" Provincia
+ListadoProvincias --* Parametro
+
+Provincia -- Pais
+
+Localidad -- Municipio
+
+Municipio -- Provincia
+
+Distancia -- Municipio
+
+ServicioApiDistancia -- ApiDistancia
+
+@enduml

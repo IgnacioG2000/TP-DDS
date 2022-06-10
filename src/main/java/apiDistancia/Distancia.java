@@ -1,14 +1,14 @@
 package apiDistancia;
 
 public class Distancia {
-  private float valor;
+  private String valor;
   private String unidad;
 
-  public float getValor() {
+  public String getValor() {
     return valor;
   }
 
-  public void setValor(float valor) {
+  public void setValor(String valor) {
     this.valor = valor;
   }
 
