@@ -241,7 +241,7 @@ Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> RepoOrganizaciones
-Organizacion --> DatosDeLaActividad
+Organizacion --> TablaDatosActividad
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
