@@ -14,4 +14,9 @@ public class TransporteNoMotorizado extends MedioDeTransporte {
   public void setTipoNoMotorizado(TipoNoMotorizado tipoNoMotorizado) {
     this.tipoNoMotorizado = tipoNoMotorizado;
   }
+
+  @Override
+  public boolean puedoSerCompartido(){
+    return false;
+  }
 }

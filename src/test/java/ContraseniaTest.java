@@ -8,7 +8,7 @@ public class ContraseniaTest {
 
   @Test
   public void contaseniaConMasDeUnEspacio(){
-    ValidadorDeEspacio validadorDeEspacio = new ValidadorDeEspacio();
+    CorrectorDeEspacio validadorDeEspacio = new CorrectorDeEspacio();
     String contraConEspacios = "    hola      como      andas     ";
     assertEquals(" hola como andas ", validadorDeEspacio.contraseniaSinEspacios(contraConEspacios));
   }

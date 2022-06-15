@@ -30,8 +30,7 @@ public class Miembro  {
     this.area = area;
   }
 
-  public void cargarProyecto(Trayecto trayecto){
-    Organizacion org = RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    org.agregarVinculacion(trayecto);
+  public void cargarTrayecto(Trayecto trayecto){
+    area.agregarVinculacion(trayecto);
   }
 }

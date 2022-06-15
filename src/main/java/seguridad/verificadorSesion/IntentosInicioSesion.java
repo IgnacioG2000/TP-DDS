@@ -3,9 +3,9 @@ package seguridad.verificadorSesion;
 
 public class IntentosInicioSesion {
 
-    String usuario;
-    int cantIntentos;
-    long timestamp;
+    private String usuario;
+    private int cantIntentos;
+    private long timestamp;
 
     public IntentosInicioSesion(String usuario) {
         this.usuario = usuario;
@@ -14,7 +14,7 @@ public class IntentosInicioSesion {
         this.actualizarTimeStamp();
     }
 
-    void aumentarIntentos() {
+    public void aumentarIntentos() {
         cantIntentos++;
         this.actualizarTimeStamp();
     }
@@ -22,7 +22,8 @@ public class IntentosInicioSesion {
     private void actualizarTimeStamp() {
         timestamp = System.currentTimeMillis() / 1000;
     }
-    boolean puedeIntentarLoggearse() {
+
+    public boolean puedeIntentarLoggearse() {
         return (cantIntentos <= 3) && ((System.currentTimeMillis() / 1000 - timestamp) > 10);
     }
 

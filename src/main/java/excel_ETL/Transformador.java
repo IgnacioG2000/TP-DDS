@@ -2,8 +2,6 @@ package excel_ETL;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
@@ -13,19 +11,20 @@ import java.util.Iterator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.apache.poi.ss.usermodel.CellType.STRING;
 
 public class Transformador {
-  public static void main(String[] args)
+
+  private TablaDatosActividad tablaDatosActividad;
+
+  public TablaDatosActividad obtenerDatos(String pathParcial)
   {
-    try
-    {
+    try {
       //conseguimos el path del proyecto
       Path path = Paths.get("");
       String directoryName = path.toAbsolutePath().toString();
 
       //conseguimos abrir el excel con el path del mismo dentro del proyecto
-      FileInputStream file = new FileInputStream(new File( directoryName + "\\src\\main\\java\\excel_ETL\\excelTesteo.xls"));
+      FileInputStream file = new FileInputStream(new File( directoryName + pathParcial));
 
       //Create Workbook instance holding reference to .xls file
       HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -35,10 +34,10 @@ public class Transformador {
 
       //Iterate through each rows one by one
       Iterator<Row> rowIterator = sheet.iterator();
-      //nos saleamoslas prieras dos lineas del excel
+      //nos saleamos las prieras dos lineas del excel
 
-      TablaDatosActividad tabla = new TablaDatosActividad();
-      System.out.print(tabla.getListaDatosActividad().size());
+      tablaDatosActividad = new TablaDatosActividad();
+      System.out.print(tablaDatosActividad.getListaDatosActividad().size());
       System.out.println("");
 
       rowIterator.next();
@@ -57,7 +56,7 @@ public class Transformador {
         nuevoDato.setPeriodoDeImputacion(row.getCell(4).getStringCellValue());
 
         //Agrego el dato a la lista
-        tabla.getListaDatosActividad().add(nuevoDato);
+        tablaDatosActividad.getListaDatosActividad().add(nuevoDato);
         //Verifico los datos que va a cargar // Se borra dsp
         System.out.println(nuevoDato.getActividad());
         System.out.println(nuevoDato.getTipoDeConsumo());
@@ -67,7 +66,7 @@ public class Transformador {
 
         System.out.println("");
       }
-      System.out.print(tabla.getListaDatosActividad().size());
+      System.out.print(tablaDatosActividad.getListaDatosActividad().size());
 
       file.close();
     }
@@ -75,6 +74,11 @@ public class Transformador {
     {
       e.printStackTrace();
     }
+  return tablaDatosActividad;
+  }
+
+  public TablaDatosActividad getTablaDatosActividad() {
+    return tablaDatosActividad;
   }
 }
 

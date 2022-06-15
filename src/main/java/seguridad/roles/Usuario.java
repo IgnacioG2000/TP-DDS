@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Usuario {
   private String usuario;
-  //no deberia ir la contraseña acá
+  private boolean admistrador;
 
   public ValidadorDeMetricas miValidador = new ValidadorDeMetricas();
 

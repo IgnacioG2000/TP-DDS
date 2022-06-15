@@ -1,13 +1,13 @@
 package excel_ETL;
 
 public class Consumo {
-  private Number valor;
+  private Double valor;
   private String periocidad;
 
   public Consumo() {
   }
 
-  public Number getValor() {
+  public Double getValor() {
     return valor;
   }
 
@@ -15,7 +15,7 @@ public class Consumo {
     return periocidad;
   }
 
-  public void setValor(Number valor) {
+  public void setValor(Double valor) {
     this.valor = valor;
   }
 

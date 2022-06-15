@@ -4,8 +4,10 @@ public class EspacioDeTrabajo extends Espacio{
   private int piso;
   private String unidad;
 
-  public EspacioDeTrabajo(Double latitud, Double longitud, String direccion, Number numero, Number codigoPostal, String barrio, int piso, String unidad) {
-    super(latitud, longitud, direccion, numero, codigoPostal, barrio);
+  public EspacioDeTrabajo(Double latitud, Double longitud, String provincia, String direccion, int numero,
+                          int codigoPostal, String barrio, String municipio, String localidad, int piso,
+                          String unidad) {
+    super(latitud, longitud, provincia, direccion, numero, codigoPostal, barrio, municipio, localidad);
     this.piso = piso;
     this.unidad = unidad;
   }

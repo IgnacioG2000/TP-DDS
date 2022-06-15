@@ -6,6 +6,7 @@ public class ValidadorCaracteres extends ValidadorContrasenia{
    this.mensajeError = "La contrasenia no es un caracter valido ASCII o UNICODE";
   }
 
+  @Override
   public boolean condicionInvalidez(String usuario, String contrasenia) {
     for (int i = 0; i < contrasenia.length(); i++) {
       if (!caracterEsValido(contrasenia, i)){

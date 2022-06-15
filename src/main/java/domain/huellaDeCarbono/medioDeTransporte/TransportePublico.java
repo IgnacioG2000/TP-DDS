@@ -24,4 +24,9 @@ public class TransportePublico extends MedioDeTransporte{
   public void setNombre(String nombre) {
     this.nombre = nombre;
   }
+
+  @Override
+  public boolean puedoSerCompartido(){
+    return false;
+  }
 }

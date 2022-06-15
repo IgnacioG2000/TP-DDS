@@ -14,7 +14,7 @@ public class ValidadorDeMetricas {
 
   public String validarTodo(String usuario, String contrasenia) {
 
-    ValidadorDeEspacio validadorEspacio = new ValidadorDeEspacio();
+    CorrectorDeEspacio validadorEspacio = new CorrectorDeEspacio();
 
     //primero sacamos la contrasenia sin espacios
     String contraseniaCompactada =  validadorEspacio.contraseniaSinEspacios(contrasenia);

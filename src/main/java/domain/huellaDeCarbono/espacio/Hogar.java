@@ -1,12 +1,14 @@
 package domain.huellaDeCarbono.espacio;
 
 public class Hogar extends Espacio{
-  private Integer piso;
+  private int piso;
   private String departamento;
   private TipoDeHogar tipoDeHogar;
 
-  public Hogar(Double latitud, Double longitud, String direccion, Number numero, Number codigoPostal, String barrio, Integer piso, String departamento, TipoDeHogar tipoDeHogar) {
-    super(latitud, longitud, direccion, numero, codigoPostal, barrio);
+  public Hogar(Double latitud, Double longitud, String provincia, String direccion, int numero,
+               int codigoPostal, String barrio, String municipio, String localidad, int piso,
+               String departamento, TipoDeHogar tipoDeHogar) {
+    super(latitud, longitud, provincia, direccion, numero, codigoPostal, barrio, municipio, localidad);
     this.piso = piso;
     this.departamento = departamento;
     this.tipoDeHogar = tipoDeHogar;
@@ -16,7 +18,7 @@ public class Hogar extends Espacio{
     return piso;
   }
 
-  public void setPiso(Integer piso) {
+  public void setPiso(int piso) {
     this.piso = piso;
   }
 

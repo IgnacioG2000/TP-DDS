@@ -1,7 +1,6 @@
 package domain.huellaDeCarbono.trayecto;
 
 import domain.huellaDeCarbono.espacio.Espacio;
-import domain.miembro.Miembro;
 
 import java.util.Collection;
 
@@ -9,13 +8,11 @@ public class Trayecto {
   private Espacio partida;
   private Espacio llegada;
   private Collection<Tramo> tramos;
-  private Collection<Miembro> miembros;
 
-  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos, Collection<Miembro> miembros) {
+  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos) {
     this.partida = partida;
     this.llegada = llegada;
     this.tramos = tramos;
-    this.miembros = miembros;
   }
 
   public Espacio getPartida() {
@@ -42,16 +39,9 @@ public class Trayecto {
     this.tramos = tramos;
   }
 
-  public Collection<Miembro> getMiembros() {
-    return miembros;
+/*
+  public Double calcularDistanciaTotal(){
+    return tramos.stream().mapToDouble(Tramo::calcularDistancia).sum();
   }
-
-  public void setMiembros(Collection<Miembro> miembros) {
-    this.miembros = miembros;
-  }
-
-  //TODO
-  // public Float calcularDistanciaTotal(){
-  // }
-
+*/
 }

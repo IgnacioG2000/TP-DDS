@@ -8,14 +8,14 @@ package "miembro" #DDDDDD {
     -nroDocumento: String
     -tipoDocumento: TipoDocumento
     -ubicacion: Hogar
+    -usuario: Usuario
     }
 
     class Miembro {
-    - persona: Persona
-    - usuario: Usuario
+    -persona: Persona
+    -area: Area
 
-    + void cargarTrayecto(Trayecto)
-
+    +void cargarTrayecto(Trayecto)
     }
 
     enum TipoDocumento {
@@ -32,19 +32,21 @@ package "organizacion" #DDDDDD {
     -tipo: TipoOrganizacion
     -clasificacion: Clasificacion
     -sectores: [Area]
-    -repoOrganizaciones: RepoOrganizaciones
-    -tablaDatos: TablaDatosActividad
+    -transformador: Transformador
 
-    +void aceptarVinculacion(Trayecto)
+    +void agregarArea(Area)
     }
 
     class Area {
     -nombre: String
     -miembros: [Miembro]
     -ubicacion: EspacioDeTrabajo
-    -trayectos: [Trayecto]
+    -trayectosRegistrados: [Trayecto]
+    -trayectosPendientes: [Trayecto]
 
-    +void registrarMiembro(Miembro, Trayecto)
+    +void registrarMiembro(Miembro)
+    +void aceptarVinculacion(Trayecto)
+    +void agregarVinculacion(Trayecto)
     }
 
     enum Clasificacion {
@@ -69,28 +71,23 @@ package "repositorios" #DDDDDD {
     -organizaciones: [Organizacion]
     -instance: RepoOrganizaciones
 
-    -RepoOrganizaciones()
-    +RepoOrganizaciones getInstance()
     }
 
     class RepoTransportePublico {
     -lineas: <String, [Parada]>
     -instance: RepoTransportePublico
 
-    -RepoTransportePublico()
-    +RepoTransportePublico getInstance()
     }
 
     class RepositorioUsuarios {
     -salt: [byte]
-    -usuariosLogin: <String,String>
-    - instance: RepositorioUsuarios
+    -loginUsuarios: <String,String>
+    -instance: RepositorioUsuarios
 
-    -RepositorioUsuarios()
-    +RepositorioUsuarios getInstance()
-    +String generarHash(String, String)
-    +String getSalt()
+    +String generarHash(String, byte[])
     +void validarContrasenia(String)
+    +void agregarUsuario(String,String)
+    +boolean contraseniaCoincide(String, String)
     }
 }
 
@@ -100,16 +97,19 @@ package "huellaDeCarbono" #DDDDDD {
         abstract class Espacio {
         -latitud: Double
         -longitud: Double
+        -provincia: String
         -direccion: String
         -numero: int
         -codigoPostal: int
         -barrio: String
+        -municipio: String
+        -localidad: String
         }
 
         class Hogar extends Espacio {
         -piso: int
         -departamento: String
-        -tipo: TipoHogar
+        -tipoHogar: TipoHogar
         }
 
         class Parada extends Espacio {
@@ -132,6 +132,7 @@ package "huellaDeCarbono" #DDDDDD {
 
         abstract class MedioDeTransporte {
 
+        +boolean puedoSerCompartido()
         }
 
         class VehiculoParticular extends MedioDeTransporte {
@@ -172,6 +173,7 @@ package "huellaDeCarbono" #DDDDDD {
         }
 
         class TransportePublico extends MedioDeTransporte {
+        -nombre: String
         -tipoTransportePublico: TipoTransportePublico
         }
 
@@ -180,22 +182,27 @@ package "huellaDeCarbono" #DDDDDD {
         SUBTE,
         COLECTIVO
         }
-
     }
 
     package "trayecto" {
+
         class Trayecto {
         -partida: Espacio
         -llegada: Espacio
         -tramos: [Tramo]
+
+        +Double calcularDistanciaTotal()
         }
 
         class Tramo {
         -partida: Espacio
         -llegada: Espacio
         -transporte: MedioDeTransporte
-        }
+        -miembros: [Miembro]
 
+        +Double calcularDistancia()
+        +void agregarMiembro(Miembro)
+        }
     }
 }
 
@@ -214,26 +221,29 @@ package "excel_ETL" #DDDDDD {
     }
 
     class Consumo {
-    -valor: int
+    -valor: Double
     -periodicidad:String
+    }
+
+    class Transformador {
+    -tablaDatoActividad: TablaDatosActividad
+
+    + TablaDatosActividad obtenerDatos(String)
     }
 }
 
 class Usuario {
 -usuario: String
--contrasenia: String
++miValidador : ValidadorDeMetricas
 -esAdministrador: boolean
 }
 
 
-Miembro --> TipoDocumento
-Miembro --> Hogar
-Miembro --> Usuario
 Miembro ..> Trayecto
 
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
-Area --> "*" Trayecto
+Area --> "2*" Trayecto
 
 RepoOrganizaciones --> RepoOrganizaciones
 
@@ -241,7 +251,9 @@ Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> RepoOrganizaciones
-Organizacion --> TablaDatosActividad
+Organizacion --> Transformador
+
+Transformador --> TablaDatosActividad
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
@@ -252,6 +264,8 @@ TablaDatosActividad --> "*" DatosDeLaActividad
 
 Tramo --> "2" Espacio
 Tramo --> MedioDeTransporte
+Tramo --> "*" Miembro
+
 
 Hogar --> TipoHogar
 
@@ -267,11 +281,13 @@ TransporteNoMotorizado --> TipoNoMotorizado
 RepositorioUsuarios --> Usuario
 RepositorioUsuarios --> RepositorioUsuarios
 
-RepoTransportePublico --> Parada
+RepoTransportePublico --> "*" Parada
 RepoTransportePublico --> RepoTransportePublico
 
 Miembro --> Persona
 
 Persona --> Hogar
+Persona --> Usuario
+Persona --> TipoDocumento
 
 @enduml

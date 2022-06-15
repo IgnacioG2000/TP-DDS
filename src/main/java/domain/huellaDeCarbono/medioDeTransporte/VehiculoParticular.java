@@ -24,4 +24,9 @@ public class VehiculoParticular extends MedioDeTransporte {
   public void setTipoCombustible(TipoCombustible tipoCombustible) {
     this.tipoCombustible = tipoCombustible;
   }
+
+  @Override
+  public boolean puedoSerCompartido(){
+    return true;
+  }
 }
