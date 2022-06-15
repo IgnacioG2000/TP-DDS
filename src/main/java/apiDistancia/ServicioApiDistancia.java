@@ -3,11 +3,14 @@ package apiDistancia;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import domain.huellaDeCarbono.espacio.Espacio;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -118,6 +121,79 @@ public class ServicioApiDistancia {
     }
   }
 
+  /* Esto Anda - Forma 1
+  public Distancia ObtenerDistancia(String idLocalidadOrigen, String calleOrigen, String alturaOrigen, String idLocalidadDestino, String calleDestino, String alturaDestino) {
+
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    Call<Distancia> requestDistancia = apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
+    Response<Distancia> responseDistancia;
+
+    // System.out.println(requestPaises.request().header("accept"));
+    try {
+      responseDistancia= requestDistancia.execute();
+      return  responseDistancia.body();
+    } catch (IOException e) {
+      //e.printStackTrace();
+      System.out.println("tmb toi aca");
+      throw new RuntimeException("error xd");
+    }
+  }
+*/
+/*
+  public Double obtenerDistancia(Espacio origen, Espacio llegada) {
+
+    return Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
+  }
+*/
+
+  // FORMA 2 -> Incluye "Espacio"
+  public Distancia calculoDistancia(Espacio espacioOrigen, Espacio espacioDestino) throws IOException {
+    String idLocalidadOrigen = this.obtenerIdLocalidad(espacioOrigen.getLocalidad(), espacioOrigen.getMunicipio(), espacioOrigen.getProvincia());
+    String calleOrigen = espacioOrigen.getDireccion();
+    String alturaOrigen = espacioOrigen.getNumero();
+    String idLocalidadDestino = this.obtenerIdLocalidad(espacioDestino.getLocalidad(), espacioDestino.getMunicipio(), espacioDestino.getProvincia());
+    String calleDestino = espacioDestino.getDireccion();
+    String alturaDestino = espacioDestino.getNumero();
+
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    Call<Distancia> requestDistancia = apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
+    Response<Distancia> responseDistancia;
+
+    // System.out.println(requestPaises.request().header("accept"));
+    try {
+      responseDistancia= requestDistancia.execute();
+      return  responseDistancia.body();
+    } catch (IOException e) {
+      //e.printStackTrace();
+      System.out.println("tmb toi aca");
+      throw new RuntimeException("error xd");
+    }
+  }
+
+  private String obtenerIdLocalidad(String localidad, String municipio, String provincia) throws IOException {
+
+    String id_localidad;
+    String idPais = "9";
+    ServicioApiDistancia servicioApiDistancia = ServicioApiDistancia.getInstancia();
+
+    //Obtengo ID de la provincia
+    List<Provincia> listadoProvincias = servicioApiDistancia.listadoDeProvincias(1, idPais);
+    Optional <Provincia> provinciaObtenida = listadoProvincias.stream().filter(unaProvincia -> provincia.equals(unaProvincia.getNombre())).findFirst();
+    String idProvincia = provinciaObtenida.get().getId();
+
+    // Obtengo ID del municipio
+    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios(1, idProvincia);
+    Optional <Municipio> municipioObtenido = listadoMunicipios.stream().filter(unMunicipio -> municipio.equals(unMunicipio.getNombre())).findFirst();
+    String idMuncipio = municipioObtenido.get().getId();
+
+
+    //Obtengo ID de la localidad
+    List<Localidad> listadoLocalidades = servicioApiDistancia.listadoLocalidades(1, idMuncipio);
+    Optional <Localidad> localidadObtenida = listadoLocalidades.stream().filter(unaLocalidad -> localidad.equals(unaLocalidad.getNombre())).findFirst();
+    String idLocalidad = localidadObtenida.get().getId();
+
+        return idLocalidad;
+  }
 
 
 }

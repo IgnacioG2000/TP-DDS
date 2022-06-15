@@ -7,7 +7,7 @@ public abstract class Espacio {
   protected String municipio;
   protected String localidad;
   protected String direccion;
-  protected float numero;
+  protected String numero;
   protected float codigoPostal;
   protected String barrio;
 
@@ -35,13 +35,11 @@ public abstract class Espacio {
     this.direccion = direccion;
   }
 
-  public float getNumero() {
+  public String getNumero() {
     return numero;
   }
 
-  public void setNumero(float numero) {
-    this.numero = numero;
-  }
+  public void setNumero(String numero) {  this.numero = numero; }
 
   public float getCodigoPostal() {
     return codigoPostal;

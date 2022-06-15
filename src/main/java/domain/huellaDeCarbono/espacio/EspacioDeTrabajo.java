@@ -4,7 +4,7 @@ public class EspacioDeTrabajo extends Espacio{
   private int piso;
   private String unidad;
 
-  public EspacioDeTrabajo(Double latitud, Double longitud, String provincia, String direccion, float numero, float codigoPostal, String barrio, int piso, String unidad) {
+  public EspacioDeTrabajo(Double latitud, Double longitud, String provincia, String direccion, String numero, float codigoPostal, String barrio, int piso, String unidad) {
     this.latitud = latitud;
     this.longitud = longitud;
     this.provincia = provincia;

@@ -1,6 +1,9 @@
 package EjemploDeUso;
 
 import apiDistancia.*;
+import domain.huellaDeCarbono.espacio.Espacio;
+import domain.huellaDeCarbono.espacio.Hogar;
+import domain.huellaDeCarbono.espacio.Parada;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,5 +58,18 @@ public class EjemploDeUso {
       String idLocalidad = listadoLocalidades.get(1).getId();
       System.out.print("ID Localidad: " + idLocalidad + "\n");
     }
+
+
+    // FORMA 2 Descomentar dsp de testear
+
+    Espacio espacioOrigen = new Parada(1.0, 1.0, "RIVERA", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
+    Espacio espacioDestino = new Parada(1.0, 1.0, "CARHUE", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
+
+    Distancia distanciaObtenida = servicioApiDistancia.calculoDistancia(espacioOrigen, espacioDestino);
+    double distanciaEnDouble = Double.parseDouble(distanciaObtenida.getValor());
+
+    System.out.print("Distancia Valor: " +  distanciaEnDouble + "\n");
+    System.out.print("Distancia Unidad: " + distanciaObtenida.getUnidad() + "\n");
+
   }
 }

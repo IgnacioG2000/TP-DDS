@@ -22,6 +22,14 @@ public interface ApiDistancia {
   @GET("localidades")
   Call<List<Localidad>> localidades(@Query("offset") int offset, @Query("municipioId") String idMunicipio);
 
+  @GET("distancia")
+  Call<Distancia> distancia(@Query("localidadOrigenId") String idLocalidadOrigen,
+                                  @Query("calleOrigen") String calleOrigen,
+                                  @Query("alturaOrigen") String alturaOrigen,
+                                  @Query("localidadDestinoId") String idLocalidadDestino,
+                                  @Query("calleDestino") String calleDestino,
+                                  @Query("alturaDestino") String alturaDestino);
+
 /*
   @GET("municipios")
   Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos);
