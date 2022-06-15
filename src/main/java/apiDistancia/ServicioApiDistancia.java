@@ -139,12 +139,12 @@ public class ServicioApiDistancia {
     }
   }
 */
-/*
-  public Double obtenerDistancia(Espacio origen, Espacio llegada) {
+
+  public Double obtenerDistancia(Espacio origen, Espacio llegada) throws IOException {
 
     return Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
   }
-*/
+
 
   // FORMA 2 -> Incluye "Espacio"
   public Distancia calculoDistancia(Espacio espacioOrigen, Espacio espacioDestino) throws IOException {

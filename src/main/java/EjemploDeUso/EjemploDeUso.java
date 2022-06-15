@@ -65,11 +65,9 @@ public class EjemploDeUso {
     Espacio espacioOrigen = new Parada(1.0, 1.0, "RIVERA", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
     Espacio espacioDestino = new Parada(1.0, 1.0, "CARHUE", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
 
-    Distancia distanciaObtenida = servicioApiDistancia.calculoDistancia(espacioOrigen, espacioDestino);
-    double distanciaEnDouble = Double.parseDouble(distanciaObtenida.getValor());
 
-    System.out.print("Distancia Valor: " +  distanciaEnDouble + "\n");
-    System.out.print("Distancia Unidad: " + distanciaObtenida.getUnidad() + "\n");
+    System.out.print("Distancia Valor: " + servicioApiDistancia.obtenerDistancia(espacioOrigen, espacioDestino) + "\n");
+    //System.out.print("Distancia Unidad: " + distanciaObtenida.getUnidad() + "\n");
 
   }
 }
