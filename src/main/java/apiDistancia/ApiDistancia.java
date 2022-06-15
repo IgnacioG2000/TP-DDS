@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface ApiDistancia {
 
-  @GET("paises?offset=1")
-  Call<List<Pais>> paises();
-/*
+  @GET("paises")
+  Call<List<Pais>> paises(@Query ("offset") int offset);
+
   @GET("provincias")
-  Call<ListadoDeProvincias> provincias(@Query("campos") String campos);
+  Call<List<Provincia>> provincias(@Query ("offset") int offset, @Query("paisId") String idPais);
 
   @GET("municipios")
-  Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia);
-
+  Call<List<Municipio>> municipios(@Query ("offset") int offset, @Query("provinciaId") String idProvincia);
+/*
   @GET("municipios")
   Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos);
 

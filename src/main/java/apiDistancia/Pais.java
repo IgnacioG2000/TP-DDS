@@ -3,7 +3,7 @@ package apiDistancia;
 public class Pais {
   private String id;
   private String nombre;
-/*
+
   public String getId() {
     return id;
   }
@@ -11,7 +11,7 @@ public class Pais {
   public void setId(String id) {
     this.id = id;
   }
-*/
+
   public String getNombre() {
     return nombre;
   }
@@ -19,4 +19,6 @@ public class Pais {
   public void setNombre(String nombre) {
     this.nombre = nombre;
   }
+
+
 }

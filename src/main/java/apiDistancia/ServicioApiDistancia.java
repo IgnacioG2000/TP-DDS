@@ -27,20 +27,19 @@ public class ServicioApiDistancia {
           .create();
 
   private ServicioApiDistancia() throws IOException {
+
     this.setUrlApi(ArchivoConfig.obtenerUrlAPI());
     this.retrofit = new Retrofit.Builder()
             .client(client)
             .baseUrl(urlApi)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
+
   }
 
   private void setUrlApi(String urlApi) {
     ServicioApiDistancia.urlApi = urlApi;
   }
-
-
-
 
   public static ServicioApiDistancia getInstancia() throws IOException {
     if (instancia == null) {
@@ -49,19 +48,9 @@ public class ServicioApiDistancia {
     return instancia;
   }
 
-  /*
-    public Distancia paginaDeHogares(String authHeader) throws IOException {
-      Distancia refugiosService = this.retrofit.create(Distancia.class);
-      //Call<PaginaDeHogares> https://media.discordapp.net/attachments/958739109986304047/984245922395484160/unknown.pngrequestHogares = refugiosService.hogares(authHeader);
-      Response<Distancia> responseDeHogares = requestHogares.execute();
-      return responseDeHogares.body();
-    }
-  */
-
-
-  public List<Pais> listadoDePais() throws IOException {
+  public List<Pais> listadoDePais(int offset) throws IOException {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<List<Pais>> requestPaises = apiDistancia.paises();
+    Call<List<Pais>> requestPaises = apiDistancia.paises(offset);
     Response<List<Pais>> responsePaises;
 
    // System.out.println(requestPaises.request().header("accept"));
@@ -80,8 +69,38 @@ public class ServicioApiDistancia {
     }
   }
 
+  public List<Provincia> listadoDeProvincias(int offset, String idPais) throws IOException {
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    Call<List<Provincia>> requestProvincias = apiDistancia.provincias(offset, idPais);
+    Response<List<Provincia>> responseProvincias;
+
+    // System.out.println(requestPaises.request().header("accept"));
+    try {
+      responseProvincias = requestProvincias.execute();
+      return  responseProvincias.body();
+    } catch (IOException e) {
+      //e.printStackTrace();
+      System.out.println("tmb toi aca");
+      throw new RuntimeException("error xd");
+    }
+  }
 
 
+  public List<Municipio> listadoMunicipios(int offset, String idProvincia) {
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    Call<List<Municipio>> requestMunicipios = apiDistancia.municipios(offset, idProvincia);
+    Response<List<Municipio>> responseMunicipios;
+
+    // System.out.println(requestPaises.request().header("accept"));
+    try {
+      responseMunicipios = requestMunicipios.execute();
+      return  responseMunicipios.body();
+    } catch (IOException e) {
+      //e.printStackTrace();
+      System.out.println("tmb toi aca");
+      throw new RuntimeException("error xd");
+    }
+  }
 }
 /*
  public List<Pais> listarPaises() {

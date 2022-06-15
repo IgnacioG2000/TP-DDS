@@ -1,6 +1,8 @@
 package EjemploDeUso;
 
+import apiDistancia.Municipio;
 import apiDistancia.Pais;
+import apiDistancia.Provincia;
 import apiDistancia.ServicioApiDistancia;
 
 import java.io.IOException;
@@ -12,14 +14,38 @@ public class EjemploDeUso {
   public static void main(String[] args) throws IOException {
     ServicioApiDistancia servicioApiDistancia = ServicioApiDistancia.getInstancia();
    // System.out.println("Seleccione una de las siguientes provincias, ingresando su id:");
-
-  List<Pais> listadoPaises = servicioApiDistancia.listadoDePais();
+  String idPais = new String();
+  String idProvincia = new String();
+  String idMunicipio = new String();
+  List<Pais> listadoPaises = servicioApiDistancia.listadoDePais(1);
 
 
     if(listadoPaises.size() == 0) {
       System.out.print("Estoy retornando algo nulo");
     }else {
-      System.out.print(listadoPaises.get(0).getNombre());
+      System.out.print("Pais: " + listadoPaises.get(0).getNombre() + "\n");
+      idPais = listadoPaises.get(0).getId();
+      System.out.print("ID Pais: " + listadoPaises.get(0).getId() + "\n");
+    }
+
+    List<Provincia> listadoProvincias = servicioApiDistancia.listadoDeProvincias(1, idPais);
+
+    if(listadoProvincias.size() == 0) {
+      System.out.print("Estoy retornando algo nulo");
+    }else {
+      System.out.print("Provincia: " + listadoProvincias.get(0).getNombre() + "\n");
+      idProvincia = listadoProvincias.get(0).getId();
+      System.out.print("ID Provincia: " + idProvincia + "\n");
+    }
+
+    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios(1, idProvincia);
+
+    if(listadoMunicipios.size() == 0) {
+      System.out.print("Estoy retornando algo nulo");
+    }else {
+      System.out.print("Municipio: " + listadoMunicipios.get(1).getNombre() + "\n");
+      idMunicipio = listadoMunicipios.get(1).getId();
+      System.out.print("ID Municipio: " + idMunicipio + "\n");
     }
   }
 }
