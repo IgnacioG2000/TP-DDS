@@ -101,6 +101,25 @@ public class ServicioApiDistancia {
       throw new RuntimeException("error xd");
     }
   }
+
+  public List<Localidad> listadoLocalidades(int offset, String idMunicipio) {
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    Call<List<Localidad>> requestLocalidades = apiDistancia.localidades(offset, idMunicipio);
+    Response<List<Localidad>> responseLocalidades;
+
+    // System.out.println(requestPaises.request().header("accept"));
+    try {
+      responseLocalidades= requestLocalidades.execute();
+      return  responseLocalidades.body();
+    } catch (IOException e) {
+      //e.printStackTrace();
+      System.out.println("tmb toi aca");
+      throw new RuntimeException("error xd");
+    }
+  }
+
+
+
 }
 /*
  public List<Pais> listarPaises() {

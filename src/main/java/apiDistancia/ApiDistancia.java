@@ -18,6 +18,10 @@ public interface ApiDistancia {
 
   @GET("municipios")
   Call<List<Municipio>> municipios(@Query ("offset") int offset, @Query("provinciaId") String idProvincia);
+
+  @GET("localidades")
+  Call<List<Localidad>> localidades(@Query("offset") int offset, @Query("municipioId") String idMunicipio);
+
 /*
   @GET("municipios")
   Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos);
