@@ -11,7 +11,7 @@ import java.util.List;
 public interface ApiDistancia {
 
   @GET("paises?offset=1")
-  Call<List<Pais>> paises(@Header("Authorization") String authHeader);
+  Call<List<Pais>> paises();
 /*
   @GET("provincias")
   Call<ListadoDeProvincias> provincias(@Query("campos") String campos);

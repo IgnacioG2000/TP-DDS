@@ -20,16 +20,16 @@ public class ServicioApiDistancia {
   private TokenInterceptor tokenInterceptor = new TokenInterceptor();
 
   //quizas en un futuro ponemos esto por si queremos agregar mas de un header (?)
-  //OkHttpClient client = new OkHttpClient.Builder().addInterceptor(tokenInterceptor).build();
+  OkHttpClient client = new OkHttpClient.Builder().addInterceptor(tokenInterceptor).build();
 
   Gson gson = new GsonBuilder()
           .setLenient()
           .create();
 
   private ServicioApiDistancia() throws IOException {
-    this.setUrlApi(this.obtenerUrlAPI());
+    this.setUrlApi(ArchivoConfig.obtenerUrlAPI());
     this.retrofit = new Retrofit.Builder()
-            //.client(client)
+            .client(client)
             .baseUrl(urlApi)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
@@ -57,22 +57,11 @@ public class ServicioApiDistancia {
       return responseDeHogares.body();
     }
   */
-  public String obtenerUrlAPI() throws IOException {
-    Properties propiedades = new Properties();
-    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    System.out.println(propiedades.getProperty("urlApi"));
-    return propiedades.getProperty("urlApi");
-  }
 
-  public String obtenerTokenAutorizacion() throws IOException {
-    Properties propiedades = new Properties();
-    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    return propiedades.getProperty("tokenAutorizacionAPI");
-  }
 
   public List<Pais> listadoDePais() throws IOException {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<List<Pais>> requestPaises = apiDistancia.paises("Bearer " + this.obtenerTokenAutorizacion());
+    Call<List<Pais>> requestPaises = apiDistancia.paises();
     Response<List<Pais>> responsePaises;
 
    // System.out.println(requestPaises.request().header("accept"));
