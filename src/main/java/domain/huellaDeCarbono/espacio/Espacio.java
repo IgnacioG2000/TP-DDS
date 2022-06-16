@@ -1,28 +1,16 @@
 package domain.huellaDeCarbono.espacio;
 
 public abstract class Espacio {
-  private Double latitud;
-  private Double longitud;
-  private String provincia;
-  private String direccion;
-  private int numero;
-  private int codigoPostal;
-  private String barrio;
-  private String municipio;
-  private String localidad;
+  protected Double latitud;
+  protected Double longitud;
+  protected String provincia;
+  protected String municipio;
+  protected String localidad;
+  protected String direccion;
+  protected String numero;
+  protected float codigoPostal;
+  protected String barrio;
 
-  public Espacio(Double latitud, Double longitud, String provincia, String direccion, int numero,
-                 int codigoPostal, String barrio, String municipio, String localidad) {
-    this.latitud = latitud;
-    this.longitud = longitud;
-    this.provincia = provincia;
-    this.direccion = direccion;
-    this.numero = numero;
-    this.codigoPostal = codigoPostal;
-    this.barrio = barrio;
-    this.municipio = municipio;
-    this.localidad = localidad;
-  }
 
   public Double getLatitud() {
     return latitud;
@@ -48,19 +36,18 @@ public abstract class Espacio {
     this.direccion = direccion;
   }
 
-  public Number getNumero() {
+  public String getNumero() {
     return numero;
   }
 
-  public void setNumero(int numero) {
-    this.numero = numero;
-  }
+  public void setNumero(String numero) {  this.numero = numero; }
 
-  public Number getCodigoPostal() {
+  public float getCodigoPostal() {
     return codigoPostal;
   }
 
-  public void setCodigoPostal(int codigoPostal) {
+  public void setCodigoPostal(float codigoPostal) {
+
     this.codigoPostal = codigoPostal;
   }
 
@@ -70,6 +57,14 @@ public abstract class Espacio {
 
   public void setBarrio(String barrio) {
     this.barrio = barrio;
+  }
+
+  public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
   }
 
   public String getMunicipio() {
@@ -88,11 +83,4 @@ public abstract class Espacio {
     this.localidad = localidad;
   }
 
-  public String getProvincia() {
-    return provincia;
-  }
-
-  public void setProvincia(String provincia) {
-    this.provincia = provincia;
-  }
 }
