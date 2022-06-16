@@ -2,6 +2,7 @@ package apiDistancia;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -69,9 +70,9 @@ public class ServicioApiDistancia {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Provincia>> requestProvincias = apiDistancia.provincias(offset, idPais);
     Response<List<Provincia>> responseProvincias;
-
     try {
       responseProvincias = requestProvincias.execute();
+
       return  responseProvincias.body();
     } catch (IOException e) {
       throw new NoSeEncuentraEnLaApi("Se produjo un error en la llamada a la api, no se pueden obtener las provincias");
@@ -80,12 +81,25 @@ public class ServicioApiDistancia {
 
   public List<Municipio> listadoMunicipios(int offset, String idProvincia) throws NoSeEncuentraEnLaApi  {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<List<Municipio>> requestMunicipios = apiDistancia.municipios(offset, idProvincia);
+    int indice = offset;
     Response<List<Municipio>> responseMunicipios;
+    List<Municipio> listaCompleta = new ArrayList<>();
 
     try {
+      Call<List<Municipio>> requestMunicipios = apiDistancia.municipios(indice, idProvincia);
       responseMunicipios = requestMunicipios.execute();
-      return  responseMunicipios.body();
+      while(responseMunicipios.body().size() > 0) {
+        //hace una llamada inneceasria pero funciona
+        requestMunicipios = apiDistancia.municipios(indice, idProvincia);
+        responseMunicipios = requestMunicipios.execute();
+        listaCompleta.addAll(responseMunicipios.body());
+        indice++;
+      }
+
+      System.out.print("el tam de la lista completa es " + listaCompleta.size());
+
+
+      return  listaCompleta;
     } catch (IOException e) {
       throw new NoSeEncuentraEnLaApi ("Se produjo un error en la llamada a la api, no se pueden obtener los municipios");
     }

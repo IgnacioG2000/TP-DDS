@@ -19,6 +19,15 @@ public class EjemploDeUso {
   String idMunicipio = new String();
   List<Pais> listadoPaises = servicioApiDistancia.listadoDePais(1);
 
+    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios(1, "168");
+
+    if(listadoMunicipios.size() == 0) {
+      System.out.print("Estoy retornando algo nulo");
+    }else {
+      System.out.print("Municipio: " + listadoMunicipios.get(1).getNombre() + "\n");
+      idMunicipio = listadoMunicipios.get(1).getId();
+      System.out.print("ID Municipio: " + idMunicipio + "\n");
+    }
 
    // FORMA 2 Descomentar dsp de testear
 
