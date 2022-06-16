@@ -9,6 +9,8 @@ import java.util.Properties;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import domain.huellaDeCarbono.espacio.Espacio;
+import exception.NoSeEncuentraEnLaApi;
+import exception.NoSePuedeCalcularDistancia;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,7 +24,7 @@ public class ServicioApiDistancia {
   private static String urlApi;
   private TokenInterceptor tokenInterceptor = new TokenInterceptor();
 
-  //quizas en un futuro ponemos esto por si queremos agregar mas de un header (?)
+
   OkHttpClient client = new OkHttpClient.Builder().addInterceptor(tokenInterceptor).build();
 
   Gson gson = new GsonBuilder()
@@ -51,161 +53,138 @@ public class ServicioApiDistancia {
     return instancia;
   }
 
-  public List<Pais> listadoDePais(int offset) throws IOException {
+  public List<Pais> listadoDePais(int offset) {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Pais>> requestPaises = apiDistancia.paises(offset);
     Response<List<Pais>> responsePaises;
-
-   // System.out.println(requestPaises.request().header("accept"));
      try {
-
       responsePaises = requestPaises.execute();
-      System.out.println(responsePaises.code());
-
-      System.out.println(responsePaises.raw());
-
       return  responsePaises.body();
     } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
+      throw new RuntimeException("Se produjo un error en la llamada a la api, no se pueden obtener los paises");
     }
   }
 
-  public List<Provincia> listadoDeProvincias(int offset, String idPais) throws IOException {
+  public List<Provincia> listadoDeProvincias(int offset, String idPais) throws NoSeEncuentraEnLaApi {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Provincia>> requestProvincias = apiDistancia.provincias(offset, idPais);
     Response<List<Provincia>> responseProvincias;
 
-    // System.out.println(requestPaises.request().header("accept"));
     try {
       responseProvincias = requestProvincias.execute();
       return  responseProvincias.body();
     } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
+      throw new NoSeEncuentraEnLaApi("Se produjo un error en la llamada a la api, no se pueden obtener las provincias");
     }
   }
 
-
-  public List<Municipio> listadoMunicipios(int offset, String idProvincia) {
+  public List<Municipio> listadoMunicipios(int offset, String idProvincia) throws NoSeEncuentraEnLaApi  {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Municipio>> requestMunicipios = apiDistancia.municipios(offset, idProvincia);
     Response<List<Municipio>> responseMunicipios;
 
-    // System.out.println(requestPaises.request().header("accept"));
     try {
       responseMunicipios = requestMunicipios.execute();
       return  responseMunicipios.body();
     } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
+      throw new NoSeEncuentraEnLaApi ("Se produjo un error en la llamada a la api, no se pueden obtener los municipios");
     }
   }
 
-  public List<Localidad> listadoLocalidades(int offset, String idMunicipio) {
+  public List<Localidad> listadoLocalidades(int offset, String idMunicipio) throws NoSeEncuentraEnLaApi  {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Localidad>> requestLocalidades = apiDistancia.localidades(offset, idMunicipio);
     Response<List<Localidad>> responseLocalidades;
 
-    // System.out.println(requestPaises.request().header("accept"));
     try {
-      responseLocalidades= requestLocalidades.execute();
+      responseLocalidades = requestLocalidades.execute();
       return  responseLocalidades.body();
     } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
+      throw new NoSeEncuentraEnLaApi ("Se produjo un error en la llamada a la api, no se pueden obtener las localidades");
     }
   }
-
-  /* Esto Anda - Forma 1
-  public Distancia ObtenerDistancia(String idLocalidadOrigen, String calleOrigen, String alturaOrigen, String idLocalidadDestino, String calleDestino, String alturaDestino) {
-
-    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<Distancia> requestDistancia = apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
-    Response<Distancia> responseDistancia;
-
-    // System.out.println(requestPaises.request().header("accept"));
-    try {
-      responseDistancia= requestDistancia.execute();
-      return  responseDistancia.body();
-    } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
-    }
-  }
-*/
 
   public Double obtenerDistancia(Espacio origen, Espacio llegada) throws IOException {
 
+    try {
+      Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
+    } catch(NoSeEncuentraEnLaApi exp) {
+      throw new NoSePuedeCalcularDistancia("No se puede calcular la distancia porque " + exp.getMessage());
+    }
     return Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
   }
 
 
-  // FORMA 2 -> Incluye "Espacio"
-  public Distancia calculoDistancia(Espacio espacioOrigen, Espacio espacioDestino) throws IOException {
-    String idLocalidadOrigen = this.obtenerIdLocalidad(espacioOrigen.getLocalidad(), espacioOrigen.getMunicipio(), espacioOrigen.getProvincia());
+  public Distancia calculoDistancia(Espacio espacioOrigen, Espacio espacioDestino) throws NoSeEncuentraEnLaApi, IOException {
+    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
+    String idLocalidadOrigen;
+    String idLocalidadDestino;
     String calleOrigen = espacioOrigen.getDireccion();
     String alturaOrigen = espacioOrigen.getNumero();
-    String idLocalidadDestino = this.obtenerIdLocalidad(espacioDestino.getLocalidad(), espacioDestino.getMunicipio(), espacioDestino.getProvincia());
     String calleDestino = espacioDestino.getDireccion();
     String alturaDestino = espacioDestino.getNumero();
-
-    ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    Call<Distancia> requestDistancia = apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
     Response<Distancia> responseDistancia;
 
-    // System.out.println(requestPaises.request().header("accept"));
     try {
-      responseDistancia= requestDistancia.execute();
+      idLocalidadOrigen = this.obtenerIdLocalidad(espacioOrigen.getLocalidad(), espacioOrigen.getMunicipio(), espacioOrigen.getProvincia());
+      idLocalidadDestino = this.obtenerIdLocalidad(espacioDestino.getLocalidad(), espacioDestino.getMunicipio(), espacioDestino.getProvincia());
+
+      Call<Distancia> requestDistancia =  apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
+      System.out.print("estoy ejecutando hasta aca");
+    
+      responseDistancia = requestDistancia.execute();
       return  responseDistancia.body();
-    } catch (IOException e) {
-      //e.printStackTrace();
-      System.out.println("tmb toi aca");
-      throw new RuntimeException("error xd");
-    }
+    } catch (NoSeEncuentraEnLaApi exp) {
+      throw new NoSeEncuentraEnLaApi(exp.getMessage());
+     }
+
+
   }
 
-  private String obtenerIdLocalidad(String localidad, String municipio, String provincia) throws IOException {
+  private String obtenerIdPais() {
+    //esto medio que esta hardcodeado pero sabemos como funciona entonces meh
+    return this.listadoDePais(1).get(0).getId();
+  }
 
-    String id_localidad;
-    String idPais = "9";
-    ServicioApiDistancia servicioApiDistancia = ServicioApiDistancia.getInstancia();
+  private String obtenerIdLocalidad(String localidad, String municipio, String provincia) throws NoSeEncuentraEnLaApi {
+
+    String idLocalidad;
+    String idPais = this.obtenerIdPais();
+
 
     //Obtengo ID de la provincia
-    List<Provincia> listadoProvincias = servicioApiDistancia.listadoDeProvincias(1, idPais);
+    List<Provincia> listadoProvincias = this.listadoDeProvincias(1, idPais);
     Optional <Provincia> provinciaObtenida = listadoProvincias.stream().filter(unaProvincia -> provincia.equals(unaProvincia.getNombre())).findFirst();
-    String idProvincia = provinciaObtenida.get().getId();
 
-    // Obtengo ID del municipio
-    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios(1, idProvincia);
-    Optional <Municipio> municipioObtenido = listadoMunicipios.stream().filter(unMunicipio -> municipio.equals(unMunicipio.getNombre())).findFirst();
-    String idMuncipio = municipioObtenido.get().getId();
+    if(!provinciaObtenida.isPresent()) {
+      throw new NoSeEncuentraEnLaApi("No se encontra la provincia " + provincia);
+    }else {
+      String idProvincia = provinciaObtenida.get().getId();
+      System.out.print("Id de provincia: " + idProvincia);
+
+      List<Municipio> listadoMunicipios = this.listadoMunicipios(1, idProvincia);
+      Optional<Municipio> municipioObtenido = listadoMunicipios.stream().filter(unMunicipio -> municipio.equals(unMunicipio.getNombre())).findFirst();
+
+      if (!municipioObtenido.isPresent()) {
+
+        throw new NoSeEncuentraEnLaApi("No se encontro el municipio " + municipio);
+
+      } else {
+        String idMuncipio = municipioObtenido.get().getId();
+        List<Localidad> listadoLocalidades = this.listadoLocalidades(1, idMuncipio);
+        Optional<Localidad> localidadObtenida = listadoLocalidades.stream().filter(unaLocalidad -> localidad.equals(unaLocalidad.getNombre())).findFirst();
+
+        if (!localidadObtenida.isPresent()) throw new NoSeEncuentraEnLaApi("No se encontro la localidad " + localidad);
+        else {
+          idLocalidad = localidadObtenida.get().getId();
+        }
+
+      }
 
 
-    //Obtengo ID de la localidad
-    List<Localidad> listadoLocalidades = servicioApiDistancia.listadoLocalidades(1, idMuncipio);
-    Optional <Localidad> localidadObtenida = listadoLocalidades.stream().filter(unaLocalidad -> localidad.equals(unaLocalidad.getNombre())).findFirst();
-    String idLocalidad = localidadObtenida.get().getId();
-
-        return idLocalidad;
-  }
-
-
+    }
+  return idLocalidad;
 }
-/*
- public List<Pais> listarPaises() {
-    return listadoDePais().getPaises();
-  }
-  public ListadoDeMunicipios listadoDeMunicipiosDeProvincia(Provincia provincia) throws IOException {
-    GeorefService georefService = this.retrofit.create(GeorefService.class);
-    Call<ListadoDeMunicipios> requestListadoDeMunicipios = georefService.municipios(provincia.id, "id, nombre", maximaCantidadRegistrosDefault);
-    Response<ListadoDeMunicipios> responseListadoDeMunicipios = requestListadoDeMunicipios.execute();
-    return responseListadoDeMunicipios.body();
-  }
-*/
+}
+
 

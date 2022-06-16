@@ -30,11 +30,5 @@ public interface ApiDistancia {
                                   @Query("calleDestino") String calleDestino,
                                   @Query("alturaDestino") String alturaDestino);
 
-/*
-  @GET("municipios")
-  Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos);
 
-  @GET("municipios")
-  Call<ListadoDeMunicipios> municipios(@Query("provincia") int idProvincia, @Query("campos") String campos, @Query("max") int max);
-  */
 }
