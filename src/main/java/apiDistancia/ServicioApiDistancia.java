@@ -96,7 +96,7 @@ public class ServicioApiDistancia {
         indice++;
       }
 
-      System.out.print("el tam de la lista completa es " + listaCompleta.size());
+      System.out.print("el tam de la lista completa es " + listaCompleta.size()+ "\n");
 
 
       return  listaCompleta;
@@ -144,7 +144,7 @@ public class ServicioApiDistancia {
       idLocalidadDestino = this.obtenerIdLocalidad(espacioDestino.getLocalidad(), espacioDestino.getMunicipio(), espacioDestino.getProvincia());
 
       Call<Distancia> requestDistancia =  apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
-      System.out.print("estoy ejecutando hasta aca");
+      System.out.print("estoy ejecutando hasta aca\n");
     
       responseDistancia = requestDistancia.execute();
       return  responseDistancia.body();

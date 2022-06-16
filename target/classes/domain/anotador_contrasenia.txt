@@ -1,0 +1,43 @@
+Pasos a seguir:
+
+Implementar los validaciones de manera simple mediante el uso de una clase abstracta
+
+Armar un validador que conoce a las validaciones, las cuales se van a aplicar al Usuario y Contrasenia
+
+La validacion del Usuario y Contraseña se hace dentro del constructor del Usuario (es lo primero que se hace)
+
+-------------------------------------------------------------------------------------------
+public Usuario(String usuario, String contrasenia, String nombre, String apellido) {
+    miValidador.validar(usuario, contrasenia);
+    this.contrasenia = contrasenia;
+    this.usuario = usuario;
+    this.nombre = nombre;
+    this.apellido = apellido;
+  }
+--------------------------------------------------------------------------------------------
+
+VALIDACIONES QUE VAMOS A IMPLEMENTAR
+
+- si hay mas de un espacio seguido, es invalido. Avisar al usuario. TIENE QUE SER EL PRIMERO, LUEGO VERIFICAR TAMANIO CONTRASENIA (juan) (ya esta hecho)
+- caracteres >= 8  (ya esta hecho)
+- que sea ascii, espacio o unicode (ya esta hecho)
+- NO truncar contraseñas (o sea, guardar el hash entero)
+- guardar hash con salt (ver metodo en Discord -> @Rodri fijate nuestro TP)
+- 10k (ya esta hecho)
+- no usar contraseñas de data leaks (ver como implementar, anda saber como sacar todas) - para mi es innecesario, le agrega mucha complejidad (mecha) (coincido completamente, Juan)
+- patrones repetitivos
+- no contener nombre de usuario, nombre del sistema ni cosas similares
+
+EN CASO DE QUE LA CONTRASEÑA NO PASE ALGUNA VERIFICACIÓN => AVISAR AL USUARIO (throwExcepcion -> más adelante la catchea la UI para poder mostrar bien el mensaje de error)
+
+GUIA para seleccionar una mejor alternativa (verificador de fuerza de contraseña) - esto tmb le agrega mucha complejidad pero bueno (mecha)
+
+LIMITAR la cantidad de veces de intento de contraseña (ver como implementar un "sleep") -> poner un contador y cada vez que ingrese mal, se aumenta el tiempo para poner una nueva contra. (Nachito y Mechi)
+
+NO imponer cambios arbitrarios (periódicos), pero si hay evidencia de compromiso de seguridad entonces recomendar cambio de contraseña.
+
+Debe permitirse ver la contraseña (ojito -sentido de vista- al costado del campo o que a medida que vas metiendo los caracteres te vaya mostrando las letras y dsp transformandolas en * o puntitos)
+
+
+
+
