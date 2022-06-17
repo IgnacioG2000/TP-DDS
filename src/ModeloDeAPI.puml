@@ -2,31 +2,28 @@
 skinparam classAttributeIconSize 0
 
 interface ApiDistancia {
-+ Call<List<Pais>> paises(String)
++ Call<List<Pais>> paises(int)
++ Call<List<Provincia>> provincias(int, String)
++ Call<List<Municipio>> municipios(int, String)
++ Call<List<Localidad>> localidades(int, String)
++ Call<Distancia> distancia(String, String, String, String, String, String)
+}
+
+class ArchivoConfig {
+
++ String obtenerUrlAPI()
++ String obtenerTokenAutorizacion()
 }
 
 class Distancia {
-- valor: float
+- valor: String
 - unidad: String
-}
-
-class ListadoProvincias {
-- cantidad: int
-- total: int
-- inicio: int
-- parametro : Parametro
-- provincias : List<Provincia>
-
-+ public Optional<Provincia> provinciaDeId(int)
-}
-
-class Parametro {
-- campos : List<String>
 }
 
 class Municipio {
 - id: String
 - nombre: String
+- provincia: Provincia
 }
 
 class Pais {
@@ -37,12 +34,28 @@ class Pais {
 class Provincia {
 - id: String
 - nombre: String
+- pais: Pais
 }
 
 class Localidad {
 - id: String
 - nombre : String
 - codPostal : String
+}
+
+class Tramo {
+-partida: Espacio
+-llegada: Espacio
+-transporte: MedioDeTransporte
+-miembros: [Miembro]
+
++Double calcularDistancia()
++void agregarMiembro(Miembro)
+}
+
+class TokenInterceptor {
+
++ Response intercept(Chain)
 }
 
 class ServicioApiDistancia {
@@ -52,28 +65,33 @@ class ServicioApiDistancia {
 - tokenInterceptor : TokenInterceptor
 - gson : Gson
 
--ServicioApiDistancia()
-+ServicioApiDistancia getInstance()
-+ String obtenerUrlAPI()
-+ String obtenerTokenAutorizacion()
-+ List<Pais> listadoDePais()
++ List<Pais> listadoDePaises(int)
++ List<Provincia> listadoDeProvincias(int, String)
++ List<Municipio> listadoMunicipios(int, String)
++ List<Localidad> listadoLocalidades(int, String)
++ Double obtenerDistancia(Espacio, Espacio)
++ Distancia calculoDistancia(Espacio, Espacio)
+- String obtenerIdPais()
+- String obtenerIdLocalidad(String, String, String)
 }
 
-ApiDistancia ..> Pais
+ApiDistancia -- Pais
+ApiDistancia -- Provincia
+ApiDistancia -- Localidad
+ApiDistancia -- Municipio
+ApiDistancia -- Distancia
 
 ServicioApiDistancia --> ServicioApiDistancia
+ServicioApiDistancia ..> ApiDistancia
+ServicioApiDistancia ..> ArchivoConfig
+ServicioApiDistancia --> TokenInterceptor
 
-ListadoProvincias --> "*" Provincia
-ListadoProvincias --* Parametro
+TokenInterceptor ..> ArchivoConfig
 
-Provincia -- Pais
+Provincia --> Pais
 
-Localidad -- Municipio
+Municipio --> Provincia
 
-Municipio -- Provincia
-
-Distancia -- Municipio
-
-ServicioApiDistancia -- ApiDistancia
+Tramo ..> ServicioApiDistancia
 
 @enduml

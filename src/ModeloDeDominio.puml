@@ -203,6 +203,12 @@ package "huellaDeCarbono" #DDDDDD {
         +Double calcularDistancia()
         +void agregarMiembro(Miembro)
         }
+
+        class ServicioApiDistancia {
+
+        }
+        note right: El modelo de la API está en su propio DC
+
     }
 }
 
@@ -265,7 +271,7 @@ TablaDatosActividad --> "*" DatosDeLaActividad
 Tramo --> "2" Espacio
 Tramo --> MedioDeTransporte
 Tramo --> "*" Miembro
-
+Tramo ..> ServicioApiDistancia
 
 Hogar --> TipoHogar
 
