@@ -15,6 +15,7 @@ package "miembro" #DDDDDD {
     -persona: Persona
     -area: Area
 
+    +Double calcularHuellaCarbonoMiembro()
     +void cargarTrayecto(Trayecto)
     }
 
@@ -23,9 +24,21 @@ package "miembro" #DDDDDD {
     LE,
     LC
     }
-    }
+}
 
 package "organizacion" #DDDDDD {
+
+    class Contacto {
+    -mail: String
+    -numeroTelefono: String
+    -nombre: String
+    }
+
+    class AgenteSectorial {
+    -sectorTerritorial: String
+
+    +Double huellaDeCarbonoPorSector()
+    }
 
     class Organizacion {
     -razonSocial: String
@@ -33,8 +46,13 @@ package "organizacion" #DDDDDD {
     -clasificacion: Clasificacion
     -sectores: [Area]
     -transformador: Transformador
+    -contacto: [Contacto]
 
     +void agregarArea(Area)
+    +Double calcularHuellaCarbonoTotal(Double)
+    +Double calcularHuellaCarbonoSectorial(Double, String)
+    +Double impactoGeneradoPor(Miembro)
+    +Double indicadorDeHCPorArea(Area)
     }
 
     class Area {
@@ -43,10 +61,12 @@ package "organizacion" #DDDDDD {
     -ubicacion: EspacioDeTrabajo
     -trayectosRegistrados: [Trayecto]
     -trayectosPendientes: [Trayecto]
+    -calculadoraHCActividad: CalculadoraHCActividad
 
     +void registrarMiembro(Miembro)
     +void aceptarVinculacion(Trayecto)
     +void agregarVinculacion(Trayecto)
+    +Double calcularHuellaCarbonoTotalArea()
     }
 
     enum Clasificacion {
@@ -62,6 +82,22 @@ package "organizacion" #DDDDDD {
     ONG,
     EMPRESA,
     INSTITUCION
+    }
+}
+
+package "notificadores" #DDDDDD {
+
+    abstract MedioDeNotificacion {
+
+    +void notificar(Contacto)
+    }
+
+    class Mailer extends MedioDeNotificacion {
+
+    }
+
+    class Whatsapperia extends MedioDeNotificacion {
+
     }
 }
 
@@ -92,6 +128,26 @@ package "repositorios" #DDDDDD {
 }
 
 package "huellaDeCarbono" #DDDDDD {
+
+    class CalculadoraHCActividad {
+    -factorEmisionGas: Double
+    -factorEmisionDiesel: Double
+    -factorEmisionKerosene: Double
+    -factorEmisionFuel: Double
+    -factorEmisionNafta: Double
+    -factorEmisionCarbon: Double
+    -factorEmisionCarbonLenia: Double
+    -factorEmisionLenia: Double
+    -factorEmisionCombConsumidoGasoil: Double
+    -factorEmisionCombConsumidoGNC: Double
+    -factorEmisionCombConsumidoNafta: Double
+    -factorEmisionElectricidad: Double
+    -factorEmisionLogProdRes: Double
+
+    +Double calcularHuellaCarbonoLogProdRes(Double)
+    +Double calcularHuellaCarbonoCombElec()
+
+    }
 
     package "espacio" {
         abstract class Espacio {
@@ -131,6 +187,7 @@ package "huellaDeCarbono" #DDDDDD {
     package "medioDeTransporte" {
 
         abstract class MedioDeTransporte {
+        -factorEmision: Double
 
         +boolean puedoSerCompartido()
         }
@@ -192,6 +249,7 @@ package "huellaDeCarbono" #DDDDDD {
         -tramos: [Tramo]
 
         +Double calcularDistanciaTotal()
+        +Double calcularHuellaCarbonoTotalTrayecto()
         }
 
         class Tramo {
@@ -202,6 +260,7 @@ package "huellaDeCarbono" #DDDDDD {
 
         +Double calcularDistancia()
         +void agregarMiembro(Miembro)
+        +Double calcularHuellaCarbonoTramo()
         }
 
         class ServicioApiDistancia {
@@ -238,26 +297,35 @@ package "excel_ETL" #DDDDDD {
     }
 }
 
-class Usuario {
--usuario: String
-+miValidador : ValidadorDeMetricas
--esAdministrador: boolean
-}
+package "roles" #DDDDDD {
 
+    abstract Usuario {
+    -usuario: String
+    +miValidador : ValidadorDeMetricas
+    }
+
+    class UsuarioComun extends Usuario {
+    }
+
+    class Administrador extends Usuario {
+    -calculadoraHCActividad: CalculadoraHCActividad
+
+    +void setFactorEmision(Double factorEmision)
+    }
+}
 
 Miembro ..> Trayecto
 
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
 Area --> "2*" Trayecto
-
-RepoOrganizaciones --> RepoOrganizaciones
+Area --> CalculadoraHCActividad
 
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
-Organizacion --> RepoOrganizaciones
 Organizacion --> Transformador
+Organizacion --> Contacto
 
 Transformador --> TablaDatosActividad
 
@@ -290,10 +358,19 @@ RepositorioUsuarios --> RepositorioUsuarios
 RepoTransportePublico --> "*" Parada
 RepoTransportePublico --> RepoTransportePublico
 
+RepoOrganizaciones --> RepoOrganizaciones
+RepoOrganizaciones --> "*" Organizacion
+
 Miembro --> Persona
 
 Persona --> Hogar
 Persona --> Usuario
 Persona --> TipoDocumento
+
+Administrador --> CalculadoraHCActividad
+
+MedioDeNotificacion ..> Contacto
+
+AgenteSectorial ..> RepoOrganizaciones
 
 @enduml
