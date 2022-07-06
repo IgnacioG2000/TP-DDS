@@ -6,17 +6,19 @@ import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 public class Transformador {
 
-  private TablaDatosActividad tablaDatosActividad;
+  private List<DatosDeLaActividad> datosDeLaActividad;
 
-  public TablaDatosActividad obtenerDatos(String pathParcial)
+  public void cargarDatos(String pathParcial)
   {
     try {
       //conseguimos el path del proyecto
@@ -36,8 +38,8 @@ public class Transformador {
       Iterator<Row> rowIterator = sheet.iterator();
       //nos saleamos las prieras dos lineas del excel
 
-      tablaDatosActividad = new TablaDatosActividad();
-      System.out.print(tablaDatosActividad.getListaDatosActividad().size());
+      datosDeLaActividad = new ArrayList<>();
+      System.out.print(datosDeLaActividad.size());
       System.out.println("");
 
       rowIterator.next();
@@ -56,7 +58,7 @@ public class Transformador {
         nuevoDato.setPeriodoDeImputacion(row.getCell(4).getStringCellValue());
 
         //Agrego el dato a la lista
-        tablaDatosActividad.getListaDatosActividad().add(nuevoDato);
+        datosDeLaActividad.add(nuevoDato);
         //Verifico los datos que va a cargar // Se borra dsp
         System.out.println(nuevoDato.getActividad());
         System.out.println(nuevoDato.getTipoDeConsumo());
@@ -66,7 +68,7 @@ public class Transformador {
 
         System.out.println("");
       }
-      System.out.print(tablaDatosActividad.getListaDatosActividad().size());
+      System.out.print(datosDeLaActividad.size());
 
       file.close();
     }
@@ -74,11 +76,11 @@ public class Transformador {
     {
       e.printStackTrace();
     }
-  return tablaDatosActividad;
+
   }
 
-  public TablaDatosActividad getTablaDatosActividad() {
-    return tablaDatosActividad;
+  public List<DatosDeLaActividad> getDatosDeLaActividad() {
+    return datosDeLaActividad;
   }
 }
 

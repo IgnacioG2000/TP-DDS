@@ -1,9 +1,23 @@
 package domain.organización;
 
+import domain.huellaDeCarbono.espacio.Espacio;
 import domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
+import domain.huellaDeCarbono.espacio.Hogar;
+import domain.huellaDeCarbono.espacio.TipoDeHogar;
+import domain.huellaDeCarbono.medioDeTransporte.MedioDeTransporte;
+import domain.huellaDeCarbono.medioDeTransporte.ServicioContratado;
+import domain.huellaDeCarbono.medioDeTransporte.TipoServicioContratado;
+import domain.huellaDeCarbono.trayecto.Tramo;
 import domain.huellaDeCarbono.trayecto.Trayecto;
 import domain.miembro.Miembro;
+
+import java.io.IOException;
+import java.text.CollationElementIterator;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Area {
   private String nombre;
@@ -69,6 +83,51 @@ public class Area {
   public void aceptarVinculacion(Trayecto trayecto) {
     trayectosPendientes.remove(trayecto);
     trayectosRegistados.add(trayecto);
+  }
+
+  public Double calcularHuellaCarbonoTotalArea() {
+    Set<Tramo> tramos = this
+        .getTrayectosRegistados()
+        .stream().map(Trayecto::getTramos)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toSet());
+
+    Double hcTramos = tramos.stream().mapToDouble(unTramo -> {
+      try {
+        return unTramo.calcularHuellaCarbonoTramo();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return 0;
+    }).sum();
+
+    return hcTramos * 20;//sumar HC de DA
+    //TODO: REVISAR LA MULTIPLICACION 20(dias al mes)
+    /*
+        .collect(Collectors.toSet())
+        .stream()
+        .reduce();
+
+    Hogar espacio1 = new Hogar(2.0,3.0,"CABA","ASD","Pepita","Deloria","1445",147,"PP", 5, "H", TipoDeHogar.CASA);
+    ServicioContratado sc = new ServicioContratado(10.0, TipoServicioContratado.REMIS);
+    Collection<Miembro> coleccionMiembroVacia = new ArrayList<>();
+    Tramo tramo1 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
+    Tramo tramo2 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
+    Tramo tramo3 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
+    Collection<Tramo> tramos1 = new ArrayList<>();
+    tramos1.add(tramo1);
+    tramos1.add(tramo2);
+    Collection<Tramo> tramos2 = new ArrayList<>();
+    tramos1.add(tramo3);
+    tramos1.add(tramo2);
+    Trayecto tray1 = new Trayecto(espacio1,espacio1, tramos1);
+    Trayecto tray2 = new Trayecto(espacio1,espacio1, tramos2);
+    getTrayectosRegistados().add(tray1);
+    getTrayectosRegistados().add(tray2);
+
+
+
+  */
   }
 
 }

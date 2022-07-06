@@ -8,10 +8,6 @@ public class DatosDeLaActividad {
   private Consumo consumo;
   private String periodoDeImputacion;
 
-//TODO
-  //Faltan los constructores
-
-
   public DatosDeLaActividad() {
   }
 

@@ -1,5 +1,6 @@
 package domain.organización;
 
+import domain.huellaDeCarbono.CalculadoraHCActividad;
 import excel_ETL.Transformador;
 
 import java.util.Collection;
@@ -10,14 +11,17 @@ public class Organizacion {
   private Collection<Area> sectores;
   private Clasificacion clasificacion;
   private Transformador transformador;
+  private CalculadoraHCActividad calculadoraHCActividad;
 
-  public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion,
-                      Collection<Area> sectores, Clasificacion clasificacion, Transformador transformador) {
+  public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
+                      Clasificacion clasificacion, Transformador transformador,
+                      CalculadoraHCActividad calculadoraHCActividad) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
     this.transformador = transformador;
+    this.calculadoraHCActividad = calculadoraHCActividad;
   }
 
   public String getRazonSocial() {
@@ -54,6 +58,12 @@ public class Organizacion {
 
   public void agregarArea(Area area){
     sectores.add(area);
+  }
+
+  public Double calcularHuellaCarbonoTotal(Double constante) {
+    Double hcAreas = sectores.stream().mapToDouble(Area::calcularHuellaCarbonoTotalArea).sum();
+    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), constante);
+    return hcActividad + hcAreas;
   }
 /*
   public boolean tieneArea(Area area){

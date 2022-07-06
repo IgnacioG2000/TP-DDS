@@ -40,7 +40,6 @@ public class ServicioApiDistancia {
             .baseUrl(urlApi)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
-
   }
 
   private void setUrlApi(String urlApi) {

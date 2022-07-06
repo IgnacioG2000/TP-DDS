@@ -39,6 +39,12 @@ public class Trayecto {
     this.tramos = tramos;
   }
 
+  /*
+  public Double calcularHuellaCarbonoTotalTrayecto() {
+    return
+  }
+*/ //TODO: Huella de Carbono para Miembro
+
 /*
   public Double calcularDistanciaTotal(){
     return tramos.stream().mapToDouble(Tramo::calcularDistancia).sum();

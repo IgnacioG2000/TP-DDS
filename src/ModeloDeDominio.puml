@@ -19,6 +19,12 @@ package "miembro" #DDDDDD {
     +void cargarTrayecto(Trayecto)
     }
 
+    class AgenteSectorial extends Persona {
+    -sectorTerritorial: String
+
+    +Double huellaDeCarbonoPorSector()
+    }
+
     enum TipoDocumento {
     DNI,
     LE,
@@ -32,12 +38,7 @@ package "organizacion" #DDDDDD {
     -mail: String
     -numeroTelefono: String
     -nombre: String
-    }
-
-    class AgenteSectorial {
-    -sectorTerritorial: String
-
-    +Double huellaDeCarbonoPorSector()
+    -notificador: MedioDeNotificacion
     }
 
     class Organizacion {
@@ -46,7 +47,8 @@ package "organizacion" #DDDDDD {
     -clasificacion: Clasificacion
     -sectores: [Area]
     -transformador: Transformador
-    -contacto: [Contacto]
+    -contactos: [Contacto]
+    -calculadora: CalculadoraHCActividad
 
     +void agregarArea(Area)
     +Double calcularHuellaCarbonoTotal(Double)
@@ -61,7 +63,6 @@ package "organizacion" #DDDDDD {
     -ubicacion: EspacioDeTrabajo
     -trayectosRegistrados: [Trayecto]
     -trayectosPendientes: [Trayecto]
-    -calculadoraHCActividad: CalculadoraHCActividad
 
     +void registrarMiembro(Miembro)
     +void aceptarVinculacion(Trayecto)
@@ -144,8 +145,9 @@ package "huellaDeCarbono" #DDDDDD {
     -factorEmisionElectricidad: Double
     -factorEmisionLogProdRes: Double
 
-    +Double calcularHuellaCarbonoLogProdRes(Double)
+    +Double calcularHuellaCarbonoLogProdRes(List<DatosDeLaActividad>, Double)
     +Double calcularHuellaCarbonoCombElec()
+    +Double calcularHCActividad(List<DatosDeLaActividad>, Double)
 
     }
 
@@ -247,6 +249,8 @@ package "huellaDeCarbono" #DDDDDD {
         -partida: Espacio
         -llegada: Espacio
         -tramos: [Tramo]
+        -fechaInicio: LocalDateTime
+        -porcentajeUso: Double
 
         +Double calcularDistanciaTotal()
         +Double calcularHuellaCarbonoTotalTrayecto()
@@ -273,10 +277,6 @@ package "huellaDeCarbono" #DDDDDD {
 
 package "excel_ETL" #DDDDDD {
 
-    class TablaDatosActividad {
-    -listaDatosActividad : List<DatosDeLaActividad>
-    }
-
     class DatosDeLaActividad {
     -actividad:String
     -tipoDeConsumo:String
@@ -291,9 +291,9 @@ package "excel_ETL" #DDDDDD {
     }
 
     class Transformador {
-    -tablaDatoActividad: TablaDatosActividad
+    -datosActividad: [DatosDeLaActividad]
 
-    + TablaDatosActividad obtenerDatos(String)
+    +void cargarDatos(String)
     }
 }
 
@@ -319,22 +319,20 @@ Miembro ..> Trayecto
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
 Area --> "2*" Trayecto
-Area --> CalculadoraHCActividad
 
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> Transformador
-Organizacion --> Contacto
-
-Transformador --> TablaDatosActividad
+Organizacion --> "*" Contacto
+Organizacion --> CalculadoraHCActividad
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
 
 DatosDeLaActividad --> Consumo
 
-TablaDatosActividad --> "*" DatosDeLaActividad
+Transformador --> "*" DatosDeLaActividad
 
 Tramo --> "2" Espacio
 Tramo --> MedioDeTransporte
@@ -369,7 +367,7 @@ Persona --> TipoDocumento
 
 Administrador --> CalculadoraHCActividad
 
-MedioDeNotificacion ..> Contacto
+Contacto --> MedioDeNotificacion
 
 AgenteSectorial ..> RepoOrganizaciones
 
