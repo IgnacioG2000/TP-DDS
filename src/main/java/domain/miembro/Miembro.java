@@ -4,6 +4,8 @@ import domain.organización.*;
 import domain.huellaDeCarbono.trayecto.*;
 import repositorios.RepoOrganizacion;
 
+import java.util.List;
+
 public class Miembro  {
   private Persona persona;
   private Area area;
@@ -32,5 +34,17 @@ public class Miembro  {
 
   public void cargarTrayecto(Trayecto trayecto){
     area.agregarVinculacion(trayecto);
+  }
+
+  public Double calcularHuellaCarbonoMiembro(){
+    List<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
+    Double hcMiembro = listaTrayectosDelMiembro.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
+    return hcMiembro;
+  }
+
+  public Double impactoMiembroEnOrganizacion(Double constanteDA){
+    Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
+    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotal(constanteDA);
+    return this.calcularHuellaCarbonoMiembro() / hcMiOrg * 100;
   }
 }

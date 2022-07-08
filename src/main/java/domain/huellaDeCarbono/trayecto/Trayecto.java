@@ -1,18 +1,24 @@
 package domain.huellaDeCarbono.trayecto;
 
 import domain.huellaDeCarbono.espacio.Espacio;
+import domain.miembro.Miembro;
+import domain.organización.Area;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collection;
 
 public class Trayecto {
   private Espacio partida;
   private Espacio llegada;
   private Collection<Tramo> tramos;
+  private LocalDate fechaInicio;
 
-  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos) {
+  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos, LocalDate fechaInicio) {
     this.partida = partida;
     this.llegada = llegada;
     this.tramos = tramos;
+    this.fechaInicio = fechaInicio;
   }
 
   public Espacio getPartida() {
@@ -39,11 +45,22 @@ public class Trayecto {
     this.tramos = tramos;
   }
 
-  /*
+
   public Double calcularHuellaCarbonoTotalTrayecto() {
-    return
+    Double hcTramo = tramos.stream().mapToDouble(unTramo -> {
+      try {
+        return unTramo.calcularHuellaCarbonoTramo();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return 0;
+    }).sum();
+    return hcTramo;
   }
-*/ //TODO: Huella de Carbono para Miembro
+
+  public boolean perteneceMiembro(Miembro miembro) {
+    return tramos.stream().allMatch(tramo -> tramo.tieneMiembro(miembro));
+  }
 
 /*
   public Double calcularDistanciaTotal(){

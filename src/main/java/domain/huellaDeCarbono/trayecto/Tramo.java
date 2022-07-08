@@ -14,6 +14,7 @@ public class Tramo {
   private Espacio llegada;
   private MedioDeTransporte transporte;
   private Collection<Miembro> miembros;
+  private Double periodicidad;
 
   public Tramo(Espacio partida, Espacio llegada, MedioDeTransporte transporte, Collection<Miembro> miembros) {
     this.partida = partida;
@@ -38,14 +39,15 @@ public class Tramo {
 
   public Collection<Miembro> getMiembros(){ return miembros;}
 
-  public void agregarMiembro(Miembro miembro) {
+  public void agregarMiembro(Miembro miembro, Double nuevaPeriodicidad) {
     if(transporte.puedoSerCompartido()) {
       miembros.add(miembro);
+      periodicidad =+ nuevaPeriodicidad;
     }
   }
 
   public Double calcularHuellaCarbonoTramo() throws IOException {
-    return this.transporte.getFactorEmision() * this.calcularDistancia();
+    return this.transporte.getFactorEmision() * this.calcularDistancia() * this.getPeriodicidad();
   }
 
 
@@ -53,4 +55,11 @@ public class Tramo {
     return ServicioApiDistancia.getInstancia().obtenerDistancia(llegada,partida);
   }
 
+  public boolean tieneMiembro(Miembro miembro) {
+    return miembros.contains(miembro);
+  }
+
+  public Double getPeriodicidad(){
+    return periodicidad/ miembros.size();
+  }
 }

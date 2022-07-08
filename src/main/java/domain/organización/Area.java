@@ -101,7 +101,7 @@ public class Area {
       return 0;
     }).sum();
 
-    return hcTramos * 20;//sumar HC de DA
+    return hcTramos;
     //TODO: REVISAR LA MULTIPLICACION 20(dias al mes)
     /*
         .collect(Collectors.toSet())
@@ -130,4 +130,8 @@ public class Area {
   */
   }
 
+  public List<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
+    List<Trayecto> trayectosMiembro = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMiembro(miembro)).collect(Collectors.toList());
+    return trayectosMiembro;
+  }
 }

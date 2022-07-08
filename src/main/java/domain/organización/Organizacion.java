@@ -65,9 +65,9 @@ public class Organizacion {
     Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), constante);
     return hcActividad + hcAreas;
   }
-/*
+
   public boolean tieneArea(Area area){
     return sectores.contains(area);
   }
-*/
+
 }

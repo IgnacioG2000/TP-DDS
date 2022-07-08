@@ -16,9 +16,9 @@ public class RepoOrganizacion {
   public static RepoOrganizacion getInstance() {
     return INSTANCE;
   }
-/*
+
   public Organizacion encontrarOrganizacion(Area area){
     return organizaciones.stream().filter(organizacion->organizacion.tieneArea(area)).findFirst().get();
   }
-*/
+
 }

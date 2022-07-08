@@ -249,7 +249,7 @@ package "huellaDeCarbono" #DDDDDD {
         -partida: Espacio
         -llegada: Espacio
         -tramos: [Tramo]
-        -fechaInicio: LocalDateTime
+        -fechaInicio: LocalDate
         -porcentajeUso: Double
 
         +Double calcularDistanciaTotal()
