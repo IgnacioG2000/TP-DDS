@@ -1,4 +1,4 @@
-package domain.organización;
+package domain.organizacion;
 
 public enum Clasificacion {
   MINISTERIO,

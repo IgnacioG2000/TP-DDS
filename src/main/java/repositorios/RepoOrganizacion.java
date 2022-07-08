@@ -1,12 +1,10 @@
 package repositorios;
 
 
-import domain.organización.Area;
-import domain.organización.Organizacion;
+import domain.organizacion.Area;
+import domain.organizacion.Organizacion;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 public class RepoOrganizacion {
   private Collection<Organizacion> organizaciones;

@@ -1,4 +1,4 @@
-package domain.organización;
+package domain.organizacion;
 
 import domain.huellaDeCarbono.CalculadoraHCActividad;
 import excel_ETL.Transformador;

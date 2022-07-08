@@ -17,6 +17,7 @@ package "miembro" #DDDDDD {
 
     +Double calcularHuellaCarbonoMiembro()
     +void cargarTrayecto(Trayecto)
+    +Double impactoMiembroEnOrganizacion(Double)
     }
 
     class AgenteSectorial extends Persona {
@@ -68,6 +69,7 @@ package "organizacion" #DDDDDD {
     +void aceptarVinculacion(Trayecto)
     +void agregarVinculacion(Trayecto)
     +Double calcularHuellaCarbonoTotalArea()
+    +Double getTrayectosDelMiembro(Miembro)
     }
 
     enum Clasificacion {
@@ -250,7 +252,6 @@ package "huellaDeCarbono" #DDDDDD {
         -llegada: Espacio
         -tramos: [Tramo]
         -fechaInicio: LocalDate
-        -porcentajeUso: Double
 
         +Double calcularDistanciaTotal()
         +Double calcularHuellaCarbonoTotalTrayecto()
@@ -261,10 +262,12 @@ package "huellaDeCarbono" #DDDDDD {
         -llegada: Espacio
         -transporte: MedioDeTransporte
         -miembros: [Miembro]
+        -periodicidad: Double
 
         +Double calcularDistancia()
-        +void agregarMiembro(Miembro)
+        +void agregarMiembro(Miembro, Double)
         +Double calcularHuellaCarbonoTramo()
+        +boolean tieneMiembro(Miembro)
         }
 
         class ServicioApiDistancia {

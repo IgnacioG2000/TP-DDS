@@ -42,7 +42,7 @@ public class Tramo {
   public void agregarMiembro(Miembro miembro, Double nuevaPeriodicidad) {
     if(transporte.puedoSerCompartido()) {
       miembros.add(miembro);
-      periodicidad =+ nuevaPeriodicidad;
+      periodicidad += nuevaPeriodicidad;
     }
   }
 

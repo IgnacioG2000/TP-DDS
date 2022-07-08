@@ -2,7 +2,6 @@ package domain.huellaDeCarbono.trayecto;
 
 import domain.huellaDeCarbono.espacio.Espacio;
 import domain.miembro.Miembro;
-import domain.organización.Area;
 
 import java.io.IOException;
 import java.time.LocalDate;

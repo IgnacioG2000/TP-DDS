@@ -1,19 +1,11 @@
-package domain.organización;
+package domain.organizacion;
 
-import domain.huellaDeCarbono.espacio.Espacio;
 import domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
-import domain.huellaDeCarbono.espacio.Hogar;
-import domain.huellaDeCarbono.espacio.TipoDeHogar;
-import domain.huellaDeCarbono.medioDeTransporte.MedioDeTransporte;
-import domain.huellaDeCarbono.medioDeTransporte.ServicioContratado;
-import domain.huellaDeCarbono.medioDeTransporte.TipoServicioContratado;
 import domain.huellaDeCarbono.trayecto.Tramo;
 import domain.huellaDeCarbono.trayecto.Trayecto;
 import domain.miembro.Miembro;
 
 import java.io.IOException;
-import java.text.CollationElementIterator;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

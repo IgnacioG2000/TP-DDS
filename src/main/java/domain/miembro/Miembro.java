@@ -1,6 +1,6 @@
 package domain.miembro;
 
-import domain.organización.*;
+import domain.organizacion.*;
 import domain.huellaDeCarbono.trayecto.*;
 import repositorios.RepoOrganizacion;
 
