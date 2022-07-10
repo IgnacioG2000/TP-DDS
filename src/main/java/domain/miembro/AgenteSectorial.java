@@ -5,6 +5,8 @@ import domain.organizacion.Area;
 import repositorios.RepoOrganizacion;
 import seguridad.roles.Usuario;
 
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AgenteSectorial extends Persona {
@@ -18,14 +20,14 @@ public class AgenteSectorial extends Persona {
 
 
 
-  public Double calcularHuellaCarbonoPorSector() {
+  public Double calcularHuellaCarbonoPorSector(LocalDate fecha, boolean esMensual) {
     Double hcPorSector = RepoOrganizacion
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
         .filter(this::perteneceASector)
         .collect(Collectors.toList())
-        .stream().mapToDouble(Area::calcularHuellaCarbonoTotalArea)
+        .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual))
         .sum();
 
     return hcPorSector;
