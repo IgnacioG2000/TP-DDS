@@ -4,11 +4,15 @@ import domain.huellaDeCarbono.CalculadoraHCActividad;
 import excel_ETL.Transformador;
 
 import java.util.Collection;
+import java.util.List;
 
 public class Organizacion {
   private String razonSocial;
   private TipoDeOrganizacion tipoDeOrganizacion;
   private Collection<Area> sectores;
+  //private String numero;
+  // private String mail;
+  private List<Contacto> contactos;
   private Clasificacion clasificacion;
   private Transformador transformador;
   private CalculadoraHCActividad calculadoraHCActividad;
@@ -70,4 +74,11 @@ public class Organizacion {
     return sectores.contains(area);
   }
 
+  public void agregarContacto(String mail, String num){
+       contactos.add(new Contacto(mail,num));
+  }
+
+  public List<Contacto> getContactos() {
+    return contactos;
+  }
 }
