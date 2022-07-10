@@ -15,11 +15,11 @@ import javax.mail.internet.MimeMultipart;
 
 
 public class EmailSender {
-    private static final Properties prop = new Properties();
-    private static final Session session;
-    private static final String username = "buzzetti.jp@gmail.com";
+    private static Properties prop = new Properties();
+    private static Session session;
+    private static String username;
     // GMAIL app specific password: https://support.google.com/accounts/answer/185833?p=InvalidSecondFactor
-    private static final String password = "**********";
+    private static String password;
 
 
     static {
@@ -36,7 +36,9 @@ public class EmailSender {
         });
     }
 
-    public EmailSender() {
+    public EmailSender(String username, String password) {
+        EmailSender.username = username;
+        EmailSender.password = password;
     }
 
     public void send(String from, String to, String subject, String body) {
@@ -63,11 +65,5 @@ public class EmailSender {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-    }
-
-
-    public void test(){
-
     }
 }
