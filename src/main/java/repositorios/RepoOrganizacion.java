@@ -26,9 +26,15 @@ public class RepoOrganizacion {
     return organizaciones.stream().filter(organizacion->organizacion.tieneArea(area)).findFirst().get();
   }
 
-  public List<Contacto> listadoContactosOrganizaciones (){
+  public List<Contacto> listadoContactosOrganizaciones(){
     List<Contacto> lista = new ArrayList<>();
-    organizaciones.stream().forEach(o -> lista.addAll(o.getContactos()));
+    organizaciones.forEach(o -> lista.addAll(o.getContactos()));
+    return lista;
+  }
+
+  public List<Area> listadoAreasOrganizaciones(){
+    List<Area> lista = new ArrayList<>();
+    organizaciones.forEach(o -> lista.addAll(o.getSectores()));
     return lista;
   }
 

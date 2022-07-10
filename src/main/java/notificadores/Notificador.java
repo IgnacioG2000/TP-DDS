@@ -21,7 +21,7 @@ public class Notificador implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        this.enviarNotificacionesPorTodosLosMedios("Recomndaciones",
+        this.enviarNotificacionesPorTodosLosMedios("Recomendaciones",
             "Se enviará las recomendaciones de las Organizaciones...");
     }
 
