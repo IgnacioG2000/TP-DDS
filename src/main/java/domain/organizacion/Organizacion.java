@@ -11,8 +11,6 @@ public class Organizacion {
   private String razonSocial;
   private TipoDeOrganizacion tipoDeOrganizacion;
   private Collection<Area> sectores;
-  //private String numero;
-  // private String mail;
   private List<Contacto> contactos;
   private Clasificacion clasificacion;
   private Transformador transformador;
