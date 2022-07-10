@@ -4,7 +4,9 @@ import domain.organizacion.*;
 import domain.huellaDeCarbono.trayecto.*;
 import repositorios.RepoOrganizacion;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Miembro  {
   private Persona persona;
@@ -36,15 +38,21 @@ public class Miembro  {
     area.agregarVinculacion(trayecto);
   }
 
-  public Double calcularHuellaCarbonoMiembro(){
+  public Double calcularHuellaCarbonoMiembro(LocalDate fecha, boolean esMensual){
     List<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    Double hcMiembro = listaTrayectosDelMiembro.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
+    List<Trayecto> listaTrayectosFechaMiembro;
+    if(esMensual){
+      listaTrayectosFechaMiembro = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceMes(fecha)).collect(Collectors.toList());
+    }else{
+      listaTrayectosFechaMiembro = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceAnio(fecha)).collect(Collectors.toList());
+    }
+    Double hcMiembro = listaTrayectosFechaMiembro.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
     return hcMiembro;
   }
 
-  public Double impactoMiembroEnOrganizacion(Double constanteDA){
+  public Double impactoMiembroEnOrganizacion(Double constanteDA, LocalDate fecha, boolean esMensual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotal(constanteDA);
-    return this.calcularHuellaCarbonoMiembro() / hcMiOrg * 100;
+    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, constanteDA, esMensual);
+    return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
   }
 }

@@ -1,6 +1,8 @@
 package domain.huellaDeCarbono;
 
 import excel_ETL.DatosDeLaActividad;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,13 +102,20 @@ public class CalculadoraHCActividad {
     return feAsociado;
   }
 
-  public Double calcularHCActividad(List<DatosDeLaActividad> datos, Double constante) {
-    List<DatosDeLaActividad> combElec = datos
+  public Double calcularHCActividad(List<DatosDeLaActividad> datos, LocalDate fecha, boolean esMensual, Double constante) {
+    List<DatosDeLaActividad> datosActividad;
+    if(esMensual){
+      datosActividad= datos.stream().filter(dato -> dato.perteneceMes(fecha)).collect(Collectors.toList());
+    }else{
+      datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(fecha)).collect(Collectors.toList());
+    }
+
+    List<DatosDeLaActividad> combElec = datosActividad
         .stream()
         .filter(unDato -> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    List<DatosDeLaActividad> logProdRes = datos
+    List<DatosDeLaActividad> logProdRes = datosActividad
         .stream()
         .filter(unDato-> !unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());

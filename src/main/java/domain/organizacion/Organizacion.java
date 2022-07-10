@@ -3,6 +3,7 @@ package domain.organizacion;
 import domain.huellaDeCarbono.CalculadoraHCActividad;
 import excel_ETL.Transformador;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 public class Organizacion {
@@ -60,9 +61,9 @@ public class Organizacion {
     sectores.add(area);
   }
 
-  public Double calcularHuellaCarbonoTotal(Double constante) {
-    Double hcAreas = sectores.stream().mapToDouble(Area::calcularHuellaCarbonoTotalArea).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), constante);
+  public Double calcularHuellaCarbonoTotalFecha(LocalDate fecha, Double constante, boolean esMensual) {
+    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual)).sum();
+    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha, esMensual, constante);
     return hcActividad + hcAreas;
   }
 

@@ -42,4 +42,17 @@ public class DatosDeLaActividad {
   public void setPeriodoDeImputacion(String periodoDeImputacion) {
     this.periodoDeImputacion = periodoDeImputacion;
   }
+
+  public boolean perteneceAnio(LocalDate fechaAnual) {
+    int fechaCompleta = Integer.parseInt(periodoDeImputacion);
+    int fechaAnio = fechaCompleta % 10000;
+    return fechaAnio == fechaAnual.getYear();
+  }
+
+  public boolean perteneceMes(LocalDate fechaMensual) {
+    int fechaCompleta = Integer.parseInt(periodoDeImputacion);
+    int fechaAnio = fechaCompleta % 10000;
+    int fechaMes = fechaCompleta / 10000;
+    return fechaAnio == fechaMensual.getYear() && fechaMes == fechaMensual.getMonthValue();
+  }
 }

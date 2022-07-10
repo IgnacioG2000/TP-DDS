@@ -61,6 +61,14 @@ public class Trayecto {
     return tramos.stream().allMatch(tramo -> tramo.tieneMiembro(miembro));
   }
 
+  public boolean perteneceMes(LocalDate fecha){
+    return this.perteneceAnio(fecha) && fechaInicio.getMonth() == fecha.getMonth();
+  }
+
+  public boolean perteneceAnio(LocalDate fecha){
+    return fechaInicio.getYear() == fecha.getYear();
+  }
+
 /*
   public Double calcularDistanciaTotal(){
     return tramos.stream().mapToDouble(Tramo::calcularDistancia).sum();

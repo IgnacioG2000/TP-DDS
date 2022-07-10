@@ -6,6 +6,7 @@ import domain.huellaDeCarbono.trayecto.Trayecto;
 import domain.miembro.Miembro;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -77,9 +78,15 @@ public class Area {
     trayectosRegistados.add(trayecto);
   }
 
-  public Double calcularHuellaCarbonoTotalArea() {
-    Set<Tramo> tramos = this
-        .getTrayectosRegistados()
+  public Double calcularHuellaCarbonoTotalArea(LocalDate fecha, boolean esMensual) {
+    Collection<Trayecto> trayectosDeFecha;
+    if(esMensual){
+      trayectosDeFecha = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMes(fecha)).collect(Collectors.toList());
+    }else{
+      trayectosDeFecha = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceAnio(fecha)).collect(Collectors.toList());
+    }
+
+    Set<Tramo> tramos = trayectosDeFecha
         .stream().map(Trayecto::getTramos)
         .flatMap(Collection::stream)
         .collect(Collectors.toSet());
@@ -93,33 +100,17 @@ public class Area {
       return 0;
     }).sum();
 
+    if(esMensual){
+      hcTramos = hcTramos * 20;//20 dias
+    }else {
+      hcTramos = hcTramos * 20 * 12;//20 dias 12 meses
+    }
+
     return hcTramos;
-    //TODO: REVISAR LA MULTIPLICACION 20(dias al mes)
-    /*
-        .collect(Collectors.toSet())
-        .stream()
-        .reduce();
+  }
 
-    Hogar espacio1 = new Hogar(2.0,3.0,"CABA","ASD","Pepita","Deloria","1445",147,"PP", 5, "H", TipoDeHogar.CASA);
-    ServicioContratado sc = new ServicioContratado(10.0, TipoServicioContratado.REMIS);
-    Collection<Miembro> coleccionMiembroVacia = new ArrayList<>();
-    Tramo tramo1 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
-    Tramo tramo2 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
-    Tramo tramo3 = new Tramo(espacio1, espacio1, sc, coleccionMiembroVacia);
-    Collection<Tramo> tramos1 = new ArrayList<>();
-    tramos1.add(tramo1);
-    tramos1.add(tramo2);
-    Collection<Tramo> tramos2 = new ArrayList<>();
-    tramos1.add(tramo3);
-    tramos1.add(tramo2);
-    Trayecto tray1 = new Trayecto(espacio1,espacio1, tramos1);
-    Trayecto tray2 = new Trayecto(espacio1,espacio1, tramos2);
-    getTrayectosRegistados().add(tray1);
-    getTrayectosRegistados().add(tray2);
-
-
-
-  */
+  public Double calcularHuellaCarbonoPromedioMiembro(LocalDate fecha, boolean esMensual){
+    return this.calcularHuellaCarbonoTotalArea(fecha, esMensual) / miembros.size();
   }
 
   public List<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
