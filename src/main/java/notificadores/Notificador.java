@@ -1,9 +1,12 @@
 package notificadores;
 
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import repositorios.RepoOrganizacion;
 
-public class Notificador {
+public class Notificador implements Job {
 
     private String mailGeneral = "hola";
     private String numeroGeneral;
@@ -15,6 +18,12 @@ public class Notificador {
     WhatsAppSender wspSender = new WhatsAppSender();
 
     //asumimos que como no dice que se ELIGE POR DONDE SE MANDA, le mandamos por los dos :)
+
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        this.enviarNotificacionesPorTodosLosMedios("Recomndaciones",
+            "Se enviará las recomendaciones de las Organizaciones...");
+    }
 
     //Elegir este metodo para el Cronos.
     public void enviarNotificacionesPorTodosLosMedios(String titulo, String texto) {
@@ -35,5 +44,6 @@ public class Notificador {
     public void setNumeroGeneral(String numeroGeneral) {
         this.numeroGeneral = numeroGeneral;
     }
+
 
 }
