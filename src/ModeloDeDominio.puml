@@ -23,7 +23,8 @@ package "miembro" #DDDDDD {
     class AgenteSectorial extends Persona {
     -sectorTerritorial: String
 
-    +Double huellaDeCarbonoPorSector()
+    +Double huellaDeCarbonoPorSector(LocalDate, boolean)
+    -boolean perteneceASector(Area)
     }
 
     enum TipoDocumento {
@@ -38,8 +39,6 @@ package "organizacion" #DDDDDD {
     class Contacto {
     -mail: String
     -numeroTelefono: String
-    -nombre: String
-    -notificador: MedioDeNotificacion
     }
 
     class Organizacion {
@@ -52,10 +51,10 @@ package "organizacion" #DDDDDD {
     -calculadora: CalculadoraHCActividad
 
     +void agregarArea(Area)
-    +Double calcularHuellaCarbonoTotal(Double)
+    +Double calcularHuellaCarbonoTotalFecha(LocalDate, Double, boolean)
     +Double calcularHuellaCarbonoSectorial(Double, String)
-    +Double impactoGeneradoPor(Miembro)
-    +Double indicadorDeHCPorArea(Area)
+    +boolean tieneArea(Area)
+    +void agregarContacto(String, String)
     }
 
     class Area {
@@ -68,8 +67,9 @@ package "organizacion" #DDDDDD {
     +void registrarMiembro(Miembro)
     +void aceptarVinculacion(Trayecto)
     +void agregarVinculacion(Trayecto)
-    +Double calcularHuellaCarbonoTotalArea()
-    +Double getTrayectosDelMiembro(Miembro)
+    +Double calcularHuellaCarbonoTotalArea(LocalDate, boolean)
+    +List<Trayecto> getTrayectosDelMiembro(Miembro)
+    +Double calcularHuellaCarbonoPromedioMiembro(LocalDate, boolean)
     }
 
     enum Clasificacion {
@@ -90,17 +90,29 @@ package "organizacion" #DDDDDD {
 
 package "notificadores" #DDDDDD {
 
-    abstract MedioDeNotificacion {
+    class Notificador {
+    -mailGeneral: String
+    -numeroGeneral: String
+    -password: String
+    -emailSender: EmailSender
+    -whatsappSender: WhatsappSender
 
-    +void notificar(Contacto)
+    +void execute(JobExecutionContext)
+    +void enviarNotificacionesPorTodosLosMedios(String, String)
     }
 
-    class Mailer extends MedioDeNotificacion {
+    class EmailSender {
+    -prop: Properties
+    -session: Session
+    -username: String
+    -password: String
 
+    +void send(String, String, String, String)
     }
 
-    class Whatsapperia extends MedioDeNotificacion {
+    class WhatsappSender {
 
+    +void send(String, String, String, String)
     }
 }
 
@@ -109,6 +121,10 @@ package "repositorios" #DDDDDD {
     class RepoOrganizaciones {
     -organizaciones: [Organizacion]
     -instance: RepoOrganizaciones
+
+    +Organizacion encontrarOrganizacion(Area)
+    +List<Contacto> listadoContactosOrganizaciones()
+    +List<Area> listadoAreasOrganizaciones()
 
     }
 
@@ -148,9 +164,9 @@ package "huellaDeCarbono" #DDDDDD {
     -factorEmisionLogProdRes: Double
 
     +Double calcularHuellaCarbonoLogProdRes(List<DatosDeLaActividad>, Double)
-    +Double calcularHuellaCarbonoCombElec()
-    +Double calcularHCActividad(List<DatosDeLaActividad>, Double)
-
+    +Double calcularHuellaCarbonoCombElec(DatosDeLaActividad)
+    +Double calcularHCActividad(List<DatosDeLaActividad>, LocalDate, boolean, Double)
+    -Double obtenerFE(String)
     }
 
     package "espacio" {
@@ -253,8 +269,10 @@ package "huellaDeCarbono" #DDDDDD {
         -tramos: [Tramo]
         -fechaInicio: LocalDate
 
-        +Double calcularDistanciaTotal()
         +Double calcularHuellaCarbonoTotalTrayecto()
+        +boolean perteneceMiembro(Miembro)
+        +boolean perteneceMes(LocalDate)
+        +boolean perteneceAnio(LocalDate)
         }
 
         class Tramo {
@@ -268,6 +286,7 @@ package "huellaDeCarbono" #DDDDDD {
         +void agregarMiembro(Miembro, Double)
         +Double calcularHuellaCarbonoTramo()
         +boolean tieneMiembro(Miembro)
+        +Double getPeriodicidad()
         }
 
         class ServicioApiDistancia {
@@ -313,7 +332,19 @@ package "roles" #DDDDDD {
     class Administrador extends Usuario {
     -calculadoraHCActividad: CalculadoraHCActividad
 
-    +void setFactorEmision(Double factorEmision)
+      +void setFactorEmisionFuel(Double)
+      +void setFactorEmisionDiesel(Double)
+      +void setFactorEmisionGas(Double)
+      +void setFactorEmisionNafta(Double)
+      +void setFactorEmisionLogProdRes(Double)
+      +void setFactorEmisionCarbon(Double)
+      +void setFactorEmisionCarbonLenia(Double)
+      +void setFactorEmisionElectricidad(Double)
+      +void setFactorEmisionKerosene(Double)
+      +void setFactorEmisionLenia(Double)
+      +void setFactorEmisionCombConsumidoGasoil(Double)
+      +void setFactorEmisionCombConsumidoGNC(Double)
+      +void setFactorEmisionCombConsumidoNafta(Double)
     }
 }
 
@@ -370,7 +401,9 @@ Persona --> TipoDocumento
 
 Administrador --> CalculadoraHCActividad
 
-Contacto --> MedioDeNotificacion
+Notificador --> WhatsappSender
+Notificador --> EmailSender
+Notificador ..> RepoOrganizaciones
 
 AgenteSectorial ..> RepoOrganizaciones
 
