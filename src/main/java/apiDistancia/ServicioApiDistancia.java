@@ -78,9 +78,10 @@ public class ServicioApiDistancia {
     }
   }
 
-  public List<Municipio> listadoMunicipios(int offset, String idProvincia) throws NoSeEncuentraEnLaApi  {
+  //offset siempre tiene que arrancar en 1 porque lo itera adentro
+  public List<Municipio> listadoMunicipios(String idProvincia) throws NoSeEncuentraEnLaApi  {
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
-    int indice = offset;
+    int indice = 1 ;
     Response<List<Municipio>> responseMunicipios;
     List<Municipio> listaCompleta = new ArrayList<>();
 
@@ -154,7 +155,7 @@ public class ServicioApiDistancia {
 
   }
 
-  private String obtenerIdPais() {
+    public String obtenerIdPais() {
     //esto medio que esta hardcodeado pero sabemos como funciona entonces meh
     return this.listadoDePais(1).get(0).getId();
   }
@@ -175,7 +176,7 @@ public class ServicioApiDistancia {
       String idProvincia = provinciaObtenida.get().getId();
       System.out.print("Id de provincia: " + idProvincia);
 
-      List<Municipio> listadoMunicipios = this.listadoMunicipios(1, idProvincia);
+      List<Municipio> listadoMunicipios = this.listadoMunicipios(idProvincia);
       Optional<Municipio> municipioObtenido = listadoMunicipios.stream().filter(unMunicipio -> municipio.equals(unMunicipio.getNombre())).findFirst();
 
       if (!municipioObtenido.isPresent()) {

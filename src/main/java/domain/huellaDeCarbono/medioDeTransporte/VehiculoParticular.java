@@ -4,7 +4,8 @@ public class VehiculoParticular extends MedioDeTransporte {
   private TipoVehiculo tipoVehiculo;
   private TipoCombustible tipoCombustible;
 
-  public VehiculoParticular(TipoVehiculo tipoVehiculo, TipoCombustible tipoCombustible) {
+  public VehiculoParticular(double factorEmision, TipoVehiculo tipoVehiculo, TipoCombustible tipoCombustible) {
+    super(factorEmision);
     this.tipoVehiculo = tipoVehiculo;
     this.tipoCombustible = tipoCombustible;
   }

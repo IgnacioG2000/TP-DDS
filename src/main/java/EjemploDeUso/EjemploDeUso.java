@@ -19,7 +19,7 @@ public class EjemploDeUso {
   String idMunicipio = new String();
   List<Pais> listadoPaises = servicioApiDistancia.listadoDePais(1);
 
-    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios(1, "168");
+    List<Municipio> listadoMunicipios = servicioApiDistancia.listadoMunicipios( "168");
 
     if(listadoMunicipios.size() == 0) {
       System.out.print("Estoy retornando algo nulo");
@@ -31,8 +31,9 @@ public class EjemploDeUso {
 
    // FORMA 2 Descomentar dsp de testear
 
-    Espacio espacioOrigen = new Parada(1.0, 1.0, "RIVERA", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
-    Espacio espacioDestino = new Parada(1.0, 1.0, "CARHUE", "ADOLFO ALSINA", "unaCalle", "BUENOS AIRES", "Alturacalle", 1992, "unbarrio" );
+    Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio" );
+    Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio" );
+
 
     Double dist = servicioApiDistancia.obtenerDistancia(espacioOrigen, espacioDestino);
 

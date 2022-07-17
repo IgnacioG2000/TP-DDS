@@ -18,4 +18,11 @@ public class ArchivoConfig {
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
     return propiedades.getProperty("tokenAutorizacionAPI");
   }
+
+  static public String obtenerValorK() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return propiedades.getProperty("K");
+
+  }
 }

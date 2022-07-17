@@ -4,7 +4,8 @@ public class TransportePublico extends MedioDeTransporte{
   private TipoTransportePublico tipo;
   private String nombre;
 
-  public TransportePublico(TipoTransportePublico tipo, String nombre) {
+  public TransportePublico(double factor,TipoTransportePublico tipo, String nombre) {
+    super(factor);
     this.tipo = tipo;
     this.nombre = nombre;
   }

@@ -3,7 +3,8 @@ package domain.huellaDeCarbono.medioDeTransporte;
 public class TransporteNoMotorizado extends MedioDeTransporte {
   private TipoNoMotorizado tipoNoMotorizado;
 
-  public TransporteNoMotorizado(TipoNoMotorizado tipoNoMotorizado) {
+  public TransporteNoMotorizado(double factor, TipoNoMotorizado tipoNoMotorizado) {
+    super(factor);
     this.tipoNoMotorizado = tipoNoMotorizado;
   }
 

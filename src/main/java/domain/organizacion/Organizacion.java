@@ -1,6 +1,6 @@
 package domain.organizacion;
 
-import domain.huellaDeCarbono.CalculadoraHCActividad;
+import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import excel_ETL.Transformador;
 
 import java.time.LocalDate;

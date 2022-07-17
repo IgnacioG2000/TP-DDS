@@ -1,6 +1,6 @@
 package seguridad.roles;
 
-import domain.huellaDeCarbono.CalculadoraHCActividad;
+import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 
 import java.security.NoSuchAlgorithmException;
 
