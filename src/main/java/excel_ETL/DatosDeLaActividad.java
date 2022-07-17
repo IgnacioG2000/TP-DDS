@@ -1,6 +1,7 @@
 package excel_ETL;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class DatosDeLaActividad {
   private String actividad;
@@ -44,12 +45,19 @@ public class DatosDeLaActividad {
   }
 
   public boolean perteneceAnio(LocalDate fechaAnual) {
-    int fechaCompleta = Integer.parseInt(periodoDeImputacion);
-    int fechaAnio = fechaCompleta % 10000;
+    String[] fechas = periodoDeImputacion.split("/");
+    int fechaAnio;
+    if(fechas.length > 1){
+      fechaAnio = Integer.parseInt(fechas[1]);
+    }else{
+      fechaAnio = Integer.parseInt(fechas[0]);
+    }
     return fechaAnio == fechaAnual.getYear();
   }
 
+  //TODO:arreglar
   public boolean perteneceMes(LocalDate fechaMensual) {
+    String[] fechas = periodoDeImputacion.split("/");
     int fechaCompleta = Integer.parseInt(periodoDeImputacion);
     int fechaAnio = fechaCompleta % 10000;
     int fechaMes = fechaCompleta / 10000;
