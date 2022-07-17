@@ -50,9 +50,9 @@ public class Miembro  {
     return hcMiembro;
   }
 
-  public Double impactoMiembroEnOrganizacion(Double constanteDA, LocalDate fecha, boolean esMensual){
+  public Double impactoMiembroEnOrganizacion( LocalDate fecha, boolean esMensual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, constanteDA, esMensual);
+    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, esMensual);
     return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
   }
 }

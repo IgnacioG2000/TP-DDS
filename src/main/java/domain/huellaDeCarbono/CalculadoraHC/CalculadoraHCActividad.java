@@ -14,7 +14,6 @@ public class CalculadoraHCActividad {
   List<TipoActividad> tiposActividad = new ArrayList<>();
 
   public CalculadoraHCActividad() {
-    List<TipoActividad> listaActividad = new ArrayList<>();
     TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3");
     TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt");
     TipoActividad kerosene = new TipoActividad("kerosene", "lt");
@@ -27,7 +26,7 @@ public class CalculadoraHCActividad {
     TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt");
     TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt");
     TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh");
-    TipoActividad LogísticaDeproductosYresiduos= new TipoActividad("Distancia Media Recorrida", "km");
+    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km");
     TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg");
 
     tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta, carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta, electricidad, distMediaRecorrida, pesoTotalTransportado));
@@ -42,15 +41,22 @@ public class CalculadoraHCActividad {
 
       ArchivoConfig arch = new ArchivoConfig();
       Double K = Double.parseDouble(arch.obtenerValorK());
+      Double factorEmision;
 
       //TODO: Charlar con el grupo porque hay que pensarlo
-      List<Double> valores = datos
-        .stream()
-        .map(unDato->unDato.getConsumo().getValor())
-        .collect(Collectors.toList());
+      DatosDeLaActividad datoDistancia = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Distancia Media Recorrida" )).collect(Collectors.toList()).get(0);
+      DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Peso Total Transportado" )).collect(Collectors.toList()).get(0);
+      DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de transporte: \\."))).collect(Collectors.toList()).get(0);
+
+      if (datoTransporte.getTipoDeConsumo() == "Medio de Transporte: Camion de carga")
+      {
+        factorEmision = Double.parseDouble(arch.obtenerFECamion());
+      } else {
+        factorEmision = Double.parseDouble(arch.obtenerFEUtilitario());
+      }
 
 
-    return valores.get(0) * valores.get(1) * K * this.factorEmisionLogProdRes;
+    return datoDistancia.getConsumo().getValor() * datoPeso.getConsumo().getValor() * K * factorEmision;
 
   }
 
@@ -81,7 +87,15 @@ public class CalculadoraHCActividad {
         .collect(Collectors.toList());
 
     Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
-    Double hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);
+    Double hcLogProdRes=0.0;
+
+    if(logProdRes.size() >= 4){
+      try{
+        return hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);
+      }catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 
     return hcCombElec + hcLogProdRes;
   }

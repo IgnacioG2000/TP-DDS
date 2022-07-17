@@ -25,4 +25,19 @@ public class ArchivoConfig {
     return propiedades.getProperty("K");
 
   }
+
+  static public String obtenerFECamion() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return propiedades.getProperty("FECamion");
+
+  }
+
+  static public String obtenerFEUtilitario() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return propiedades.getProperty("FEUtilitario");
+
+  }
+
 }

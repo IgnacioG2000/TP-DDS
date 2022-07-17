@@ -63,9 +63,9 @@ public class Organizacion {
     sectores.add(area);
   }
 
-  public Double calcularHuellaCarbonoTotalFecha(LocalDate fecha, Double constante, boolean esMensual) {
+  public Double calcularHuellaCarbonoTotalFecha(LocalDate fecha, boolean esMensual) {
     Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual)).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha, esMensual, constante);
+    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha, esMensual);
     return hcActividad + hcAreas;
   }
 
