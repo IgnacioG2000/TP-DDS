@@ -326,8 +326,6 @@ package "roles" #DDDDDD {
     +miValidador : ValidadorDeMetricas
     }
 
-    class UsuarioComun extends Usuario {
-    }
 
     class Administrador extends Usuario {
     -calculadoraHCActividad: CalculadoraHCActividad
