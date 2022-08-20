@@ -29,12 +29,17 @@ public class CalculadoraHCActividad {
     TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km");
     TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg");
 
-    tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta, carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta, electricidad, distMediaRecorrida, pesoTotalTransportado));
+    tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
+        carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
+        electricidad, distMediaRecorrida, pesoTotalTransportado));
   }
 
   private TipoActividad obtenerTipoActividad(DatosDeLaActividad dato){
     //recorrer tiposActividad y devolver el que cumple
-    return tiposActividad.stream().filter(tipoActividad -> tipoActividad.getNombre() == dato.getTipoDeConsumo()).collect(Collectors.toList()).get(0);
+    return tiposActividad
+        .stream()
+        .filter(tipoActividad -> tipoActividad.getNombre() == dato.getTipoDeConsumo()).collect(Collectors.toList())
+        .get(0);
   }
 
   public Double calcularHuellaCarbonoLogProdRes(List<DatosDeLaActividad> datos)  throws IOException {
@@ -44,6 +49,7 @@ public class CalculadoraHCActividad {
       Double factorEmision;
 
       //TODO: Charlar con el grupo porque hay que pensarlo
+      //TODO: puede ser meterlo en un config todos los strings y no tenerlos hardcodeados (idea by Mati)
       DatosDeLaActividad datoDistancia = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Distancia Media Recorrida" )).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Peso Total Transportado" )).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de transporte: \\."))).collect(Collectors.toList()).get(0);
@@ -89,6 +95,7 @@ public class CalculadoraHCActividad {
     Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
     Double hcLogProdRes=0.0;
 
+    //TODO: por que mayor igual a 4?
     if(logProdRes.size() >= 4){
       try{
         hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);

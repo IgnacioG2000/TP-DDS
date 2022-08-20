@@ -3,6 +3,7 @@ package domain.organizacion;
 import domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
 import domain.huellaDeCarbono.trayecto.Tramo;
 import domain.huellaDeCarbono.trayecto.Trayecto;
+import domain.miembro.AgenteSectorial;
 import domain.miembro.Miembro;
 
 import java.io.IOException;
@@ -100,11 +101,14 @@ public class Area {
       return 0;
     }).sum();
 
+    //TODO: SACAR
+    /*
     if(esMensual){
       hcTramos = hcTramos * 20;//20 dias
     }else {
       hcTramos = hcTramos * 20 * 12;//20 dias 12 meses
     }
+     */
 
     return hcTramos;
   }
@@ -116,5 +120,10 @@ public class Area {
   public List<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
     List<Trayecto> trayectosMiembro = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMiembro(miembro)).collect(Collectors.toList());
     return trayectosMiembro;
+  }
+
+  public boolean perteneceAArea(AgenteSectorial agenteSectorial) {
+    return espacioDeTrabajo.getProvincia().equals(agenteSectorial.getSectorTerritorial())
+        || espacioDeTrabajo.getMunicipio().equals(agenteSectorial.getSectorTerritorial());
   }
 }

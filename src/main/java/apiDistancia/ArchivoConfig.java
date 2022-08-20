@@ -37,7 +37,12 @@ public class ArchivoConfig {
     Properties propiedades = new Properties();
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
     return propiedades.getProperty("FEUtilitario");
+  }
 
+  static public String obtenerCoeficienteHCMensual() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return propiedades.getProperty("CoeficienteHCMensual");
   }
 
 }

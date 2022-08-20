@@ -18,23 +18,20 @@ public class AgenteSectorial extends Persona {
     this.sectorTerritorial = sectorTerritorial;
   }
 
-
+  public String getSectorTerritorial() {
+    return sectorTerritorial;
+  }
 
   public Double calcularHuellaCarbonoPorSector(LocalDate fecha, boolean esMensual) {
     Double hcPorSector = RepoOrganizacion
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
-        .filter(this::perteneceASector)
+        .filter(area -> area.perteneceAArea(this))
         .collect(Collectors.toList())
         .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual))
         .sum();
 
     return hcPorSector;
-  }
-
-  private boolean perteneceASector(Area area) {
-    return area.getEspacioDeTrabajo().getProvincia().equals(sectorTerritorial)
-        || area.getEspacioDeTrabajo().getMunicipio().equals(sectorTerritorial);
   }
 }
