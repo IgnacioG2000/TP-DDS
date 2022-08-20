@@ -21,7 +21,7 @@ public class Organizacion {
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion, Transformador transformador,
-      CalculadoraHCActividad calculadoraHCActividad, List<Notificador> notificadoresPreferidos) {
+      CalculadoraHCActividad calculadoraHCActividad) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;

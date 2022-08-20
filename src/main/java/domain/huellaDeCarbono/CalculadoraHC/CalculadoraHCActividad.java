@@ -91,7 +91,7 @@ public class CalculadoraHCActividad {
 
     if(logProdRes.size() >= 4){
       try{
-        return hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);
+        hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);
       }catch (IOException e) {
         e.printStackTrace();
       }
