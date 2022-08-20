@@ -1,5 +1,8 @@
 package notificadores;
 
+import domain.organizacion.Contacto;
+
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -14,7 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 
-public class EmailSender {
+public class EmailSender extends Notificador {
     private static Properties prop = new Properties();
     private static Session session;
     private static String username;
@@ -65,5 +68,10 @@ public class EmailSender {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void notificar(List<Contacto> contactos) {
+        contactos.forEach(c -> this.send("hardcodear",c.getEmail(), "harcodear mas tarde", "cuerpito"));
     }
 }

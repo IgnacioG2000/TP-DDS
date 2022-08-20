@@ -1,12 +1,21 @@
 package notificadores;
 
-public class WhatsAppSender {
+import domain.organizacion.Contacto;
 
-    // Esta vacio porque no es necesario implementarlo por ahora.
+import java.util.List;
 
-    public WhatsAppSender() {
-    }
+public class WhatsAppSender extends Notificador{
 
-    public void send(String from, String to, String subject, String body) {
-    }
+  // Esta vacio porque no es necesario implementarlo por ahora.
+
+  public WhatsAppSender() {
+  }
+
+  public void send(String from, String to, String subject, String body) {
+  }
+
+  @Override
+  public void notificar(List<Contacto> contactos) {
+    contactos.forEach(c -> this.send("hardocear",c.getNumeroTelefono(), null, "harcodeo"));
+  }
 }

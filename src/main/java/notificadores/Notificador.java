@@ -1,12 +1,15 @@
 package notificadores;
 
 
+import domain.organizacion.Contacto;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import repositorios.RepoOrganizacion;
 
-public class Notificador implements Job {
+import java.util.List;
+
+public abstract class Notificador implements Job {
 
     private String mailGeneral = "hola";
     private String numeroGeneral;
@@ -46,4 +49,5 @@ public class Notificador implements Job {
     }
 
 
+    public abstract void notificar(List<Contacto> contactos);
 }
