@@ -51,6 +51,10 @@ public class Trayecto {
 
   //TODO : Como se que trayecto tomar si tiene fecha de inicio (Un mes particular) pero yo estoy en otro mes
   //TODO : La fecha de fin se agrega o no? (Relacionado a lo anterior)
+
+
+  //TODO: El HC va a ser calculado aca, el area cuando calcule por sus trayectos, aca se va a calcular el HC del trayecto semanal con el peso por persona asociado
+  // Calcula por semana
   public Double calcularHuellaCarbonoTotalTrayecto() {
     Double hcTrayecto = tramos.stream().mapToDouble(unTramo -> {
       try {
