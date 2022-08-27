@@ -12,6 +12,6 @@ public class WhatsAppSender extends Notificador {
   }
 
   @Override
-  public void comunicar(Notificacion notificacion) {
+  public void comunicar(Notificacion notificacion, List<Contacto> contactos) {
   }
 }

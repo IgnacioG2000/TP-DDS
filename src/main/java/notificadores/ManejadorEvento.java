@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class ManejadorEvento {
   private List<Notificador> notificadores;
+  private Organizacion organizacion;
 
   public ManejadorEvento() {
     this.notificadores = new ArrayList<>();
@@ -24,7 +25,7 @@ public class ManejadorEvento {
 
 
   public void notificar(Notificacion notificacion) {
-    notificadores.forEach(n -> n.comunicar(notificacion));
+    notificadores.forEach(n -> n.comunicar(notificacion, organizacion.getContactos()));
 
   }
 
