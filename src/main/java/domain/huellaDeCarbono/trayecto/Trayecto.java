@@ -71,8 +71,14 @@ public class Trayecto {
     return this.calcularHuellaCarbonoTotalTrayecto() * this.peso();
   }
 
-  public Double calcularHCTrayectoMensual() throws IOException {
-    double coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
+  public Double calcularHCTrayectoMensual() {
+    double coeficiente = 0.0;
+    try{
+      coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+
     return this.calcularHCTrayectoSemanal() * coeficiente;
   }
 
@@ -80,12 +86,12 @@ public class Trayecto {
     return tramos.stream().allMatch(tramo -> tramo.tieneMiembro(miembro));
   }
 
-  public boolean perteneceMes(LocalDate fecha) {
-    return this.perteneceAnio(fecha) && fechaInicio.getMonth() == fecha.getMonth();
+  public boolean perteneceMes(int anio, int mes) {
+    return this.perteneceAnio(anio) && fechaInicio.getMonthValue() == mes;
   }
 
-  public boolean perteneceAnio(LocalDate fecha){
-    return fechaInicio.getYear() == fecha.getYear();
+  public boolean perteneceAnio(int anio){
+    return fechaInicio.getYear() == anio;
   }
 
 /*

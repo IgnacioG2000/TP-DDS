@@ -38,6 +38,7 @@ public class Miembro {
     area.agregarVinculacion(trayecto);
   }
 
+  //TODO refactor tratamiento con ManejadorTrayectos y no con Trayectos directamente
   public Double calcularHuellaCarbonoMiembro(LocalDate fecha, boolean esMensual){
     List<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
     List<Trayecto> listaTrayectosFechaMiembro;

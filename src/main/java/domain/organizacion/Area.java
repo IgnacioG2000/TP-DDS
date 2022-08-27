@@ -1,6 +1,7 @@
 package domain.organizacion;
 
 import domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
+import domain.huellaDeCarbono.trayecto.ManejadorTrayectos;
 import domain.huellaDeCarbono.trayecto.Tramo;
 import domain.huellaDeCarbono.trayecto.Trayecto;
 import domain.miembro.AgenteSectorial;
@@ -79,42 +80,24 @@ public class Area {
     trayectosRegistados.add(trayecto);
   }
 
-  public Double calcularHuellaCarbonoTotalArea(LocalDate fecha, boolean esMensual) {
-    Collection<Trayecto> trayectosDeFecha;
-    if(esMensual){
-      trayectosDeFecha = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMes(fecha)).collect(Collectors.toList());
-    }else{
-      trayectosDeFecha = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceAnio(fecha)).collect(Collectors.toList());
-    }
-
-    Set<Tramo> tramos = trayectosDeFecha
-        .stream().map(Trayecto::getTramos)
-        .flatMap(Collection::stream)
-        .collect(Collectors.toSet());
-
-    Double hcTramos = tramos.stream().mapToDouble(unTramo -> {
-      try {
-        return unTramo.calcularHuellaCarbonoTramo();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      return 0;
-    }).sum();
-
-    //TODO: SACAR
-    /*
-    if(esMensual){
-      hcTramos = hcTramos * 20;//20 dias
-    }else {
-      hcTramos = hcTramos * 20 * 12;//20 dias 12 meses
-    }
-     */
-
-    return hcTramos;
+  public Double calcularHuellaCarbonoTotalAreaAnual(int anio){
+    Double hcAnual = ManejadorTrayectos.getInstance().calcularHCAnual(trayectosRegistados, anio);
+    return hcAnual;
   }
 
-  public Double calcularHuellaCarbonoPromedioMiembro(LocalDate fecha, boolean esMensual){
-    return this.calcularHuellaCarbonoTotalArea(fecha, esMensual) / miembros.size();
+  public Double calcularHuellaCarbonoTotalAreaMensual(int anio, int mes) {
+    Double hcMensual = ManejadorTrayectos.getInstance().calcularHCMensual(trayectosRegistados, anio, mes);
+
+    return hcMensual;
+  }
+
+  //TODO: preguntar si el promedio de HC por miembro es anual o mensual
+  public Double calcularHuellaCarbonoPromedioMiembroMensual(int anio, int mes){
+    return this.calcularHuellaCarbonoTotalAreaMensual(anio, mes) / miembros.size();
+  }
+
+  public Double calcularHuellaCarbonoPromedioMiembroAnual(int anio){
+    return this.calcularHuellaCarbonoTotalAreaAnual(anio) / miembros.size();
   }
 
   public List<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
