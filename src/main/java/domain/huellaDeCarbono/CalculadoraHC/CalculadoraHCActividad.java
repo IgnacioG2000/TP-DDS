@@ -53,6 +53,7 @@ public class CalculadoraHCActividad {
       DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Peso Total Transportado" )).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de transporte: \\."))).collect(Collectors.toList()).get(0);
 
+      //aca usamos el arch para conseguir los FE: NO tenemos INSTANCIA de camiones o lugar donde guardarlo PARA INSTANCIARLO
       if (datoTransporte.getTipoDeConsumo() == "Medio de Transporte: Camion de carga")
       {
         factorEmision = Double.parseDouble(arch.obtenerFECamion());
@@ -102,4 +103,77 @@ public class CalculadoraHCActividad {
     return hcCombElec + hcLogProdRes;
   }
 
+  public Double calcularHCActividadMensual(Collection<DatosDeLaActividad> datos, int anio, int mes) {
+
+    //Estas son las actividades mensuales que se calculan de forma total
+    Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
+
+    //Estas son las actividades anuales, las cuales se calculan y luego dividen por la cantidad de meses del año
+    Collection<DatosDeLaActividad> datosActividadSoloAnio= datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
+
+
+
+
+    //Separacion por Actividad en periodo Mensual
+    Collection<DatosDeLaActividad> combElec = datosActividad
+        .stream()
+        .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
+        .collect(Collectors.toList());
+
+    Collection<DatosDeLaActividad> logProdRes = datosActividad
+        .stream()
+        .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
+        .collect(Collectors.toList());
+
+    //Separacion por Actividad en periodo Anual
+    Collection<DatosDeLaActividad> combElecAnio = datosActividadSoloAnio
+        .stream()
+        .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
+        .collect(Collectors.toList());
+
+    Collection<DatosDeLaActividad> logProdResAnio = datosActividadSoloAnio
+        .stream()
+        .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
+        .collect(Collectors.toList());
+
+
+
+
+    //Calculo HC de las actividades del Mes
+    Double hcMes;
+    Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
+    Double hcLogProdRes=0.0;
+
+    //TODO: por que mayor igual a 4? Rta: porque en el excel hay 4 elementos en la lista, no se si son necesarios los 4 para operar pero lo pusimos asi
+    if(logProdRes.size() >= 4){
+      try{
+        hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);
+      }catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+    hcMes = hcCombElec + hcLogProdRes;
+
+
+
+    //Calculo HC de las actividades del Anio, posteriormente dividido por 12
+    Double hcAnio;
+    Double hcCombElecAnio = combElecAnio.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
+    Double hcLogProdResAnio=0.0;
+
+    //TODO: por que mayor igual a 4? Rta: porque en el excel hay 4 elementos en la lista, no se si son necesarios los 4 para operar pero lo pusimos asi
+    if(logProdRes.size() >= 4){
+      try{
+        hcLogProdResAnio = this.calcularHuellaCarbonoLogProdRes(logProdResAnio);
+      }catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+    hcAnio = hcCombElecAnio + hcLogProdResAnio;
+
+    return hcMes + hcAnio/12;
+
+  }
 }

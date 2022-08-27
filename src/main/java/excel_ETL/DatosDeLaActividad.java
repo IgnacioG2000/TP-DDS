@@ -55,12 +55,31 @@ public class DatosDeLaActividad {
     return fechaAnio == anio;
   }
 
-  //TODO:arreglar
-  public boolean perteneceMes(LocalDate fechaMensual) {
+  public boolean perteneceMesAnio(int anio, int mes) {
     String[] fechas = periodoDeImputacion.split("/");
-    int fechaCompleta = Integer.parseInt(periodoDeImputacion);
-    int fechaAnio = fechaCompleta % 10000;
-    int fechaMes = fechaCompleta / 10000;
-    return fechaAnio == fechaMensual.getYear() && fechaMes == fechaMensual.getMonthValue();
+    boolean rta;
+    int fechaAnio;
+    int fechaMes;
+    if(fechas.length > 1){
+      fechaAnio = Integer.parseInt(fechas[1]);
+      fechaMes = Integer.parseInt(fechas[0]);
+      rta = fechaAnio == anio && fechaMes == mes;
+    }else{
+      rta = false;
+    }
+    return rta;
+  }
+
+  public boolean perteneceSoloAnio(int anio) {
+    String[] fechas = periodoDeImputacion.split("/");
+    boolean rta;
+    int fechaAnio;
+    if(fechas.length == 1){
+      fechaAnio = Integer.parseInt(fechas[0]);
+      rta = fechaAnio == anio;
+    }else{
+      rta = false;
+    }
+    return rta;
   }
 }

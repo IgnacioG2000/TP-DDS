@@ -73,7 +73,13 @@ public class Organizacion {
   //TODO: consultar si es necesario Anual Y Mensual
   public Double calcularHuellaCarbonoTotalAnio(int anio) {
     Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha, esMensual);
+    Double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(transformador.getDatosDeLaActividad(), anio);
+    return hcActividad + hcAreas;
+  }
+
+  public Double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
+    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
+    Double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(transformador.getDatosDeLaActividad(), anio, mes);
     return hcActividad + hcAreas;
   }
 
