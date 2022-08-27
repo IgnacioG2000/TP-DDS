@@ -3,28 +3,30 @@ package notificadores;
 import domain.organizacion.Contacto;
 import domain.organizacion.Organizacion;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ManejadorEvento {
   private List<Notificador> notificadores;
-  private List<Organizacion> notificados;
 
-  public ManejadorEvento(List<Notificador> notificadores, List<Organizacion> notificados) {
-    this.notificadores = notificadores;
-    this.notificados = notificados;
+  public ManejadorEvento() {
+    this.notificadores = new ArrayList<>();
   }
 
-  public void suscribirse(Notificador notificado){
-    notificadores.add(notificado);
+  public void suscribirse(Notificador notificador){
+    notificadores.add(notificador);
   }
 
-  public void desuscribirse(Notificador notificado){
-    notificadores.remove(notificado);
+  public void desuscribirse(Notificador notificador){
+    notificadores.remove(notificador);
   }
 
-  public void notificar() {
-    notificados.forEach(n -> n.getNotificadoresPreferidos().forEach(np -> np.notificar(n.getContactos())));
+
+  public void notificar(Notificacion notificacion) {
+    notificadores.forEach(n -> n.comunicar(notificacion));
 
   }
+
+
 }

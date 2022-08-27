@@ -52,7 +52,8 @@ public class Miembro {
 
   public Double impactoMiembroEnOrganizacion( LocalDate fecha, boolean esMensual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, esMensual);
-    return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
+    return 0.0;
+    //Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, esMensual);
+    //return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
   }
 }

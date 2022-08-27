@@ -6,12 +6,6 @@ import org.quartz.*;
 
 public class SchedulerNotification {
 
-  public static void main(String[] args) throws Exception {
-    SchedulerNotification schedulerNotificador = new SchedulerNotification();
-    schedulerNotificador.comenzar();
-  }
-
-
   public void comenzar() throws SchedulerException {
 
     // Creacion del scheduler

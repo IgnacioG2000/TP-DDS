@@ -2,6 +2,8 @@ package domain.organizacion;
 
 import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import excel_ETL.Transformador;
+import notificadores.ManejadorEvento;
+import notificadores.Notificacion;
 import notificadores.Notificador;
 
 import java.time.LocalDate;
@@ -17,18 +19,24 @@ public class Organizacion {
   private Clasificacion clasificacion;
   private Transformador transformador;
   private CalculadoraHCActividad calculadoraHCActividad;
-  private List<Notificador> notificadoresPreferidos;
+  private ManejadorEvento manejadorEvento;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion, Transformador transformador,
-      CalculadoraHCActividad calculadoraHCActividad) {
+      CalculadoraHCActividad calculadoraHCActividad, ManejadorEvento manejadorEvento) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
     this.transformador = transformador;
     this.calculadoraHCActividad = calculadoraHCActividad;
-    this.notificadoresPreferidos = new ArrayList<>();
+    this.manejadorEvento = manejadorEvento;
+    this.contactos = new ArrayList<>();
+  }
+
+  public Organizacion(ManejadorEvento manejadorEvento) {
+    this.manejadorEvento = manejadorEvento;
+    this.contactos = new ArrayList<>();
   }
 
   public String getRazonSocial() {
@@ -67,10 +75,6 @@ public class Organizacion {
     sectores.add(area);
   }
 
-  public void agregarNotificador(Notificador notificador) {
-    this.notificadoresPreferidos.add(notificador);
-  }
-
   public Double calcularHuellaCarbonoTotalFecha(LocalDate fecha, boolean esMensual) {
     Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual)).sum();
     Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha,
@@ -90,7 +94,9 @@ public class Organizacion {
     return contactos;
   }
 
-  public List<Notificador> getNotificadoresPreferidos() {
-    return notificadoresPreferidos;
+  public void enviarRecomendacion() {
+    Notificacion noti = new Notificacion("Recomendaciones",
+        "Link a las recomendaciones: zaraza");
+    this.manejadorEvento.notificar(noti);
   }
 }
