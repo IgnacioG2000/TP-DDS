@@ -11,12 +11,12 @@ import java.util.Iterator;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Collection;
 
 
 public class Transformador {
 
-  private List<DatosDeLaActividad> datosDeLaActividad;
+  private Collection<DatosDeLaActividad> datosDeLaActividad;
 
   public void cargarDatos(String pathParcial)
   {
@@ -79,7 +79,7 @@ public class Transformador {
 
   }
 
-  public List<DatosDeLaActividad> getDatosDeLaActividad() {
+  public Collection<DatosDeLaActividad> getDatosDeLaActividad() {
     return datosDeLaActividad;
   }
 }

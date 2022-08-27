@@ -100,8 +100,8 @@ public class Area {
     return this.calcularHuellaCarbonoTotalAreaAnual(anio) / miembros.size();
   }
 
-  public List<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
-    List<Trayecto> trayectosMiembro = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMiembro(miembro)).collect(Collectors.toList());
+  public Collection<Trayecto> getTrayectosDelMiembro(Miembro miembro) {
+    Collection<Trayecto> trayectosMiembro = trayectosRegistados.stream().filter(trayecto -> trayecto.perteneceMiembro(miembro)).collect(Collectors.toList());
     return trayectosMiembro;
   }
 

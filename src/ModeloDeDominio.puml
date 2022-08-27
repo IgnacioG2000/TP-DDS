@@ -68,7 +68,7 @@ package "organizacion" #DDDDDD {
     +void aceptarVinculacion(Trayecto)
     +void agregarVinculacion(Trayecto)
     +Double calcularHuellaCarbonoTotalArea(LocalDate, boolean)
-    +List<Trayecto> getTrayectosDelMiembro(Miembro)
+    +Collection<Trayecto> getTrayectosDelMiembro(Miembro)
     +Double calcularHuellaCarbonoPromedioMiembro(LocalDate, boolean)
     }
 
@@ -123,8 +123,8 @@ package "repositorios" #DDDDDD {
     -instance: RepoOrganizaciones
 
     +Organizacion encontrarOrganizacion(Area)
-    +List<Contacto> listadoContactosOrganizaciones()
-    +List<Area> listadoAreasOrganizaciones()
+    +Collection<Contacto> listadoContactosOrganizaciones()
+    +Collection<Area> listadoAreasOrganizaciones()
 
     }
 
@@ -163,9 +163,9 @@ package "huellaDeCarbono" #DDDDDD {
     -factorEmisionElectricidad: Double
     -factorEmisionLogProdRes: Double
 
-    +Double calcularHuellaCarbonoLogProdRes(List<DatosDeLaActividad>, Double)
+    +Double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad>, Double)
     +Double calcularHuellaCarbonoCombElec(DatosDeLaActividad)
-    +Double calcularHCActividad(List<DatosDeLaActividad>, LocalDate, boolean, Double)
+    +Double calcularHCActividad(Collection<DatosDeLaActividad>, LocalDate, boolean, Double)
     -Double obtenerFE(String)
     }
 

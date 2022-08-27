@@ -4,20 +4,19 @@ import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import excel_ETL.Transformador;
 import notificadores.Notificador;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
 
 public class Organizacion {
   private String razonSocial;
   private TipoDeOrganizacion tipoDeOrganizacion;
   private Collection<Area> sectores;
-  private List<Contacto> contactos;
+  private Collection<Contacto> contactos;
   private Clasificacion clasificacion;
   private Transformador transformador;
   private CalculadoraHCActividad calculadoraHCActividad;
-  private List<Notificador> notificadoresPreferidos;
+  private Collection<Notificador> notificadoresPreferidos;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion, Transformador transformador,
@@ -71,10 +70,10 @@ public class Organizacion {
     this.notificadoresPreferidos.add(notificador);
   }
 
-  public Double calcularHuellaCarbonoTotalFecha(LocalDate fecha, boolean esMensual) {
-    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual)).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha,
-        esMensual);
+  //TODO: consultar si es necesario Anual Y Mensual
+  public Double calcularHuellaCarbonoTotalAnio(int anio) {
+    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
+    Double hcActividad = calculadoraHCActividad.calcularHCActividad(transformador.getDatosDeLaActividad(), fecha, esMensual);
     return hcActividad + hcAreas;
   }
 
@@ -86,11 +85,11 @@ public class Organizacion {
     contactos.add(new Contacto(mail, num));
   }
 
-  public List<Contacto> getContactos() {
+  public Collection<Contacto> getContactos() {
     return contactos;
   }
 
-  public List<Notificador> getNotificadoresPreferidos() {
+  public Collection<Notificador> getNotificadoresPreferidos() {
     return notificadoresPreferidos;
   }
 }

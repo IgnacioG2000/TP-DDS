@@ -44,7 +44,7 @@ public class DatosDeLaActividad {
     this.periodoDeImputacion = periodoDeImputacion;
   }
 
-  public boolean perteneceAnio(LocalDate fechaAnual) {
+  public boolean perteneceAnio(int anio) {
     String[] fechas = periodoDeImputacion.split("/");
     int fechaAnio;
     if(fechas.length > 1){
@@ -52,7 +52,7 @@ public class DatosDeLaActividad {
     }else{
       fechaAnio = Integer.parseInt(fechas[0]);
     }
-    return fechaAnio == fechaAnual.getYear();
+    return fechaAnio == anio;
   }
 
   //TODO:arreglar

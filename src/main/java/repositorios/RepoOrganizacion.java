@@ -26,14 +26,14 @@ public class RepoOrganizacion {
     return organizaciones.stream().filter(organizacion->organizacion.tieneArea(area)).findFirst().get();
   }
 
-  public List<Contacto> listadoContactosOrganizaciones(){
-    List<Contacto> lista = new ArrayList<>();
+  public Collection<Contacto> listadoContactosOrganizaciones(){
+    Collection<Contacto> lista = new ArrayList<>();
     organizaciones.forEach(o -> lista.addAll(o.getContactos()));
     return lista;
   }
 
-  public List<Area> listadoAreasOrganizaciones(){
-    List<Area> lista = new ArrayList<>();
+  public Collection<Area> listadoAreasOrganizaciones(){
+    Collection<Area> lista = new ArrayList<>();
     organizaciones.forEach(o -> lista.addAll(o.getSectores()));
     return lista;
   }

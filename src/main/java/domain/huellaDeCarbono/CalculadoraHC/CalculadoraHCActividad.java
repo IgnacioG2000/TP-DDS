@@ -4,14 +4,13 @@ import apiDistancia.ArchivoConfig;
 import excel_ETL.DatosDeLaActividad;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class CalculadoraHCActividad {
-  List<TipoActividad> tiposActividad = new ArrayList<>();
+  Collection<TipoActividad> tiposActividad = new ArrayList<>();
 
   public CalculadoraHCActividad() {
     TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3");
@@ -42,7 +41,7 @@ public class CalculadoraHCActividad {
         .get(0);
   }
 
-  public Double calcularHuellaCarbonoLogProdRes(List<DatosDeLaActividad> datos)  throws IOException {
+  public Double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad> datos)  throws IOException {
 
       ArchivoConfig arch = new ArchivoConfig();
       Double K = Double.parseDouble(arch.obtenerValorK());
@@ -73,29 +72,25 @@ public class CalculadoraHCActividad {
     return distanciaDato * fe;
   }
 
+  //TODO consultar si es necesario Anual y Mensual
+  public Double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {
+    Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(anio)).collect(Collectors.toList());
 
-  public Double calcularHCActividad(List<DatosDeLaActividad> datos, LocalDate fecha, boolean esMensual) {
-    List<DatosDeLaActividad> datosActividad;
-    if(esMensual){
-      datosActividad= datos.stream().filter(dato -> dato.perteneceMes(fecha)).collect(Collectors.toList());
-    }else{
-      datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(fecha)).collect(Collectors.toList());
-    }
 
-    List<DatosDeLaActividad> combElec = datosActividad
+    Collection<DatosDeLaActividad> combElec = datosActividad
         .stream()
-        .filter(unDato -> unDato.getActividad().equals("Logística de productos y residuos"))
+        .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    List<DatosDeLaActividad> logProdRes = datosActividad
+    Collection<DatosDeLaActividad> logProdRes = datosActividad
         .stream()
-        .filter(unDato-> !unDato.getActividad().equals("Logística de productos y residuos"))
+        .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
     Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
     Double hcLogProdRes=0.0;
 
-    //TODO: por que mayor igual a 4?
+    //TODO: por que mayor igual a 4? Rta: porque en el excel hay 4 elementos en la lista, no se si son necesarios los 4 para operar pero lo pusimos asi
     if(logProdRes.size() >= 4){
       try{
         hcLogProdRes = this.calcularHuellaCarbonoLogProdRes(logProdRes);

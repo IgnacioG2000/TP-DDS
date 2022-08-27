@@ -24,7 +24,7 @@ public class ManejadorEvento {
   }
 
   public void notificar() {
-    notificados.forEach(n -> n.getNotificadoresPreferidos().forEach(np -> np.notificar(n.getContactos())));
+  //  notificados.forEach(n -> n.getNotificadoresPreferidos().forEach(np -> np.notificar(n.getContactos())));
 
   }
 }

@@ -5,6 +5,7 @@ import domain.huellaDeCarbono.trayecto.*;
 import repositorios.RepoOrganizacion;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,22 +39,28 @@ public class Miembro {
     area.agregarVinculacion(trayecto);
   }
 
-  //TODO refactor tratamiento con ManejadorTrayectos y no con Trayectos directamente
-  public Double calcularHuellaCarbonoMiembro(LocalDate fecha, boolean esMensual){
-    List<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    List<Trayecto> listaTrayectosFechaMiembro;
-    if(esMensual){
-      listaTrayectosFechaMiembro = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceMes(fecha)).collect(Collectors.toList());
-    }else{
-      listaTrayectosFechaMiembro = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceAnio(fecha)).collect(Collectors.toList());
-    }
-    Double hcMiembro = listaTrayectosFechaMiembro.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
+  //TODO Consultar si es necesario Anual Y Mensual
+  public Double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
+    Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
+    Collection<Trayecto> listaTrayectosMiembroMes = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceMes(anio, mes)).collect(Collectors.toList());
+
+    Double hcMiembro = listaTrayectosMiembroMes.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
     return hcMiembro;
   }
 
-  public Double impactoMiembroEnOrganizacion( LocalDate fecha, boolean esMensual){
+
+  public Double calcularHuellaCarbonoMiembroAnual(int anio){
+    Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
+    Collection<Trayecto> listaTrayectosMiembroAnio = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceAnio(anio)).collect(Collectors.toList());
+
+    Double hcMiembro = listaTrayectosMiembroAnio.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
+    return hcMiembro;
+  }
+
+  //TODO Consultar si es necesario Anual y Mensual
+  public Double impactoMiembroEnOrganizacionAnual(int anual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalFecha(fecha, esMensual);
+    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnual(fecha, esMensual);
     return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
   }
 }
