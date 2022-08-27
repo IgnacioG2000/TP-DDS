@@ -65,7 +65,9 @@ public class ServicioApiDistancia {
     }
   }
 
-  public List<Provincia> listadoDeProvincias(int offset, String idPais) throws NoSeEncuentraEnLaApi {
+  public List<Provincia> listadoDeProvincias(String idPais) throws NoSeEncuentraEnLaApi {
+    //puede que este hardcodeao haya que verlo
+    int offset = 1;
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Provincia>> requestProvincias = apiDistancia.provincias(offset, idPais);
     Response<List<Provincia>> responseProvincias;
@@ -105,7 +107,8 @@ public class ServicioApiDistancia {
     }
   }
 
-  public List<Localidad> listadoLocalidades(int offset, String idMunicipio) throws NoSeEncuentraEnLaApi  {
+  public List<Localidad> listadoLocalidades(String idMunicipio) throws NoSeEncuentraEnLaApi  {
+    int offset = 1;
     ApiDistancia apiDistancia = this.retrofit.create(ApiDistancia.class);
     Call<List<Localidad>> requestLocalidades = apiDistancia.localidades(offset, idMunicipio);
     Response<List<Localidad>> responseLocalidades;
@@ -167,7 +170,7 @@ public class ServicioApiDistancia {
 
 
     //Obtengo ID de la provincia
-    List<Provincia> listadoProvincias = this.listadoDeProvincias(1, idPais);
+    List<Provincia> listadoProvincias = this.listadoDeProvincias(idPais);
     Optional <Provincia> provinciaObtenida = listadoProvincias.stream().filter(unaProvincia -> provincia.equals(unaProvincia.getNombre())).findFirst();
 
     if(!provinciaObtenida.isPresent()) {
@@ -185,7 +188,7 @@ public class ServicioApiDistancia {
 
       } else {
         String idMuncipio = municipioObtenido.get().getId();
-        List<Localidad> listadoLocalidades = this.listadoLocalidades(1, idMuncipio);
+        List<Localidad> listadoLocalidades = this.listadoLocalidades(idMuncipio);
         Optional<Localidad> localidadObtenida = listadoLocalidades.stream().filter(unaLocalidad -> localidad.equals(unaLocalidad.getNombre())).findFirst();
 
         if (!localidadObtenida.isPresent()) throw new NoSeEncuentraEnLaApi("No se encontro la localidad " + localidad);
