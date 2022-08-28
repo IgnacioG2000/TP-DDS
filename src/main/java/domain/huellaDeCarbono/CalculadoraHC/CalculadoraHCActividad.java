@@ -4,6 +4,7 @@ import apiDistancia.ArchivoConfig;
 import excel_ETL.DatosDeLaActividad;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -157,7 +158,7 @@ public class CalculadoraHCActividad {
 
 
 
-    //Calculo HC de las actividades del Anio, posteriormente dividido por 12
+    //Calculo HC de las actividades del Anio, posteriormente dividido por los meses vencidos del anio
     Double hcAnio;
     Double hcCombElecAnio = combElecAnio.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
     Double hcLogProdResAnio=0.0;
@@ -173,7 +174,14 @@ public class CalculadoraHCActividad {
 
     hcAnio = hcCombElecAnio + hcLogProdResAnio;
 
-    return hcMes + hcAnio/12;
+    int mesesVencidos;
+    if(anio != LocalDate.now().getYear()){
+      mesesVencidos = 12;
+    }else{
+      mesesVencidos = LocalDate.now().getMonthValue()-1;
+    }
+
+    return hcMes + hcAnio/mesesVencidos;
 
   }
 }
