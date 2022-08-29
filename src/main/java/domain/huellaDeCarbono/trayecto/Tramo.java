@@ -1,5 +1,6 @@
 package domain.huellaDeCarbono.trayecto;
 
+import apiDistancia.ServicioApiDistancia;
 import domain.huellaDeCarbono.espacio.Espacio;
 import domain.huellaDeCarbono.medioDeTransporte.MedioDeTransporte;
 import domain.miembro.Miembro;
