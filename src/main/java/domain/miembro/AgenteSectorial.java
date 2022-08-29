@@ -1,35 +1,49 @@
 package domain.miembro;
 
+import apiDistancia.Sector;
 import domain.huellaDeCarbono.espacio.Hogar;
-import domain.organizacion.Area;
 import repositorios.RepoOrganizacion;
 import seguridad.roles.Usuario;
 
-import java.time.LocalDate;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AgenteSectorial extends Persona {
-  private String sectorTerritorial;
+
+  private Sector sectorTerritorial;
 
   public AgenteSectorial(String nombre, String apellido, TipoDocumento tipoDocumento,
-                         String nroDocumento, Hogar ubicacion, Usuario usuario, String sectorTerritorial) {
+                         String nroDocumento, Hogar ubicacion, Usuario usuario, Sector sectorTerritorial) {
     super(nombre, apellido, tipoDocumento, nroDocumento, ubicacion, usuario);
     this.sectorTerritorial = sectorTerritorial;
   }
 
-  public String getSectorTerritorial() {
+  public Sector getSectorTerritorial() {
     return sectorTerritorial;
   }
 
-  public Double calcularHuellaCarbonoPorSector(LocalDate fecha, boolean esMensual) {
+  //TODO:Consultar si es necesario Anual Y Mensual
+  public Double calcularHuellaCarbonoPorSectorAnual(int anio) {
     Double hcPorSector = RepoOrganizacion
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
-        .filter(area -> area.perteneceAArea(this))
+        .filter(area -> area.perteneceSector(sectorTerritorial))
         .collect(Collectors.toList())
-        .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalArea(fecha, esMensual))
+        .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio))
+        .sum();
+
+    return hcPorSector;
+  }
+
+  //TODO:Consultar si es necesario Anual Y Mensual
+  public Double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
+    Double hcPorSector = RepoOrganizacion
+        .getInstance()
+        .listadoAreasOrganizaciones()
+        .stream()
+        .filter(area -> area.perteneceSector(sectorTerritorial))
+        .collect(Collectors.toList())
+        .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes))
         .sum();
 
     return hcPorSector;

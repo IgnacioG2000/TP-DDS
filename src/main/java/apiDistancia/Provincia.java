@@ -1,6 +1,6 @@
 package apiDistancia;
 
-public class Provincia {
+public class Provincia extends Sector{
   // Ver tipo ID
   public String id;
   public String nombre;
@@ -12,5 +12,10 @@ public class Provincia {
 
   public String getId() {
     return id;
+  }
+
+  @Override
+  public String nombreProvincia() {
+    return nombre;
   }
 }

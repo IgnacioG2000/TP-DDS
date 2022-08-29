@@ -1,5 +1,6 @@
 package domain.organizacion;
 
+import apiDistancia.Sector;
 import domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
 import domain.huellaDeCarbono.trayecto.ManejadorTrayectos;
 import domain.huellaDeCarbono.trayecto.Tramo;
@@ -105,8 +106,8 @@ public class Area {
     return trayectosMiembro;
   }
 
-  public boolean perteneceAArea(AgenteSectorial agenteSectorial) {
-    return espacioDeTrabajo.getProvincia().equals(agenteSectorial.getSectorTerritorial())
-        || espacioDeTrabajo.getMunicipio().equals(agenteSectorial.getSectorTerritorial());
+  public boolean perteneceSector(Sector sector) {
+    return espacioDeTrabajo.getProvincia().equals(sector.getNombre())
+        || espacioDeTrabajo.getMunicipio().equals(sector.getNombre()) && espacioDeTrabajo.getProvincia().equals(sector.nombreProvincia());
   }
 }
