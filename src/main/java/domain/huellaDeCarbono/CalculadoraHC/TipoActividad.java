@@ -3,9 +3,9 @@ package domain.huellaDeCarbono.CalculadoraHC;
 public class TipoActividad {
   String nombre;
   Double fe;
-  String tipoUnidad;
+  TipoUnidad tipoUnidad;
 
-  public TipoActividad(String nombre, String tipoUnidad) {
+  public TipoActividad(String nombre, TipoUnidad tipoUnidad) {
     this.nombre = nombre;
     this.tipoUnidad = tipoUnidad;
   }
@@ -22,7 +22,7 @@ public class TipoActividad {
     return fe;
   }
 
-  public String getTipoUnidad() {
+  public TipoUnidad getTipoUnidad() {
     return tipoUnidad;
   }
 
@@ -34,7 +34,7 @@ public class TipoActividad {
     this.fe = fe;
   }
 
-  public void setTipoUnidad(String tipoUnidad) {
+  public void setTipoUnidad(TipoUnidad tipoUnidad) {
     this.tipoUnidad = tipoUnidad;
   }
 

@@ -14,20 +14,20 @@ public class CalculadoraHCActividad {
   Collection<TipoActividad> tiposActividad = new ArrayList<>();
 
   public CalculadoraHCActividad() {
-    TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3");
-    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt");
-    TipoActividad kerosene = new TipoActividad("kerosene", "lt");
-    TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt");
-    TipoActividad nafta = new TipoActividad("Nafta", "lt");
-    TipoActividad carbon = new TipoActividad("Carbon", "kg");
-    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg");
-    TipoActividad lenia = new TipoActividad("Lenia", "kg");
-    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt");
-    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt");
-    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt");
-    TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh");
-    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km");
-    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg");
+    TipoActividad gasNatural = new TipoActividad("Gas Natural", new MetroCubico());
+    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", new Litro());
+    TipoActividad kerosene = new TipoActividad("kerosene", new Litro());
+    TipoActividad fuelOil= new TipoActividad("Fuel Oil", new Litro());
+    TipoActividad nafta = new TipoActividad("Nafta", new Litro());
+    TipoActividad carbon = new TipoActividad("Carbon", new Kilogramo());
+    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", new Kilogramo());
+    TipoActividad lenia = new TipoActividad("Lenia", new Kilogramo());
+    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", new Litro());
+    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", new Litro());
+    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", new Litro());
+    TipoActividad electricidad = new TipoActividad("Electricidad", new KiloWatts());
+    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", new Kilometro());
+    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", new Kilogramo());
 
     tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
         carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
@@ -50,6 +50,7 @@ public class CalculadoraHCActividad {
 
       //TODO: Charlar con el grupo porque hay que pensarlo
       //TODO: puede ser meterlo en un config todos los strings y no tenerlos hardcodeados (idea by Mati)
+      //NO HACEMOS PASAJE ENTRE KG Y KM PORQUE YA VIENEN BIEN Y SERÍA HACER MUCHO LIO AGREGANDO LA UNIDAD
       DatosDeLaActividad datoDistancia = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Distancia Media Recorrida" )).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo() == "Peso Total Transportado" )).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de transporte: \\."))).collect(Collectors.toList()).get(0);
@@ -61,23 +62,19 @@ public class CalculadoraHCActividad {
       } else {
         factorEmision = Double.parseDouble(arch.obtenerFEUtilitario());
       }
-
-
     return datoDistancia.getConsumo().getValor() * datoPeso.getConsumo().getValor() * K * factorEmision;
-
   }
 
   public Double calcularHuellaCarbonoCombElec(DatosDeLaActividad dato) {
     Double distanciaDato = dato.getConsumo().getValor();
     TipoActividad tipoActividad = this.obtenerTipoActividad(dato);
     Double fe = tipoActividad.getFe();
-    return distanciaDato * fe;
+    return tipoActividad.getTipoUnidad().pasarA(distanciaDato ) * fe;
   }
 
   //TODO consultar si es necesario Anual y Mensual
   public Double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {
     Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(anio)).collect(Collectors.toList());
-
 
     Collection<DatosDeLaActividad> combElec = datosActividad
         .stream()
@@ -100,7 +97,6 @@ public class CalculadoraHCActividad {
         e.printStackTrace();
       }
     }
-
     return hcCombElec + hcLogProdRes;
   }
 
@@ -111,9 +107,6 @@ public class CalculadoraHCActividad {
 
     //Estas son las actividades anuales, las cuales se calculan y luego dividen por la cantidad de meses del año
     Collection<DatosDeLaActividad> datosActividadSoloAnio= datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
-
-
-
 
     //Separacion por Actividad en periodo Mensual
     Collection<DatosDeLaActividad> combElec = datosActividad
@@ -126,6 +119,7 @@ public class CalculadoraHCActividad {
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
+
     //Separacion por Actividad en periodo Anual
     Collection<DatosDeLaActividad> combElecAnio = datosActividadSoloAnio
         .stream()
@@ -136,9 +130,6 @@ public class CalculadoraHCActividad {
         .stream()
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
-
-
-
 
     //Calculo HC de las actividades del Mes
     Double hcMes;
@@ -155,8 +146,6 @@ public class CalculadoraHCActividad {
     }
 
     hcMes = hcCombElec + hcLogProdRes;
-
-
 
     //Calculo HC de las actividades del Anio, posteriormente dividido por los meses vencidos del anio
     Double hcAnio;

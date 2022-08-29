@@ -60,7 +60,7 @@ public class Miembro {
   //TODO Consultar si es necesario Anual y Mensual
   public Double impactoMiembroEnOrganizacionAnual(int anual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnual(fecha, esMensual);
-    return this.calcularHuellaCarbonoMiembro(fecha, esMensual) / hcMiOrg * 100;
+    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);
+    return this.calcularHuellaCarbonoMiembroAnual(anual) / hcMiOrg * 100;
   }
 }
