@@ -15,16 +15,17 @@ package "miembro" #DDDDDD {
     -persona: Persona
     -area: Area
 
-    +Double calcularHuellaCarbonoMiembro()
+    +Double calcularHuellaCarbonoMiembroMensual(int, int)
+    +Double calcularHuellaCarbonoMiembroAnual(int)
     +void cargarTrayecto(Trayecto)
-    +Double impactoMiembroEnOrganizacion(Double)
+    +Double impactoMiembroEnOrganizacionAnual(int)
     }
 
     class AgenteSectorial extends Persona {
-    -sectorTerritorial: String
+    -sectorTerritorial: Sector
 
-    +Double huellaDeCarbonoPorSector(LocalDate, boolean)
-    -boolean perteneceASector(Area)
+    +Double calcularHuellaCarbonoPorSectorAnual(int)
+    +Double calcularHuellaCarbonoPorSectorMensual(int, int)
     }
 
     enum TipoDocumento {
@@ -51,10 +52,9 @@ package "organizacion" #DDDDDD {
     -calculadora: CalculadoraHCActividad
 
     +void agregarArea(Area)
-    +Double calcularHuellaCarbonoTotalFecha(LocalDate, Double, boolean)
-    +Double calcularHuellaCarbonoSectorial(Double, String)
+    +Double calcularHuellaCarbonoTotalAnio(int)
+    +Double calcularHuellaCarbonoTotalMensual(int, int)
     +boolean tieneArea(Area)
-    +void agregarContacto(String, String)
     }
 
     class Area {
@@ -67,9 +67,12 @@ package "organizacion" #DDDDDD {
     +void registrarMiembro(Miembro)
     +void aceptarVinculacion(Trayecto)
     +void agregarVinculacion(Trayecto)
-    +Double calcularHuellaCarbonoTotalArea(LocalDate, boolean)
+    +Double calcularHuellaCarbonoTotalAreaAnual(int)
+    +Double calcularHuellaCarbonoTotalAreaMensual(int, int)
+    +Double calcularHuellaCarbonoPromedioMiembroMensual(int, int)
+    +Double calcularHuellaCarbonoPromedioMiembroAnual(int)
     +Collection<Trayecto> getTrayectosDelMiembro(Miembro)
-    +Double calcularHuellaCarbonoPromedioMiembro(LocalDate, boolean)
+    +boolean perteneceSector(Sector sector)
     }
 
     enum Clasificacion {
@@ -122,6 +125,7 @@ package "repositorios" #DDDDDD {
     -organizaciones: [Organizacion]
     -instance: RepoOrganizaciones
 
+    +RepoOrganizaciones getInstance()
     +Organizacion encontrarOrganizacion(Area)
     +Collection<Contacto> listadoContactosOrganizaciones()
     +Collection<Area> listadoAreasOrganizaciones()
@@ -132,6 +136,8 @@ package "repositorios" #DDDDDD {
     -lineas: <String, [Parada]>
     -instance: RepoTransportePublico
 
+    +RepoTransportePublico getInstance()
+
     }
 
     class RepositorioUsuarios {
@@ -139,34 +145,81 @@ package "repositorios" #DDDDDD {
     -loginUsuarios: <String,String>
     -instance: RepositorioUsuarios
 
+    +RepositorioUsuarios getInstance()
     +String generarHash(String, byte[])
     +void validarContrasenia(String)
     +void agregarUsuario(String,String)
     +boolean contraseniaCoincide(String, String)
     }
+
+    class RepoLocalidad {
+    -localidades: [Localidad]
+    -instance: RepoLocalidad
+
+    +RepoLocalidad getInstance()
+    }
+
+    class Localidad {
+
+    }
+    note right: El modelo de la API está en su propio DC
+
+
+    class RepoMedioTransporte {
+    -mediosDeTransporte: [MedioDeTransporte]
+    -instance: RepoMedioTransporte
+
+    +RepoMedioTransporte getInstance()
+
+    }
+
+    class RepoMunicipio {
+    -municipios: [Municipio]
+    -instance: RepoMunicipio
+
+    +RepoMunicipio getInstance()
+
+    }
+
+    class Municipio {
+
+    }
+    note right: El modelo de la API está en su propio DC
+
+    class RepoProvincia {
+    -provincias: [Provincia]
+    -instance: RepoProvincia
+
+    +RepoProvincia getInstance()
+
+    }
+
+    class Provincia {
+
+    }
+    note right: El modelo de la API está en su propio DC
+
+
 }
 
 package "huellaDeCarbono" #DDDDDD {
 
-    class CalculadoraHCActividad {
-    -factorEmisionGas: Double
-    -factorEmisionDiesel: Double
-    -factorEmisionKerosene: Double
-    -factorEmisionFuel: Double
-    -factorEmisionNafta: Double
-    -factorEmisionCarbon: Double
-    -factorEmisionCarbonLenia: Double
-    -factorEmisionLenia: Double
-    -factorEmisionCombConsumidoGasoil: Double
-    -factorEmisionCombConsumidoGNC: Double
-    -factorEmisionCombConsumidoNafta: Double
-    -factorEmisionElectricidad: Double
-    -factorEmisionLogProdRes: Double
+    package "CalculadoraHC" {
+        class CalculadoraHCActividad {
+        -tiposActividad: [TipoActividad]
 
-    +Double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad>, Double)
-    +Double calcularHuellaCarbonoCombElec(DatosDeLaActividad)
-    +Double calcularHCActividad(Collection<DatosDeLaActividad>, LocalDate, boolean, Double)
-    -Double obtenerFE(String)
+        -TipoActividad obtenerTipoActividad(DatosDeLaActividad)
+        +Double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad>)
+        +Double calcularHuellaCarbonoCombElec(DatosDeLaActividad)
+        +Double calcularHCActividadAnual(Collection<DatosDeLaActividad>, int)
+        +Double calcularHCActividadMensual(Collection<DatosDeLaActividad>, int, int)
+        }
+
+        class TipoActividad {
+        -nombre: String
+        -fe: Double
+        -tipoUnidad: String
+        }
     }
 
     package "espacio" {
@@ -259,6 +312,14 @@ package "huellaDeCarbono" #DDDDDD {
         SUBTE,
         COLECTIVO
         }
+
+        class CamionDeCarga extends MedioDeTransporte {
+
+        }
+
+        class UtilitarioLiviano extends MedioDeTransporte {
+
+        }
     }
 
     package "trayecto" {
@@ -268,11 +329,16 @@ package "huellaDeCarbono" #DDDDDD {
         -llegada: Espacio
         -tramos: [Tramo]
         -fechaInicio: LocalDate
+        -fechaFin: LocalDate
+        -diasUtilizados: int
 
         +Double calcularHuellaCarbonoTotalTrayecto()
+        +Double calcularHCTrayectoSemanal()
+        +Double calcularHCTrayectoMensual()
         +boolean perteneceMiembro(Miembro)
-        +boolean perteneceMes(LocalDate)
-        +boolean perteneceAnio(LocalDate)
+        +boolean perteneceMes(int, int)
+        +boolean perteneceAnio(int)
+        +Double peso()
         }
 
         class Tramo {
@@ -280,13 +346,19 @@ package "huellaDeCarbono" #DDDDDD {
         -llegada: Espacio
         -transporte: MedioDeTransporte
         -miembros: [Miembro]
-        -periodicidad: Double
 
         +Double calcularDistancia()
-        +void agregarMiembro(Miembro, Double)
+        +void agregarMiembro(Miembro)
         +Double calcularHuellaCarbonoTramo()
         +boolean tieneMiembro(Miembro)
         +Double getPeriodicidad()
+        }
+
+        class ManejadorTrayectos {
+        -instance: ManejadorTrayectos
+
+        +Double calcularHCMensual(Collection<Trayecto>, int, int)
+        +Double calcularHCAnual(Collection<Trayecto>, int)
         }
 
         class ServicioApiDistancia {
@@ -305,6 +377,9 @@ package "excel_ETL" #DDDDDD {
     -consumo:Consumo
     -periodoDeImputacion:String
 
+    +boolean perteneceAnio(int)
+    +boolean perteneceMesAnio(int, int)
+    +boolean perteneceSoloAnio(int)
     }
 
     class Consumo {
@@ -347,10 +422,13 @@ package "roles" #DDDDDD {
 }
 
 Miembro ..> Trayecto
+Miembro --> Persona
+Miembro --> Area
 
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
 Area --> "2*" Trayecto
+Area ..> ManejadorTrayectos : <<instance>>
 
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
@@ -391,13 +469,27 @@ RepoTransportePublico --> RepoTransportePublico
 RepoOrganizaciones --> RepoOrganizaciones
 RepoOrganizaciones --> "*" Organizacion
 
-Miembro --> Persona
+RepoLocalidad --> RepoLocalidad
+RepoLocalidad --> "*" Localidad
+
+RepoMedioTransporte --> RepoMedioTransporte
+RepoMedioTransporte --> "*" MedioDeTransporte
+
+RepoMunicipio --> RepoMunicipio
+RepoMunicipio --> "*" Municipio
+
+RepoProvincia --> RepoProvincia
+RepoProvincia --> "*" Provincia
+
+ManejadorTrayectos --> ManejadorTrayectos
 
 Persona --> Hogar
 Persona --> Usuario
 Persona --> TipoDocumento
 
 Administrador --> CalculadoraHCActividad
+
+CalculadoraHCActividad --> "*" TipoActividad
 
 Notificador --> WhatsappSender
 Notificador --> EmailSender
