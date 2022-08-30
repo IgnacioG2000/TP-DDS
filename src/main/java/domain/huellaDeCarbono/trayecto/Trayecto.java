@@ -93,7 +93,7 @@ public class Trayecto {
 
   public boolean perteneceMes(int anio, int mes) {
     //return this.perteneceAnio(anio) && (fechaInicio.getMonthValue() <= mes);
-    return (fechaInicio.getYear() <= anio) && (fechaInicio.getMonthValue() <= mes);
+    return (fechaInicio.getYear() <= anio) && (fechaInicio.getMonthValue() < mes);
   }
 
   public boolean perteneceAnio(int anio){

@@ -35,23 +35,26 @@ public class CalculoHCTest {
   Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo), LocalDate.of(2022, 1, 1), 5);
   Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1),null);
 
-  public CalculoHCTest() throws NoSuchAlgorithmException {
-  }
-
-  @Test
-  public void calculoHCMiembro() throws IOException{
-    miembroGuido.setArea(area);
-    Double dist = ServicioApiDistancia.getInstancia().obtenerDistancia(espacioOrigen, espacioDestino);
-    System.out.print("DISTANCIA: " + dist);
-    System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
-    trayecto1.setFechaFin(LocalDate.now());
-    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
-  }
-
   @Test
   public void calculoHCMiembroEnElMismoMesDa0(){
     miembroGuido.setArea(area);
     assertEquals(0.0, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
   }
+
+  public CalculoHCTest() throws NoSuchAlgorithmException, IOException {
+  }
+
+
+  @Test
+  public void calculoHCMiembro() throws IOException{
+    miembroGuido.setArea(area);
+    Double dist = tramo.getDistancia();
+    System.out.print("DISTANCIA: " + dist);
+    System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
+    trayecto1.setFechaFin(LocalDate.now());
+    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,7));
+  }
+
+
 
 }

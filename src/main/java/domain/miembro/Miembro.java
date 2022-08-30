@@ -41,9 +41,10 @@ public class Miembro {
   public Double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
     Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
     Collection<Trayecto> listaTrayectosMiembroMes = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceMes(anio, mes)).collect(Collectors.toList());
-    System.out.println("lista trayectos: "+ listaTrayectosDelMiembro.size());
-    System.out.println("lista trayectos: "+ listaTrayectosMiembroMes.size());
+    System.out.println("lista trayectos del miembro: "+ listaTrayectosDelMiembro.size() + "\n" );
+    System.out.println("lista trayectos del miembro mensual: "+ listaTrayectosMiembroMes.size() + "\n" );
     Double hcMiembro = listaTrayectosMiembroMes.stream().mapToDouble(Trayecto::calcularHCTrayectoMensual).sum();
+    System.out.print("hc miembro en calcular huella carbodno mensual:" + hcMiembro + "\n");
     return hcMiembro;
   }
 

@@ -13,16 +13,21 @@ public class Tramo {
   private Espacio llegada;
   private MedioDeTransporte transporte;
   private Collection<Miembro> miembros;
+  private Double distancia;
   //private Double periodicidad;
 
-  public Tramo(Espacio partida, Espacio llegada, MedioDeTransporte transporte, Collection<Miembro> miembros) {
+  public Tramo(Espacio partida, Espacio llegada, MedioDeTransporte transporte, Collection<Miembro> miembros) throws IOException {
     this.partida = partida;
     this.llegada = llegada;
     this.transporte = transporte;
     if(miembros.size() == 1 || transporte.puedoSerCompartido()) {
       this.miembros = miembros;
     }
+    distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
+    System.out.print("---- LA DISTANCIA QUE LE ESTOY GUARDANDO ES: " + distancia);
+
   }
+
 
   public Espacio getPartida() {
     return partida;
@@ -51,11 +56,16 @@ public class Tramo {
   }
 
   public Double calcularDistancia() throws IOException {
-    return ServicioApiDistancia.getInstancia().obtenerDistancia(llegada,partida);
+    return distancia;
+    //return ServicioApiDistancia.getInstancia().obtenerDistancia(llegada,partida);
   }
 
   public boolean tieneMiembro(Miembro miembro) {
     return miembros.contains(miembro);
+  }
+
+  public Double getDistancia() {
+    return distancia;
   }
 
 /*
