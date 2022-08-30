@@ -12,7 +12,6 @@ public class Trayecto {
   private Espacio partida;
   private Espacio llegada;
   private Collection<Tramo> tramos;
-  //TODO: Ahora la fecha de inicio y fin, va a estar en tramo y lo sacamos de aca????
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
   private int diasUtilizados;

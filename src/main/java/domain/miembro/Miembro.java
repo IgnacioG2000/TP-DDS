@@ -13,10 +13,8 @@ public class Miembro {
   private Persona persona;
   private Area area;
 
-
-  public Miembro(Persona persona, Area area) {
+  public Miembro(Persona persona) {
     this.persona = persona;
-    this.area = area;
   }
 
   public Persona getPersona() {

@@ -9,10 +9,10 @@ public abstract class Espacio {
   protected String direccion;
   protected String numero;
   protected float codigoPostal;
-  protected String barrio;
+  //protected String barrio;
 
   public Espacio(Double latitud, Double longitud, String provincia, String municipio,
-                 String localidad, String direccion, String numero, float codigoPostal, String barrio) {
+                 String localidad, String direccion, String numero, float codigoPostal) {
     this.latitud = latitud;
     this.longitud = longitud;
     this.provincia = provincia;
@@ -21,7 +21,7 @@ public abstract class Espacio {
     this.direccion = direccion;
     this.numero = numero;
     this.codigoPostal = codigoPostal;
-    this.barrio = barrio;
+    //this.barrio = barrio;
   }
 
   public Double getLatitud() {
@@ -63,6 +63,7 @@ public abstract class Espacio {
     this.codigoPostal = codigoPostal;
   }
 
+  /*
   public String getBarrio() {
     return barrio;
   }
@@ -70,6 +71,7 @@ public abstract class Espacio {
   public void setBarrio(String barrio) {
     this.barrio = barrio;
   }
+   */
 
   public String getProvincia() {
     return provincia;
