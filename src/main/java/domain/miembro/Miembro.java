@@ -32,17 +32,18 @@ public class Miembro {
   public void setArea(Area area) {
     this.area = area;
   }
-
+/*
   public void cargarTrayecto(Trayecto trayecto){
     area.agregarVinculacion(trayecto);
   }
-
+*/
   //TODO Consultar si es necesario Anual Y Mensual
   public Double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
     Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
     Collection<Trayecto> listaTrayectosMiembroMes = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceMes(anio, mes)).collect(Collectors.toList());
-
-    Double hcMiembro = listaTrayectosMiembroMes.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
+    System.out.println("lista trayectos: "+ listaTrayectosDelMiembro.size());
+    System.out.println("lista trayectos: "+ listaTrayectosMiembroMes.size());
+    Double hcMiembro = listaTrayectosMiembroMes.stream().mapToDouble(Trayecto::calcularHCTrayectoMensual).sum();
     return hcMiembro;
   }
 

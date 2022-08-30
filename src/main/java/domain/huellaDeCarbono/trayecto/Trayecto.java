@@ -55,6 +55,7 @@ public class Trayecto {
   //TODO: El HC va a ser calculado aca, el area cuando calcule por sus trayectos, aca se va a calcular el HC del trayecto semanal con el peso por persona asociado
   // Calcula por semana
   public Double calcularHuellaCarbonoTotalTrayecto() {
+    System.out.println("cantidad de tramos:" + tramos.size());
     Double hcTrayecto = tramos.stream().mapToDouble(unTramo -> {
       try {
         return unTramo.calcularHuellaCarbonoTramo();
@@ -67,6 +68,8 @@ public class Trayecto {
   }
 
   public Double calcularHCTrayectoSemanal() {
+    System.out.println("calcularHCTrayectoSemanal: " + this.calcularHuellaCarbonoTotalTrayecto());
+    System.out.println("peso: " + this.peso());
     return this.calcularHuellaCarbonoTotalTrayecto() * this.peso();
   }
 
@@ -74,11 +77,14 @@ public class Trayecto {
     double coeficiente = 0.0;
     try{
       coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
+      System.out.println("coeficiente: " + coeficiente);
     }catch(IOException e){
       e.printStackTrace();
     }
 
-    return this.calcularHCTrayectoSemanal() * coeficiente;
+    double resultado = this.calcularHCTrayectoSemanal() * coeficiente;
+    System.out.println("calcularHCTrayectoMensual: " + resultado);
+    return resultado;
   }
 
   public boolean perteneceMiembro(Miembro miembro) {
@@ -86,7 +92,8 @@ public class Trayecto {
   }
 
   public boolean perteneceMes(int anio, int mes) {
-    return this.perteneceAnio(anio) && fechaInicio.getMonthValue() == mes;
+    //return this.perteneceAnio(anio) && (fechaInicio.getMonthValue() <= mes);
+    return (fechaInicio.getYear() <= anio) && (fechaInicio.getMonthValue() <= mes);
   }
 
   public boolean perteneceAnio(int anio){

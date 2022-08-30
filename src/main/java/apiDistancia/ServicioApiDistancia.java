@@ -98,7 +98,7 @@ public class ServicioApiDistancia {
         indice++;
       }
 
-      System.out.print("el tam de la lista completa es " + listaCompleta.size()+ "\n");
+      //System.out.print("el tam de la lista completa es " + listaCompleta.size()+ "\n");
 
 
       return  listaCompleta;
@@ -147,7 +147,7 @@ public class ServicioApiDistancia {
       idLocalidadDestino = this.obtenerIdLocalidad(espacioDestino.getLocalidad(), espacioDestino.getMunicipio(), espacioDestino.getProvincia());
 
       Call<Distancia> requestDistancia =  apiDistancia.distancia(idLocalidadOrigen, calleOrigen, alturaOrigen, idLocalidadDestino, calleDestino, alturaDestino);
-      System.out.print("estoy ejecutando hasta aca\n");
+      //System.out.print("estoy ejecutando hasta aca\n");
     
       responseDistancia = requestDistancia.execute();
       return  responseDistancia.body();
@@ -177,7 +177,7 @@ public class ServicioApiDistancia {
       throw new NoSeEncuentraEnLaApi("No se encontra la provincia " + provincia);
     }else {
       String idProvincia = provinciaObtenida.get().getId();
-      System.out.print("Id de provincia: " + idProvincia);
+      //System.out.print("Id de provincia: " + idProvincia);
 
       List<Municipio> listadoMunicipios = this.listadoMunicipios(idProvincia);
       Optional<Municipio> municipioObtenido = listadoMunicipios.stream().filter(unMunicipio -> municipio.equals(unMunicipio.getNombre())).findFirst();

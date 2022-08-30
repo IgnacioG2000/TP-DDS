@@ -10,6 +10,7 @@ import domain.miembro.Miembro;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -22,10 +23,12 @@ public class Area {
   private Collection<Trayecto> trayectosRegistados;
   private Collection<Trayecto> trayectosPendientes;
 
-  public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo) {
+  public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo, Collection<Trayecto> trayectosRegistados, Collection<Trayecto> trayectosPendientes) {
     this.nombre = nombre;
     this.miembros = miembros;
     this.espacioDeTrabajo = espacioDeTrabajo;
+    this.trayectosRegistados = trayectosRegistados;
+    this.trayectosPendientes = trayectosPendientes;
   }
 
   public String getNombre() {
@@ -72,9 +75,9 @@ public class Area {
     this.trayectosPendientes = trayectosPendientes;
   }
 
-  public void agregarVinculacion(Trayecto trayecto) {
+  /*public void agregarVinculacion(Trayecto trayecto) {
     trayectosPendientes.add(trayecto);
-  }
+  }*/
 
   public void aceptarVinculacion(Trayecto trayecto) {
     trayectosPendientes.remove(trayecto);
