@@ -48,4 +48,10 @@ public class CalculoHCTest {
     assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
   }
 
+  @Test
+  public void calculoHCMiembroEnElMismoMesDa0(){
+    miembroGuido.setArea(area);
+    assertEquals(0.0, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
+  }
+
 }
