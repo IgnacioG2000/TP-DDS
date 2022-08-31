@@ -32,13 +32,21 @@ public class CalculoHCTest {
   Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
   Miembro miembroGuido = new Miembro(personaGuido);
   Tramo tramo = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
-  Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo), LocalDate.of(2022, 1, 1), 5);
+  Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo), LocalDate.of(2021, 1, 1), 5);
   Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1),null);
 
   @Test
-  public void calculoHCMiembroEnElMismoMesDa0(){
+  public void calculoHCMiembroEnElMismoMes(){
     miembroGuido.setArea(area);
-    assertEquals(0.0, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
+    Double dist = tramo.getDistancia();
+    System.out.print("DISTANCIA: " + dist);
+    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,1));
+  }
+
+  @Test
+  public void calculoHCMiembroSinTrayecto(){
+    miembroGuido.setArea(area);
+    assertEquals(0.0, miembroGuido.calcularHuellaCarbonoMiembroMensual(2020,1));
   }
 
   public CalculoHCTest() throws NoSuchAlgorithmException, IOException {
@@ -46,13 +54,31 @@ public class CalculoHCTest {
 
 
   @Test
-  public void calculoHCMiembro() throws IOException{
+  public void calculoHCMiembroMesTrayectoTerminado() throws IOException{
     miembroGuido.setArea(area);
     Double dist = tramo.getDistancia();
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
     trayecto1.setFechaFin(LocalDate.now());
-    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,7));
+    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,7));
+  }
+
+  @Test
+  public void calculoHCMiembroAnioVencido() throws IOException{
+    miembroGuido.setArea(area);
+    Double dist = tramo.getDistancia();
+    System.out.print("DISTANCIA: " + dist);
+    System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
+    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12, miembroGuido.calcularHuellaCarbonoMiembroAnual(2021));
+  }
+
+  @Test
+  public void calculoHCMiembroAnioCorriendo() throws IOException{
+    miembroGuido.setArea(area);
+    Double dist = tramo.getDistancia();
+    System.out.print("DISTANCIA: " + dist);
+    System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
+    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5 * (LocalDate.now().getMonthValue()-1), miembroGuido.calcularHuellaCarbonoMiembroAnual(2022));
   }
 
 

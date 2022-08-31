@@ -92,9 +92,88 @@ public class Trayecto {
   }
 
   public boolean perteneceMes(int anio, int mes) {
-    //return this.perteneceAnio(anio) && (fechaInicio.getMonthValue() <= mes);
-    return (fechaInicio.getYear() <= anio) && (fechaInicio.getMonthValue() < mes);
+    boolean rta;
+    if(fechaFin==null){
+      rta = perteneceMesTrayNoFin(anio,mes);
+    }else{
+      rta = perteneceMesTrayFin(anio, mes);
+    }
+    return rta;
   }
+
+  public boolean perteneceMesTrayFin(int anio, int mes){
+    return (fechaInicio.getYear() < anio) && (fechaFin.getYear() > anio)
+        || (fechaInicio.getYear() < anio) && (fechaFin.getYear() == anio) && (fechaFin.getMonthValue() >= mes)
+        || (fechaInicio.getYear() == anio) && (fechaInicio.getMonthValue() <= mes) && (fechaFin.getYear() > anio)
+        || (fechaInicio.getYear() == anio) && (fechaInicio.getMonthValue() <= mes) && (fechaFin.getYear() == anio) && (fechaFin.getMonthValue() >= mes);
+  }
+  /*
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2021 mes final  3
+  anio 2021 mes 5               FALSE
+
+
+
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2022 mes final  3
+  anio 2021 mes 5               TRUE
+
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2021 mes final  6 o 5
+  anio 2021 mes 5               TRUE
+
+
+
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2021 mes final  6 o 5
+  anio 2020 mes 5               FALSE
+
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2021 mes final  6 o 5
+  anio 2020 mes 11               TRUE
+
+  fecha inicio 2020 mes inicio 11
+  fecha fin    2021 mes final  6 o 5
+  anio 2020 mes 12               TRUE
+
+
+
+
+  fecha inicio 2020 mes inicio 2
+  fecha fin    2020 mes final  4
+  anio 2020 mes 1               FALSE
+
+  fecha inicio 2020 mes inicio 2
+  fecha fin    2020 mes final  4
+  anio 2020 mes 5               FALSE
+
+  fecha inicio 2020 mes inicio 2
+  fecha fin    2020 mes final  4
+  anio 2020 mes 2 o 3 o 4       TRUE
+
+
+   */
+
+
+  public boolean perteneceMesTrayNoFin(int anio, int mes){
+    return (fechaInicio.getYear() < anio)
+        || (fechaInicio.getYear() == anio) && (fechaInicio.getMonthValue() < mes)
+        || (fechaInicio.getYear() == anio) && (fechaInicio.getMonthValue() == mes) && (fechaInicio.getMonthValue() < LocalDate.now().getMonthValue());
+  }
+  /*
+  fecha inicio 2020 mes inicio 11
+  anio 2021 mes 2               TRUE
+
+  fecha inicio 2021 mes inicio 2
+  fecha final  2022 mes final 1
+
+  fecha inicio 2022 mes inicio 2
+  anio 2022 mes 3               TRUE
+
+  fecha inicio 2022 mes inicio 2
+  anio 2022 mes 2               TRUE (DEPENDIENDO DEL MES ACTUAL)
+   */
+
 
   public boolean perteneceAnio(int anio){
     return fechaInicio.getYear() == anio;

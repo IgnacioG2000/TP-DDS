@@ -14,7 +14,6 @@ public class Tramo {
   private MedioDeTransporte transporte;
   private Collection<Miembro> miembros;
   private Double distancia;
-  //private Double periodicidad;
 
   public Tramo(Espacio partida, Espacio llegada, MedioDeTransporte transporte, Collection<Miembro> miembros) throws IOException {
     this.partida = partida;
@@ -24,8 +23,6 @@ public class Tramo {
       this.miembros = miembros;
     }
     distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
-    System.out.print("---- LA DISTANCIA QUE LE ESTOY GUARDANDO ES: " + distancia);
-
   }
 
 
