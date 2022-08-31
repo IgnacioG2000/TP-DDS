@@ -70,7 +70,7 @@ public class Trayecto {
   public Double calcularHCTrayectoSemanal() {
     System.out.println("calcularHCTrayectoSemanal: " + this.calcularHuellaCarbonoTotalTrayecto());
     System.out.println("peso: " + this.peso());
-    return this.calcularHuellaCarbonoTotalTrayecto() * this.peso();
+    return this.calcularHuellaCarbonoTotalTrayecto() * this.peso() * 5;
   }
 
   public Double calcularHCTrayectoMensual() {

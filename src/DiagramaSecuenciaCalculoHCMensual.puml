@@ -1,0 +1,174 @@
+@startuml
+
+Actor Usuario
+boundary UI_Calculadora
+
+Usuario -> UI_Calculadora: anio, mes
+activate UI_Calculadora
+Usuario -> UI_Calculadora: calcularHCMensual(organizacion)
+UI_Calculadora -> organizacion: calcularHuellaCarbonoTotalMensual(anio, mes)
+activate organizacion
+loop por cada area
+    organizacion -> area : calcularHuellaCarbonoTotalAreaMensual(anio,mes)
+    activate area
+    loop por cada miembro
+        area -> miembro : calcularHuellaCarbonoMiembroMensual(anio, mes)
+        activate miembro
+        loop por cada HCMensual
+            miembro -> valorHCMensual : soyMes(anio, mes)
+            activate valorHCMensual
+            valorHCMensual -> miembro : false
+            deactivate valorHCMensual
+        end
+        miembro -> area : getTrayectosDelMiembro(miembro)
+
+        loop por cada trayecto
+            area -> trayecto: perteneceMiembro(miembro)
+            activate trayecto
+
+            loop por cada tramo
+                trayecto -> tramo : tieneMiembro(miembro)
+                activate tramo
+                tramo -> trayecto : true
+                deactivate trayecto
+                deactivate tramo
+            end
+            trayecto -> area: true
+        end
+        area -> miembro : listaTrayectosDelMiembro
+        miembro -> ManejadorTrayectos : calcularHCMensual(listaTrayectosDelMiembro, anio, mes)
+        activate ManejadorTrayectos
+
+        loop por cada trayecto
+            ManejadorTrayectos -> trayecto : perteneceMes(anio, mes)
+            activate trayecto
+            trayecto -> ManejadorTrayectos : true
+            deactivate trayecto
+            ManejadorTrayectos -> ManejadorTrayectos: trayectosATratar.add(trayecto)
+
+        end
+
+        loop por cada trayectoATratar
+            ManejadorTrayectos -> trayecto : calcularHCTrayectoMensual()
+            deactivate ManejadorTrayectos
+            activate trayecto
+            trayecto -> trayecto : calcularHCTrayectoSemanal()
+            trayecto -> trayecto : calcularHuellaCarbonoTotalTrayecto()
+
+            loop por cada tramo
+                trayecto -> tramo : caclularHuellaCarbonoTramo()
+                activate tramo
+                tramo -> medioDeTransporte : getFactorEmision()
+                activate medioDeTransporte
+                medioDeTransporte -> tramo : fe
+                deactivate medioDeTransporte
+                tramo -> trayecto : hcTramo
+                deactivate tramo
+                trayecto -> trayecto : hcTrayecto += hcTramo
+            end
+
+
+            trayecto -> ManejadorTrayectos : hcMensual
+            deactivate trayecto
+            activate ManejadorTrayectos
+            ManejadorTrayectos -> ManejadorTrayectos : totalHCMensualMiembro += hcMensual
+
+        end
+
+        ManejadorTrayectos -> miembro : totalHCMensualMiembro
+        deactivate ManejadorTrayectos
+
+        miembro -> ValorHCMensual : new(anio, mes, totalHCMensual)
+        activate ValorHCMensual
+        ValorHCMensual -> miembro : valorHCMensual
+        deactivate ValorHCMensual
+        miembro -> miembro: add(valorHCMensual)
+
+        miembro -> area : totalHCMensualMiembro
+        deactivate miembro
+        area -> area : totalHCMensualArea += totalHCMensualMiembro
+    end
+    area -> organizacion : totalHCMensualArea
+    deactivate area
+    organizacion -> organizacion : totalHCMensualOrganizacion += totalHCMensualArea
+end
+
+
+
+
+organizacion -> transformador : getDatosDeLaActividad()
+activate transformador
+transformador -> organizacion : [datosDeLaActividad]
+deactivate transformador
+organizacion -> calculadoraHCActividad : calcularHCActividadMensual([datosDeLaActividad], anio, mes)
+activate calculadoraHCActividad
+loop por cada datoDeLaActividad
+    calculadoraHCActividad -> datoDeLaActividad : perteneceMesAnio(anio, mes)
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+        deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : datosActividad.add(datoDeLaActividad)
+
+end
+
+loop por cada datoDeLaActividad
+    calculadoraHCActividad -> datoDeLaActividad : perteneceSoloAnio(anio)
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+    deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : datosActividadSoloAnio.add(datosActividadSoloAnio)
+end
+
+loop por cada datoDeLaActividad de datosActividad
+    calculadoraHCActividad -> datoDeLaActividad : !getActividad().equals("Logística de productos y residuos")
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+    deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : combElec.add(datosActividadSoloAnio)
+end
+
+loop por cada datoDeLaActividad de datosActividad
+    calculadoraHCActividad -> datoDeLaActividad : getActividad().equals("Logística de productos y residuos")
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+    deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : logProdRes.add(datosActividadSoloAnio)
+end
+
+loop por cada datoDeLaActividad de datosActividadSoloAnio
+    calculadoraHCActividad -> datoDeLaActividad : !getActividad().equals("Logística de productos y residuos")
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+    deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : combElecAnio.add(datosActividadSoloAnio)
+end
+
+loop por cada datoDeLaActividad de datosActividadSoloAnio
+    calculadoraHCActividad -> datoDeLaActividad : getActividad().equals("Logística de productos y residuos")
+    activate datoDeLaActividad
+    datoDeLaActividad -> calculadoraHCActividad : true
+    deactivate datoDeLaActividad
+    calculadoraHCActividad -> calculadoraHCActividad : logProdResAnio.add(datosActividadSoloAnio)
+end
+
+loop por cada datoDeLaActividad de combElec
+    calculadoraHCActividad -> calculadoraHCActividad: hcCombElec += calcularHuellaCarbonoCombElec(datoDeLaActividad)
+end
+
+calculadoraHCActividad -> calculadoraHCActividad: hcLogProdRes = calcularHuellaCarbonoLogProdRes(logProdRes)
+
+loop por cada datoDeLaActividad de combElecAnio
+    calculadoraHCActividad -> calculadoraHCActividad: hcCombElecAnio += calcularHuellaCarbonoCombElec(datoDeLaActividad)
+end
+
+calculadoraHCActividad -> calculadoraHCActividad: hcLogProdResAnio = calcularHuellaCarbonoLogProdRes(logProdResAnio)
+
+calculadoraHCActividad -> organizacion : hcActividad = (hcCombElec + hcLogProdRes) + (CombElecAnio + hcLogProdResAnio) / mesesVencidos
+deactivate calculadoraHCActividad
+
+organizacion -> UI_Calculadora : hcMensualOrganizacion =  hcActividad + totalHCMensualOrganizacion
+deactivate organizacion
+UI_Calculadora -> Usuario : hcMensualOrganizacion
+deactivate UI_Calculadora
+
+@enduml

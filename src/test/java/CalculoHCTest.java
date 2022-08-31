@@ -129,7 +129,7 @@ public class CalculoHCTest {
     miembroTaylor.setArea(area4Ever21);
     Double dist2 = tramo2.getDistancia();
     Double dist3 = tramo3.getDistancia();
-    assertEquals(df.format(medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4) , df.format(area4Ever21.calcularHuellaCarbonoTotalAreaMensual(2021,8)));
+    assertEquals( (int) (medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4) , (int) (double) area4Ever21.calcularHuellaCarbonoTotalAreaMensual(2021,8));
   }
 
   //area con un solo miembro

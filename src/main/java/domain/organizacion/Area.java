@@ -93,8 +93,6 @@ public class Area {
     Double hcMensual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroMensual(anio,mes)).sum();
     return hcMensual;
   }
-
-  //TODO: preguntar si el promedio de HC por miembro es anual o mensual
   public Double calcularHuellaCarbonoPromedioMiembroMensual(int anio, int mes){
     return this.calcularHuellaCarbonoTotalAreaMensual(anio, mes) / miembros.size();
   }

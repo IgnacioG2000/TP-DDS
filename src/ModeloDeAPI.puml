@@ -13,6 +13,10 @@ class ArchivoConfig {
 
 + String obtenerUrlAPI()
 + String obtenerTokenAutorizacion()
++ String obtenerValorK()
++ String obtenerFECamion()
++ String obtenerFEUtilitario()
++ String obtenerCoeficienteHCMensual()
 }
 
 class Distancia {
@@ -20,7 +24,13 @@ class Distancia {
 - unidad: String
 }
 
-class Municipio {
+abstract class Sector {
+
++ String getNombre()
++ String getProvincia()
+}
+
+class Municipio extends Sector {
 - id: String
 - nombre: String
 - provincia: Provincia
@@ -31,7 +41,7 @@ class Pais {
 - nombre: String
 }
 
-class Provincia {
+class Provincia extends Sector {
 - id: String
 - nombre: String
 - pais: Pais

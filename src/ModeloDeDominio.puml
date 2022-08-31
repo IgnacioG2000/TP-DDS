@@ -14,11 +14,13 @@ package "miembro" #DDDDDD {
     class Miembro {
     -persona: Persona
     -area: Area
+    -valoresHCMensuales: [ValorHCMensual]
 
     +Double calcularHuellaCarbonoMiembroMensual(int, int)
     +Double calcularHuellaCarbonoMiembroAnual(int)
     +void cargarTrayecto(Trayecto)
     +Double impactoMiembroEnOrganizacionAnual(int)
+    -void agregarHCMensual(int, int, double)
     }
 
     class AgenteSectorial extends Persona {
@@ -27,6 +29,11 @@ package "miembro" #DDDDDD {
     +Double calcularHuellaCarbonoPorSectorAnual(int)
     +Double calcularHuellaCarbonoPorSectorMensual(int, int)
     }
+
+    abstract class Sector {
+
+    }
+    note right: El modelo de la API está en su propio DC
 
     enum TipoDocumento {
     DNI,
@@ -220,6 +227,14 @@ package "huellaDeCarbono" #DDDDDD {
         -fe: Double
         -tipoUnidad: String
         }
+
+        class ValorHCMensual {
+        -anio: int
+        -mes: int
+        -huellaCarbono: double
+
+        + boolean soyMes(int, int)
+        }
     }
 
     package "espacio" {
@@ -404,26 +419,13 @@ package "roles" #DDDDDD {
 
     class Administrador extends Usuario {
     -calculadoraHCActividad: CalculadoraHCActividad
-
-      +void setFactorEmisionFuel(Double)
-      +void setFactorEmisionDiesel(Double)
-      +void setFactorEmisionGas(Double)
-      +void setFactorEmisionNafta(Double)
-      +void setFactorEmisionLogProdRes(Double)
-      +void setFactorEmisionCarbon(Double)
-      +void setFactorEmisionCarbonLenia(Double)
-      +void setFactorEmisionElectricidad(Double)
-      +void setFactorEmisionKerosene(Double)
-      +void setFactorEmisionLenia(Double)
-      +void setFactorEmisionCombConsumidoGasoil(Double)
-      +void setFactorEmisionCombConsumidoGNC(Double)
-      +void setFactorEmisionCombConsumidoNafta(Double)
     }
 }
 
 Miembro ..> Trayecto
 Miembro --> Persona
 Miembro --> Area
+Miembro --> "*" ValorHCMensual
 
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
@@ -496,5 +498,6 @@ Notificador --> EmailSender
 Notificador ..> RepoOrganizaciones
 
 AgenteSectorial ..> RepoOrganizaciones
+AgenteSectorial --> Sector
 
 @enduml

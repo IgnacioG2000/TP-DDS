@@ -1,10 +1,12 @@
 package domain.miembro;
 
+import domain.huellaDeCarbono.CalculadoraHC.ValorHCMensual;
 import domain.organizacion.*;
 import domain.huellaDeCarbono.trayecto.*;
 import repositorios.RepoOrganizacion;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,9 +14,11 @@ import java.util.stream.Collectors;
 public class Miembro {
   private Persona persona;
   private Area area;
+  private List<ValorHCMensual> valorHCMensuales;
 
   public Miembro(Persona persona) {
     this.persona = persona;
+    this.valorHCMensuales = new ArrayList<>();
   }
 
   public Persona getPersona() {
@@ -37,12 +41,28 @@ public class Miembro {
     area.agregarVinculacion(trayecto);
   }
 */
-  //TODO Consultar si es necesario Anual Y Mensual
   public Double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
-    Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    Double hcMiembro = ManejadorTrayectos.getInstance().calcularHCMensual(listaTrayectosDelMiembro, anio, mes);
-    System.out.print("hc miembro en calcular huella carbodno mensual:" + hcMiembro + "\n");
+    Double hcMiembro;
+    if(valorHCMensuales.stream().noneMatch(valorHCMensual -> valorHCMensual.soyMes(anio,mes))) {
+      Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
+      hcMiembro = ManejadorTrayectos.getInstance().calcularHCMensual(listaTrayectosDelMiembro, anio, mes);
+      System.out.print("hc miembro en calcular huella carbodno mensual:" + hcMiembro + "\n");
+      agregarHCMensual(anio, mes, hcMiembro);
+
+    }else{
+      hcMiembro = valorHCMensuales
+          .stream()
+          .filter(valorHCMensual -> valorHCMensual.soyMes(anio,mes))
+          .collect(Collectors.toList())
+          .get(0)
+          .getHuellaCarbono();
+    }
     return hcMiembro;
+  }
+
+  private void agregarHCMensual(int anio, int mes, Double hcMiembro) {
+    ValorHCMensual valorHC = new ValorHCMensual(anio, mes, hcMiembro);
+    valorHCMensuales.add(valorHC);
   }
 
 
@@ -53,7 +73,6 @@ public class Miembro {
     return hcMiembro;
   }
 
-  //TODO Consultar si es necesario Anual y Mensual
   public Double impactoMiembroEnOrganizacionAnual(int anual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
     Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);

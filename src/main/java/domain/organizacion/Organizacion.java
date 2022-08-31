@@ -70,7 +70,6 @@ public class Organizacion {
     this.notificadoresPreferidos.add(notificador);
   }
 
-  //TODO: consultar si es necesario Anual Y Mensual
   public Double calcularHuellaCarbonoTotalAnio(int anio) {
     Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
     Double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(transformador.getDatosDeLaActividad(), anio);
