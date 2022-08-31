@@ -48,9 +48,8 @@ public class Miembro {
 
   public Double calcularHuellaCarbonoMiembroAnual(int anio){
     Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    Collection<Trayecto> listaTrayectosMiembroAnio = listaTrayectosDelMiembro.stream().filter(trayecto -> trayecto.perteneceAnio(anio)).collect(Collectors.toList());
+    Double hcMiembro = ManejadorTrayectos.getInstance().calcularHCAnual(listaTrayectosDelMiembro, anio);
 
-    Double hcMiembro = listaTrayectosMiembroAnio.stream().mapToDouble(Trayecto::calcularHuellaCarbonoTotalTrayecto).sum();
     return hcMiembro;
   }
 

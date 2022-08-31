@@ -1,19 +1,19 @@
 package domain.huellaDeCarbono.medioDeTransporte;
 
 public abstract class MedioDeTransporte {
-  protected double factorEmision;
+  protected Double factorEmision;
 
-  public MedioDeTransporte(double factorEmision) {
+  public MedioDeTransporte(Double factorEmision) {
     this.factorEmision = factorEmision;
   }
 
   public abstract boolean puedoSerCompartido();
 
-  public double getFactorEmision() {
+  public Double getFactorEmision() {
     return factorEmision;
   }
 
-  public void setFactorEmision(double factorEmision) {
+  public void setFactorEmision(Double factorEmision) {
     this.factorEmision = factorEmision;
   }
 }

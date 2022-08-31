@@ -85,13 +85,12 @@ public class Area {
   }
 
   public Double calcularHuellaCarbonoTotalAreaAnual(int anio){
-    Double hcAnual = ManejadorTrayectos.getInstance().calcularHCAnual(trayectosRegistados, anio);
+    Double hcAnual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroAnual(anio)).sum();
     return hcAnual;
   }
 
   public Double calcularHuellaCarbonoTotalAreaMensual(int anio, int mes) {
-    Double hcMensual = ManejadorTrayectos.getInstance().calcularHCMensual(trayectosRegistados, anio, mes);
-
+    Double hcMensual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroMensual(anio,mes)).sum();
     return hcMensual;
   }
 
