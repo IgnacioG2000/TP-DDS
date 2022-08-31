@@ -1,4 +1,5 @@
 import apiDistancia.ServicioApiDistancia;
+import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import domain.huellaDeCarbono.espacio.*;
 import domain.huellaDeCarbono.medioDeTransporte.*;
 import domain.huellaDeCarbono.trayecto.Tramo;
@@ -7,6 +8,8 @@ import domain.miembro.Miembro;
 import domain.miembro.Persona;
 import domain.miembro.TipoDocumento;
 import domain.organizacion.Area;
+import excel_ETL.Consumo;
+import excel_ETL.DatosDeLaActividad;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +52,8 @@ public class CalculoHCTest {
   Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1),null);
   Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
+
+  CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
 
   //area con multiples miembros con tramo compartido
   //area con multiples miembros sin tramo compartido
@@ -135,5 +140,24 @@ public class CalculoHCTest {
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
     assertEquals((int)(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12), (int)(double)(area.calcularHuellaCarbonoTotalAreaAnual(2021)));
+  }
+
+  @Test
+  public void calculamosHCActividadCombustionElectricidad() throws IOException{
+
+    Double valor = 1.0;
+    Double fe = 10.0;
+
+    DatosDeLaActividad datosDeLaActividad = new DatosDeLaActividad();
+    Consumo consumo = new Consumo();
+    consumo.setValor(valor);
+    consumo.setPeriocidad("01/2022");
+    datosDeLaActividad.setActividad("Combustión fija");
+    datosDeLaActividad.setTipoDeConsumo("Kerosene");
+    datosDeLaActividad.setConsumo(consumo);
+
+    calculadoraHCActividad.setFactorEmisionDeTipoActividad(datosDeLaActividad, fe);
+
+    assertEquals(valor * fe, calculadoraHCActividad.calcularHuellaCarbonoCombElec(datosDeLaActividad));
   }
 }

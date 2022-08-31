@@ -16,7 +16,7 @@ public class CalculadoraHCActividad {
   public CalculadoraHCActividad() {
     TipoActividad gasNatural = new TipoActividad("Gas Natural", new MetroCubico());
     TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", new Litro());
-    TipoActividad kerosene = new TipoActividad("kerosene", new Litro());
+    TipoActividad kerosene = new TipoActividad("Kerosene", new Litro());
     TipoActividad fuelOil= new TipoActividad("Fuel Oil", new Litro());
     TipoActividad nafta = new TipoActividad("Nafta", new Litro());
     TipoActividad carbon = new TipoActividad("Carbon", new Kilogramo());
@@ -32,6 +32,11 @@ public class CalculadoraHCActividad {
     tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
         carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
         electricidad, distMediaRecorrida, pesoTotalTransportado));
+  }
+
+  public void setFactorEmisionDeTipoActividad(DatosDeLaActividad dato, Double fe) {
+    TipoActividad tipoActividad = obtenerTipoActividad(dato);
+    tipoActividad.setFe(fe);
   }
 
   private TipoActividad obtenerTipoActividad(DatosDeLaActividad dato){
