@@ -57,11 +57,13 @@ package "organizacion" #DDDDDD {
     -transformador: Transformador
     -contactos: [Contacto]
     -calculadora: CalculadoraHCActividad
+    -manejadorEvento: ManejadorEvento
 
     +void agregarArea(Area)
     +Double calcularHuellaCarbonoTotalAnio(int)
     +Double calcularHuellaCarbonoTotalMensual(int, int)
     +boolean tieneArea(Area)
+    +void EnviarRecomendacion()
     }
 
     class Area {
@@ -100,29 +102,40 @@ package "organizacion" #DDDDDD {
 
 package "notificadores" #DDDDDD {
 
-    class Notificador {
-    -mailGeneral: String
-    -numeroGeneral: String
-    -password: String
-    -emailSender: EmailSender
-    -whatsappSender: WhatsappSender
+    abstract class  Notificador {
 
-    +void execute(JobExecutionContext)
-    +void enviarNotificacionesPorTodosLosMedios(String, String)
+    +void comunicar(Notificacion, List<Contacto>)
     }
 
     class EmailSender {
-    -prop: Properties
-    -session: Session
-    -username: String
+    -instance: EmailSender
+    -remitente: String
     -password: String
 
-    +void send(String, String, String, String)
+    +EmailSender getInstance()
+    +void enviarConGMail(String, String, String, String)
     }
 
-    class WhatsappSender {
+    class ManejadorEvento {
+    -notificadores: [Notificador]
+    -organizacion: Organizacion
 
-    +void send(String, String, String, String)
+    +void suscribirse(Notificador)
+    +void desuscribirse(Notificador)
+    +void notificar(Notificacion)
+    }
+
+    class NotificarPorWpp extends Notificador {
+
+    }
+
+    class NotificarPorMail extends Notificador {
+
+    }
+
+    class Notificacion {
+    -asunto: String
+    -cuerpo: String
     }
 }
 
@@ -275,7 +288,7 @@ package "huellaDeCarbono" #DDDDDD {
     package "medioDeTransporte" {
 
         abstract class MedioDeTransporte {
-        -factorEmision: Double
+        #factorEmision: Double
 
         +boolean puedoSerCompartido()
         }
@@ -326,14 +339,6 @@ package "huellaDeCarbono" #DDDDDD {
         TREN,
         SUBTE,
         COLECTIVO
-        }
-
-        class CamionDeCarga extends MedioDeTransporte {
-
-        }
-
-        class UtilitarioLiviano extends MedioDeTransporte {
-
         }
     }
 
@@ -493,9 +498,11 @@ Administrador --> CalculadoraHCActividad
 
 CalculadoraHCActividad --> "*" TipoActividad
 
-Notificador --> WhatsappSender
-Notificador --> EmailSender
-Notificador ..> RepoOrganizaciones
+Notificador ..> Notificacion
+Notificador ..> Contacto
+
+ManejadorEvento --> "*" Notificador
+ManejadorEvento -- Organizacion
 
 AgenteSectorial ..> RepoOrganizaciones
 AgenteSectorial --> Sector
