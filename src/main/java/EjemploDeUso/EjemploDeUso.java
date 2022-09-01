@@ -52,25 +52,7 @@ public class EjemploDeUso {
     System.out.print("Distancia Valor: " + dist + "\n");
 
     // System.out.print("lalala safe");*/
-    Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
-    Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992);
-    EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
-    MedioDeTransporte medioDeTransporte1 = new TransportePublico(10, TipoTransportePublico.TREN, "Tren Roca" );
-    Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
-    Usuario usuarioGuido = new Usuario("Guido2000", "contraCOntraKCRF123");
-    Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
-    Miembro miembroGuido = new Miembro(personaGuido);
-    Tramo tramo = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
-    Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo), LocalDate.of(2022, 1, 1), 5);
-    Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1),null);
 
-    miembroGuido.setArea(area);
-    Double dist = ServicioApiDistancia.getInstancia().obtenerDistancia(espacioOrigen, espacioDestino);
-    System.out.print("DISTANCIA: " + dist);
-    System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
-    trayecto1.setFechaFin(LocalDate.now());
-    System.out.print("Expected: "+medioDeTransporte1.getFactorEmision() * dist * 4.5);
-    System.out.print("Actual: "+ miembroGuido.calcularHuellaCarbonoMiembroMensual(2022,1));
   }
 
 }

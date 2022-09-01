@@ -70,15 +70,15 @@ public class Organizacion {
     this.notificadoresPreferidos.add(notificador);
   }
 
-  public Double calcularHuellaCarbonoTotalAnio(int anio) {
-    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(transformador.getDatosDeLaActividad(), anio);
+  public double calcularHuellaCarbonoTotalAnio(int anio) {
+    double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
+    double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(transformador.getDatosDeLaActividad(), anio);
     return hcActividad + hcAreas;
   }
 
-  public Double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
-    Double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    Double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(transformador.getDatosDeLaActividad(), anio, mes);
+  public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
+    double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
+    double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(transformador.getDatosDeLaActividad(), anio, mes);
     return hcActividad + hcAreas;
   }
 

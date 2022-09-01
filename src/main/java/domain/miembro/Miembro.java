@@ -41,8 +41,8 @@ public class Miembro {
     area.agregarVinculacion(trayecto);
   }
 */
-  public Double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
-    Double hcMiembro;
+  public double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
+    double hcMiembro;
     if(valorHCMensuales.stream().noneMatch(valorHCMensual -> valorHCMensual.soyMes(anio,mes))) {
       Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
       hcMiembro = ManejadorTrayectos.getInstance().calcularHCMensual(listaTrayectosDelMiembro, anio, mes);
@@ -66,16 +66,16 @@ public class Miembro {
   }
 
 
-  public Double calcularHuellaCarbonoMiembroAnual(int anio){
+  public double calcularHuellaCarbonoMiembroAnual(int anio){
     Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    Double hcMiembro = ManejadorTrayectos.getInstance().calcularHCAnual(listaTrayectosDelMiembro, anio);
+    double hcMiembro = ManejadorTrayectos.getInstance().calcularHCAnual(listaTrayectosDelMiembro, anio);
 
     return hcMiembro;
   }
 
-  public Double impactoMiembroEnOrganizacionAnual(int anual){
+  public double impactoMiembroEnOrganizacionAnual(int anual){
     Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
-    Double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);
+    double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);
     return this.calcularHuellaCarbonoMiembroAnual(anual) / hcMiOrg * 100;
   }
 }

@@ -18,20 +18,20 @@ public class ManejadorTrayectos {
     return INSTANCE;
   }
 
-  public Double calcularHCMensual(Collection<Trayecto> listaTrayectos, int anio, int mes) {
+  public double calcularHCMensual(Collection<Trayecto> listaTrayectos, int anio, int mes) {
     Collection<Trayecto> trayectosATratar;
     trayectosATratar = listaTrayectos.stream().filter(trayecto -> trayecto.perteneceMes(anio, mes)).collect(Collectors.toList());
 
-    Double hcMensual =trayectosATratar.stream().mapToDouble(trayecto -> trayecto.calcularHCTrayectoMensual()).sum();
+    double hcMensual =trayectosATratar.stream().mapToDouble(trayecto -> trayecto.calcularHCTrayectoMensual()).sum();
 
     return hcMensual;
   }
 
-  public Double calcularHCAnual(Collection<Trayecto> listaTrayectos, int anio){
+  public double calcularHCAnual(Collection<Trayecto> listaTrayectos, int anio){
 
     //Conseguir anio
     int meses;
-    Double hcTotal = 0.0;
+    double hcTotal = 0.0;
 
 
     //conseguir cantidad de meses de dicho anio

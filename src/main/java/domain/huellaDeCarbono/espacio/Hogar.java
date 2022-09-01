@@ -5,7 +5,7 @@ public class Hogar extends Espacio{
   private String departamento;
   private TipoDeHogar tipoDeHogar;
 
-  public Hogar(Double latitud, Double longitud, String provincia, String municipio, String localidad,
+  public Hogar(double latitud, double longitud, String provincia, String municipio, String localidad,
                String direccion, String numero, float codigoPostal, String barrio, int piso, String departamento,
                TipoDeHogar tipoDeHogar) {
     super(latitud, longitud, provincia, municipio, localidad, direccion, numero, codigoPostal);

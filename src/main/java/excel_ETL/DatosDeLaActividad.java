@@ -1,5 +1,6 @@
 package excel_ETL;
 
+import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -57,6 +58,8 @@ public class DatosDeLaActividad {
 
   public boolean perteneceMesAnio(int anio, int mes) {
     String[] fechas = periodoDeImputacion.split("/");
+    System.out.print("\n fechas:" + fechas[0]);
+    System.out.print("\n longitud:" + fechas.length );
     boolean rta;
     int fechaAnio;
     int fechaMes;

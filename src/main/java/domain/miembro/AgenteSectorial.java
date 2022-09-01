@@ -22,8 +22,8 @@ public class AgenteSectorial extends Persona {
   }
 
   //TODO:Consultar si es necesario Anual Y Mensual
-  public Double calcularHuellaCarbonoPorSectorAnual(int anio) {
-    Double hcPorSector = RepoOrganizacion
+  public double calcularHuellaCarbonoPorSectorAnual(int anio) {
+    double hcPorSector = RepoOrganizacion
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
@@ -36,8 +36,8 @@ public class AgenteSectorial extends Persona {
   }
 
   //TODO:Consultar si es necesario Anual Y Mensual
-  public Double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
-    Double hcPorSector = RepoOrganizacion
+  public double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
+    double hcPorSector = RepoOrganizacion
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()

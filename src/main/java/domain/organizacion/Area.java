@@ -75,29 +75,25 @@ public class Area {
     this.trayectosPendientes = trayectosPendientes;
   }
 
-  /*public void agregarVinculacion(Trayecto trayecto) {
-    trayectosPendientes.add(trayecto);
-  }*/
-
   public void aceptarVinculacion(Trayecto trayecto) {
     trayectosPendientes.remove(trayecto);
     trayectosRegistados.add(trayecto);
   }
 
-  public Double calcularHuellaCarbonoTotalAreaAnual(int anio){
-    Double hcAnual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroAnual(anio)).sum();
+  public double calcularHuellaCarbonoTotalAreaAnual(int anio){
+    double hcAnual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroAnual(anio)).sum();
     return hcAnual;
   }
 
-  public Double calcularHuellaCarbonoTotalAreaMensual(int anio, int mes) {
-    Double hcMensual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroMensual(anio,mes)).sum();
+  public double calcularHuellaCarbonoTotalAreaMensual(int anio, int mes) {
+    double hcMensual = miembros.stream().mapToDouble(miembro->miembro.calcularHuellaCarbonoMiembroMensual(anio,mes)).sum();
     return hcMensual;
   }
-  public Double calcularHuellaCarbonoPromedioMiembroMensual(int anio, int mes){
+  public double calcularHuellaCarbonoPromedioMiembroMensual(int anio, int mes){
     return this.calcularHuellaCarbonoTotalAreaMensual(anio, mes) / miembros.size();
   }
 
-  public Double calcularHuellaCarbonoPromedioMiembroAnual(int anio){
+  public double calcularHuellaCarbonoPromedioMiembroAnual(int anio){
     return this.calcularHuellaCarbonoTotalAreaAnual(anio) / miembros.size();
   }
 

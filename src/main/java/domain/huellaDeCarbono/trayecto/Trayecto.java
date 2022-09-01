@@ -48,32 +48,19 @@ public class Trayecto {
     this.tramos = tramos;
   }
 
-  //TODO : Como se que trayecto tomar si tiene fecha de inicio (Un mes particular) pero yo estoy en otro mes
-  //TODO : La fecha de fin se agrega o no? (Relacionado a lo anterior)
-
-
-  //TODO: El HC va a ser calculado aca, el area cuando calcule por sus trayectos, aca se va a calcular el HC del trayecto semanal con el peso por persona asociado
-  // Calcula por semana
-  public Double calcularHuellaCarbonoTotalTrayecto() {
+  public double calcularHuellaCarbonoTotalTrayecto() {
     System.out.println("cantidad de tramos:" + tramos.size());
-    Double hcTrayecto = tramos.stream().mapToDouble(unTramo -> {
-      try {
-        return unTramo.calcularHuellaCarbonoTramo();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      return 0;
-    }).sum();
+    double hcTrayecto = tramos.stream().mapToDouble(Tramo::calcularHuellaCarbonoTramo).sum();
     return hcTrayecto;
   }
 
-  public Double calcularHCTrayectoSemanal() {
+  public double calcularHCTrayectoSemanal() {
     System.out.println("calcularHCTrayectoSemanal: " + this.calcularHuellaCarbonoTotalTrayecto());
     System.out.println("peso: " + this.peso());
     return this.calcularHuellaCarbonoTotalTrayecto() * this.peso() * 5;
   }
 
-  public Double calcularHCTrayectoMensual() {
+  public double calcularHCTrayectoMensual() {
     double coeficiente = 0.0;
     try{
       coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
@@ -112,8 +99,6 @@ public class Trayecto {
   fecha fin    2021 mes final  3
   anio 2021 mes 5               FALSE
 
-
-
   fecha inicio 2020 mes inicio 11
   fecha fin    2022 mes final  3
   anio 2021 mes 5               TRUE
@@ -121,8 +106,6 @@ public class Trayecto {
   fecha inicio 2020 mes inicio 11
   fecha fin    2021 mes final  6 o 5
   anio 2021 mes 5               TRUE
-
-
 
   fecha inicio 2020 mes inicio 11
   fecha fin    2021 mes final  6 o 5
@@ -136,9 +119,6 @@ public class Trayecto {
   fecha fin    2021 mes final  6 o 5
   anio 2020 mes 12               TRUE
 
-
-
-
   fecha inicio 2020 mes inicio 2
   fecha fin    2020 mes final  4
   anio 2020 mes 1               FALSE
@@ -150,10 +130,7 @@ public class Trayecto {
   fecha inicio 2020 mes inicio 2
   fecha fin    2020 mes final  4
   anio 2020 mes 2 o 3 o 4       TRUE
-
-
    */
-
 
   public boolean perteneceMesTrayNoFin(int anio, int mes){
     return (fechaInicio.getYear() < anio)

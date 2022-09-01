@@ -10,6 +10,7 @@ import domain.miembro.TipoDocumento;
 import domain.organizacion.Area;
 import excel_ETL.Consumo;
 import excel_ETL.DatosDeLaActividad;
+import excel_ETL.Transformador;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,9 +68,9 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroEnElMismoMes(){
     miembroGuido.setArea(area);
-    Double dist = tramo1.getDistancia();
+    double dist = tramo1.getDistancia();
     System.out.print("DISTANCIA: " + dist);
-    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,1));
+    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 5), df.format(miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,1)));
   }
 
   @Test
@@ -79,85 +82,99 @@ public class CalculoHCTest {
   public CalculoHCTest() throws NoSuchAlgorithmException, IOException {
   }
 
-
   @Test
-  public void calculoHCMiembroMesTrayectoTerminado() throws IOException{
+  public void calculoHCMiembroMesTrayectoTerminado() {
     miembroGuido.setArea(area);
-    Double dist = tramo1.getDistancia();
+    double dist = tramo1.getDistancia();
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
     trayecto1.setFechaFin(LocalDate.now());
-    assertEquals(medioDeTransporte1.getFactorEmision() * dist * 4.5, miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,7));
+    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 5), df.format(miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,7)));
   }
 
   @Test
-  public void calculoHCMiembroAnioVencido() throws IOException{
+  public void calculoHCMiembroAnioVencido() {
     miembroGuido.setArea(area);
-    Double dist = tramo1.getDistancia();
+    double dist = tramo1.getDistancia();
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
-    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12.0), df.format(miembroGuido.calcularHuellaCarbonoMiembroAnual(2021)));
+    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12.0 * 5), df.format(miembroGuido.calcularHuellaCarbonoMiembroAnual(2021)));
   }
 
   @Test
-  public void calculoHCMiembroAnioCorriendo() throws IOException{
+  public void calculoHCMiembroAnioCorriendo() {
     miembroGuido.setArea(area);
-    Double dist = tramo1.getDistancia();
+    double dist = tramo1.getDistancia();
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
-    assertEquals((int)(medioDeTransporte1.getFactorEmision() * dist * 4.5 * (LocalDate.now().getMonthValue()-1)), (int)(double)(miembroGuido.calcularHuellaCarbonoMiembroAnual(2022)));
-  }
-
-  @Test
-  public void calculoHCArea() throws IOException{
-
+    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * (LocalDate.now().getMonthValue()-1) * 5), df.format(miembroGuido.calcularHuellaCarbonoMiembroAnual(2022)));
   }
 
   //area con multiples miembros con tramo compartido
   @Test
-  public void calculoHCAnualAreaConMiembrosTramoCompartido() throws IOException{
+  public void calculoHCAnualAreaConMiembrosTramoCompartido() {
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
-    Double dist2 = tramo2.getDistancia();
-    Double dist3 = tramo3.getDistancia();
-    assertEquals(df.format((medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4)*12) , df.format(area4Ever21.calcularHuellaCarbonoTotalAreaAnual(2021)));
+    double dist2 = tramo2.getDistancia();
+    double dist3 = tramo3.getDistancia();
+    assertEquals(df.format((medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4)* 12 * 5) , df.format(area4Ever21.calcularHuellaCarbonoTotalAreaAnual(2021)));
   }
 
   @Test
-  public void calculoHCMensualAreaConMiembrosTramoCompartido() throws IOException{
+  public void calculoHCMensualAreaConMiembrosTramoCompartido() {
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
-    Double dist2 = tramo2.getDistancia();
-    Double dist3 = tramo3.getDistancia();
-    assertEquals( (int) (medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4) , (int) (double) area4Ever21.calcularHuellaCarbonoTotalAreaMensual(2021,8));
+    double dist2 = tramo2.getDistancia();
+    double dist3 = tramo3.getDistancia();
+    assertEquals( df.format(medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 * 5 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4 * 5) , df.format(area4Ever21.calcularHuellaCarbonoTotalAreaMensual(2021,8)));
   }
 
   //area con un solo miembro
   @Test
-  public void calculoHCAnualArea() throws IOException{
+  public void calculoHCAnualArea() {
     miembroGuido.setArea(area);
-    Double dist = tramo1.getDistancia();
+    double dist = tramo1.getDistancia();
     System.out.print("DISTANCIA: " + dist);
     System.out.print("FE: " + medioDeTransporte1.getFactorEmision() );
-    assertEquals((int)(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12), (int)(double)(area.calcularHuellaCarbonoTotalAreaAnual(2021)));
+    assertEquals(df.format(medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12 * 5), df.format(area.calcularHuellaCarbonoTotalAreaAnual(2021)));
+  }
+//TODO
+  /*
+  @Test
+  public void calculamosHCActividadCombustionElectricidad() {
+
+    Transformador.getInstance().cargarDatos("\\src\\main\\java\\excel_ETL\\excelTesteo.xls");
+    List<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+
+    assertEquals(df.format(3 * 10), df.format(calculadoraHCActividad.calcularHuellaCarbonoCombElec(datosDeLaActividad.get(0))));
+  }
+*/
+  //TODO revisar cuando ponemos solo el año y ver el tema del prorrateo
+  @Test
+  public void calculamosHCActividadCombustionElectricidadMensual() {
+
+    Transformador.getInstance().cargarDatos("\\src\\main\\java\\excel_ETL\\excelTesteo.xls");
+    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+
+    assertEquals(df.format(3 * 10), df.format(calculadoraHCActividad.calcularHCActividadMensual(datosDeLaActividad,2021,01)));
   }
 
   @Test
-  public void calculamosHCActividadCombustionElectricidad() throws IOException{
+  public void calculamosHCActividadCombustionElectricidadAnual() {
 
-    Double valor = 1.0;
-    Double fe = 10.0;
+    Transformador.getInstance().cargarDatos("\\src\\main\\java\\excel_ETL\\excelTesteo.xls");
+    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    DatosDeLaActividad datosDeLaActividad = new DatosDeLaActividad();
-    Consumo consumo = new Consumo();
-    consumo.setValor(valor);
-    consumo.setPeriocidad("01/2022");
-    datosDeLaActividad.setActividad("Combustión fija");
-    datosDeLaActividad.setTipoDeConsumo("Kerosene");
-    datosDeLaActividad.setConsumo(consumo);
+    assertEquals(df.format(2 * 7 + 5 * 10), df.format(calculadoraHCActividad.calcularHCActividadAnual(datosDeLaActividad,2022)));
+  }
+  @Test
+  public void calculamosHCActividadLogProdResMensual() {
 
-    calculadoraHCActividad.setFactorEmisionDeTipoActividad(datosDeLaActividad, fe);
 
-    assertEquals(valor * fe, calculadoraHCActividad.calcularHuellaCarbonoCombElec(datosDeLaActividad));
+  }
+
+  @Test
+  public void calculamosHCActividadLogProdResAnual() {
+
   }
 }

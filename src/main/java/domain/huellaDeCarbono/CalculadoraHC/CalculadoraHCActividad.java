@@ -15,20 +15,20 @@ public class CalculadoraHCActividad {
   Collection<TipoActividad> tiposActividad = new ArrayList<>();
 
   public CalculadoraHCActividad() {
-    TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3");
-    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt");
-    TipoActividad kerosene = new TipoActividad("Kerosene", "lt");
-    TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt");
-    TipoActividad nafta = new TipoActividad("Nafta", "lt");
-    TipoActividad carbon = new TipoActividad("Carbon", "kg");
-    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg");
-    TipoActividad lenia = new TipoActividad("Lenia", "kg");
-    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt");
-    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt");
-    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt");
-    TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh");
-    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km");
-    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg");
+    TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
+    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
+    TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
+    TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
+    TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
+    TipoActividad carbon = new TipoActividad("Carbon", "kg",10);
+    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg",5);
+    TipoActividad lenia = new TipoActividad("Lenia", "kg",8);
+    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt",7);
+    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt",8);
+    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt",7);
+    TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
+    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
+    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
 
     tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
         carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
@@ -48,7 +48,7 @@ public class CalculadoraHCActividad {
         .get(0);
   }
 
-  public Double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad> datos)  throws IOException {
+  public double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad> datos)  throws IOException {
 
       Double K = Double.parseDouble(ArchivoConfig.obtenerValorK());
       Double factorEmision;
@@ -68,14 +68,14 @@ public class CalculadoraHCActividad {
     return datoDistancia.getConsumo().getValor() * datoPeso.getConsumo().getValor() * K * factorEmision;
   }
 
-  public Double calcularHuellaCarbonoCombElec(DatosDeLaActividad dato) {
+  public double calcularHuellaCarbonoCombElec(DatosDeLaActividad dato) {
     Double distanciaDato = dato.getConsumo().getValor();
     TipoActividad tipoActividad = this.obtenerTipoActividad(dato);
     Double fe = tipoActividad.getFe();
     return distanciaDato * fe;
   }
 
-  public Double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {
+  public double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {
     Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(anio)).collect(Collectors.toList());
 
     Collection<DatosDeLaActividad> combElec = datosActividad
@@ -88,8 +88,8 @@ public class CalculadoraHCActividad {
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
-    Double hcLogProdRes=0.0;
+    double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
+    double hcLogProdRes=0.0;
 
     if(logProdRes.size() >= 4){
       try{
@@ -101,7 +101,7 @@ public class CalculadoraHCActividad {
     return hcCombElec + hcLogProdRes;
   }
 
-  public Double calcularHCActividadMensual(Collection<DatosDeLaActividad> datos, int anio, int mes) {
+  public double calcularHCActividadMensual(Collection<DatosDeLaActividad> datos, int anio, int mes) {
 
     //Estas son las actividades mensuales que se calculan de forma total
     Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
@@ -133,9 +133,9 @@ public class CalculadoraHCActividad {
         .collect(Collectors.toList());
 
     //Calculo HC de las actividades del Mes
-    Double hcMes;
-    Double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
-    Double hcLogProdRes=0.0;
+    double hcMes;
+    double hcCombElec = combElec.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
+    double hcLogProdRes=0.0;
 
     if(logProdRes.size() >= 4){
       try{
@@ -148,9 +148,9 @@ public class CalculadoraHCActividad {
     hcMes = hcCombElec + hcLogProdRes;
 
     //Calculo HC de las actividades del Anio, posteriormente dividido por los meses vencidos del anio
-    Double hcAnio;
-    Double hcCombElecAnio = combElecAnio.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
-    Double hcLogProdResAnio=0.0;
+    double hcAnio;
+    double hcCombElecAnio = combElecAnio.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
+    double hcLogProdResAnio=0.0;
 
     if(logProdRes.size() >= 4){
       try{

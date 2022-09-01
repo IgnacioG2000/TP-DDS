@@ -1,8 +1,8 @@
 package domain.huellaDeCarbono.espacio;
 
 public abstract class Espacio {
-  protected Double latitud;
-  protected Double longitud;
+  protected double latitud;
+  protected double longitud;
   protected String provincia;
   protected String municipio;
   protected String localidad;
@@ -11,7 +11,7 @@ public abstract class Espacio {
   protected float codigoPostal;
   //protected String barrio;
 
-  public Espacio(Double latitud, Double longitud, String provincia, String municipio,
+  public Espacio(double latitud, double longitud, String provincia, String municipio,
                  String localidad, String direccion, String numero, float codigoPostal) {
     this.latitud = latitud;
     this.longitud = longitud;
@@ -24,19 +24,19 @@ public abstract class Espacio {
     //this.barrio = barrio;
   }
 
-  public Double getLatitud() {
+  public double getLatitud() {
     return latitud;
   }
 
-  public void setLatitud(Double latitud) {
+  public void setLatitud(double latitud) {
     this.latitud = latitud;
   }
 
-  public Double getLongitud() {
+  public double getLongitud() {
     return longitud;
   }
 
-  public void setLongitud(Double longitud) {
+  public void setLongitud(double longitud) {
     this.longitud = longitud;
   }
 
@@ -62,16 +62,6 @@ public abstract class Espacio {
 
     this.codigoPostal = codigoPostal;
   }
-
-  /*
-  public String getBarrio() {
-    return barrio;
-  }
-
-  public void setBarrio(String barrio) {
-    this.barrio = barrio;
-  }
-   */
 
   public String getProvincia() {
     return provincia;

@@ -3,6 +3,8 @@ package excel_ETL;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.NumberToTextConverter;
+import repositorios.RepoLocalidad;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +14,16 @@ import java.util.Iterator;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 
 
 public class Transformador {
-
+  private static final Transformador INSTANCE = new Transformador();
   private Collection<DatosDeLaActividad> datosDeLaActividad;
+
+  public static Transformador getInstance() {
+    return INSTANCE;
+  }
 
   public void cargarDatos(String pathParcial)
   {
@@ -36,7 +43,7 @@ public class Transformador {
 
       //Iterate through each rows one by one
       Iterator<Row> rowIterator = sheet.iterator();
-      //nos saleamos las prieras dos lineas del excel
+      //nos salteamos las primeras dos lineas del excel
 
       datosDeLaActividad = new ArrayList<>();
       System.out.print(datosDeLaActividad.size());
@@ -55,7 +62,9 @@ public class Transformador {
         consumo.setValor(row.getCell(2).getNumericCellValue());
         consumo.setPeriocidad(row.getCell(3).getStringCellValue());
         nuevoDato.setConsumo(consumo);
+        //nuevoDato.setPeriodoDeImputacion(NumberToTextConverter.toText(row.getCell(4).getNumericCellValue()));
         nuevoDato.setPeriodoDeImputacion(row.getCell(4).getStringCellValue());
+     //  nuevoDato.setPeriodoDeImputacion(row.getCell(4).setCellType(Cell.CELL_TYPE_STRING));
 
         //Agrego el dato a la lista
         datosDeLaActividad.add(nuevoDato);
