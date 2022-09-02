@@ -169,12 +169,17 @@ public class CalculoHCTest {
   }
   @Test
   public void calculamosHCActividadLogProdResMensual() {
+    Transformador.getInstance().cargarDatos("\\src\\main\\java\\excel_ETL\\excelTesteo.xls");
+    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-
+    assertEquals(12*9*10*1.2,(int) calculadoraHCActividad.calcularHCActividadMensual(datosDeLaActividad,2019,04));
   }
 
   @Test
   public void calculamosHCActividadLogProdResAnual() {
+    Transformador.getInstance().cargarDatos("\\src\\main\\java\\excel_ETL\\excelTesteo.xls");
+    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
+    assertEquals(8*15*10*1.1,(int) calculadoraHCActividad.calcularHCActividadAnual(datosDeLaActividad,2020));
   }
 }

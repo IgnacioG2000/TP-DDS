@@ -5,10 +5,7 @@ import excel_ETL.DatosDeLaActividad;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CalculadoraHCActividad {
@@ -53,10 +50,16 @@ public class CalculadoraHCActividad {
       Double K = Double.parseDouble(ArchivoConfig.obtenerValorK());
       Double factorEmision;
 
-      //NO HACEMOS PASAJE ENTRE KG Y KM PORQUE YA VIENEN BIEN
-      DatosDeLaActividad datoDistancia = datos.stream().filter(dato -> (Objects.equals(dato.getTipoDeConsumo(), "Distancia Media Recorrida"))).collect(Collectors.toList()).get(0);
-      DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (Objects.equals(dato.getTipoDeConsumo(), "Peso Total Transportado"))).collect(Collectors.toList()).get(0);
-      DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de transporte: \\."))).collect(Collectors.toList()).get(0);
+      for(int i = 0; i< datos.toArray().length;i++){
+        System.out.println("Tipo de consumo es: " + datos.stream().collect(Collectors.toList()).get(i).getTipoDeConsumo());
+      }
+
+      //NO HACEMOS PASAJE ENTRE KG Y KM PORQUE YA VIENEN BIEN "Distancia Media Recorrida"
+      List<DatosDeLaActividad> aux = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Distancia Media Recorrida"))).collect(Collectors.toList());
+      System.out.println("TAMANIO DE AUX: " + aux.toArray().length);
+      DatosDeLaActividad datoDistancia = aux.get(0);
+      DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Peso Total Transportado"))).collect(Collectors.toList()).get(0);
+      DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de Transporte: .+"))).collect(Collectors.toList()).get(0);
 
       //aca usamos el arch para conseguir los FE: NO tenemos INSTANCIA de camiones o lugar donde guardarlo PARA INSTANCIARLO
       if (Objects.equals(datoTransporte.getTipoDeConsumo(), "Medio de Transporte: Camion de carga"))
@@ -152,7 +155,7 @@ public class CalculadoraHCActividad {
     double hcCombElecAnio = combElecAnio.stream().mapToDouble(this::calcularHuellaCarbonoCombElec).sum();
     double hcLogProdResAnio=0.0;
 
-    if(logProdRes.size() >= 4){
+    if(logProdResAnio.size() >= 4){
       try{
         hcLogProdResAnio = this.calcularHuellaCarbonoLogProdRes(logProdResAnio);
       }catch (IOException e) {
