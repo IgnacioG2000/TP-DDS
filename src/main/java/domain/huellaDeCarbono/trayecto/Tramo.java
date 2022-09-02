@@ -47,7 +47,6 @@ public class Tramo {
   }
 
   public double calcularHuellaCarbonoTramo() {
-    System.out.println("CalculoTramo: " + (this.transporte.getFactorEmision() * this.calcularDistancia()) / miembros.size());
     return (this.transporte.getFactorEmision() * this.calcularDistancia()) / miembros.size();
   }
 

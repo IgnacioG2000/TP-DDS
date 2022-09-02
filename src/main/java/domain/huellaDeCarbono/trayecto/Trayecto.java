@@ -49,14 +49,11 @@ public class Trayecto {
   }
 
   public double calcularHuellaCarbonoTotalTrayecto() {
-    System.out.println("cantidad de tramos:" + tramos.size());
     double hcTrayecto = tramos.stream().mapToDouble(Tramo::calcularHuellaCarbonoTramo).sum();
     return hcTrayecto;
   }
 
   public double calcularHCTrayectoSemanal() {
-    System.out.println("calcularHCTrayectoSemanal: " + this.calcularHuellaCarbonoTotalTrayecto());
-    System.out.println("peso: " + this.peso());
     return this.calcularHuellaCarbonoTotalTrayecto() * this.peso() * 5;
   }
 
@@ -64,13 +61,12 @@ public class Trayecto {
     double coeficiente = 0.0;
     try{
       coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
-      System.out.println("coeficiente: " + coeficiente);
+
     }catch(IOException e){
       e.printStackTrace();
     }
 
     double resultado = this.calcularHCTrayectoSemanal() * coeficiente;
-    System.out.println("calcularHCTrayectoMensual: " + resultado);
     return resultado;
   }
 

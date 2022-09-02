@@ -50,13 +50,11 @@ public class CalculadoraHCActividad {
       Double K = Double.parseDouble(ArchivoConfig.obtenerValorK());
       Double factorEmision;
 
-      for(int i = 0; i< datos.toArray().length;i++){
-        System.out.println("Tipo de consumo es: " + datos.stream().collect(Collectors.toList()).get(i).getTipoDeConsumo());
-      }
+
 
       //NO HACEMOS PASAJE ENTRE KG Y KM PORQUE YA VIENEN BIEN "Distancia Media Recorrida"
       List<DatosDeLaActividad> aux = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Distancia Media Recorrida"))).collect(Collectors.toList());
-      System.out.println("TAMANIO DE AUX: " + aux.toArray().length);
+
       DatosDeLaActividad datoDistancia = aux.get(0);
       DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Peso Total Transportado"))).collect(Collectors.toList()).get(0);
       DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de Transporte: .+"))).collect(Collectors.toList()).get(0);

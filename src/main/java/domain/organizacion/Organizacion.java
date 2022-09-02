@@ -14,20 +14,16 @@ public class Organizacion {
   private Collection<Area> sectores;
   private Collection<Contacto> contactos;
   private Clasificacion clasificacion;
-  private Transformador transformador;
   private CalculadoraHCActividad calculadoraHCActividad;
-  private Collection<Notificador> notificadoresPreferidos;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
-      Clasificacion clasificacion, Transformador transformador,
-      CalculadoraHCActividad calculadoraHCActividad) {
+      Clasificacion clasificacion, CalculadoraHCActividad calculadoraHCActividad) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
-    this.transformador = transformador;
     this.calculadoraHCActividad = calculadoraHCActividad;
-    this.notificadoresPreferidos = new ArrayList<>();
+    this.contactos = new ArrayList<>();
   }
 
   public String getRazonSocial() {
@@ -66,19 +62,15 @@ public class Organizacion {
     sectores.add(area);
   }
 
-  public void agregarNotificador(Notificador notificador) {
-    this.notificadoresPreferidos.add(notificador);
-  }
-
   public double calcularHuellaCarbonoTotalAnio(int anio) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(transformador.getDatosDeLaActividad(), anio);
+    double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(Transformador.getInstance().getDatosDeLaActividad(), anio);
     return hcActividad + hcAreas;
   }
 
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(transformador.getDatosDeLaActividad(), anio, mes);
+    double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(Transformador.getInstance().getDatosDeLaActividad(), anio, mes);
     return hcActividad + hcAreas;
   }
 
@@ -94,7 +86,4 @@ public class Organizacion {
     return contactos;
   }
 
-  public Collection<Notificador> getNotificadoresPreferidos() {
-    return notificadoresPreferidos;
-  }
 }

@@ -46,7 +46,6 @@ public class Miembro {
     if(valorHCMensuales.stream().noneMatch(valorHCMensual -> valorHCMensual.soyMes(anio,mes))) {
       Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
       hcMiembro = ManejadorTrayectos.getInstance().calcularHCMensual(listaTrayectosDelMiembro, anio, mes);
-      System.out.print("hc miembro en calcular huella carbodno mensual:" + hcMiembro + "\n");
       agregarHCMensual(anio, mes, hcMiembro);
 
     }else{
