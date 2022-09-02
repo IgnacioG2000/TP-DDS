@@ -1,77 +1,56 @@
 package notificadores;
 
-import domain.organizacion.Contacto;
-
-import java.util.List;
 import java.util.Properties;
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 
-public class EmailSender extends Notificador {
-    private static Properties prop = new Properties();
-    private static Session session;
-    private static String username;
+public class EmailSender {
+    private static EmailSender INSTANCE = null;
+
+    // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
+    private static final String remitente = "nachoog.2000";
     // GMAIL app specific password: https://support.google.com/accounts/answer/185833?p=InvalidSecondFactor
-    private static String password;
+    private static final String password = "tcfvfofightayrbw";
 
+    public void enviarConGMail(String destinatario, String asunto, String cuerpo) {
 
-    static {
-        prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+        Properties props = System.getProperties();
+        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+        props.put("mail.smtp.user", remitente);
+        props.put("mail.smtp.clave", password);    //La clave de la cuenta
+        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
+        props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
+        props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
 
-        session = Session.getInstance(prop, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-    }
-
-    public EmailSender(String username, String password) {
-        EmailSender.username = username;
-        EmailSender.password = password;
-    }
-
-    public void send(String from, String to, String subject, String body) {
+        Session session = Session.getDefaultInstance(props);
+        MimeMessage message = new MimeMessage(session);
 
         try {
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-
-            message.setSubject(subject);
-
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-//            mimeBodyPart.setContent(body, "text/plain; charset=utf-8");
-            mimeBodyPart.setContent(body, "text/html; charset=utf-8");
-
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
-
-            message.setContent(multipart);
-
-            Transport.send(message);
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
+            message.setFrom(new InternetAddress(remitente));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));   //Se podrían añadir varios de la misma manera
+            message.setSubject(asunto);
+            message.setText(cuerpo);
+            Transport transport = session.getTransport("smtp");
+            transport.connect("smtp.gmail.com", remitente, password);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        }
+        catch (MessagingException me) {
+            me.printStackTrace();   //Si se produce un error
         }
     }
 
-    @Override
-    public void notificar(List<Contacto> contactos) {
-        contactos.forEach(c -> this.send("hardcodear",c.getEmail(), "harcodear mas tarde", "cuerpito"));
+    public static EmailSender getInstance() {
+        if(INSTANCE ==null){
+            INSTANCE = new EmailSender();
+        }
+        return INSTANCE;
     }
+
+
 }

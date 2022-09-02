@@ -91,6 +91,8 @@ public class Transformador {
   public Collection<DatosDeLaActividad> getDatosDeLaActividad() {
     return datosDeLaActividad;
   }
+
+
 }
 
 

@@ -2,6 +2,8 @@ package domain.organizacion;
 
 import domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import excel_ETL.Transformador;
+import notificadores.ManejadorEvento;
+import notificadores.Notificacion;
 import notificadores.Notificador;
 
 import java.util.ArrayList;
@@ -15,14 +17,16 @@ public class Organizacion {
   private Collection<Contacto> contactos;
   private Clasificacion clasificacion;
   private CalculadoraHCActividad calculadoraHCActividad;
+  private ManejadorEvento manejadorEvento;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
-      Clasificacion clasificacion, CalculadoraHCActividad calculadoraHCActividad) {
+      Clasificacion clasificacion, CalculadoraHCActividad calculadoraHCActividad, ManejadorEvento manejadorEvento) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
     this.calculadoraHCActividad = calculadoraHCActividad;
+    this.manejadorEvento = manejadorEvento;
     this.contactos = new ArrayList<>();
   }
 
@@ -86,4 +90,9 @@ public class Organizacion {
     return contactos;
   }
 
+  public void enviarRecomendacion() {
+    Notificacion noti = new Notificacion("Recomendaciones",
+        "Link a las recomendaciones: zaraza");
+    this.manejadorEvento.notificar(noti,this);
+  }
 }

@@ -14,6 +14,7 @@ import domain.organizacion.TipoDeOrganizacion;
 import excel_ETL.Consumo;
 import excel_ETL.DatosDeLaActividad;
 import excel_ETL.Transformador;
+import notificadores.ManejadorEvento;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,8 +60,9 @@ public class CalculoHCTest {
   Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
   CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
+  ManejadorEvento manejadorEvento = new ManejadorEvento();
   Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
-      Clasificacion.MINISTERIO, calculadoraHCActividad);
+      Clasificacion.MINISTERIO, calculadoraHCActividad,manejadorEvento);
 
   @Test
   public void calculoHCMiembroEnElMismoMes(){
