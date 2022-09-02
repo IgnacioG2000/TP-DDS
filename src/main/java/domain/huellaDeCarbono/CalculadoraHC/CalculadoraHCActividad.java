@@ -47,7 +47,7 @@ public class CalculadoraHCActividad {
 
   public double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad> datos)  throws IOException {
 
-      Double K = Double.parseDouble(ArchivoConfig.obtenerValorK());
+      Double K = ArchivoConfig.obtenerValorK();
       Double factorEmision;
 
 
@@ -62,9 +62,9 @@ public class CalculadoraHCActividad {
       //aca usamos el arch para conseguir los FE: NO tenemos INSTANCIA de camiones o lugar donde guardarlo PARA INSTANCIARLO
       if (Objects.equals(datoTransporte.getTipoDeConsumo(), "Medio de Transporte: Camion de carga"))
       {
-        factorEmision = Double.parseDouble(ArchivoConfig.obtenerFECamion());
+        factorEmision = ArchivoConfig.obtenerFECamion();
       } else {
-        factorEmision = Double.parseDouble(ArchivoConfig.obtenerFEUtilitario());
+        factorEmision = ArchivoConfig.obtenerFEUtilitario();
       }
     return datoDistancia.getConsumo().getValor() * datoPeso.getConsumo().getValor() * K * factorEmision;
   }

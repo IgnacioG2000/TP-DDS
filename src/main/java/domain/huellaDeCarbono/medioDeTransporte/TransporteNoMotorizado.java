@@ -1,11 +1,15 @@
 package domain.huellaDeCarbono.medioDeTransporte;
 
+import apiDistancia.ArchivoConfig;
+
+import java.io.IOException;
+
 public class TransporteNoMotorizado extends MedioDeTransporte {
   private TipoNoMotorizado tipoNoMotorizado;
 
-  public TransporteNoMotorizado(double factor, TipoNoMotorizado tipoNoMotorizado) {
-    super(factor);
+  public TransporteNoMotorizado(TipoNoMotorizado tipoNoMotorizado) throws IOException {
     this.tipoNoMotorizado = tipoNoMotorizado;
+    this.factorEmision = ArchivoConfig.obtenerFENoMotorizados();
   }
 
   public TipoNoMotorizado getTipoNoMotorizado() {

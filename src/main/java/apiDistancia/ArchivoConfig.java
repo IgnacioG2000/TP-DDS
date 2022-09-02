@@ -19,30 +19,52 @@ public class ArchivoConfig {
     return propiedades.getProperty("tokenAutorizacionAPI");
   }
 
-  static public String obtenerValorK() throws IOException {
+  static public Double obtenerValorK() throws IOException {
     Properties propiedades = new Properties();
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    return propiedades.getProperty("K");
-
+    return Double.parseDouble(propiedades.getProperty("K"));
   }
 
-  static public String obtenerFECamion() throws IOException {
+  static public Double obtenerFENoMotorizados() throws IOException {
     Properties propiedades = new Properties();
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    return propiedades.getProperty("FECamion");
-
+    return Double.parseDouble(propiedades.getProperty("FENoMotorizado"));
   }
 
-  static public String obtenerFEUtilitario() throws IOException {
+  static public Double obtenerFEVehiculoParticular() throws IOException {
     Properties propiedades = new Properties();
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    return propiedades.getProperty("FEUtilitario");
+    return Double.parseDouble(propiedades.getProperty("FEVehiculoParticular"));
   }
 
-  static public String obtenerCoeficienteHCMensual() throws IOException {
+  static public Double obtenerFEServicioContratado() throws IOException {
     Properties propiedades = new Properties();
     propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
-    return propiedades.getProperty("CoeficienteHCMensual");
+    return Double.parseDouble(propiedades.getProperty("FEServicioContratado"));
+  }
+
+  static public Double obtenerFETrasnportePublico() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return Double.parseDouble(propiedades.getProperty("FETransportePublico"));
+  }
+
+  static public Double obtenerFECamion() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return Double.parseDouble(propiedades.getProperty("FECamion"));
+  }
+
+  static public Double obtenerFEUtilitario() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return Double.parseDouble(propiedades.getProperty("FEUtilitario"));
+  }
+
+  static public Double obtenerCoeficienteHCMensual() throws IOException {
+    Properties propiedades = new Properties();
+    propiedades.load(new FileReader(System.getProperty("user.dir") + "/src/main/resources/config.properties"));
+    return Double.parseDouble(propiedades.getProperty("CoeficienteHCMensual"));
   }
 
 }

@@ -3,8 +3,7 @@ package domain.huellaDeCarbono.medioDeTransporte;
 public abstract class MedioDeTransporte {
   protected double factorEmision;
 
-  public MedioDeTransporte(double factorEmision) {
-    this.factorEmision = factorEmision;
+  public MedioDeTransporte() {
   }
 
   public abstract boolean puedoSerCompartido();

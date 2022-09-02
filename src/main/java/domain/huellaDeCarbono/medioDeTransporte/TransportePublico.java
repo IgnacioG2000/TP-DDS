@@ -1,13 +1,17 @@
 package domain.huellaDeCarbono.medioDeTransporte;
 
+import apiDistancia.ArchivoConfig;
+
+import java.io.IOException;
+
 public class TransportePublico extends MedioDeTransporte{
   private TipoTransportePublico tipo;
   private String nombre;
 
-  public TransportePublico(double factor,TipoTransportePublico tipo, String nombre) {
-    super(factor);
+  public TransportePublico(TipoTransportePublico tipo, String nombre) throws IOException {
     this.tipo = tipo;
     this.nombre = nombre;
+    this.factorEmision = ArchivoConfig.obtenerFETrasnportePublico();
   }
 
   public TipoTransportePublico getTipo() {

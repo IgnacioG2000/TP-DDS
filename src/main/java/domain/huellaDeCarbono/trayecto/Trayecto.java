@@ -60,7 +60,7 @@ public class Trayecto {
   public double calcularHCTrayectoMensual() {
     double coeficiente = 0.0;
     try{
-      coeficiente = Double.parseDouble(ArchivoConfig.obtenerCoeficienteHCMensual());
+      coeficiente = ArchivoConfig.obtenerCoeficienteHCMensual();
 
     }catch(IOException e){
       e.printStackTrace();

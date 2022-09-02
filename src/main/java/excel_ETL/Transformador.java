@@ -77,7 +77,7 @@ public class Transformador {
 
         System.out.println("");
       }
-      System.out.print(datosDeLaActividad.size());
+
 
       file.close();
     }
