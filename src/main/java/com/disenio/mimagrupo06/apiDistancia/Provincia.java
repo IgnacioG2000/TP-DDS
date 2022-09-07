@@ -1,7 +1,8 @@
 package com.disenio.mimagrupo06.apiDistancia;
 
-public class Provincia extends Sector{
-  // Ver tipo ID
+import com.disenio.mimagrupo06.domain.sector.Sector;
+
+public class Provincia {
   public String id;
   public String nombre;
   public Pais pais;
@@ -14,8 +15,4 @@ public class Provincia extends Sector{
     return id;
   }
 
-  @Override
-  public String nombreProvincia() {
-    return nombre;
-  }
 }

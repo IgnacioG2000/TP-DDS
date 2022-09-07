@@ -24,7 +24,7 @@ public class VerificadorSesion {
        }
 
        IntentosInicioSesion usuarioIntentos = intentoUsuarios.get(usuario);
-
+/*
        if(usuarioIntentos.puedeIntentarLoggearse()) {
            if(RepositorioUsuario.getInstance().contraseniaCoincide(usuario, contrasenia)) {
                //retorno el usuario loggeado
@@ -36,6 +36,8 @@ public class VerificadorSesion {
 
            }
        }
+
+ */
        return null;
    }
 }

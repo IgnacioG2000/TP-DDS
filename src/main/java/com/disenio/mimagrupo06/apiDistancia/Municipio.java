@@ -1,6 +1,8 @@
 package com.disenio.mimagrupo06.apiDistancia;
 
-public class Municipio extends Sector{
+import com.disenio.mimagrupo06.domain.sector.Sector;
+
+public class Municipio {
   public String id;
   public String nombre;
   public Provincia provincia;
@@ -9,12 +11,9 @@ public class Municipio extends Sector{
     return this.nombre;
   }
 
-  @Override
-  public String nombreProvincia() {
-    return provincia.getNombre();
-  }
-
   public String getId() {
     return this.id;
   }
+
+
 }

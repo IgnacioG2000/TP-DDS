@@ -10,26 +10,34 @@ import java.util.stream.Collectors;
 
 public class CalculadoraHCActividad {
   Collection<TipoActividad> tiposActividad = new ArrayList<>();
+  private static CalculadoraHCActividad calculadoraHCActividad;
 
-  public CalculadoraHCActividad() {
-    TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
-    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
-    TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
-    TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
-    TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
-    TipoActividad carbon = new TipoActividad("Carbon", "kg",10);
-    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg",5);
-    TipoActividad lenia = new TipoActividad("Lenia", "kg",8);
-    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt",7);
-    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt",8);
-    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt",7);
-    TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
-    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
-    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
+  public static CalculadoraHCActividad getCalculadoraHCActividad() {
 
-    tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
-        carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
-        electricidad, distMediaRecorrida, pesoTotalTransportado));
+    if (calculadoraHCActividad==null) {
+      TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
+      TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
+      TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
+      TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
+      TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
+      TipoActividad carbon = new TipoActividad("Carbon", "kg",10);
+      TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg",5);
+      TipoActividad lenia = new TipoActividad("Lenia", "kg",8);
+      TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt",7);
+      TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt",8);
+      TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt",7);
+      TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
+      TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
+      TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
+
+      calculadoraHCActividad = new CalculadoraHCActividad();
+
+      calculadoraHCActividad.tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
+          carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
+          electricidad, distMediaRecorrida, pesoTotalTransportado));
+
+    }
+    return calculadoraHCActividad;
   }
 
   public void setFactorEmisionDeTipoActividad(DatosDeLaActividad dato, Double fe) {

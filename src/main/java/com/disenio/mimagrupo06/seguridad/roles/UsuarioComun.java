@@ -5,14 +5,14 @@ import javax.persistence.Entity;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
-@DiscriminatorValue("2")
-public class Administrador extends Usuario {
+@DiscriminatorValue("1")
+public class UsuarioComun extends Usuario{
 
-  public Administrador(String usuario, String contrasenia) throws NoSuchAlgorithmException {
+  public UsuarioComun(String usuario, String contrasenia) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
   }
 
-  public Administrador() {
+  public UsuarioComun() {
 
   }
 }

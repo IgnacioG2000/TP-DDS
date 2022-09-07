@@ -17,6 +17,7 @@ import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
+import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.junit.jupiter.api.Test;
 
 
@@ -40,14 +41,14 @@ public class CalculoHCTest {
   MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
   MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
   Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
-  Usuario usuarioGuido = new Usuario("Guido2000", "contraCOntraKCRF123");
+  UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
   Persona personaGuido = new Persona("Guido", "Serco",TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
   Miembro miembroGuido = new Miembro(personaGuido);
   Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
-  Usuario usuarioTaylor = new Usuario("Taylor1234", "djf8ree245");
+  UsuarioComun usuarioTaylor = new UsuarioComun("Taylor1234", "djf8ree245");
   Persona personaTaylor = new Persona("Taylor", "Swift", TipoDocumento.DNI, "367789999", hogarTaylor, usuarioTaylor);
   Miembro miembroTaylor = new Miembro(personaTaylor);
-  Usuario usuarioJake = new Usuario("Jake_The_Taylor_Hater", "Taylor_hater_4_life");
+  UsuarioComun usuarioJake = new UsuarioComun("Jake_The_Taylor_Hater", "Taylor_hater_4_life");
   Persona personaJake = new Persona("Jake", "Gyllenhaal", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioJake);
   Miembro miembroJake = new Miembro(personaJake);
   Tramo tramo1 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
@@ -56,13 +57,12 @@ public class CalculoHCTest {
   Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
   Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
   Trayecto trayecto3 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo3), LocalDate.of(2021, 1, 1),2);
-  Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1),null);
-  Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
+  Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1));
+  Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3));
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
-  CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
   ManejadorEvento manejadorEvento = new ManejadorEvento();
   Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
-      Clasificacion.MINISTERIO, calculadoraHCActividad,manejadorEvento);
+      Clasificacion.MINISTERIO,manejadorEvento);
 
   @Test
   public void calculoHCMiembroEnElMismoMes(){
@@ -136,7 +136,7 @@ public class CalculoHCTest {
     Transformador.getInstance().cargarDatos("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(calculadoraHCActividad.calcularHCActividadMensual(datosDeLaActividad,2021,01)));
+    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2021,01)));
   }
 
   @Test
@@ -145,14 +145,14 @@ public class CalculoHCTest {
     Transformador.getInstance().cargarDatos("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(2 * 7 + 5 * 10, (int) (calculadoraHCActividad.calcularHCActividadAnual(datosDeLaActividad,2022)));
+    assertEquals(2 * 7 + 5 * 10, (int) (CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2022)));
   }
   @Test
   public void calculamosHCActividadLogProdResMensual() {
     Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(12*9*10*1.2,(int) calculadoraHCActividad.calcularHCActividadMensual(datosDeLaActividad,2019,04));
+    assertEquals(12*9*10*1.2,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2019,04));
   }
 
   @Test
@@ -160,7 +160,7 @@ public class CalculoHCTest {
     Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(8*15*10*1.1,(int) calculadoraHCActividad.calcularHCActividadAnual(datosDeLaActividad,2020));
+    assertEquals(8*15*10*1.1,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2020));
   }
 
   @Test

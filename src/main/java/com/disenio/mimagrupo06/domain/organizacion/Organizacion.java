@@ -16,16 +16,14 @@ public class Organizacion {
   private Collection<Area> sectores;
   private Collection<Contacto> contactos;
   private Clasificacion clasificacion;
-  private CalculadoraHCActividad calculadoraHCActividad;
   private ManejadorEvento manejadorEvento;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
-      Clasificacion clasificacion, CalculadoraHCActividad calculadoraHCActividad, ManejadorEvento manejadorEvento) {
+      Clasificacion clasificacion, ManejadorEvento manejadorEvento) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
-    this.calculadoraHCActividad = calculadoraHCActividad;
     this.manejadorEvento = manejadorEvento;
     this.contactos = new ArrayList<>();
   }
@@ -68,13 +66,13 @@ public class Organizacion {
 
   public double calcularHuellaCarbonoTotalAnio(int anio) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    double hcActividad = calculadoraHCActividad.calcularHCActividadAnual(Transformador.getInstance().getDatosDeLaActividad(), anio);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(Transformador.getInstance().getDatosDeLaActividad(), anio);
     return hcActividad + hcAreas;
   }
 
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    double hcActividad = calculadoraHCActividad.calcularHCActividadMensual(Transformador.getInstance().getDatosDeLaActividad(), anio, mes);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(Transformador.getInstance().getDatosDeLaActividad(), anio, mes);
     return hcActividad + hcAreas;
   }
 
