@@ -7,19 +7,32 @@ import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
 public class Miembro {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @ManyToOne
   private Persona persona;
+  @Transient
   private Area area;
+  @OneToMany
+  @JoinColumn(name = "miembro_id")
   private List<ValorHCMensual> valorHCMensuales;
 
   public Miembro(Persona persona) {
     this.persona = persona;
     this.valorHCMensuales = new ArrayList<>();
+  }
+
+  public Miembro() {
+
   }
 
   public Persona getPersona() {
@@ -78,4 +91,21 @@ public class Miembro {
     double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);
     return this.calcularHuellaCarbonoMiembroAnual(anual) / hcMiOrg * 100;
   }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public List<ValorHCMensual> getValorHCMensuales() {
+    return valorHCMensuales;
+  }
+
+  public void setValorHCMensuales(List<ValorHCMensual> valorHCMensuales) {
+    this.valorHCMensuales = valorHCMensuales;
+  }
+
 }

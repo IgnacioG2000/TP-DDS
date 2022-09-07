@@ -3,12 +3,23 @@ package com.disenio.mimagrupo06.domain.miembro;
 import com.disenio.mimagrupo06.seguridad.roles.*;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.*;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
 public class Persona {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   private String nombre;
   private String apellido;
+  @Enumerated
   private TipoDocumento tipoDocumento;
   private String nroDocumento;
+  @Transient
   private Hogar ubicacion;
+  @OneToOne
   private Usuario usuario;
 
   public Persona(String nombre, String apellido, TipoDocumento tipoDocumento, String nroDocumento, Hogar ubicacion, Usuario usuario) {
@@ -18,6 +29,10 @@ public class Persona {
     this.nroDocumento = nroDocumento;
     this.ubicacion = ubicacion;
     this.usuario = usuario;
+  }
+
+  public Persona(){
+
   }
 
   public String getNombre() {
@@ -66,5 +81,13 @@ public class Persona {
 
   public void setUsuario(Usuario usuario) {
     this.usuario = usuario;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }
