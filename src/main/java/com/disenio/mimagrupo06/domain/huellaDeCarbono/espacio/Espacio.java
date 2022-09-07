@@ -1,6 +1,14 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Espacio {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   protected double latitud;
   protected double longitud;
   protected String provincia;
@@ -9,7 +17,6 @@ public abstract class Espacio {
   protected String direccion;
   protected String numero;
   protected float codigoPostal;
-  //protected String barrio;
 
   public Espacio(double latitud, double longitud, String provincia, String municipio,
                  String localidad, String direccion, String numero, float codigoPostal) {
@@ -21,7 +28,10 @@ public abstract class Espacio {
     this.direccion = direccion;
     this.numero = numero;
     this.codigoPostal = codigoPostal;
-    //this.barrio = barrio;
+  }
+
+  public Espacio() {
+
   }
 
   public double getLatitud() {
@@ -85,6 +95,14 @@ public abstract class Espacio {
 
   public void setLocalidad(String localidad) {
     this.localidad = localidad;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
 }

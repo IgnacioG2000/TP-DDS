@@ -17,7 +17,7 @@ public class Persona {
   @Enumerated
   private TipoDocumento tipoDocumento;
   private String nroDocumento;
-  @Transient
+  @ManyToOne
   private Hogar ubicacion;
   @OneToOne
   private Usuario usuario;

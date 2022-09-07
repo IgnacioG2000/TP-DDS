@@ -6,13 +6,22 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Entity
 public class Area {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   private String nombre;
+  @OneToMany
+  @JoinColumn(name = "area_id")
   private Collection<Miembro> miembros;
+  @ManyToOne
   private EspacioDeTrabajo espacioDeTrabajo;
+  @Transient
   private Collection<Trayecto> trayectosRegistados;
 
   public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo, Collection<Trayecto> trayectosRegistados) {
@@ -20,6 +29,10 @@ public class Area {
     this.miembros = miembros;
     this.espacioDeTrabajo = espacioDeTrabajo;
     this.trayectosRegistados = trayectosRegistados;
+  }
+
+  public Area(){
+
   }
 
   public String getNombre() {
@@ -84,5 +97,13 @@ public class Area {
   public boolean perteneceSector(Sector sector) {
     return espacioDeTrabajo.getProvincia().equals(sector.getNombre())
         || espacioDeTrabajo.getMunicipio().equals(sector.getNombre()) && espacioDeTrabajo.getProvincia().equals(sector.nombreProvincia());
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }

@@ -20,7 +20,7 @@ public class Miembro {
   private Long id;
   @ManyToOne
   private Persona persona;
-  @Transient
+  @ManyToOne
   private Area area;
   @OneToMany
   @JoinColumn(name = "miembro_id")
