@@ -4,13 +4,21 @@ import com.disenio.mimagrupo06.apiDistancia.ArchivoConfig;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collection;
 
+@Entity
 public class Trayecto {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @ManyToOne
   private Espacio partida;
+  @ManyToOne
   private Espacio llegada;
+  @ManyToMany
   private Collection<Tramo> tramos;
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
@@ -22,6 +30,10 @@ public class Trayecto {
     this.tramos = tramos;
     this.fechaInicio = fechaInicio;
     this.diasUtilizados = diasUtilizados;
+  }
+
+  public Trayecto() {
+
   }
 
   public Espacio getPartida() {
@@ -51,6 +63,34 @@ public class Trayecto {
   public double calcularHuellaCarbonoTotalTrayecto() {
     double hcTrayecto = tramos.stream().mapToDouble(Tramo::calcularHuellaCarbonoTramo).sum();
     return hcTrayecto;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public LocalDate getFechaInicio() {
+    return fechaInicio;
+  }
+
+  public void setFechaInicio(LocalDate fechaInicio) {
+    this.fechaInicio = fechaInicio;
+  }
+
+  public LocalDate getFechaFin() {
+    return fechaFin;
+  }
+
+  public int getDiasUtilizados() {
+    return diasUtilizados;
+  }
+
+  public void setDiasUtilizados(int diasUtilizados) {
+    this.diasUtilizados = diasUtilizados;
   }
 
   public double calcularHCTrayectoSemanal() {
@@ -165,4 +205,5 @@ public class Trayecto {
   public void setFechaFin(LocalDate fechaFin) {
     this.fechaFin = fechaFin;
   }
+
 }

@@ -5,13 +5,22 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte.MedioDeTransporte;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.util.Collection;
 
+@Entity
 public class Tramo {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @ManyToOne
   private Espacio partida;
+  @ManyToOne
   private Espacio llegada;
+  @ManyToOne
   private MedioDeTransporte transporte;
+  @ManyToMany
   private Collection<Miembro> miembros;
   private double distancia;
 
@@ -23,6 +32,10 @@ public class Tramo {
       this.miembros = miembros;
     }
     distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
+  }
+
+  public Tramo(){
+
   }
 
 
@@ -61,5 +74,33 @@ public class Tramo {
 
   public double getDistancia() {
     return distancia;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setPartida(Espacio partida) {
+    this.partida = partida;
+  }
+
+  public void setLlegada(Espacio llegada) {
+    this.llegada = llegada;
+  }
+
+  public void setTransporte(MedioDeTransporte transporte) {
+    this.transporte = transporte;
+  }
+
+  public void setMiembros(Collection<Miembro> miembros) {
+    this.miembros = miembros;
+  }
+
+  public void setDistancia(double distancia) {
+    this.distancia = distancia;
   }
 }

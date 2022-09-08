@@ -21,7 +21,8 @@ public class Area {
   private Collection<Miembro> miembros;
   @ManyToOne
   private EspacioDeTrabajo espacioDeTrabajo;
-  @Transient
+  @OneToMany
+  @JoinColumn(name = "area_id")
   private Collection<Trayecto> trayectosRegistados;
 
   public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo, Collection<Trayecto> trayectosRegistados) {

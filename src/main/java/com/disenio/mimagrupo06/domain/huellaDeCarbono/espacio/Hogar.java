@@ -2,6 +2,7 @@ package com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
@@ -9,7 +10,7 @@ import javax.persistence.Enumerated;
 public class Hogar extends Espacio{
   private int piso;
   private String departamento;
-  @Enumerated
+  @Enumerated(EnumType.ORDINAL)
   private TipoDeHogar tipoDeHogar;
 
   public Hogar(double latitud, double longitud, String provincia, String municipio, String localidad,

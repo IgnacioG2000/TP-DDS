@@ -6,16 +6,28 @@ import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
 
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+@Entity
 public class Organizacion {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   private String razonSocial;
+  @Enumerated(EnumType.ORDINAL)
   private TipoDeOrganizacion tipoDeOrganizacion;
+  @OneToMany
+  @JoinColumn(name = "organizacion_id")
   private Collection<Area> sectores;
+  @OneToMany
+  @JoinColumn(name = "organizacion_id")
   private Collection<Contacto> contactos;
+  @Enumerated(EnumType.ORDINAL)
   private Clasificacion clasificacion;
+  //TODO
+  @Transient
   private ManejadorEvento manejadorEvento;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
@@ -26,6 +38,10 @@ public class Organizacion {
     this.clasificacion = clasificacion;
     this.manejadorEvento = manejadorEvento;
     this.contactos = new ArrayList<>();
+  }
+
+  public Organizacion() {
+
   }
 
   public String getRazonSocial() {
@@ -92,5 +108,25 @@ public class Organizacion {
     Notificacion noti = new Notificacion("Recomendaciones",
         "Link a las recomendaciones: zaraza");
     this.manejadorEvento.notificar(noti,this);
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setContactos(Collection<Contacto> contactos) {
+    this.contactos = contactos;
+  }
+
+  public ManejadorEvento getManejadorEvento() {
+    return manejadorEvento;
+  }
+
+  public void setManejadorEvento(ManejadorEvento manejadorEvento) {
+    this.manejadorEvento = manejadorEvento;
   }
 }
