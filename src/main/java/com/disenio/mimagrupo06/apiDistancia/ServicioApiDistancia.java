@@ -123,12 +123,13 @@ public class ServicioApiDistancia {
 
   public Double obtenerDistancia(Espacio origen, Espacio llegada) throws IOException {
 
+    Double distancia=0.0;
     try {
-      Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
+      distancia = Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
     } catch(NoSeEncuentraEnLaApi exp) {
       throw new NoSePuedeCalcularDistancia("No se puede calcular la distancia porque " + exp.getMessage());
     }
-    return Double.parseDouble(this.calculoDistancia(origen, llegada).getValor());
+    return distancia;
   }
 
 
