@@ -8,6 +8,7 @@ import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,8 +81,22 @@ public class Miembro {
 
 
   public double calcularHuellaCarbonoMiembroAnual(int anio){
-    Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
-    double hcMiembro = ManejadorTrayectos.getInstance().calcularHCAnual(listaTrayectosDelMiembro, anio);
+
+    //Conseguir anio
+    int meses;
+
+    //conseguir cantidad de meses de dicho anio
+    if(anio != LocalDate.now().getYear()){
+      meses = 12;
+    }else{
+      meses = LocalDate.now().getMonthValue()-1;
+    }
+
+    double hcMiembro=0.0;
+
+    for(int i =1; i<=meses;i++){
+      hcMiembro += this.calcularHuellaCarbonoMiembroMensual(anio,i);
+    }
 
     return hcMiembro;
   }
@@ -107,5 +122,7 @@ public class Miembro {
   public void setValorHCMensuales(List<ValorHCMensual> valorHCMensuales) {
     this.valorHCMensuales = valorHCMensuales;
   }
+
+
 
 }
