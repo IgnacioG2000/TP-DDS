@@ -43,7 +43,6 @@ public class AgenteSectorial extends Usuario {
     return hcPorSector;
   }
 
-  //TODO:Consultar si es necesario Anual Y Mensual
   public double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
     double hcPorSector = RepoOrganizacion
         .getInstance()

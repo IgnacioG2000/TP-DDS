@@ -107,6 +107,12 @@ public class Miembro {
     return this.calcularHuellaCarbonoMiembroAnual(anual) / hcMiOrg * 100;
   }
 
+  public double impactoMiembroEnOrganizacionMensual(int anio, int mes){
+    Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
+    double hcMiOrg = miOrg.calcularHuellaCarbonoTotalMensual(anio, mes);
+    return this.calcularHuellaCarbonoMiembroMensual(anio, mes) / hcMiOrg * 100;
+  }
+
   public Long getId() {
     return id;
   }

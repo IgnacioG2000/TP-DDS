@@ -113,10 +113,10 @@ public class CalculadoraHCActividad {
   public double calcularHCActividadMensual(Collection<DatosDeLaActividad> datos, int anio, int mes) {
 
     //Estas son las actividades mensuales que se calculan de forma total
-    Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
+    Collection<DatosDeLaActividad> datosActividad = datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
 
     //Estas son las actividades anuales, las cuales se calculan y luego dividen por la cantidad de meses del año
-    Collection<DatosDeLaActividad> datosActividadSoloAnio= datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
+    Collection<DatosDeLaActividad> datosActividadSoloAnio = datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
 
     //Separacion por Actividad en periodo Mensual
     Collection<DatosDeLaActividad> combElec = datosActividad
