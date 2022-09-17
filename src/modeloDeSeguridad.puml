@@ -22,11 +22,16 @@ package "verificadorSesion" #DDDDDD {
 
 
 package "roles" #DDDDDD {
-    class Usuario {
+    abstract Usuario {
     -usuario: String
-    +miValidador: ValidadorDeMetricas
-    -esAdministrador: boolean
+    -contraseniaHasheada: String
+    +miValidador : ValidadorDeMetricas
+    -salt: [byte]
+
+    +String generarHash(String, [byte])
     }
+
+    note right: Los demas usuarios estan en el modelo de dominio
 }
 
 package "password" #DDDDDD {
