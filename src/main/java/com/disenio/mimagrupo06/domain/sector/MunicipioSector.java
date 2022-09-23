@@ -13,6 +13,16 @@ public class MunicipioSector extends Sector{
   @ManyToOne
   public ProvinciaSector provincia;
 
+  public MunicipioSector(Long id, String nombre, ProvinciaSector provincia) {
+    this.id = id;
+    this.nombre = nombre;
+    this.provincia = provincia;
+  }
+
+  public MunicipioSector() {
+
+  }
+
   @Override
   public String getNombre() {
     return nombre;

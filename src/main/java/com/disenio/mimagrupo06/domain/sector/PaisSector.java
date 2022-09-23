@@ -10,9 +10,22 @@ public class PaisSector {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+  private String nombre;
+
+  public PaisSector(Long id){
+  this.id = id;
+  }
 
   public PaisSector(){
 
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
   }
 
   public Long getId() {

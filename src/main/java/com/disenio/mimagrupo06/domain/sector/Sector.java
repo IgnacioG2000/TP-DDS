@@ -7,8 +7,8 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Sector {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  protected Long id;
+
 
   public abstract String getNombre();
   public abstract String nombreProvincia();

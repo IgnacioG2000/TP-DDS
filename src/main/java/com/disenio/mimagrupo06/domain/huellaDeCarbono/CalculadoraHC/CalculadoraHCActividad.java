@@ -78,10 +78,10 @@ public class CalculadoraHCActividad {
   }
 
   public double calcularHuellaCarbonoCombElec(DatosDeLaActividad dato) {
-    Double distanciaDato = dato.getConsumo().getValor();
+    Double valor = dato.getConsumo().getValor();
     TipoActividad tipoActividad = this.obtenerTipoActividad(dato);
     Double fe = tipoActividad.getFe();
-    return distanciaDato * fe;
+    return valor * fe;
   }
 
   public double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {

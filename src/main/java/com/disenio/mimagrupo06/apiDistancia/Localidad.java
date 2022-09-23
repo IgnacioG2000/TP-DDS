@@ -5,6 +5,7 @@ public class Localidad {
   private String id;
   private String nombre;
   private String codPostal;
+  private Municipio municipio;
 
   public String getId() {
     return id;
@@ -18,8 +19,7 @@ public class Localidad {
     return codPostal;
   }
 
-
-
-
-
+  public Municipio getMunicipio() {
+    return municipio;
+  }
 }
