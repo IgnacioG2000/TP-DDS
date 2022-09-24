@@ -2,9 +2,7 @@ package com.disenio.mimagrupo06.domain.sector;
 
 import com.disenio.mimagrupo06.apiDistancia.Provincia;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("2")
@@ -12,15 +10,33 @@ public class MunicipioSector extends Sector{
   public String nombre;
   @ManyToOne
   public ProvinciaSector provincia;
+  public Long municipioCodigo;
 
-  public MunicipioSector(Long id, String nombre, ProvinciaSector provincia) {
-    this.id = id;
+  public MunicipioSector(Long municipioCodigo, String nombre, ProvinciaSector provincia) {
+    this.municipioCodigo = municipioCodigo;
     this.nombre = nombre;
     this.provincia = provincia;
+   // this.listaLocalidades = datosApi.buscarLocalidadesDe(this);
   }
 
   public MunicipioSector() {
 
+  }
+
+  public ProvinciaSector getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(ProvinciaSector provincia) {
+    this.provincia = provincia;
+  }
+
+  public Long getMunicipioCodigo() {
+    return municipioCodigo;
+  }
+
+  public void setMunicipioCodigo(Long municipioCodigo) {
+    this.municipioCodigo = municipioCodigo;
   }
 
   @Override

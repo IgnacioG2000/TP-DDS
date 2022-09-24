@@ -12,16 +12,24 @@ public class ProvinciaSector extends Sector {
   public String nombre;
   @ManyToOne
   public PaisSector pais;
+  public Long provinciaCodigo;
 
-
-  public ProvinciaSector(Long id, String nombre, PaisSector pais) {
-    this.id = id;
+  public ProvinciaSector(Long provinciaCodigo, String nombre, PaisSector pais) {
+    this.provinciaCodigo = provinciaCodigo;
     this.nombre = nombre;
     this.pais = pais;
   }
 
   public ProvinciaSector() {
 
+  }
+
+  public Long getProvinciaCodigo() {
+    return provinciaCodigo;
+  }
+
+  public void setProvinciaCodigo(Long provinciaCodigo) {
+    this.provinciaCodigo = provinciaCodigo;
   }
 
   @Override

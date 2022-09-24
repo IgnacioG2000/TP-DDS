@@ -15,4 +15,8 @@ public class Provincia {
     return id;
   }
 
+  public Pais getPais() {
+    return pais;
+  }
+
 }

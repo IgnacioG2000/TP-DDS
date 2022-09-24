@@ -7,6 +7,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Sector {
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   protected Long id;
 
 

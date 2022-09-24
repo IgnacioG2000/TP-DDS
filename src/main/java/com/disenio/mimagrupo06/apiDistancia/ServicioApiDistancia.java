@@ -194,7 +194,7 @@ public class ServicioApiDistancia {
 
         if (!localidadObtenida.isPresent()) throw new NoSeEncuentraEnLaApi("No se encontro la localidad " + localidad);
         else {
-          idLocalidad = localidadObtenida.get().getId();
+          idLocalidad = String.valueOf(localidadObtenida.get().getId());
         }
 
       }

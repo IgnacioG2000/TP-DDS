@@ -15,5 +15,8 @@ public class Municipio {
     return this.id;
   }
 
+  public Provincia getProvincia() {
+    return provincia;
+  }
 
 }
