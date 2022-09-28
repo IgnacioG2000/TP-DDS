@@ -1,12 +1,15 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
-import java.sql.SQLSyntaxErrorException;
-import java.time.LocalDate;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class DatosDeLaActividad {
   private String actividad;
   private String tipoDeConsumo;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @OneToOne
   private Consumo consumo;
   private String periodoDeImputacion;
 
@@ -82,5 +85,14 @@ public class DatosDeLaActividad {
       rta = false;
     }
     return rta;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
+  public Long getId() {
+    return id;
   }
 }

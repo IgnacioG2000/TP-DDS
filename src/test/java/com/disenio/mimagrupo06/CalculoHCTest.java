@@ -133,7 +133,7 @@ public class CalculoHCTest {
   @Test
   public void calculamosHCActividadCombustionElectricidadMensual() {
 
-    Transformador.getInstance().cargarDatos("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
     assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2021,01)));
@@ -142,14 +142,14 @@ public class CalculoHCTest {
   @Test
   public void calculamosHCActividadCombustionElectricidadAnual() {
 
-    Transformador.getInstance().cargarDatos("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
     assertEquals(2 * 7 + 5 * 10, (int) (CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2022)));
   }
   @Test
   public void calculamosHCActividadLogProdResMensual() {
-    Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
     assertEquals(12*9*10*1.2,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2019,04));
@@ -157,7 +157,7 @@ public class CalculoHCTest {
 
   @Test
   public void calculamosHCActividadLogProdResAnual() {
-    Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
     assertEquals(8*15*10*1.1,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2020));
@@ -165,7 +165,7 @@ public class CalculoHCTest {
 
   @Test
   public void calculamosHCOrganizacionMensual() {
-    Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
     double dist2 = tramo2.getDistancia();
@@ -180,7 +180,7 @@ public class CalculoHCTest {
 
   @Test
   public void calculamosHCOrganizacionAnio() {
-    Transformador.getInstance().cargarDatos("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
     double dist2 = tramo2.getDistancia();

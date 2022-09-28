@@ -1,6 +1,7 @@
 package com.disenio.mimagrupo06.domain.organizacion;
 
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
+import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
@@ -26,6 +27,8 @@ public class Organizacion {
   private Collection<Contacto> contactos;
   @Enumerated(EnumType.ORDINAL)
   private Clasificacion clasificacion;
+  @OneToMany
+  private Collection<DatosDeLaActividad> datosDeLaActividad;
   //TODO
   @Transient
   private ManejadorEvento manejadorEvento;
@@ -82,13 +85,25 @@ public class Organizacion {
 
   public double calcularHuellaCarbonoTotalAnio(int anio) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(Transformador.getInstance().getDatosDeLaActividad(), anio);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad, anio);
     return hcActividad + hcAreas;
+  }
+
+  public void cargarDatosActividad(String path) {
+    Transformador.getInstance().cargarDatos(this, path);
+  }
+
+  public Collection<DatosDeLaActividad> getDatosDeLaActividad() {
+    return datosDeLaActividad;
+  }
+
+  public void setDatosDeLaActividad(Collection<DatosDeLaActividad> datosDeLaActividad) {
+    this.datosDeLaActividad = datosDeLaActividad;
   }
 
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(Transformador.getInstance().getDatosDeLaActividad(), anio, mes);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad, anio, mes);
     return hcActividad + hcAreas;
   }
 

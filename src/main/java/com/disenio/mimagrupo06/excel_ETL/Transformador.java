@@ -1,5 +1,6 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
+import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,7 +25,7 @@ public class Transformador {
     return INSTANCE;
   }
 
-  public void cargarDatos(String pathParcial)
+  public void cargarDatos(Organizacion org, String pathParcial)
   {
     try {
       //conseguimos el path del proyecto
@@ -79,6 +80,8 @@ public class Transformador {
 
 
       file.close();
+
+      org.setDatosDeLaActividad(datosDeLaActividad);
     }
     catch (Exception e)
     {

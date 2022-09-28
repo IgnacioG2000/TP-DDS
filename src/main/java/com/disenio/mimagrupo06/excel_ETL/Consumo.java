@@ -1,10 +1,27 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Consumo {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
   private Double valor;
   private String periocidad;
 
   public Consumo() {
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public Double getValor() {
@@ -22,4 +39,6 @@ public class Consumo {
   public void setPeriocidad(String periocidad) {
     this.periocidad = periocidad;
   }
+
+
 }
