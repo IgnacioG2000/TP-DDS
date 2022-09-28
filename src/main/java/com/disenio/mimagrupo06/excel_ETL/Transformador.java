@@ -1,6 +1,8 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import com.disenio.mimagrupo06.repositorios.RepoTA;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,6 +26,8 @@ public class Transformador {
   public static Transformador getInstance() {
     return INSTANCE;
   }
+
+  private RepoTA ta;
 
   public void cargarDatos(Organizacion org, String pathParcial)
   {
@@ -57,14 +61,16 @@ public class Transformador {
         DatosDeLaActividad nuevoDato = new DatosDeLaActividad();
         Row row = rowIterator.next();
         nuevoDato.setActividad(row.getCell(0).getStringCellValue());
-        nuevoDato.setTipoDeConsumo(row.getCell(1).getStringCellValue());
+        String tipoNombre = row.getCell(1).getStringCellValue();
+        TipoActividad tipoActividad = ta.findByNombre(tipoNombre).get();
+        nuevoDato.setTipoActividad(tipoActividad);
         Consumo consumo = new Consumo();
         consumo.setValor(row.getCell(2).getNumericCellValue());
         consumo.setPeriocidad(row.getCell(3).getStringCellValue());
         nuevoDato.setConsumo(consumo);
         //nuevoDato.setPeriodoDeImputacion(NumberToTextConverter.toText(row.getCell(4).getNumericCellValue()));
         nuevoDato.setPeriodoDeImputacion(row.getCell(4).getStringCellValue());
-     //  nuevoDato.setPeriodoDeImputacion(row.getCell(4).setCellType(Cell.CELL_TYPE_STRING));
+        //nuevoDato.setPeriodoDeImputacion(row.getCell(4).setCellType(Cell.CELL_TYPE_STRING));
 
         //Agrego el dato a la lista
         datosDeLaActividad.add(nuevoDato);

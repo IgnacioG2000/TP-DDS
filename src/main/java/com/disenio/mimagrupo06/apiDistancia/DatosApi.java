@@ -19,7 +19,6 @@ public class DatosApi {
   // private ServicioApiDistancia servicio =  new ServicioApiDistancia();
   @Autowired
   private RepoPaisSector ps;
-
   @Autowired
   private RepoProvinciaSector rps;
   @Autowired

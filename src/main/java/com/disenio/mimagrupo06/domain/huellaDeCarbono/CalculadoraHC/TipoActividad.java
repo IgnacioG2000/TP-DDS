@@ -1,14 +1,27 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class TipoActividad {
-  String nombre;
-  double fe;
-  String tipoUnidad;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  private String nombre;
+  private double fe;
+  private String tipoUnidad;
 
   public TipoActividad(String nombre, String tipoUnidad,double fe) {
     this.nombre = nombre;
     this.tipoUnidad = tipoUnidad;
     this.fe = fe;
+  }
+
+  public TipoActividad() {
+
   }
 
   public String getNombre() {
@@ -35,4 +48,11 @@ public class TipoActividad {
     this.tipoUnidad = tipoUnidad;
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }

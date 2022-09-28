@@ -2,42 +2,28 @@ package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
 import com.disenio.mimagrupo06.apiDistancia.ArchivoConfig;
 import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
+import com.disenio.mimagrupo06.repositorios.RepoTA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Component
 public class CalculadoraHCActividad {
-  Collection<TipoActividad> tiposActividad = new ArrayList<>();
+  private Collection<TipoActividad> tiposActividad = new ArrayList<>();
   private static CalculadoraHCActividad calculadoraHCActividad;
 
+  @Autowired
+  private RepoTA ta;
   public static CalculadoraHCActividad getCalculadoraHCActividad() {
-
-    if (calculadoraHCActividad==null) {
-      TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
-      TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
-      TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
-      TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
-      TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
-      TipoActividad carbon = new TipoActividad("Carbon", "kg",10);
-      TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg",5);
-      TipoActividad lenia = new TipoActividad("Lenia", "kg",8);
-      TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt",7);
-      TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt",8);
-      TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt",7);
-      TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
-      TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
-      TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
-
+    if(calculadoraHCActividad == null){
       calculadoraHCActividad = new CalculadoraHCActividad();
-
-      calculadoraHCActividad.tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
-          carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
-          electricidad, distMediaRecorrida, pesoTotalTransportado));
-
     }
-    return calculadoraHCActividad;
+      return calculadoraHCActividad;
   }
 
   public void setFactorEmisionDeTipoActividad(DatosDeLaActividad dato, Double fe) {
@@ -181,4 +167,32 @@ public class CalculadoraHCActividad {
     return hcMes + hcAnio/mesesVencidos;
 
   }
+
+  public void cargarFE() {
+
+    TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
+    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
+    TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
+    TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
+    TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
+    TipoActividad carbon = new TipoActividad("Carbon", "kg",10);
+    TipoActividad carbonDeLenia = new TipoActividad("Carbon de Lenia", "kg",5);
+    TipoActividad lenia = new TipoActividad("Lenia", "kg",8);
+    TipoActividad combustibleGasoil = new TipoActividad("Combustible Gasoil", "lt",7);
+    TipoActividad combustibleGNC = new TipoActividad("Combustible GNC", "lt",8);
+    TipoActividad combustibleNafta = new TipoActividad("Combustible Nafta", "lt",7);
+    TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
+    TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
+    TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
+
+      calculadoraHCActividad.tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
+              carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
+              electricidad, distMediaRecorrida, pesoTotalTransportado));
+
+      tiposActividad.forEach(da->ta.save(da));
+
+
+  }
+
+
 }

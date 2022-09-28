@@ -1,11 +1,14 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
+
 import javax.persistence.*;
 
 @Entity
 public class DatosDeLaActividad {
   private String actividad;
-  private String tipoDeConsumo;
+  @ManyToOne
+  private TipoActividad tipoActividad;
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -21,7 +24,15 @@ public class DatosDeLaActividad {
   }
 
   public String getTipoDeConsumo() {
-    return tipoDeConsumo;
+    return tipoActividad.getNombre();
+  }
+
+  public TipoActividad getTipoActividad() {
+    return tipoActividad;
+  }
+
+  public void setTipoActividad(TipoActividad tipoActividad) {
+    this.tipoActividad = tipoActividad;
   }
 
   public Consumo getConsumo() {
@@ -36,9 +47,6 @@ public class DatosDeLaActividad {
     this.actividad = actividad;
   }
 
-  public void setTipoDeConsumo(String tipoDeConsumo) {
-    this.tipoDeConsumo = tipoDeConsumo;
-  }
 
   public void setConsumo(Consumo consumo) {
     this.consumo = consumo;
