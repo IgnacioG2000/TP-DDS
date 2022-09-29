@@ -475,6 +475,7 @@ Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> "*" Contacto
 Organizacion ..> CalculadoraHCActividad: <<uses>>
+Organizacion ..> Transformador
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
