@@ -43,15 +43,23 @@ package "sector" #DDDDDD {
   class ProvinciaSector extends Sector {
   -nombre:String
   -pais: PaisSector
+  -provinciaCodigo: Long
   }
 
   class MunicipioSector extends Sector {
   -nombre: String
   -provincia: ProvinciaSector
+  -municipioCodigo: Long
   }
 
   class PaisSector {
+  -nombre: String
+  }
 
+  class LocalidadSector {
+  -nombre: String
+  -codPostal: String
+  -municipio: MunicipioSector
   }
 
 }
@@ -532,5 +540,10 @@ AgenteSectorial --> Sector
 
 ProvinciaSector --> PaisSector
 MunicipioSector --> ProvinciaSector
+LocalidadSector --> MunicipioSector
+
+NotificarPorMail ..> EmailSender
+
+EmailSender --> EmailSender
 
 @enduml
