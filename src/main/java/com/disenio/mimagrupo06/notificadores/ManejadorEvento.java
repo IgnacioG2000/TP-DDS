@@ -2,28 +2,38 @@ package com.disenio.mimagrupo06.notificadores;
 
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 
 public class ManejadorEvento {
-  private List<Notificador> notificadores;
+  private static ManejadorEvento instancia = null;
 
   public ManejadorEvento() {
-    this.notificadores = new ArrayList<>();
   }
 
-  public void suscribirse(Notificador notificador){
-    notificadores.add(notificador);
-  }
-
-  public void desuscribirse(Notificador notificador){
-    notificadores.remove(notificador);
+  public static ManejadorEvento getInstancia() {
+    if (instancia == null) {
+      instancia = new ManejadorEvento();
+    }
+    return instancia;
   }
 
 
   public void notificar(Notificacion notificacion, Organizacion organizacion) {
-    notificadores.forEach(n -> n.comunicar(notificacion, organizacion.getContactos()));
+    organizacion.getMediosNotificacion();
+    switch (organizacion.getMediosNotificacion()){
+      case email:
+        NotificarPorMail.getInstancia().comunicar(notificacion, organizacion.getContactos());
+        break;
+      case whatsapp:
+        ;
+        break;
+      case email_y_whatsapp:
+        NotificarPorMail.getInstancia().comunicar(notificacion, organizacion.getContactos());
+        break;
+      default:
+        break;
+    }
 
   }
 

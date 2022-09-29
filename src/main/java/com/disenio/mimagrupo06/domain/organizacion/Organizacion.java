@@ -4,7 +4,9 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraH
 import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
+import com.disenio.mimagrupo06.notificadores.MedioNotificacion;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
+import com.disenio.mimagrupo06.notificadores.Notificador;
 
 
 import javax.persistence.*;
@@ -30,16 +32,15 @@ public class Organizacion {
   @OneToMany
   private Collection<DatosDeLaActividad> datosDeLaActividad;
   //TODO
-  @Transient
-  private ManejadorEvento manejadorEvento;
+  @Enumerated(EnumType.ORDINAL)
+  private MedioNotificacion mediosNotificacion;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
-      Clasificacion clasificacion, ManejadorEvento manejadorEvento) {
+      Clasificacion clasificacion) {
     this.razonSocial = razonSocial;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.sectores = sectores;
     this.clasificacion = clasificacion;
-    this.manejadorEvento = manejadorEvento;
     this.contactos = new ArrayList<>();
   }
 
@@ -122,7 +123,7 @@ public class Organizacion {
   public void enviarRecomendacion() {
     Notificacion noti = new Notificacion("Recomendaciones",
         "Link a las recomendaciones: zaraza");
-    this.manejadorEvento.notificar(noti,this);
+    ManejadorEvento.getInstancia().notificar(noti,this);
   }
 
   public Long getId() {
@@ -137,11 +138,12 @@ public class Organizacion {
     this.contactos = contactos;
   }
 
-  public ManejadorEvento getManejadorEvento() {
-    return manejadorEvento;
+  public MedioNotificacion getMediosNotificacion() {
+    return mediosNotificacion;
   }
 
-  public void setManejadorEvento(ManejadorEvento manejadorEvento) {
-    this.manejadorEvento = manejadorEvento;
+  public void setMediosNotificacion(MedioNotificacion mediosNotificacion) {
+    this.mediosNotificacion = mediosNotificacion;
   }
+
 }

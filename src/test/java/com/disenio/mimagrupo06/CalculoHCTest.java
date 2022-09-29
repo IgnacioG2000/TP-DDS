@@ -60,9 +60,8 @@ public class CalculoHCTest {
   Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1));
   Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3));
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
-  ManejadorEvento manejadorEvento = new ManejadorEvento();
   Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
-      Clasificacion.MINISTERIO,manejadorEvento);
+      Clasificacion.MINISTERIO);
 
   @Test
   public void calculoHCMiembroEnElMismoMes(){

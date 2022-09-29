@@ -7,9 +7,17 @@ import java.util.Collection;
 import java.util.List;
 
 public class NotificarPorMail extends Notificador {
+  private static NotificarPorMail instancia = null;
 
   public NotificarPorMail() {
     super();
+  }
+
+  public static NotificarPorMail getInstancia() {
+    if (instancia == null) {
+      instancia = new NotificarPorMail();
+    }
+    return instancia;
   }
 
   @Override
