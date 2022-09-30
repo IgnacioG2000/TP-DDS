@@ -185,13 +185,19 @@ public class CalculadoraHCActividad {
     TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
     TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
 
-      calculadoraHCActividad.tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
+      if (tiposActividad == null)
+      {
+        System.out.println("Está la lista en nulo!!");
+      }else {
+        System.out.println("No está nula, va a arrancar a guardar");
+     tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
               carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
               electricidad, distMediaRecorrida, pesoTotalTransportado));
 
       tiposActividad.forEach(da->ta.save(da));
 
 
+  }
   }
 
 

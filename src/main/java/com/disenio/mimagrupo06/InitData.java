@@ -23,6 +23,9 @@ public class InitData implements CommandLineRunner {
     private RepoTA ta;
 
     @Autowired
+    private CalculadoraHCActividad ca;
+
+    @Autowired
     private DatosApi da;
 
     @Override
@@ -30,8 +33,10 @@ public class InitData implements CommandLineRunner {
 
       if(ta.count() == 0) {
 
-          da.cargarDatos();
-          //CalculadoraHCActividad.getCalculadoraHCActividad().cargarFE();
+       ca.cargarFE();
+       da.cargarDatos();
+
+
 
       }
 
