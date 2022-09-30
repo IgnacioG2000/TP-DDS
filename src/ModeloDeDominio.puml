@@ -77,7 +77,7 @@ package "organizacion" #DDDDDD {
     -clasificacion: Clasificacion
     -sectores: [Area]
     -contactos: [Contacto]
-    -manejadorEvento: ManejadorEvento
+    -medioNotificacion: MedioNotificacion
 
     +double calcularHuellaCarbonoTotalAnio(int)
     +double calcularHuellaCarbonoTotalMensual(int, int)
@@ -134,11 +134,17 @@ package "notificadores" #DDDDDD {
     +void enviarConGMail(String, String, String)
     }
 
-    class ManejadorEvento {
-    -notificadores: [Notificador]
+    enum MedioNotificacion {
+    NINGUNO,
+    EMAIL,
+    WHATSAPP,
+    EMAIL_Y_WHATSAPP
+    }
 
-    +void suscribirse(Notificador)
-    +void desuscribirse(Notificador)
+    class ManejadorEvento {
+    -instancia: ManejadorEvento
+
+    +ManejadorEvento getInstancia()
     +void notificar(Notificacion, Organizacion)
     }
 
@@ -147,7 +153,9 @@ package "notificadores" #DDDDDD {
     }
 
     class NotificarPorMail extends Notificador {
+    - instancia: NotificarPorMail
 
+    +NotificarPorMail getInstancia()
     }
 
     class Notificacion {
@@ -476,6 +484,8 @@ Organizacion --> Clasificacion
 Organizacion --> "*" Contacto
 Organizacion ..> CalculadoraHCActividad: <<uses>>
 Organizacion ..> Transformador
+Organizacion --> MedioNotificacion
+Organizacion ..> ManejadorEvento
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
@@ -533,8 +543,7 @@ CalculadoraHCActividad --> CalculadoraHCActividad
 Notificador ..> Notificacion
 Notificador ..> Contacto
 
-ManejadorEvento --> "*" Notificador
-ManejadorEvento -- Organizacion
+ManejadorEvento --> ManejadorEvento
 
 AgenteSectorial ..> RepoOrganizaciones
 AgenteSectorial --> Sector
@@ -544,6 +553,7 @@ MunicipioSector --> ProvinciaSector
 LocalidadSector --> MunicipioSector
 
 NotificarPorMail ..> EmailSender
+NotificarPorMail --> NotificarPorMail
 
 EmailSender --> EmailSender
 
