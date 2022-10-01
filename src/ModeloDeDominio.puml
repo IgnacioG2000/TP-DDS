@@ -244,7 +244,6 @@ package "repositorios" #DDDDDD {
     }
     note right: El modelo de la API está en su propio DC
 
-
 }
 
 package "huellaDeCarbono" #DDDDDD {
