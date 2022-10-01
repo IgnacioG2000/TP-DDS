@@ -19,6 +19,7 @@ public class CalculadoraHCActividad {
 
   @Autowired
   private RepoTA ta;
+
   public static CalculadoraHCActividad getCalculadoraHCActividad() {
     if(calculadoraHCActividad == null){
       calculadoraHCActividad = new CalculadoraHCActividad();

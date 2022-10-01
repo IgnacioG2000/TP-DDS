@@ -36,8 +36,6 @@ public class InitData implements CommandLineRunner {
        ca.cargarFE();
        da.cargarDatos();
 
-
-
       }
 
 

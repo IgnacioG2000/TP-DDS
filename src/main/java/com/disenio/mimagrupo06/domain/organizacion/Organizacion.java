@@ -31,7 +31,6 @@ public class Organizacion {
   private Clasificacion clasificacion;
   @OneToMany
   private Collection<DatosDeLaActividad> datosDeLaActividad;
-  //TODO
   @Enumerated(EnumType.ORDINAL)
   private MedioNotificacion mediosNotificacion;
 

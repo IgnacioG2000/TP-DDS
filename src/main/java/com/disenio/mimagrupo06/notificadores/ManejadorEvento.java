@@ -34,7 +34,6 @@ public class ManejadorEvento {
       default:
         break;
     }
-
   }
 
 
