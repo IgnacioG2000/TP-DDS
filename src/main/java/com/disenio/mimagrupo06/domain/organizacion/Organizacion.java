@@ -1,12 +1,11 @@
 package com.disenio.mimagrupo06.domain.organizacion;
 
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
-import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
+import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.notificadores.MedioNotificacion;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
-import com.disenio.mimagrupo06.notificadores.Notificador;
 
 
 import javax.persistence.*;
@@ -30,7 +29,7 @@ public class Organizacion {
   @Enumerated(EnumType.ORDINAL)
   private Clasificacion clasificacion;
   @OneToMany
-  private Collection<DatosDeLaActividad> datosDeLaActividad;
+  private Collection<DatoDeLaActividad> datoDeLaActividad;
   @Enumerated(EnumType.ORDINAL)
   private MedioNotificacion mediosNotificacion;
 
@@ -85,7 +84,7 @@ public class Organizacion {
 
   public double calcularHuellaCarbonoTotalAnio(int anio) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad, anio);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad, anio);
     return hcActividad + hcAreas;
   }
 
@@ -93,17 +92,17 @@ public class Organizacion {
     Transformador.getInstance().cargarDatos(this, path);
   }
 
-  public Collection<DatosDeLaActividad> getDatosDeLaActividad() {
-    return datosDeLaActividad;
+  public Collection<DatoDeLaActividad> getDatosDeLaActividad() {
+    return datoDeLaActividad;
   }
 
-  public void setDatosDeLaActividad(Collection<DatosDeLaActividad> datosDeLaActividad) {
-    this.datosDeLaActividad = datosDeLaActividad;
+  public void setDatosDeLaActividad(Collection<DatoDeLaActividad> datoDeLaActividad) {
+    this.datoDeLaActividad = datoDeLaActividad;
   }
 
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
     double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad, anio, mes);
+    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad, anio, mes);
     return hcActividad + hcAreas;
   }
 

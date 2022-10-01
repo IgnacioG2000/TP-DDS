@@ -5,7 +5,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActivida
 import javax.persistence.*;
 
 @Entity
-public class DatosDeLaActividad {
+public class DatoDeLaActividad {
   private String actividad;
   @ManyToOne
   private TipoActividad tipoActividad;
@@ -16,7 +16,7 @@ public class DatosDeLaActividad {
   private Consumo consumo;
   private String periodoDeImputacion;
 
-  public DatosDeLaActividad() {
+  public DatoDeLaActividad() {
   }
 
   public String getActividad() {

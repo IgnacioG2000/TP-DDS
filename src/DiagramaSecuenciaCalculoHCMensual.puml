@@ -98,9 +98,9 @@ end
 
 organizacion -> transformador : getDatosDeLaActividad()
 activate transformador
-transformador -> organizacion : [datosDeLaActividad]
+transformador -> organizacion : [datoDeLaActividad]
 deactivate transformador
-organizacion -> calculadoraHCActividad : calcularHCActividadMensual([datosDeLaActividad], anio, mes)
+organizacion -> calculadoraHCActividad : calcularHCActividadMensual([datoDeLaActividad], anio, mes)
 activate calculadoraHCActividad
 loop por cada datoDeLaActividad
     calculadoraHCActividad -> datoDeLaActividad : perteneceMesAnio(anio, mes)

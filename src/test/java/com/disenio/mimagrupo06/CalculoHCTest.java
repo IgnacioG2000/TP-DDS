@@ -13,10 +13,8 @@ import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.organizacion.Clasificacion;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.domain.organizacion.TipoDeOrganizacion;
-import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
+import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
-import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
-import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.junit.jupiter.api.Test;
 
@@ -133,33 +131,33 @@ public class CalculoHCTest {
   public void calculamosHCActividadCombustionElectricidadMensual() {
 
     organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2021,01)));
+    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad,2021,01)));
   }
 
   @Test
   public void calculamosHCActividadCombustionElectricidadAnual() {
 
     organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(2 * 7 + 5 * 10, (int) (CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2022)));
+    assertEquals(2 * 7 + 5 * 10, (int) (CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad,2022)));
   }
   @Test
   public void calculamosHCActividadLogProdResMensual() {
     organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(12*9*10*1.2,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datosDeLaActividad,2019,04));
+    assertEquals(12*9*10*1.2,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad,2019,04));
   }
 
   @Test
   public void calculamosHCActividadLogProdResAnual() {
     organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatosDeLaActividad> datosDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(8*15*10*1.1,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datosDeLaActividad,2020));
+    assertEquals(8*15*10*1.1,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad,2020));
   }
 
   @Test

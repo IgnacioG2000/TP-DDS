@@ -21,7 +21,7 @@ import java.util.Collection;
 
 public class Transformador {
   private static final Transformador INSTANCE = new Transformador();
-  private Collection<DatosDeLaActividad> datosDeLaActividad;
+  private Collection<DatoDeLaActividad> datoDeLaActividad;
 
   public static Transformador getInstance() {
     return INSTANCE;
@@ -49,8 +49,8 @@ public class Transformador {
       Iterator<Row> rowIterator = sheet.iterator();
       //nos salteamos las primeras dos lineas del excel
 
-      datosDeLaActividad = new ArrayList<>();
-      System.out.print(datosDeLaActividad.size());
+      datoDeLaActividad = new ArrayList<>();
+      System.out.print(datoDeLaActividad.size());
       System.out.println("");
 
       rowIterator.next();
@@ -58,7 +58,7 @@ public class Transformador {
 
       while (rowIterator.hasNext())
       {
-        DatosDeLaActividad nuevoDato = new DatosDeLaActividad();
+        DatoDeLaActividad nuevoDato = new DatoDeLaActividad();
         Row row = rowIterator.next();
         nuevoDato.setActividad(row.getCell(0).getStringCellValue());
         String tipoNombre = row.getCell(1).getStringCellValue();
@@ -73,7 +73,7 @@ public class Transformador {
         //nuevoDato.setPeriodoDeImputacion(row.getCell(4).setCellType(Cell.CELL_TYPE_STRING));
 
         //Agrego el dato a la lista
-        datosDeLaActividad.add(nuevoDato);
+        datoDeLaActividad.add(nuevoDato);
         //Verifico los datos que va a cargar // Se borra dsp
         System.out.println(nuevoDato.getActividad());
         System.out.println(nuevoDato.getTipoDeConsumo());
@@ -87,7 +87,7 @@ public class Transformador {
 
       file.close();
 
-      org.setDatosDeLaActividad(datosDeLaActividad);
+      org.setDatosDeLaActividad(datoDeLaActividad);
     }
     catch (Exception e)
     {
@@ -96,8 +96,8 @@ public class Transformador {
 
   }
 
-  public Collection<DatosDeLaActividad> getDatosDeLaActividad() {
-    return datosDeLaActividad;
+  public Collection<DatoDeLaActividad> getDatosDeLaActividad() {
+    return datoDeLaActividad;
   }
 
 

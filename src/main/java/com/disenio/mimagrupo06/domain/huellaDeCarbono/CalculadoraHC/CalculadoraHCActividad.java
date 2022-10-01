@@ -1,11 +1,10 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
 import com.disenio.mimagrupo06.apiDistancia.ArchivoConfig;
-import com.disenio.mimagrupo06.excel_ETL.DatosDeLaActividad;
+import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
@@ -27,12 +26,12 @@ public class CalculadoraHCActividad {
       return calculadoraHCActividad;
   }
 
-  public void setFactorEmisionDeTipoActividad(DatosDeLaActividad dato, Double fe) {
+  public void setFactorEmisionDeTipoActividad(DatoDeLaActividad dato, Double fe) {
     TipoActividad tipoActividad = obtenerTipoActividad(dato);
     tipoActividad.setFe(fe);
   }
 
-  private TipoActividad obtenerTipoActividad(DatosDeLaActividad dato){
+  private TipoActividad obtenerTipoActividad(DatoDeLaActividad dato){
     //recorrer tiposActividad y devolver el que cumple
     return tiposActividad
         .stream()
@@ -40,7 +39,7 @@ public class CalculadoraHCActividad {
         .get(0);
   }
 
-  public double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad> datos)  throws IOException {
+  public double calcularHuellaCarbonoLogProdRes(Collection<DatoDeLaActividad> datos)  throws IOException {
 
       Double K = ArchivoConfig.obtenerValorK();
       Double factorEmision;
@@ -48,11 +47,11 @@ public class CalculadoraHCActividad {
 
 
       //NO HACEMOS PASAJE ENTRE KG Y KM PORQUE YA VIENEN BIEN "Distancia Media Recorrida"
-      List<DatosDeLaActividad> aux = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Distancia Media Recorrida"))).collect(Collectors.toList());
+      List<DatoDeLaActividad> aux = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Distancia Media Recorrida"))).collect(Collectors.toList());
 
-      DatosDeLaActividad datoDistancia = aux.get(0);
-      DatosDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Peso Total Transportado"))).collect(Collectors.toList()).get(0);
-      DatosDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de Transporte: .+"))).collect(Collectors.toList()).get(0);
+      DatoDeLaActividad datoDistancia = aux.get(0);
+      DatoDeLaActividad datoPeso = datos.stream().filter(dato -> (dato.getTipoDeConsumo().equals("Peso Total Transportado"))).collect(Collectors.toList()).get(0);
+      DatoDeLaActividad datoTransporte = datos.stream().filter(dato -> (dato.getTipoDeConsumo().matches("Medio de Transporte: .+"))).collect(Collectors.toList()).get(0);
 
       //aca usamos el arch para conseguir los FE: NO tenemos INSTANCIA de camiones o lugar donde guardarlo PARA INSTANCIARLO
       if (Objects.equals(datoTransporte.getTipoDeConsumo(), "Medio de Transporte: Camion de carga"))
@@ -64,22 +63,22 @@ public class CalculadoraHCActividad {
     return datoDistancia.getConsumo().getValor() * datoPeso.getConsumo().getValor() * K * factorEmision;
   }
 
-  public double calcularHuellaCarbonoCombElec(DatosDeLaActividad dato) {
+  public double calcularHuellaCarbonoCombElec(DatoDeLaActividad dato) {
     Double valor = dato.getConsumo().getValor();
     TipoActividad tipoActividad = this.obtenerTipoActividad(dato);
     Double fe = tipoActividad.getFe();
     return valor * fe;
   }
 
-  public double calcularHCActividadAnual(Collection<DatosDeLaActividad> datos, int anio) {
-    Collection<DatosDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(anio)).collect(Collectors.toList());
+  public double calcularHCActividadAnual(Collection<DatoDeLaActividad> datos, int anio) {
+    Collection<DatoDeLaActividad> datosActividad= datos.stream().filter(dato -> dato.perteneceAnio(anio)).collect(Collectors.toList());
 
-    Collection<DatosDeLaActividad> combElec = datosActividad
+    Collection<DatoDeLaActividad> combElec = datosActividad
         .stream()
         .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    Collection<DatosDeLaActividad> logProdRes = datosActividad
+    Collection<DatoDeLaActividad> logProdRes = datosActividad
         .stream()
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
@@ -97,33 +96,33 @@ public class CalculadoraHCActividad {
     return hcCombElec + hcLogProdRes;
   }
 
-  public double calcularHCActividadMensual(Collection<DatosDeLaActividad> datos, int anio, int mes) {
+  public double calcularHCActividadMensual(Collection<DatoDeLaActividad> datos, int anio, int mes) {
 
     //Estas son las actividades mensuales que se calculan de forma total
-    Collection<DatosDeLaActividad> datosActividad = datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
+    Collection<DatoDeLaActividad> datosActividad = datos.stream().filter(dato -> dato.perteneceMesAnio(anio, mes)).collect(Collectors.toList());
 
     //Estas son las actividades anuales, las cuales se calculan y luego dividen por la cantidad de meses del año
-    Collection<DatosDeLaActividad> datosActividadSoloAnio = datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
+    Collection<DatoDeLaActividad> datosActividadSoloAnio = datos.stream().filter(dato -> dato.perteneceSoloAnio(anio)).collect(Collectors.toList());
 
     //Separacion por Actividad en periodo Mensual
-    Collection<DatosDeLaActividad> combElec = datosActividad
+    Collection<DatoDeLaActividad> combElec = datosActividad
         .stream()
         .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    Collection<DatosDeLaActividad> logProdRes = datosActividad
+    Collection<DatoDeLaActividad> logProdRes = datosActividad
         .stream()
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
 
     //Separacion por Actividad en periodo Anual
-    Collection<DatosDeLaActividad> combElecAnio = datosActividadSoloAnio
+    Collection<DatoDeLaActividad> combElecAnio = datosActividadSoloAnio
         .stream()
         .filter(unDato -> !unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
 
-    Collection<DatosDeLaActividad> logProdResAnio = datosActividadSoloAnio
+    Collection<DatoDeLaActividad> logProdResAnio = datosActividadSoloAnio
         .stream()
         .filter(unDato-> unDato.getActividad().equals("Logística de productos y residuos"))
         .collect(Collectors.toList());
