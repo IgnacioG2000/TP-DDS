@@ -14,7 +14,8 @@ package "miembro" #DDDDDD {
     class Miembro {
     -persona: Persona
     -area: Area
-    -valoresHCMensuales: [ValorHCMensual]
+    -valoresHCMensuales: [ValorHCMensualMiembro]
+
 
     +double calcularHuellaCarbonoMiembroMensual(int, int)
     +double calcularHuellaCarbonoMiembroAnual(int)
@@ -78,6 +79,8 @@ package "organizacion" #DDDDDD {
     -sectores: [Area]
     -contactos: [Contacto]
     -medioNotificacion: MedioNotificacion
+    -datosDeLaActividad:  DatoDeLaActividad]]
+    -valoresMensuales:[ValorHCMensualOrganizacion]
 
     +double calcularHuellaCarbonoTotalAnio(int)
     +double calcularHuellaCarbonoTotalMensual(int, int)
@@ -251,14 +254,13 @@ package "huellaDeCarbono" #DDDDDD {
     package "CalculadoraHC" {
         class CalculadoraHCActividad {
         -instance: CalculadoraHCActividad
-        -tiposActividad: [TipoActividad]
 
         -CalculadoraHCActividad getCalculadoraHCActividad()
-        -TipoActividad obtenerTipoActividad(DatosDeLaActividad)
-        +double calcularHuellaCarbonoLogProdRes(Collection<DatosDeLaActividad>)
-        +double calcularHuellaCarbonoCombElec(DatosDeLaActividad)
-        +double calcularHCActividadAnual(Collection<DatosDeLaActividad>, int)
-        +double calcularHCActividadMensual(Collection<DatosDeLaActividad>, int, int)
+        -TipoActividad obtenerTipoActividad DatoDeLaActividad)
+        +double calcularHuellaCarbonoLogProdRes(Collection DatoDeLaActividad>)
+        +double calcularHuellaCarbonoCombElec DatoDeLaActividad)
+        +double calcularHCActividadAnual(Collection DatoDeLaActividad>, int)
+        +double calcularHCActividadMensual(Collection DatoDeLaActividad>, int, int)
         }
 
         class TipoActividad {
@@ -267,13 +269,27 @@ package "huellaDeCarbono" #DDDDDD {
         -tipoUnidad: String
         }
 
-        class ValorHCMensual {
+        class ValorHCMensualMiembro {
         -anio: int
         -mes: int
         -huellaCarbono: double
 
         +boolean soyMes(int, int)
         }
+
+         class ValorHCMensualOrganizacion{
+                -anio: int
+                -mes: int
+                -huellaCarbono: double
+         }
+
+         class ValorHCMensualSector {
+         -anio: int
+         -mes: int
+         -huellaCarbono: double
+
+
+         }
     }
 
     package "espacio" {
@@ -417,9 +433,9 @@ package "huellaDeCarbono" #DDDDDD {
 
 package "excel_ETL" #DDDDDD {
 
-    class DatosDeLaActividad {
+    class DatoDeLaActividad {
     -actividad:String
-    -tipoDeConsumo:String
+    -tipoActividad:TipoActividad
     -consumo:Consumo
     -periodoDeImputacion:String
 
@@ -434,7 +450,7 @@ package "excel_ETL" #DDDDDD {
     }
 
     class Transformador {
-    -datosActividad: [DatosDeLaActividad]
+    -datosActividad:  DatoDeLaActividad]
 
     +void cargarDatos(String)
     }
@@ -457,6 +473,7 @@ package "roles" #DDDDDD {
 
     class AgenteSectorial extends Usuario {
     -sectorTerritorial: Sector
+    -valoresMensuales:[ValorHCMensualSector]
 
     +double calcularHuellaCarbonoPorSectorAnual(int)
     +double calcularHuellaCarbonoPorSectorMensual(int, int)
@@ -470,13 +487,14 @@ package "roles" #DDDDDD {
 Miembro ..> Trayecto
 Miembro --> Persona
 Miembro --> Area
-Miembro --> "*" ValorHCMensual
+Miembro --> "*" ValorHCMensualMiembro
 
 Area --> EspacioDeTrabajo
 Area --> "*" Miembro
 Area --> "*" Trayecto
 Area ..> ManejadorTrayectos : <<instance>>
 
+Organizacion --> "*" DatoDeLaActividad
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
@@ -485,13 +503,15 @@ Organizacion ..> CalculadoraHCActividad: <<uses>>
 Organizacion ..> Transformador
 Organizacion --> MedioNotificacion
 Organizacion ..> ManejadorEvento
+Organizacion --> "*" ValorHCMensualOrganizacion
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
 
-DatosDeLaActividad --> Consumo
+DatoDeLaActividad --> Consumo
+DatoDeLaActividad --> TipoActividad
 
-Transformador --> "*" DatosDeLaActividad
+Transformador --> "*" DatoDeLaActividad
 
 Tramo --> "2" Espacio
 Tramo --> MedioDeTransporte
@@ -536,13 +556,14 @@ Persona --> Hogar
 Persona --> Usuario
 Persona --> TipoDocumento
 
-CalculadoraHCActividad --> "*" TipoActividad
+CalculadoraHCActividad ..> TipoActividad
 CalculadoraHCActividad --> CalculadoraHCActividad
 
 Notificador ..> Notificacion
 Notificador ..> Contacto
 
 ManejadorEvento --> ManejadorEvento
+ManejadorEvento ..> Notificador
 
 AgenteSectorial ..> RepoOrganizaciones
 AgenteSectorial --> Sector
@@ -555,5 +576,8 @@ NotificarPorMail ..> EmailSender
 NotificarPorMail --> NotificarPorMail
 
 EmailSender --> EmailSender
+
+Sector --> "*" ValorHCMensualSector
+
 
 @enduml
