@@ -7,6 +7,7 @@ import com.disenio.mimagrupo06.domain.miembro.Miembro;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -24,12 +25,16 @@ public class Area {
   @OneToMany
   @JoinColumn(name = "area_id")
   private Collection<Trayecto> trayectosRegistados;
+  @OneToMany
+  @JoinColumn(name = "area_id")
+  private Collection<Trayecto> trayectosPendientes;
 
-  public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo, Collection<Trayecto> trayectosRegistados) {
+  public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo) {
     this.nombre = nombre;
     this.miembros = miembros;
     this.espacioDeTrabajo = espacioDeTrabajo;
-    this.trayectosRegistados = trayectosRegistados;
+    this.trayectosRegistados = new ArrayList<>();
+    this.trayectosPendientes = new ArrayList<>();
   }
 
   public Area(){
@@ -38,6 +43,23 @@ public class Area {
 
   public String getNombre() {
     return nombre;
+  }
+
+  public Collection<Trayecto> getTrayectosPendientes() {
+    return trayectosPendientes;
+  }
+
+  public void setTrayectosPendientes(Collection<Trayecto> trayectosPendientes) {
+    this.trayectosPendientes = trayectosPendientes;
+  }
+
+  public void aceptarVinculacion(Trayecto trayectoAceptado){
+    this.trayectosPendientes.remove(trayectoAceptado);
+    this.trayectosRegistados.add(trayectoAceptado);
+  }
+
+  public void agregarVinculacion(Trayecto trayectoVinculado){
+    this.trayectosPendientes.add(trayectoVinculado);
   }
 
   public void setNombre(String nombre) {

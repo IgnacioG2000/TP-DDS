@@ -55,8 +55,8 @@ public class CalculoHCTest {
   Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
   Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
   Trayecto trayecto3 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo3), LocalDate.of(2021, 1, 1),2);
-  Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto1));
-  Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3));
+  Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+  Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
   Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
       Clasificacion.MINISTERIO);
@@ -64,6 +64,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroEnElMismoMes(){
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     double dist = tramo1.getDistancia();
     assertEquals((int) (medioDeTransporte1.getFactorEmision() * dist * 4.5 * 5), (int)(miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,1)));
   }
@@ -71,6 +73,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroSinTrayecto(){
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     assertEquals(0.0, miembroGuido.calcularHuellaCarbonoMiembroMensual(2020,1));
   }
 
@@ -80,6 +84,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroMesTrayectoTerminado() {
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     double dist = tramo1.getDistancia();
     trayecto1.setFechaFin(LocalDate.now());
     assertEquals((int) (medioDeTransporte1.getFactorEmision() * dist * 4.5 * 5), (int) (miembroGuido.calcularHuellaCarbonoMiembroMensual(2021,7)));
@@ -88,6 +94,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroAnioVencido() {
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     double dist = tramo1.getDistancia();
     assertEquals((int) (medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12.0 * 5), (int) (miembroGuido.calcularHuellaCarbonoMiembroAnual(2021)));
   }
@@ -95,6 +103,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCMiembroAnioCorriendo() {
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     double dist = tramo1.getDistancia();
     assertEquals((int) (medioDeTransporte1.getFactorEmision() * dist * 4.5 * (LocalDate.now().getMonthValue()-1) * 5), (int) (miembroGuido.calcularHuellaCarbonoMiembroAnual(2022)));
   }
@@ -104,6 +114,10 @@ public class CalculoHCTest {
   public void calculoHCAnualAreaConMiembrosTramoCompartido() {
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
+    area4Ever21.agregarVinculacion(trayecto2);
+    area4Ever21.agregarVinculacion(trayecto3);
+    area4Ever21.aceptarVinculacion(trayecto2);
+    area4Ever21.aceptarVinculacion(trayecto3);
     double dist2 = tramo2.getDistancia();
     double dist3 = tramo3.getDistancia();
     assertEquals((int) ((medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4)* 12 * 5) , (int) (area4Ever21.calcularHuellaCarbonoTotalAreaAnual(2021)));
@@ -113,6 +127,10 @@ public class CalculoHCTest {
   public void calculoHCMensualAreaConMiembrosTramoCompartido() {
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
+    area4Ever21.agregarVinculacion(trayecto2);
+    area4Ever21.agregarVinculacion(trayecto3);
+    area4Ever21.aceptarVinculacion(trayecto2);
+    area4Ever21.aceptarVinculacion(trayecto3);
     double dist2 = tramo2.getDistancia();
     double dist3 = tramo3.getDistancia();
     assertEquals( (int) (medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 * 5 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4 * 5) , (int) (area4Ever21.calcularHuellaCarbonoTotalAreaMensual(2021,8)));
@@ -122,6 +140,8 @@ public class CalculoHCTest {
   @Test
   public void calculoHCAnualArea() {
     miembroGuido.setArea(area);
+    area.agregarVinculacion(trayecto1);
+    area.aceptarVinculacion(trayecto1);
     double dist = tramo1.getDistancia();
     assertEquals((int) (medioDeTransporte1.getFactorEmision() * dist * 4.5 * 12 * 5), (int) (area.calcularHuellaCarbonoTotalAreaAnual(2021)));
   }
@@ -165,6 +185,10 @@ public class CalculoHCTest {
     organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
+    area4Ever21.agregarVinculacion(trayecto2);
+    area4Ever21.agregarVinculacion(trayecto3);
+    area4Ever21.aceptarVinculacion(trayecto2);
+    area4Ever21.aceptarVinculacion(trayecto3);
     double dist2 = tramo2.getDistancia();
     double dist3 = tramo3.getDistancia();
     double hcTrayecto = medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 * 5 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4 * 5;
@@ -180,6 +204,10 @@ public class CalculoHCTest {
     organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
+    area4Ever21.agregarVinculacion(trayecto2);
+    area4Ever21.agregarVinculacion(trayecto3);
+    area4Ever21.aceptarVinculacion(trayecto2);
+    area4Ever21.aceptarVinculacion(trayecto3);
     double dist2 = tramo2.getDistancia();
     double dist3 = tramo3.getDistancia();
     double hcTrayecto = (medioDeTransporte2.getFactorEmision() * dist2 * 4.5 * 0.6 + medioDeTransporte2.getFactorEmision() * dist3 * 4.5 * 0.4) * 12 * 5;
