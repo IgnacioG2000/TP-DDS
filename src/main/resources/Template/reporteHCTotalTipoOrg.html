@@ -24,7 +24,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" href="#about">Aceptar vinculacion</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">Ejecutar calculadora HC</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownHC" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ejecutar calculadora HC</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownHC">
+                        <li><a class="dropdown-item" href="#!">Anual</a></li>
+                        <!--<li><hr class="dropdown-divider" /></li>-->
+                        <li><a class="dropdown-item" href="#!">Mensual</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Visualizar</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -58,9 +65,9 @@
         <div class="formbuilder-select form-group field-select-1666388825021">
             <label for="select-1666388825021" class="formbuilder-select-label">Seleccionar Tipo Organización</label>
             <select class="form-control" name="select-1666388825021" id="select-1666388825021">
-                <option value="option-1" selected="true" id="select-1666388825021-0">Option 1</option>
-                <option value="option-2" id="select-1666388825021-1">Option 2</option>
-                <option value="option-3" id="select-1666388825021-2">Option 3</option>
+                <option value="Organización1" selected="true" id="select-1666388825021-0">Organización 1</option>
+                <option value="Organización2" id="select-1666388825021-1">Organización 2</option>
+                <option value="Organización3" id="select-1666388825021-2">Organización 3</option>
             </select>
         </div>
         <br>
@@ -69,9 +76,8 @@
         </div>
     </div>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
 <!-- Footer-->
-<footer class="py-5 bg-color1">
+<footer class="py-5 bg-color1 fixed-bottom">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
 </footer>
 <!-- Bootstrap core JS-->
