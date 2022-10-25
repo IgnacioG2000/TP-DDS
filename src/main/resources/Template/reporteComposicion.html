@@ -61,16 +61,23 @@
     <div class="rendered-form">
         <div class="">
             <h1 access="false" id="control-2188050">Reporte Composición HC</h1></div>
-        <div class="formbuilder-select form-group field-select-1666388825021">
-            <label for="select-1666388825021" class="formbuilder-select-label">Seleccionar Sector</label>
-            <select class="form-control" name="select-1666388825021" id="select-1666388825021">
-                <option value="sinSector" selected="true" id="select-1666388825021-0">Sin Sector</option>
-                <option value="sector1" id="select-1666388825021-1">Sector 1</option>
-                <option value="sector2" id="select-1666388825021-2">Sector 2</option>
+        <div class="col-md-6">
+            <label class="form-label">Seleccione la organización o sector:</label>
+            <select name="SectorXOrganizacion" id="SectorXOrganizacion">
+                <optgroup label="Sector">
+                    <option value="Sector1">Sector 1</option>
+                    <option value="Sector2">Sector 2</option>
+                    <option value="Sector3">Sector 3</option>
+                </optgroup>
+                <optgroup label="Organización">
+                    <option value="Organizacion1">Organización 1</option>
+                    <option value="Organizacion2">Organización 2</option>
+                    <option value="Organizacion3">Organización 3</option>
+                </optgroup>
             </select>
         </div>
-        <br>
-        <div class="formbuilder-checkbox-group form-group field-checkbox-group-1666389174756">
+
+        <div class="col-md-6">
             <label form="checkbox-group-1666389174756" class="formbuilder-checkbox-group-label">Obtener HC a nivel</label>
             <div class="checkbox-group">
                 <div class="formbuilder-checkbox">
@@ -78,15 +85,6 @@
                     <label for="checkbox-group-1666389174756-0">Pais</label>
                 </div>
             </div>
-        </div>
-        <br>
-        <div class="formbuilder-select form-group field-select-1666389237221">
-            <label for="select-1666389237221" class="formbuilder-select-label">Seleccionar Organización</label>
-            <select class="form-control" name="select-1666389237221" id="select-1666389237221">
-                <option value="sinSeleccionar" selected="true" id="select-1666389237221-0">Sin Seleccionar</option>
-                <option value="organización1" id="select-1666389237221-1">Organización 1</option>
-                <option value="organización2" id="select-1666389237221-2">Organización 2</option>
-            </select>
         </div>
         <br>
         <div class="formbuilder-button form-group field-button-1666388854444">
