@@ -6,6 +6,7 @@ import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.notificadores.MedioNotificacion;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
+import org.springframework.scheduling.annotation.Scheduled;
 
 
 import javax.persistence.*;
@@ -118,6 +119,7 @@ public class Organizacion {
     return contactos;
   }
 
+  @Scheduled(cron = "0 0/1 0 ? * 6 ")
   public void enviarRecomendacion() {
     Notificacion noti = new Notificacion("Recomendaciones",
         "Link a las recomendaciones: zaraza");

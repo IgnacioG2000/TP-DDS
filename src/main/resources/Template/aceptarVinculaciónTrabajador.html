@@ -63,12 +63,17 @@
 
     <div class="col-md-6">
       <label class="form-label">Seleccione los trayectos que desea vincular</label>
-      <select multiple class="form-control" id="sel2">
-        <option>Trayecto1</option>
-        <option>Trayecto2</option>
-        <option>Trayecto3</option>
-        <option>Trayecto4</option>
-        <option>Trayecto5</option>
+      <select name="trayectoXArea" id="trayectoXArea">
+        <optgroup label="Area1">
+          <option value="Trayecto1">Trayecto 1</option>
+          <option value="Trayecto2">Trayecto 2</option>
+          <option value="Trayecto3">Trayecto 3</option>
+        </optgroup>
+        <optgroup label="Area 2">
+          <option value="Trayecto4">Trayecto 1</option>
+          <option value="Trayecto5">Trayecto 2</option>
+          <option value="Trayecto6">Trayecto 3</option>
+        </optgroup>
       </select>
     </div>
 
@@ -77,9 +82,8 @@
     </div>
   </form>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br>
 <!-- Footer-->
-<footer class="py-5 bg-color1">
+<footer class="py-5 bg-color1 fixed-bottom">
   <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
 </footer>
 <!-- Bootstrap core JS-->

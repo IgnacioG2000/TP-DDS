@@ -97,7 +97,7 @@ public class DatosApi {
   }
 
 
-  //@Scheduled()
+  //@Scheduled
   private void actualizarValores() throws IOException {
     provincias.clear();
     municipios.clear();
