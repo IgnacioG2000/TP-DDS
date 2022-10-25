@@ -124,6 +124,7 @@ public class Organizacion {
     Notificacion noti = new Notificacion("Recomendaciones",
         "Link a las recomendaciones: zaraza");
     ManejadorEvento.getInstancia().notificar(noti,this);
+    System.out.println("Mando reco");
   }
 
   public Long getId() {
