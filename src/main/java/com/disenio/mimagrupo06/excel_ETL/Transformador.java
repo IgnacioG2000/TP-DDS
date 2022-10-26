@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.io.File;
@@ -23,18 +24,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 
-
+@Service
 public class Transformador {
 
   private Collection<DatoDeLaActividad> datoDeLaActividad;
   private RepoTA ta;
-
+/*
   @Bean
   public Transformador transformador() {
     Transformador transformador = new Transformador();
     return transformador;
   }
-
+*/
   public void cargarDatos(Organizacion org, String pathParcial)
   {
     try {

@@ -24,9 +24,6 @@ public class InitData implements CommandLineRunner {
     private RepoTA ta;
 
     @Autowired
-    private CalculadoraHCActividad ca;
-
-    @Autowired
     private DatosApi da;
 
     @Override
