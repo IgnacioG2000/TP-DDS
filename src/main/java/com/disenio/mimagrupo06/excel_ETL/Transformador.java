@@ -1,11 +1,17 @@
 package com.disenio.mimagrupo06.excel_ETL;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import com.disenio.mimagrupo06.domain.organizacion.OrganizacionService;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 
 import java.io.File;
@@ -18,16 +24,16 @@ import java.nio.file.Paths;
 import java.util.Collection;
 
 
-
 public class Transformador {
-  private static final Transformador INSTANCE = new Transformador();
+
   private Collection<DatoDeLaActividad> datoDeLaActividad;
-
-  public static Transformador getInstance() {
-    return INSTANCE;
-  }
-
   private RepoTA ta;
+
+  @Bean
+  public Transformador transformador() {
+    Transformador transformador = new Transformador();
+    return transformador;
+  }
 
   public void cargarDatos(Organizacion org, String pathParcial)
   {
@@ -100,7 +106,13 @@ public class Transformador {
     return datoDeLaActividad;
   }
 
+  public RepoTA getTa() {
+    return ta;
+  }
 
+  public void setTa(RepoTA ta) {
+    this.ta = ta;
+  }
 }
 
 

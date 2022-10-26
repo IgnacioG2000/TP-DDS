@@ -9,14 +9,14 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
-import com.disenio.mimagrupo06.domain.organizacion.Area;
-import com.disenio.mimagrupo06.domain.organizacion.Clasificacion;
-import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
-import com.disenio.mimagrupo06.domain.organizacion.TipoDeOrganizacion;
+import com.disenio.mimagrupo06.domain.organizacion.*;
 import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
+import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.io.IOException;
@@ -29,9 +29,12 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 public class CalculoHCTest {
 
   private static final DecimalFormat df = new DecimalFormat("0.00");
+  @Autowired
+  private RepoTA repoTA;
 
   Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
   Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992);
@@ -60,6 +63,9 @@ public class CalculoHCTest {
   //Area areaTrabajadores = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroGuido), espacioTrabajoArea,Arrays.asList(trayecto2,trayecto3),null);
   Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
       Clasificacion.MINISTERIO);
+  OrganizacionService organizacionService = new OrganizacionService();
+  Transformador transformador = new Transformador();
+  CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
 
   @Test
   public void calculoHCMiembroEnElMismoMes(){
@@ -149,40 +155,64 @@ public class CalculoHCTest {
   //TODO revisar cuando ponemos solo el año y ver el tema del prorrateo
   @Test
   public void calculamosHCActividadCombustionElectricidadMensual() {
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    organizacion.setOrganizacionService(organizacionService);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
+    //organizacion.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls");
+    Collection<DatoDeLaActividad> datoDeLaActividad = transformador.getDatosDeLaActividad();
 
-    organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
 
-    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad,2021,01)));
+    assertEquals(df.format(3 * 10 + 9 * 14 * 10 * 1.1), df.format(calculadoraHCActividad.calcularHCActividadMensual(datoDeLaActividad,2021,01)));
   }
 
   @Test
   public void calculamosHCActividadCombustionElectricidadAnual() {
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
+    Collection<DatoDeLaActividad> datoDeLaActividad = transformador.getDatosDeLaActividad();
 
-    organizacion.cargarDatosActividad("\\\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
-
-    assertEquals(2 * 7 + 5 * 10, (int) (CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad,2022)));
+    assertEquals(2 * 7 + 5 * 10, (int) (calculadoraHCActividad.calcularHCActividadAnual(datoDeLaActividad,2022)));
   }
   @Test
   public void calculamosHCActividadLogProdResMensual() {
-    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    organizacion.setOrganizacionService(organizacionService);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
+    Collection<DatoDeLaActividad> datoDeLaActividad = transformador.getDatosDeLaActividad();
 
-    assertEquals(12*9*10*1.2,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad,2019,04));
+    assertEquals(12*9*10*1.2,(int) calculadoraHCActividad.calcularHCActividadMensual(datoDeLaActividad,2019,04));
   }
 
   @Test
   public void calculamosHCActividadLogProdResAnual() {
-    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
-    Collection<DatoDeLaActividad> datoDeLaActividad = Transformador.getInstance().getDatosDeLaActividad();
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    organizacion.setOrganizacionService(organizacionService);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
+    Collection<DatoDeLaActividad> datoDeLaActividad = transformador.getDatosDeLaActividad();
 
-    assertEquals(8*15*10*1.1,(int) CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad,2020));
+    assertEquals(8*15*10*1.1,(int) calculadoraHCActividad.calcularHCActividadAnual(datoDeLaActividad,2020));
   }
 
   @Test
   public void calculamosHCOrganizacionMensual() {
-    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    organizacion.setOrganizacionService(organizacionService);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
     area4Ever21.agregarVinculacion(trayecto2);
@@ -196,12 +226,17 @@ public class CalculoHCTest {
     double calcHCLogProdRes = 9 * 14 * 10 * 1.1;
 
     assertEquals((int) (hcTrayecto+calcHCombElec+calcHCLogProdRes),
-        (int) organizacion.calcularHuellaCarbonoTotalMensual(2021, 01));
+        (int) organizacionService.calcularHuellaCarbonoTotalMensual(2021, 01,organizacion));
   }
 
   @Test
   public void calculamosHCOrganizacionAnio() {
-    organizacion.cargarDatosActividad("\\src\\main\\java\\com\\disenio\\mimagrupo06\\excel_ETL\\excelTesteo.xls");
+    transformador.setTa(repoTA);
+    organizacionService.setTransformador(transformador);
+    organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
+    organizacion.setOrganizacionService(organizacionService);
+    calculadoraHCActividad.setTa(repoTA);
+    organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",organizacion);
     miembroJake.setArea(area4Ever21);
     miembroTaylor.setArea(area4Ever21);
     area4Ever21.agregarVinculacion(trayecto2);
@@ -215,6 +250,6 @@ public class CalculoHCTest {
     double calcHCLogProdRes = 9 * 14 * 10 * 1.1;
 
     assertEquals((int) (hcTrayecto+calcHCombElec+calcHCLogProdRes),
-        (int) organizacion.calcularHuellaCarbonoTotalAnio(2021));
+        (int) organizacionService.calcularHuellaCarbonoTotalAnio(2021, organizacion));
   }
 }

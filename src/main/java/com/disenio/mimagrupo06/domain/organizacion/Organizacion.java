@@ -33,6 +33,8 @@ public class Organizacion {
   private Collection<DatoDeLaActividad> datoDeLaActividad;
   @Enumerated(EnumType.ORDINAL)
   private MedioNotificacion mediosNotificacion;
+  @Transient
+  private OrganizacionService organizacionService;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion) {
@@ -84,15 +86,14 @@ public class Organizacion {
   }
 
   public double calcularHuellaCarbonoTotalAnio(int anio) {
-    double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadAnual(datoDeLaActividad, anio);
-    return hcActividad + hcAreas;
+    return organizacionService.calcularHuellaCarbonoTotalAnio(anio,this);
   }
 
+  /*
   public void cargarDatosActividad(String path) {
     Transformador.getInstance().cargarDatos(this, path);
   }
-
+  */
   public Collection<DatoDeLaActividad> getDatosDeLaActividad() {
     return datoDeLaActividad;
   }
@@ -102,9 +103,7 @@ public class Organizacion {
   }
 
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
-    double hcAreas = sectores.stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes)).sum();
-    double hcActividad = CalculadoraHCActividad.getCalculadoraHCActividad().calcularHCActividadMensual(datoDeLaActividad, anio, mes);
-    return hcActividad + hcAreas;
+    return organizacionService.calcularHuellaCarbonoTotalMensual(anio,mes,this);
   }
 
   public boolean tieneArea(Area area) {
@@ -147,4 +146,11 @@ public class Organizacion {
     this.mediosNotificacion = mediosNotificacion;
   }
 
+  public OrganizacionService getOrganizacionService() {
+    return organizacionService;
+  }
+
+  public void setOrganizacionService(OrganizacionService organizacionService) {
+    this.organizacionService = organizacionService;
+  }
 }

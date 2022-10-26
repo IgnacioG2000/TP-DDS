@@ -2,30 +2,31 @@ package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
 import com.disenio.mimagrupo06.apiDistancia.ArchivoConfig;
 import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
+import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-@Component
+
+@Service
 public class CalculadoraHCActividad {
-  private Collection<TipoActividad> tiposActividad = new ArrayList<>();
-  private static CalculadoraHCActividad calculadoraHCActividad;
+  private List<TipoActividad> tiposActividad;
 
-  @Autowired
   private RepoTA ta;
-
-  public static CalculadoraHCActividad getCalculadoraHCActividad() {
-    if(calculadoraHCActividad == null){
-      calculadoraHCActividad = new CalculadoraHCActividad();
-    }
-      return calculadoraHCActividad;
+/*
+  @Bean
+  public CalculadoraHCActividad calculadoraHCActividad() {
+    CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
+    return calculadoraHCActividad;
   }
-
+*/
   public void setFactorEmisionDeTipoActividad(DatoDeLaActividad dato, Double fe) {
     TipoActividad tipoActividad = obtenerTipoActividad(dato);
     tipoActividad.setFe(fe);
@@ -33,6 +34,7 @@ public class CalculadoraHCActividad {
 
   private TipoActividad obtenerTipoActividad(DatoDeLaActividad dato){
     //recorrer tiposActividad y devolver el que cumple
+    List<TipoActividad> tiposActividad = ta.findAll();
     return tiposActividad
         .stream()
         .filter(tipoActividad -> Objects.equals(tipoActividad.getNombre(), dato.getTipoDeConsumo())).collect(Collectors.toList())
@@ -171,7 +173,7 @@ public class CalculadoraHCActividad {
   public void cargarFE() {
 
     TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
-    TipoActividad dieselGasoil = new TipoActividad("dieselGasoil", "lt",7);
+    TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);
     TipoActividad kerosene = new TipoActividad("Kerosene", "lt",5);
     TipoActividad fuelOil= new TipoActividad("Fuel Oil", "lt",8);
     TipoActividad nafta = new TipoActividad("Nafta", "lt",9);
@@ -184,15 +186,18 @@ public class CalculadoraHCActividad {
     TipoActividad electricidad = new TipoActividad("Electricidad", "Kwh",10);
     TipoActividad distMediaRecorrida = new TipoActividad("Distancia Media Recorrida", "km",6);
     TipoActividad pesoTotalTransportado = new TipoActividad("Peso Total Transportado", "kg",4);
+    TipoActividad materiaPrima = new TipoActividad("Materia Prima", " ",1);
+    TipoActividad camionUtilitario = new TipoActividad("Medio de Transporte: Camion utilitario", " ",1);
+    TipoActividad camionCarga = new TipoActividad("Medio de Transporte: Camion de carga", " ",1);
 
-      if (tiposActividad == null)
+    if (tiposActividad == null)
       {
         System.out.println("Está la lista en nulo!!");
       }else {
         System.out.println("No está nula, va a arrancar a guardar");
      tiposActividad.addAll(Arrays.asList(gasNatural, dieselGasoil, kerosene, fuelOil, nafta,
               carbon, carbonDeLenia, lenia, combustibleGasoil, combustibleGNC, combustibleNafta,
-              electricidad, distMediaRecorrida, pesoTotalTransportado));
+              electricidad, distMediaRecorrida, pesoTotalTransportado, materiaPrima, camionUtilitario, camionCarga));
 
       tiposActividad.forEach(da->ta.save(da));
 
@@ -200,5 +205,11 @@ public class CalculadoraHCActividad {
   }
   }
 
+  public RepoTA getTa() {
+    return ta;
+  }
 
+  public void setTa(RepoTA ta) {
+    this.ta = ta;
+  }
 }
