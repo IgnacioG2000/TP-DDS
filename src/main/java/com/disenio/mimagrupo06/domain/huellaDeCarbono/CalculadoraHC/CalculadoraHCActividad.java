@@ -200,8 +200,6 @@ public class CalculadoraHCActividad {
               electricidad, distMediaRecorrida, pesoTotalTransportado, materiaPrima, camionUtilitario, camionCarga));
 
       tiposActividad.forEach(da->ta.save(da));
-
-
   }
   }
 
