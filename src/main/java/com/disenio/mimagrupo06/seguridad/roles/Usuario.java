@@ -45,9 +45,9 @@ public abstract class Usuario {
   }
 
   public static byte[] getSalt()  {
-    SecureRandom secureRandom = new SecureRandom();
-    byte[] salt = new byte[30];
-    secureRandom.nextBytes(salt); // proxima semilla
+    //SecureRandom secureRandom = new SecureRandom();
+    byte[] salt = new byte[]{1, 2, 4, 8, 16, 32, 64, (byte) 128};
+    //secureRandom.nextBytes(salt); // proxima semilla
     return salt;
   }
 

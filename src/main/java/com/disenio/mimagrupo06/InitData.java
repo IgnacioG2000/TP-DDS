@@ -8,6 +8,8 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActivida
 import com.disenio.mimagrupo06.domain.sector.PaisSector;
 import com.disenio.mimagrupo06.repositorios.RepoPaisSector;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
+import com.disenio.mimagrupo06.repositorios.RepoUsuario;
+import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,9 @@ public class InitData implements CommandLineRunner {
     @Autowired
     private DatosApi da;
 
+    @Autowired
+    private RepoUsuario ru;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -33,6 +38,9 @@ public class InitData implements CommandLineRunner {
 
        //ca.cargarFE();
        da.cargarDatos();
+
+        UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
+        ru.save(usuarioComun);
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
         TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);
