@@ -6,6 +6,7 @@ public class LoginResponse {
 
     public LoginResponse(String idSesion) {
         this.idSesion = idSesion;
+        //agregar informacion de Areas
     }
 
     public String getIdSesion() {

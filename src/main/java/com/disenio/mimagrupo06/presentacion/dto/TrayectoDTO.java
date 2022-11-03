@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 public class TrayectoDTO {
+
+  private String nombreArea;
   private double latitudPartida;
   private double longitudPartida;
   private String provinciaPartida;
@@ -26,6 +28,8 @@ public class TrayectoDTO {
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
   private int diasUtilizados;
+
+
 
   public double getLatitudPartida() {
     return latitudPartida;
@@ -77,6 +81,14 @@ public class TrayectoDTO {
 
   public String getNumeroPartida() {
     return numeroPartida;
+  }
+
+  public String getNombreArea() {
+    return nombreArea;
+  }
+
+  public void setNombreArea(String nombreArea) {
+    this.nombreArea = nombreArea;
   }
 
   public void setNumeroPartida(String numeroPartida) {

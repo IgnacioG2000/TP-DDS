@@ -59,15 +59,20 @@ public class InitData implements CommandLineRunner {
         Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
         Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
         Miembro miembroGuido = new Miembro(personaGuido);
+        Miembro miembroGuido2 = new Miembro(personaGuido);
         ru.save(usuarioGuido);
         re.save(hogarGuido);
         rp.save(personaGuido);
+        rm.save(miembroGuido2);
         rm.save(miembroGuido);
+        //rm.save(miembroGuido2);
 
         EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
         re.save(espacioTrabajoArea);
         Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+        Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
         ra.save(area);
+        ra.save(area2);
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
         TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);
@@ -102,6 +107,7 @@ public class InitData implements CommandLineRunner {
 }
 /* JSON para controller de Miembro en agregar trayecto
 {
+    "nombreArea":"Area1",
     "latitudPartida": 100,
     "longitudPartida":100,
     "provinciaPartida": "aaa",
@@ -111,7 +117,7 @@ public class InitData implements CommandLineRunner {
     "numeroPartida":"555",
     "codigoPostalPartida":"1414",
     "latitudLlegada": 500,
-    "longitudLlegada" 800,
+    "longitudLlegada": 800,
     "provinciaLlegada":"eee",
     "municipioLlegada": "fff",
     "localidadLlegada":"ggg",

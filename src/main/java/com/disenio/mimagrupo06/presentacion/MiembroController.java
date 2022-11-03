@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -33,7 +36,12 @@ public class MiembroController {
 
     Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
     Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
-    Miembro miembroSesion = repoMiembro.findByPersona(personaSesion);
+    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion).stream()
+            .filter(miembro -> miembro.getArea().getNombre()==trayectoDTO.getNombreArea())
+            .collect(Collectors.toList());
+    System.out.println("cantidad de miembros asociados al usuario ingresado con su area: " + miembrosDeSesion.size());
+    System.out.println("El area del miembro buscado es "+trayectoDTO.getNombreArea());
+    Miembro miembroSesion = miembrosDeSesion.get(0);
 
     System.out.println("Obteniendo datos de: " + miembroSesion);
     System.out.println("TRAYECTO: " + trayectoDTO.getDireccionLlegada() + trayectoDTO.getDireccionPartida()
