@@ -5,16 +5,18 @@ import com.disenio.mimagrupo06.apiDistancia.Pais;
 import com.disenio.mimagrupo06.apiDistancia.ServicioApiDistancia;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
-import com.disenio.mimagrupo06.domain.sector.PaisSector;
-import com.disenio.mimagrupo06.repositorios.RepoPaisSector;
-import com.disenio.mimagrupo06.repositorios.RepoTA;
-import com.disenio.mimagrupo06.repositorios.RepoUsuario;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.TipoDeHogar;
+import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.miembro.Persona;
+import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
+import com.disenio.mimagrupo06.domain.organizacion.Area;
+import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,18 @@ public class InitData implements CommandLineRunner {
     @Autowired
     private RepoUsuario ru;
 
+    @Autowired
+    private RepoPersona rp;
+
+    @Autowired
+    private RepoMiembro rm;
+
+    @Autowired
+    private RepoEspacio re;
+
+    @Autowired
+    private RepoArea ra;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -39,8 +53,21 @@ public class InitData implements CommandLineRunner {
        //ca.cargarFE();
        da.cargarDatos();
 
-        UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
-        ru.save(usuarioComun);
+        //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
+        //ru.save(usuarioComun);
+        UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
+        Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+        Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
+        Miembro miembroGuido = new Miembro(personaGuido);
+        ru.save(usuarioGuido);
+        re.save(hogarGuido);
+        rp.save(personaGuido);
+        rm.save(miembroGuido);
+
+        EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
+        re.save(espacioTrabajoArea);
+        Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+        ra.save(area);
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
         TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);
@@ -73,3 +100,27 @@ public class InitData implements CommandLineRunner {
 
     }
 }
+/* JSON para controller de Miembro en agregar trayecto
+{
+    "latitudPartida": 100,
+    "longitudPartida":100,
+    "provinciaPartida": "aaa",
+    "municipioPartida": "bbb",
+    "localidadPartida": "ccc",
+    "direccionPartida": "ddd",
+    "numeroPartida":"555",
+    "codigoPostalPartida":"1414",
+    "latitudLlegada": 500,
+    "longitudLlegada" 800,
+    "provinciaLlegada":"eee",
+    "municipioLlegada": "fff",
+    "localidadLlegada":"ggg",
+    "direccionLlegada":hhh,
+    "numeroLlegada":"5",
+    "codigoPostalLlegada": 147,
+    "tramos":null,
+    "fechaInicio": "19-04-2022",
+    "fechaFin": "19-10-2022",
+    "diasUtilizados": 4
+    }
+*/

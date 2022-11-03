@@ -29,7 +29,6 @@ public abstract class Usuario {
     //hashear contrasenia
     this.contraseniaHasheada = this.generarHash(contrasenia, salt);
   }
-
   public static String generarHash(String contrasenia,byte[] salt) throws NoSuchAlgorithmException {
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
     digest.reset();
@@ -50,7 +49,28 @@ public abstract class Usuario {
     //secureRandom.nextBytes(salt); // proxima semilla
     return salt;
   }
+/*
+  public static String generarHash(String contrasenia,byte[] salt) throws NoSuchAlgorithmException {
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    digest.reset();
+    digest.update(salt);
+    byte[] hash = digest.digest(contrasenia.getBytes(StandardCharsets.UTF_8));
+    StringBuilder sb = new StringBuilder();
 
+    for (byte b : hash) {
+      sb.append(String.format("%02x", b));
+    }
+
+    return sb.toString();
+  }
+
+  public static byte[] getSalt()  {
+    //SecureRandom secureRandom = new SecureRandom();
+    byte[] salt = new byte[]{1, 2, 4, 8, 16, 32, 64, (byte) 128};
+    //secureRandom.nextBytes(salt); // proxima semilla
+    return salt;
+  }
+*/
   public Usuario() {
 
   }

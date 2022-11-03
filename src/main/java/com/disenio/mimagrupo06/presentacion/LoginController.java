@@ -62,7 +62,7 @@ public class LoginController {
 
             SesionManager sesionManager = SesionManager.get();
             System.out.println(sesionManager);
-            String idSesion = sesionManager.crearSesion();
+            String idSesion = sesionManager.crearSesion("usuario",usuario);
             return new LoginResponse(idSesion);
         }
 
