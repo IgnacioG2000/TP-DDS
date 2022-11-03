@@ -4,7 +4,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensu
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.*;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
-import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
+import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
 
 
 import javax.persistence.*;
@@ -102,13 +102,13 @@ public class Miembro {
   }
 
   public double impactoMiembroEnOrganizacionAnual(int anual){
-    Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
+    Organizacion miOrg =  RepoOrganizacion1.getInstance().encontrarOrganizacion(area);
     double hcMiOrg = miOrg.calcularHuellaCarbonoTotalAnio(anual);
     return this.calcularHuellaCarbonoMiembroAnual(anual) / hcMiOrg * 100;
   }
 
   public double impactoMiembroEnOrganizacionMensual(int anio, int mes){
-    Organizacion miOrg =  RepoOrganizacion.getInstance().encontrarOrganizacion(area);
+    Organizacion miOrg =  RepoOrganizacion1.getInstance().encontrarOrganizacion(area);
     double hcMiOrg = miOrg.calcularHuellaCarbonoTotalMensual(anio, mes);
     return this.calcularHuellaCarbonoMiembroMensual(anio, mes) / hcMiOrg * 100;
   }

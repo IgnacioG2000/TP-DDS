@@ -1,11 +1,6 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto;
 
-import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
-
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class ManejadorTrayectos {

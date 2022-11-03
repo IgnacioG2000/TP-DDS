@@ -1,13 +1,12 @@
 package com.disenio.mimagrupo06.seguridad.roles;
 
 import com.disenio.mimagrupo06.domain.sector.Sector;
-import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
+import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
 
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public class AgenteSectorial extends Usuario {
   }
 
   public double calcularHuellaCarbonoPorSectorAnual(int anio) {
-    double hcPorSector = RepoOrganizacion
+    double hcPorSector = RepoOrganizacion1
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
@@ -44,7 +43,7 @@ public class AgenteSectorial extends Usuario {
   }
 
   public double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
-    double hcPorSector = RepoOrganizacion
+    double hcPorSector = RepoOrganizacion1
         .getInstance()
         .listadoAreasOrganizaciones()
         .stream()
