@@ -48,5 +48,11 @@ public class OrganizacionController {
 
     return ResponseEntity.status(200).body(trayectosPendientesLista);
   }
+/*
+  @GetMapping("/ace")
+  public ResponseEntity<Collection<Trayecto>> trayectosPendientes(@RequestHeader("Authorization") String idSesion) throws IOException {
+
+    return ResponseEntity.status(200).body(trayectosPendientesLista);
+  }*/
 
 }

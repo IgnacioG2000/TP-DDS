@@ -115,12 +115,12 @@ public class InitData implements CommandLineRunner {
     "provinciaLlegada":"eee",
     "municipioLlegada": "fff",
     "localidadLlegada":"ggg",
-    "direccionLlegada":hhh,
+    "direccionLlegada":"hhh",
     "numeroLlegada":"5",
     "codigoPostalLlegada": 147,
     "tramos":null,
-    "fechaInicio": "19-04-2022",
-    "fechaFin": "19-10-2022",
+    "fechaInicio": "2022-04-19",
+    "fechaFin": "2022-10-19",
     "diasUtilizados": 4
     }
 */
