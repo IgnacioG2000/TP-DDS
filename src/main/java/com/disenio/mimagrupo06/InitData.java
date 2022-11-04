@@ -5,9 +5,9 @@ import com.disenio.mimagrupo06.apiDistancia.Pais;
 import com.disenio.mimagrupo06.apiDistancia.ServicioApiDistancia;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.TipoDeHogar;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.*;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte.*;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
@@ -52,6 +52,12 @@ public class InitData implements CommandLineRunner {
     @Autowired
     private RepoOrganizacion ro;
 
+    @Autowired
+    private RepoMedioTransporte rmt;
+
+    @Autowired
+    private RepoTramos rt;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -60,31 +66,63 @@ public class InitData implements CommandLineRunner {
        //ca.cargarFE();
        da.cargarDatos();
 
+        Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
+        re.save(espacioOrigen);
+        Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992);
+        re.save(espacioDestino);
+        MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
+        rmt.save(medioDeTransporte1);
+        MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
+        rmt.save(medioDeTransporte2);
+        UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
+        ru.save(usuarioGuido);
+
+        UsuarioOrganizacion usuarioGuido2 = new UsuarioOrganizacion("Guido2001@gmail.com", "contraCOntraKCRF123");
+        ru.save(usuarioGuido2);
+
+        Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+        re.save(hogarGuido);
+        Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
+        rp.save(personaGuido);
+        Miembro miembroGuido = new Miembro(personaGuido);
+        rm.save(miembroGuido);
+        Miembro miembroGuido2 = new Miembro(personaGuido);
+        rm.save(miembroGuido2);
+        Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+        re.save(hogarTaylor);
+        UsuarioComun usuarioTaylor = new UsuarioComun("Taylor1234", "djf8ree245");
+        ru.save(usuarioTaylor);
+        Persona personaTaylor = new Persona("Taylor", "Swift", TipoDocumento.DNI, "367789999", hogarTaylor, usuarioTaylor);
+        rp.save(personaTaylor);
+        Miembro miembroTaylor = new Miembro(personaTaylor);
+        rm.save(miembroTaylor);
+        UsuarioComun usuarioJake = new UsuarioComun("Jake_The_Taylor_Hater", "Taylor_hater_4_life");
+        ru.save(usuarioJake);
+        Persona personaJake = new Persona("Jake", "Gyllenhaal", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioJake);
+        rp.save(personaJake);
+        Miembro miembroJake = new Miembro(personaJake);
+        rm.save(miembroJake);
+        Tramo tramo1 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
+        rt.save(tramo1);
+        Tramo tramo2 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
+        rt.save(tramo2);
+        Tramo tramo3 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte2, Arrays.asList(miembroTaylor));
+        rt.save(tramo3);
 
         //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
         //ru.save(usuarioComun);
-        UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
-        UsuarioOrganizacion usuarioGuido2 = new UsuarioOrganizacion("Guido2001", "contraCOntraKCRF123");
-        Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
-        Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
-        Miembro miembroGuido = new Miembro(personaGuido);
-        Miembro miembroGuido2 = new Miembro(personaGuido);
-        ru.save(usuarioGuido);
-        ru.save(usuarioGuido2);
-        re.save(hogarGuido);
-        rp.save(personaGuido);
-        rm.save(miembroGuido2);
-        rm.save(miembroGuido);
-        //rm.save(miembroGuido2);
+
 
         EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
         re.save(espacioTrabajoArea);
         Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
         Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
+        Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
         ra.save(area);
         ra.save(area2);
+        ra.save(area4Ever21);
 
-        Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area),
+        Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
                  Clasificacion.MINISTERIO);
         organizacion.setUsuarioOrganizacion(usuarioGuido2);
         ro.save(organizacion);
