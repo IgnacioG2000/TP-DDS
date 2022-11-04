@@ -1,10 +1,26 @@
 package com.disenio.mimagrupo06.presentacion;
 
+import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.miembro.Persona;
+import com.disenio.mimagrupo06.presentacion.dto.TrayectoDTO;
+import com.disenio.mimagrupo06.repositorios.RepoMiembro;
+import com.disenio.mimagrupo06.repositorios.RepoPersona;
+import com.disenio.mimagrupo06.seguridad.roles.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class SesionManager {
+
+    @Autowired
+    RepoPersona repoPersona;
+    @Autowired
+    RepoMiembro repoMiembro;
+
 
     private static SesionManager instancia;
 
@@ -60,4 +76,27 @@ public class SesionManager {
         return this.sesiones.remove(id);
     }
 
+    public Miembro encontrarMiembro(String idSesion, String nombreArea) {
+
+        Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+        Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+        Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+        List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+        System.out.println("cantidad de miembros asociados al usuario ingresado: " + miembrosDeSesion.size());
+        System.out.println("area del miembro del usuario: " + miembrosDeSesion.get(0).getArea().getNombre());
+        System.out.println("area del miembro del usuario: " + miembrosDeSesion.get(1).getArea().getNombre());
+        System.out.println("area del miembro que esta en sistema: " + nombreArea);
+
+        List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
+                .filter(miembro -> mismaArea(miembro,nombreArea))
+                .collect(Collectors.toList());
+        System.out.println("cantidad de miembros asociados al usuario ingresado con su area: " + miembrosDeSesionConArea.size());
+
+        System.out.println("El area del miembro buscado es "+ nombreArea);
+       return  miembrosDeSesionConArea.get(0);//aca tendria q usarse miembrosDeSesionConArea pero la comparacion con string no esta funcionando
+    }
+
+    private boolean mismaArea(Miembro miembro, String nombreArea){
+        return miembro.getArea().getNombre().equals(nombreArea);
+    }
 }

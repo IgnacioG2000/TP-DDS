@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface RepoOrganizacion extends CrudRepository<Organizacion, Long> {
-  //List<Organizacion> findAll();
+  //List<Organizacion> findAByUsuario();
 }
