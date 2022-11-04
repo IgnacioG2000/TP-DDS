@@ -2,6 +2,7 @@ package com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto;
 
 import com.disenio.mimagrupo06.apiDistancia.ArchivoConfig;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -14,16 +15,16 @@ public class Trayecto {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   @ManyToOne
-  private com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio partida;
+  private Espacio partida;
   @ManyToOne
-  private com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio llegada;
+  private Espacio llegada;
   @ManyToMany
   private Collection<Tramo> tramos;
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
   private int diasUtilizados;
 
-  public Trayecto(com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio partida, com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio llegada, Collection<Tramo> tramos, LocalDate fechaInicio, int diasUtilizados) {
+  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos, LocalDate fechaInicio, int diasUtilizados) {
     this.partida = partida;
     this.llegada = llegada;
     this.tramos = tramos;
@@ -35,19 +36,19 @@ public class Trayecto {
 
   }
 
-  public com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio getPartida() {
+  public Espacio getPartida() {
     return partida;
   }
 
-  public void setPartida(com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio partida) {
+  public void setPartida(Espacio partida) {
     this.partida = partida;
   }
 
-  public com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio getLlegada() {
+  public Espacio getLlegada() {
     return llegada;
   }
 
-  public void setLlegada(com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio llegada) {
+  public void setLlegada(Espacio llegada) {
     this.llegada = llegada;
   }
 
