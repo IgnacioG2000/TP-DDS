@@ -36,10 +36,14 @@ public class MiembroController {
 
     Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
     Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
-    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion).stream()
+    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion).stream().collect(Collectors.toList());
+    System.out.println("cantidad de miembros asociados al usuario ingresado: " + miembrosDeSesion.size());
+
+    List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
             .filter(miembro -> miembro.getArea().getNombre()==trayectoDTO.getNombreArea())
             .collect(Collectors.toList());
-    System.out.println("cantidad de miembros asociados al usuario ingresado con su area: " + miembrosDeSesion.size());
+    System.out.println("cantidad de miembros asociados al usuario ingresado con su area: " + miembrosDeSesionConArea.size());
+
     System.out.println("El area del miembro buscado es "+trayectoDTO.getNombreArea());
     Miembro miembroSesion = miembrosDeSesion.get(0);
 

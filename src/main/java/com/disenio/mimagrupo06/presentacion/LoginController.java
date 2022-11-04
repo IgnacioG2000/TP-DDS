@@ -1,8 +1,12 @@
 package com.disenio.mimagrupo06.presentacion;
 
 
+import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.presentacion.dto.LoginRequest;
 import com.disenio.mimagrupo06.presentacion.dto.LoginResponse;
+import com.disenio.mimagrupo06.repositorios.RepoMiembro;
+import com.disenio.mimagrupo06.repositorios.RepoPersona;
 import com.disenio.mimagrupo06.repositorios.RepoUsuario;
 import com.disenio.mimagrupo06.repositorios.RepositorioUsuario;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -19,6 +25,10 @@ public class LoginController {
 
     @Autowired
     private RepoUsuario repoUsuario;
+    @Autowired
+    RepoPersona repoPersona;
+    @Autowired
+    RepoMiembro repoMiembro;
     public LoginController() {
     }
 
@@ -56,14 +66,18 @@ public class LoginController {
 
         String contraseniaHasheada = this.generarHash(contrasenna, this.getSalt());
 
-       Usuario usuario = repoUsuario.findByUsuarioAndContraseniaHasheada(nombreUsuario, contraseniaHasheada);
+        Usuario usuario = repoUsuario.findByUsuarioAndContraseniaHasheada(nombreUsuario, contraseniaHasheada);
+        Persona personaSesion = repoPersona.findByUsuario(usuario);
+        List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion).stream().collect(Collectors.toList());
+        System.out.println("cantidad de miembros asociados al usuario ingresado: " + miembrosDeSesion.size());
+        List<String> nombresAreasDelMiembro = miembrosDeSesion.stream().map(miembro -> miembro.getArea().getNombre()).collect(Collectors.toList());
 
         if (usuario != null) {
 
             SesionManager sesionManager = SesionManager.get();
             System.out.println(sesionManager);
             String idSesion = sesionManager.crearSesion("usuario",usuario);
-            return new LoginResponse(idSesion);
+            return new LoginResponse(idSesion, nombresAreasDelMiembro);
         }
 
 //        sesionManager.agregarAtributo("fechaInicio", new Date());
