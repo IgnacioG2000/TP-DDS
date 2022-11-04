@@ -6,6 +6,7 @@ import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
 import com.disenio.mimagrupo06.notificadores.MedioNotificacion;
 import com.disenio.mimagrupo06.notificadores.Notificacion;
+import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import org.springframework.scheduling.annotation.Scheduled;
 
 
@@ -35,6 +36,10 @@ public class Organizacion {
   private MedioNotificacion mediosNotificacion;
   @Transient
   private OrganizacionService organizacionService;
+
+  @OneToOne
+  private UsuarioOrganizacion usuarioOrganizacion;
+
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion) {
@@ -152,5 +157,13 @@ public class Organizacion {
 
   public void setOrganizacionService(OrganizacionService organizacionService) {
     this.organizacionService = organizacionService;
+  }
+
+  public UsuarioOrganizacion getUsuarioOrganizacion() {
+    return usuarioOrganizacion;
+  }
+
+  public void setUsuarioOrganizacion(UsuarioOrganizacion usuarioOrganizacion) {
+    this.usuarioOrganizacion = usuarioOrganizacion;
   }
 }

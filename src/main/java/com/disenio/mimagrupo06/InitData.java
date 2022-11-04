@@ -12,8 +12,12 @@ import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
+import com.disenio.mimagrupo06.domain.organizacion.Clasificacion;
+import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import com.disenio.mimagrupo06.domain.organizacion.TipoDeOrganizacion;
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
+import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -45,6 +49,9 @@ public class InitData implements CommandLineRunner {
     @Autowired
     private RepoArea ra;
 
+    @Autowired
+    private RepoOrganizacion ro;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -53,14 +60,17 @@ public class InitData implements CommandLineRunner {
        //ca.cargarFE();
        da.cargarDatos();
 
+
         //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
         //ru.save(usuarioComun);
         UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
+        UsuarioOrganizacion usuarioGuido2 = new UsuarioOrganizacion("Guido2001", "contraCOntraKCRF123");
         Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
         Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
         Miembro miembroGuido = new Miembro(personaGuido);
         Miembro miembroGuido2 = new Miembro(personaGuido);
         ru.save(usuarioGuido);
+        ru.save(usuarioGuido2);
         re.save(hogarGuido);
         rp.save(personaGuido);
         rm.save(miembroGuido2);
@@ -73,6 +83,11 @@ public class InitData implements CommandLineRunner {
         Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
         ra.save(area);
         ra.save(area2);
+
+        Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area),
+                 Clasificacion.MINISTERIO);
+        organizacion.setUsuarioOrganizacion(usuarioGuido2);
+        ro.save(organizacion);
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
         TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);

@@ -1,6 +1,6 @@
 package com.disenio.mimagrupo06.seguridad.password;
 
-import com.disenio.mimagrupo06.exception.ReadfileException;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.exception.ReadfileException;
 
 
 import java.io.IOException;
