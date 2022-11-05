@@ -25,4 +25,12 @@ public interface RepoProvinciaSector extends CrudRepository<ProvinciaSector, Lon
         "  WHERE p.nombre = :nombre" +
         "  GROUP BY p.nombre, m.nombre")
     List<ProvinciaSector> findAllComposicionHCTotalDeUnaDeterminadaProvincia(String nombre);
+
+    @Query(value = " SELECT p.nombre AS PROVINCIA, hc.anio AS AÑO, SUM(hc.huellaCarbono) AS HC_TOTAL" +
+                   " FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
+                   "                        JOIN MunicipioSector m ON p.id = m.provincia.id" +
+                   "                        LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
+                   " WHERE p.nombre = :nombre" +
+                   " GROUP BY p.nombre, hc.anio")
+    List<ProvinciaSector> findAllEvolucionHCTotalDeUnaDeterminadaProvincia(String nombre);
 }

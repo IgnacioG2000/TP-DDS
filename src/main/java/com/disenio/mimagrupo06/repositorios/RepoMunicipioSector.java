@@ -20,4 +20,12 @@ public interface RepoMunicipioSector extends CrudRepository<MunicipioSector, Lon
         "  GROUP BY m.nombre")
     List<MunicipioSector> findAllHCPorSectorTerritorial();
 
+    @Query(value = " SELECT m.nombre AS MUNICIPIO, hc.anio AS AÑO, SUM(hc.huellaCarbono) AS HC_TOTAL" +
+        " FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
+        "                        JOIN MunicipioSector m ON p.id = m.provincia.id" +
+        "                        LEFT JOIN ValorHCMensualSector hc ON m.id = hc.sector.id" +
+        " WHERE m.nombre = :nombre" +
+        " GROUP BY m.nombre, hc.anio")
+    List<MunicipioSector> findAllEvolucionHCTotalDeUnDeterminadoMunicipio(String nombre);
+
 }
