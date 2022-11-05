@@ -1,9 +1,8 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.disenio.mimagrupo06.domain.sector.Sector;
+
+import javax.persistence.*;
 
 @Entity
 public class ValorHCMensualSector {
@@ -13,6 +12,8 @@ public class ValorHCMensualSector {
   int anio;
   int mes;
   double huellaCarbono;
+  @ManyToOne
+  public Sector sector;
 
   public ValorHCMensualSector(int anio, int mes, double huellaCarbono) {
     this.anio = anio;

@@ -11,9 +11,10 @@ import java.util.List;
 public interface RepoProvinciaSector extends CrudRepository<ProvinciaSector, Long> {
     ProvinciaSector findByProvinciaCodigo(Long provinciaCodigo);
 
-    @Query(value = "SELECT p.nombre AS PROVINCIA, COUNT(m.nombre) AS HC_TOTAL" + //TODO
+    @Query(value = "SELECT p.nombre AS PROVINCIA, SUM(hc.huellaCarbono) AS HC_TOTAL" +
         "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
         "                         JOIN MunicipioSector m ON p.id = m.provincia.id" +
+        "                         LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
         "  WHERE p.nombre = :nombre" +
         "  GROUP BY 1")
     List<ProvinciaSector> findAllByNombre(String nombre);
