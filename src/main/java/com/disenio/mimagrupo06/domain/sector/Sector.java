@@ -1,6 +1,9 @@
 package com.disenio.mimagrupo06.domain.sector;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualSector;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -9,6 +12,9 @@ public abstract class Sector {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   protected Long id;
+  @OneToMany
+  @JoinColumn(name = "sector_id")
+  private List<ValorHCMensualSector> valoresHCMensualSector;
 
 
   public abstract String getNombre();

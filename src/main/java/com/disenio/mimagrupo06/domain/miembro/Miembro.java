@@ -1,6 +1,6 @@
 package com.disenio.mimagrupo06.domain.miembro;
 
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensual;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualMiembro;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.*;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
@@ -25,11 +25,11 @@ public class Miembro {
   private Area area;
   @OneToMany
   @JoinColumn(name = "miembro_id")
-  private List<ValorHCMensual> valorHCMensuales;
+  private List<ValorHCMensualMiembro> valorHCMensualMiembros;
 
   public Miembro(Persona persona) {
     this.persona = persona;
-    this.valorHCMensuales = new ArrayList<>();
+    this.valorHCMensualMiembros = new ArrayList<>();
   }
 
   public Miembro() {
@@ -58,15 +58,15 @@ public class Miembro {
 */
   public double calcularHuellaCarbonoMiembroMensual(int anio, int mes){
     double hcMiembro;
-    if(valorHCMensuales.stream().noneMatch(valorHCMensual -> valorHCMensual.soyMes(anio,mes))) {
+    if(valorHCMensualMiembros.stream().noneMatch(valorHCMensualMiembro -> valorHCMensualMiembro.soyMes(anio,mes))) {
       Collection<Trayecto> listaTrayectosDelMiembro = area.getTrayectosDelMiembro(this);
       hcMiembro = ManejadorTrayectos.getInstance().calcularHCMensual(listaTrayectosDelMiembro, anio, mes);
       agregarHCMensual(anio, mes, hcMiembro);
 
     }else{
-      hcMiembro = valorHCMensuales
+      hcMiembro = valorHCMensualMiembros
           .stream()
-          .filter(valorHCMensual -> valorHCMensual.soyMes(anio,mes))
+          .filter(valorHCMensualMiembro -> valorHCMensualMiembro.soyMes(anio,mes))
           .collect(Collectors.toList())
           .get(0)
           .getHuellaCarbono();
@@ -75,8 +75,8 @@ public class Miembro {
   }
 
   private void agregarHCMensual(int anio, int mes, Double hcMiembro) {
-    ValorHCMensual valorHC = new ValorHCMensual(anio, mes, hcMiembro);
-    valorHCMensuales.add(valorHC);
+    ValorHCMensualMiembro valorHC = new ValorHCMensualMiembro(anio, mes, hcMiembro);
+    valorHCMensualMiembros.add(valorHC);
   }
 
 
@@ -121,12 +121,12 @@ public class Miembro {
     this.id = id;
   }
 
-  public List<ValorHCMensual> getValorHCMensuales() {
-    return valorHCMensuales;
+  public List<ValorHCMensualMiembro> getValorHCMensuales() {
+    return valorHCMensualMiembros;
   }
 
-  public void setValorHCMensuales(List<ValorHCMensual> valorHCMensuales) {
-    this.valorHCMensuales = valorHCMensuales;
+  public void setValorHCMensuales(List<ValorHCMensualMiembro> valorHCMensualeMiembros) {
+    this.valorHCMensualMiembros = valorHCMensualeMiembros;
   }
 
 

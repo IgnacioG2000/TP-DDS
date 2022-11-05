@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ValorHCMensual {
+public class ValorHCMensualSector {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -14,13 +14,13 @@ public class ValorHCMensual {
   int mes;
   double huellaCarbono;
 
-  public ValorHCMensual(int anio, int mes, double huellaCarbono) {
+  public ValorHCMensualSector(int anio, int mes, double huellaCarbono) {
     this.anio = anio;
     this.mes = mes;
     this.huellaCarbono = huellaCarbono;
   }
 
-  public ValorHCMensual() {
+  public ValorHCMensualSector() {
 
   }
 

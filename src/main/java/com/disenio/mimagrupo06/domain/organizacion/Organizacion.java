@@ -1,6 +1,7 @@
 package com.disenio.mimagrupo06.domain.organizacion;
 
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualOrganizacion;
 import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Organizacion {
@@ -35,6 +37,9 @@ public class Organizacion {
   private MedioNotificacion mediosNotificacion;
   @Transient
   private OrganizacionService organizacionService;
+  @OneToMany
+  @JoinColumn(name = "organizacion_id")
+  private List<ValorHCMensualOrganizacion> valoresHCMensualOrganizacion;
 
   public Organizacion(String razonSocial, TipoDeOrganizacion tipoDeOrganizacion, Collection<Area> sectores,
       Clasificacion clasificacion) {
@@ -43,6 +48,7 @@ public class Organizacion {
     this.sectores = sectores;
     this.clasificacion = clasificacion;
     this.contactos = new ArrayList<>();
+    this.valoresHCMensualOrganizacion = new ArrayList<>();
   }
 
   public Organizacion() {
