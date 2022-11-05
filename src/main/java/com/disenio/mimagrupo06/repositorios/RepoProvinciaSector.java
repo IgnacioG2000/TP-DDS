@@ -11,12 +11,18 @@ import java.util.List;
 public interface RepoProvinciaSector extends CrudRepository<ProvinciaSector, Long> {
     ProvinciaSector findByProvinciaCodigo(Long provinciaCodigo);
 
-    @Query(value = "SELECT p.nombre AS PROVINCIA, SUM(hc.huellaCarbono) AS HC_TOTAL" +
+    @Query(value = "SELECT p.nombre AS PROVINCIA, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
+        "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
+        "                         JOIN MunicipioSector m ON p.id = m.provincia.id" +
+        "                         LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
+        "  GROUP BY p.nombre")
+    List<ProvinciaSector> findAllHCPorSectorTerritorial();
+
+    @Query(value = "SELECT p.nombre AS PROVINCIA, m.nombre AS MUNICIPIO, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
         "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
         "                         JOIN MunicipioSector m ON p.id = m.provincia.id" +
         "                         LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
         "  WHERE p.nombre = :nombre" +
-        "  GROUP BY 1")
-    List<ProvinciaSector> findAllByNombre(String nombre);
-
+        "  GROUP BY p.nombre, m.nombre")
+    List<ProvinciaSector> findAllComposicionHCTotalDeUnaDeterminadaProvincia(String nombre);
 }

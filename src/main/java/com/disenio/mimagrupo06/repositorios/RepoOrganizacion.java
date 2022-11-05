@@ -40,4 +40,9 @@ public class RepoOrganizacion {
     return lista;
   }
 
+  /*public List<Organizacion> obtenerHCPorTipoDeOrganizacion(){ //TODO
+
+    return ;
+  }*/
+
 }
