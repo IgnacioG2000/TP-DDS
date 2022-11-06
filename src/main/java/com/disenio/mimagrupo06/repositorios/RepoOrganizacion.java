@@ -6,13 +6,23 @@ package com.disenio.mimagrupo06.repositorios;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.organizacion.Contacto;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RepoOrganizacion {
   private Collection<Organizacion> organizaciones;
+
+  @PersistenceContext
+  private EntityManager entityManager;
 
   private static final RepoOrganizacion INSTANCE = new RepoOrganizacion();
 
@@ -40,9 +50,12 @@ public class RepoOrganizacion {
     return lista;
   }
 
-  /*public List<Organizacion> obtenerHCPorTipoDeOrganizacion(){ //TODO
+  public List<String> obtenerHCPorTipoDeOrganizacion(){
 
-    return ;
-  }*/
+    String query = " SELECT o.tipoDeOrganizacion, o.clasificacion, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
+                   " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
+                   " GROUP BY o.tipoDeOrganizacion, o.clasificacion";
+    return entityManager.createQuery(query, String.class).getResultStream().collect(Collectors.toList());
+  }
 
 }
