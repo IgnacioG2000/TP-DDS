@@ -55,7 +55,23 @@ public class RepoOrganizacion {
     String query = " SELECT o.tipoDeOrganizacion, o.clasificacion, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
                    " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
                    " GROUP BY o.tipoDeOrganizacion, o.clasificacion";
-    return entityManager.createQuery(query, String.class).getResultStream().collect(Collectors.toList());
+    
+    return entityManager.createQuery(query, String.class)
+        .getResultStream()
+        .collect(Collectors.toList());
+  }
+
+  public List<String> obtenerEvolucionHCDeUnaDeterminadaOrganizacion(String razonSocial){
+
+    String query = " SELECT o.id, o.razonSocial, hc.anio, SUM(hc.huellaCarbono) AS HC_TOTAL" +
+        " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
+        " WHERE o.razonSocial = :razonSocial" +
+        " GROUP BY o.id, o.razonSocial, hc.anio";
+
+    return entityManager.createQuery(query, String.class)
+        .setParameter("razonSocial", razonSocial)
+        .getResultStream()
+        .collect(Collectors.toList());
   }
 
 }
