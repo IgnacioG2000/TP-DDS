@@ -66,12 +66,12 @@ public class CalculadoraController {
     Transformador transformador = new Transformador();
     transformador.setTa(repoTA);
     OrganizacionService organizacionService = new OrganizacionService();
+    unaOrganizacion.setOrganizacionService(organizacionService);
     CalculadoraHCActividad calculadoraHCActividad = new CalculadoraHCActividad();
     calculadoraHCActividad.setTa(repoTA);
     organizacionService.setTransformador(transformador);
     organizacionService.setCalculadoraHCActividad(calculadoraHCActividad);
     organizacionService.cargarDatosActividad("/src/main/java/com/disenio/mimagrupo06/excel_ETL/excelTesteo.xls",unaOrganizacion);
-    unaOrganizacion.setOrganizacionService(organizacionService);
     double resultado = unaOrganizacion.calcularHuellaCarbonoTotalMensual(Integer.parseInt(anio), Integer.parseInt(mes));
 
     System.out.println("Resultado = " + resultado);;

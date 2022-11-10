@@ -130,14 +130,13 @@ public class InitData implements CommandLineRunner {
         Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
         ra.save(area2);
         Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
-        ra.save(area4Ever21);
-
         miembroJake.setArea(area4Ever21);
         miembroTaylor.setArea(area4Ever21);
         area4Ever21.agregarVinculacion(trayecto2);
         area4Ever21.agregarVinculacion(trayecto3);
         area4Ever21.aceptarVinculacion(trayecto2);
         area4Ever21.aceptarVinculacion(trayecto3);
+        ra.save(area4Ever21);
 
         Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
                  Clasificacion.MINISTERIO);
