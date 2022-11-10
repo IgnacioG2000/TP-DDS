@@ -8,6 +8,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActivida
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.*;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte.*;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +59,9 @@ public class InitData implements CommandLineRunner {
 
     @Autowired
     private RepoTramos rt;
+
+    @Autowired
+    private RepoTrayecto rty;
 
     @Override
     public void run(String... args) throws Exception {
@@ -108,7 +113,12 @@ public class InitData implements CommandLineRunner {
         rt.save(tramo2);
         Tramo tramo3 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte2, Arrays.asList(miembroTaylor));
         rt.save(tramo3);
-
+        Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
+        rty.save(trayecto1);
+        Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
+        rty.save(trayecto2);
+        Trayecto trayecto3 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo3), LocalDate.of(2021, 1, 1),2);
+        rty.save(trayecto3);
         //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
         //ru.save(usuarioComun);
 
@@ -116,11 +126,18 @@ public class InitData implements CommandLineRunner {
         EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
         re.save(espacioTrabajoArea);
         Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
-        Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
-        Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
         ra.save(area);
+        Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
         ra.save(area2);
+        Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
         ra.save(area4Ever21);
+
+        miembroJake.setArea(area4Ever21);
+        miembroTaylor.setArea(area4Ever21);
+        area4Ever21.agregarVinculacion(trayecto2);
+        area4Ever21.agregarVinculacion(trayecto3);
+        area4Ever21.aceptarVinculacion(trayecto2);
+        area4Ever21.aceptarVinculacion(trayecto3);
 
         Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
                  Clasificacion.MINISTERIO);
