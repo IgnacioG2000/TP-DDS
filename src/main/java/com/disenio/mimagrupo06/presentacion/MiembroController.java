@@ -60,18 +60,23 @@ public class MiembroController {
   @PostMapping("/trayectos/nuevos")
   public ResponseEntity registrarTrayecto(@RequestHeader("Authorization") String idSesion, @RequestBody TrayectoDTO trayectoDTO) throws IOException {
 
-    Miembro miembroSesion = SesionManager.get().encontrarMiembro(idSesion, trayectoDTO.getNombreArea());
+    Miembro miembroSesion = this.encontrarMiembro(idSesion, trayectoDTO.getNombreArea());
     if (miembroSesion == null) {
       return ResponseEntity.status(404).build();
     }
 
     Trayecto trayecto = new Trayecto();
-    List<Espacio> espacios = repoEspacio.findAll();
-    Hogar partida = (Hogar) espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioPartida())).collect(Collectors.toList()).get(0);
-    EspacioDeTrabajo llegada = (EspacioDeTrabajo) espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioLlegada())).collect(Collectors.toList()).get(0);
-    trayecto.setPartida(partida);
-    trayecto.setLlegada(llegada);
-    int discriminantePartida = partida.discriminante();
+    //List<Espacio> espacios = repoEspacio.findAll();
+    //Espacio partida = espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioPartida())).collect(Collectors.toList()).get(0);
+    //Espacio llegada = espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioLlegada())).collect(Collectors.toList()).get(0);
+    Espacio espacioLlegada = repoEspacio.findByLatitudAndLongitudAndProvinciaAndMunicipioAndLocalidadAndDireccionAndNumeroAndCodigoPostal(trayectoDTO.getEspacioLlegada().getLatitud(),trayectoDTO.getEspacioLlegada().getLongitud(), trayectoDTO.getEspacioLlegada().getProvincia(), trayectoDTO.getEspacioLlegada().getMunicipio(),
+        trayectoDTO.getEspacioLlegada().getLocalidad(), trayectoDTO.getEspacioLlegada().getDireccion(),trayectoDTO.getEspacioLlegada().getNumero(), trayectoDTO.getEspacioLlegada().getCodigoPostal());
+    Espacio espacioPartida = repoEspacio.findByLatitudAndLongitudAndProvinciaAndMunicipioAndLocalidadAndDireccionAndNumeroAndCodigoPostal(trayectoDTO.getEspacioPartida().getLatitud(),trayectoDTO.getEspacioPartida().getLongitud(), trayectoDTO.getEspacioPartida().getProvincia(), trayectoDTO.getEspacioPartida().getMunicipio(),
+        trayectoDTO.getEspacioPartida().getLocalidad(), trayectoDTO.getEspacioPartida().getDireccion(),trayectoDTO.getEspacioPartida().getNumero(), trayectoDTO.getEspacioPartida().getCodigoPostal());
+
+    trayecto.setPartida(espacioPartida);
+    trayecto.setLlegada(espacioLlegada);
+    //int discriminantePartida = partida.discriminante();
 
     trayecto.setDiasUtilizados(trayectoDTO.getDiasUtilizados());
     trayecto.setFechaFin(trayectoDTO.getFechaFin());
@@ -83,6 +88,23 @@ public class MiembroController {
     return ResponseEntity.status(201).body(trayecto);
   }
 
+  public Miembro encontrarMiembro(String idSesion, String nombreArea) {
+
+    Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+    Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+    Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+
+    List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
+        .filter(miembro -> mismaArea(miembro,nombreArea))
+        .collect(Collectors.toList());
+
+    return  miembrosDeSesionConArea.get(0);
+  }
+
+  private boolean mismaArea(Miembro miembro, String nombreArea){
+    return miembro.getArea().getNombre().equals(nombreArea);
+  }
 
 
 }

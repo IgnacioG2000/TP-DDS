@@ -5,17 +5,23 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Parada;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.presentacion.dto.EspacioDeTrabajoDTO;
 import com.disenio.mimagrupo06.presentacion.dto.HogarDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ParadaDTO;
 import com.disenio.mimagrupo06.repositorios.RepoEspacio;
+import com.disenio.mimagrupo06.repositorios.RepoMiembro;
+import com.disenio.mimagrupo06.repositorios.RepoPersona;
+import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,11 +29,15 @@ import java.util.stream.Collectors;
 public class EspacioController {
     @Autowired
     RepoEspacio repoEspacio;
+    @Autowired
+    RepoPersona repoPersona;
+    @Autowired
+    RepoMiembro repoMiembro;
 
 
     @PostMapping("/registrarHogar")
     public ResponseEntity chequeoEspacio(@RequestHeader("Authorization") String idSesion, @RequestBody HogarDTO espacioDTO) {
-        Miembro miembroEncontrado = SesionManager.get().encontrarMiembro(idSesion, espacioDTO.getNombreArea());
+        Miembro miembroEncontrado = this.encontrarMiembro(idSesion, espacioDTO.getNombreArea());
         Area area = miembroEncontrado.getArea();
         HashSet<Espacio> setEspaciosRegistradosEnArea = new HashSet<Espacio>();
         area.getTrayectosRegistados().forEach(trayecto -> trayecto.getTramos().forEach(tramo -> setEspaciosRegistradosEnArea.addAll(Arrays.asList(tramo.getPartida(), tramo.getLlegada()))));
@@ -45,7 +55,7 @@ public class EspacioController {
 
     @PostMapping("/registrarParada")
     public ResponseEntity chequeoParada(@RequestHeader("Authorization") String idSesion, @RequestBody ParadaDTO paradaDTO) {
-        Miembro miembroEncontrado = SesionManager.get().encontrarMiembro(idSesion, paradaDTO.getNombreArea());
+        Miembro miembroEncontrado = this.encontrarMiembro(idSesion, paradaDTO.getNombreArea());
         Area area = miembroEncontrado.getArea();
         HashSet<Espacio> setEspaciosRegistradosEnArea = new HashSet<Espacio>();
         area.getTrayectosRegistados().forEach(trayecto -> trayecto.getTramos().forEach(tramo -> setEspaciosRegistradosEnArea.addAll(Arrays.asList(tramo.getPartida(), tramo.getLlegada()))));
@@ -62,7 +72,7 @@ public class EspacioController {
 
     @PostMapping("/registrarEspacioDeTrabajo")
     public ResponseEntity chequeoEspacioDeTrabajo(@RequestHeader("Authorization") String idSesion, @RequestBody EspacioDeTrabajoDTO espacioDTO) {
-        Miembro miembroEncontrado = SesionManager.get().encontrarMiembro(idSesion, espacioDTO.getNombreArea());
+        Miembro miembroEncontrado = this.encontrarMiembro(idSesion, espacioDTO.getNombreArea());
         Area area = miembroEncontrado.getArea();
         HashSet<Espacio> setEspaciosRegistradosEnArea = new HashSet<Espacio>();
         area.getTrayectosRegistados().forEach(trayecto -> trayecto.getTramos().forEach(tramo -> setEspaciosRegistradosEnArea.addAll(Arrays.asList(tramo.getPartida(), tramo.getLlegada()))));
@@ -75,5 +85,23 @@ public class EspacioController {
             repoEspacio.save(espacio);
         }
         return ResponseEntity.status(201).body(espacio);
+    }
+
+    public Miembro encontrarMiembro(String idSesion, String nombreArea) {
+
+        Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+        Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+        Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+        List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+
+        List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
+            .filter(miembro -> mismaArea(miembro,nombreArea))
+            .collect(Collectors.toList());
+
+        return  miembrosDeSesionConArea.get(0);
+    }
+
+    private boolean mismaArea(Miembro miembro, String nombreArea){
+        return miembro.getArea().getNombre().equals(nombreArea);
     }
 }

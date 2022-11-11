@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
-public abstract class Espacio {
+public class Espacio {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -105,6 +105,8 @@ public abstract class Espacio {
     this.id = id;
   }
 
-  public abstract int discriminante();
+  public int discriminante(){
+    return 0;
+  };
 
 }

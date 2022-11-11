@@ -7,6 +7,7 @@ import com.disenio.mimagrupo06.repositorios.RepoMiembro;
 import com.disenio.mimagrupo06.repositorios.RepoPersona;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SesionManager {
-
+public final class SesionManager {
+/*
     @Autowired
     RepoPersona repoPersona;
     @Autowired
     RepoMiembro repoMiembro;
-
+*/
 
     private static SesionManager instancia;
 
@@ -75,7 +76,7 @@ public class SesionManager {
         //esto no elimina la cookie del frontend
         return this.sesiones.remove(id);
     }
-
+/*
     public Miembro encontrarMiembro(String idSesion, String nombreArea) {
 
         Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
@@ -95,7 +96,7 @@ public class SesionManager {
         System.out.println("El area del miembro buscado es "+ nombreArea);
        return  miembrosDeSesionConArea.get(0);//aca tendria q usarse miembrosDeSesionConArea pero la comparacion con string no esta funcionando
     }
-
+*/
     private boolean mismaArea(Miembro miembro, String nombreArea){
         return miembro.getArea().getNombre().equals(nombreArea);
     }
