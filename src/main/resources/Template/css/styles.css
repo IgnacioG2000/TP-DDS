@@ -35,3 +35,7 @@
 .bg-color4 {
     background-color: #47ae73;
 }
+
+.selectorDeClase{
+    display: none
+}
