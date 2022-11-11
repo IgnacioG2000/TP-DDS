@@ -50,12 +50,12 @@ public class RepoOrganizacion {
     return lista;
   }
 
-  public List<String> obtenerHCPorTipoDeOrganizacion(){
+  public List<String> obtenerHCPorProvincia(){
 
     String query = " SELECT o.tipoDeOrganizacion, o.clasificacion, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
                    " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
                    " GROUP BY o.tipoDeOrganizacion, o.clasificacion";
-    
+
     return entityManager.createQuery(query, String.class)
         .getResultStream()
         .collect(Collectors.toList());
