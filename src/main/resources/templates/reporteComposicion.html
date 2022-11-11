@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Reporte</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="imagenes/logo.png" />
+    <link rel="icon" type="image/x-icon" href="../static/imagenes/logo.png" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="../static/css/styles.css" rel="stylesheet" />
 </head>
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-color3">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">
-            <img src="imagenes/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            <img src="../static/imagenes/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             Impacto Ambiental
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -60,19 +60,28 @@
 <div class="formulario1">
     <div class="rendered-form">
         <div class="">
-            <h1 access="false" id="control-8071773">Reporte HC Total - Sector Territorial</h1></div>
-        <br>
-        <div class="formbuilder-select form-group field-select-1666388825021">
-            <label for="select-1666388825021" class="formbuilder-select-label">Seleccionar Sector</label>
-            <select class="form-control" name="select-1666388825021" id="select-1666388825021">
-                <option value="Sector1" selected="true" id="select-1666388825021-0">Sector 1</option>
-                <option value="Sector2" id="select-1666388825021-1">Sector 2</option>
-                <option value="Sector3" id="select-1666388825021-2">Sector 3</option>
+            <h1 access="false" id="control-2188050">Reporte Composición HC</h1></div>
+        <div class="col-md-6">
+            <label class="form-label">Seleccione la organización o sector:</label>
+            <select name="SectorXOrganizacion" id="SectorXOrganizacion">
+                <optgroup label="Sector">
+                    <option value="Sector1">Sector 1</option>
+                    <option value="Sector2">Sector 2</option>
+                    <option value="Sector3">Sector 3</option>
+                </optgroup>
+                <optgroup label="Organización">
+                    <option value="Organizacion1">Organización 1</option>
+                    <option value="Organizacion2">Organización 2</option>
+                    <option value="Organizacion3">Organización 3</option>
+                </optgroup>
+                <optgroup label="Pais">
+                    <option value="Argentina">Argentina</option>
+                </optgroup>
             </select>
         </div>
         <br>
         <div class="formbuilder-button form-group field-button-1666388854444">
-            <button type="button" class="btn-success btn" name="button-1666388854444" access="false" style="success" id="button-1666388854444">Generar Reporte</button>
+            <button type="button" class="btn-success btn" name="button-1666388854444" access="false" id="button-1666388854444">Generar Reporte</button>
         </div>
     </div>
 </div>
