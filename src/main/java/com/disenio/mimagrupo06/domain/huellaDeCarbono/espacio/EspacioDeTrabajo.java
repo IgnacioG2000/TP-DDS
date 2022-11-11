@@ -21,6 +21,11 @@ public class EspacioDeTrabajo extends Espacio{
 
   }
 
+  @Override
+  public int discriminante() {
+    return 1;
+  }
+
   public int getPiso() {
     return piso;
   }
