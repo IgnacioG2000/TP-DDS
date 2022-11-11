@@ -51,6 +51,103 @@
         <div class="col-md-6">
             <h5>Completar el punto de llegada</h5>
         </div>
+
+        <div class="col-md-6">
+            <label for="tipoEspacio" class="form-label">Tipo de espacio</label>
+            <select id="tipoEspacio" class="form-select">
+                <option selected>Elegir...</option>
+                <option value="trabajo">Espacio de Trabajo</option>
+                <option value="hogar">Hogar</option>
+                <option value="parada">Parada</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="tipoEspacio2" class="form-label">Tipo de espacio</label>
+            <select id="tipoEspacio2" class="form-select">
+                <option selected>Elegir...</option>
+                <option value="trabajo">Espacio de Trabajo</option>
+                <option value="hogar">Hogar</option>
+                <option value="parada">Parada</option>
+            </select>
+        </div>
+
+        <div class="selectorDeClase" id="claseHogar2">
+            <div class="col-md-6">
+                <div>
+                    <label for="pisoHogar" class="form-label">Piso</label>
+                    <input type="number" class="form-control" id="pisoHogar2">
+                </div>
+                <div>
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" id="departamento2">
+                </div>
+                <div>
+                    <label for="inputHogar" class="form-label">Tipo de Hogar</label>
+                    <select id="inputHogar" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="1">Casa</option>
+                        <option value="2">Departamento</option>
+                        <option value="3">Residencia</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="selectorDeClase" id="claseEspacioTrabajo2" >
+            <div class="col-md-6">
+                <div>
+                    <label for="pisoTrabajo" class="form-label">Piso</label>
+                    <input type="number" class="form-control" id="pisoTrabajo2">
+                </div>
+                <div>
+                    <label for="unidad" class="form-label">Unidad</label>
+                    <input type="text" class="form-control" id="unidad2">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="selectorDeClase" id="claseEspacioTrabajo" >
+            <div class="col-md-6">
+                <div>
+                    <label for="pisoTrabajo" class="form-label">Piso</label>
+                    <input type="number" class="form-control" id="pisoTrabajo">
+                </div>
+                <div>
+                    <label for="unidad" class="form-label">Unidad</label>
+                    <input type="text" class="form-control" id="unidad">
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="selectorDeClase" id="claseHogar">
+            <div class="col-md-6">
+                <div>
+                    <label for="pisoHogar" class="form-label">Piso</label>
+                    <input type="number" class="form-control" id="pisoHogar">
+                </div>
+                <div>
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" id="departamento">
+                </div>
+                <div>
+                    <label for="inputHogar2" class="form-label">Tipo de Hogar</label>
+                    <select id="inputHogar2" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="1">Casa</option>
+                        <option value="2">Departamento</option>
+                        <option value="3">Residencia</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
         <div class="col-md-6">
             <label for="inputLatitud1" class="form-label">Latitud</label>
             <input type="number" class="form-control" id="inputLatitud1">
@@ -172,6 +269,69 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scripts.js"></script>
+<script>
+
+   const espacioSeleccionado = document.getElementById("tipoEspacio")
+   const espacioSeleccionado2 = document.getElementById("tipoEspacio2")
+
+    espacioSeleccionado.addEventListener('change', e => {
+        e.preventDefault();
+        mostrarOpcionesSegunClase(espacioSeleccionado.value);
+    });
+
+   espacioSeleccionado2.addEventListener('change', e => {
+       e.preventDefault();
+       mostrarOpcionesSegunClase2(espacioSeleccionado2.value);
+   });
+
+
+
+   const espacioTrabajo = document.getElementById("claseEspacioTrabajo");
+   const espacioHogar= document.getElementById("claseHogar");
+   const espacioTrabajo2 = document.getElementById("claseEspacioTrabajo2");
+   const espacioHogar2= document.getElementById("claseHogar2");
+   //const espacioParada = document.getElementById("claseParada");
+
+    function mostrarOpcionesSegunClase(valor) {
+        if(valor === "trabajo") {
+            console.log("trabajooooooooo")
+            espacioTrabajo.classList.remove("selectorDeClase");
+            espacioHogar.classList.add("selectorDeClase");
+        }else{
+            if(valor === "hogar") {
+                console.log("hogaaaaaaaaaaaaaaaaaar")
+                espacioTrabajo.classList.add("selectorDeClase");
+                espacioHogar.classList.remove("selectorDeClase");
+            } else{
+                if(valor === "parada"){
+                    espacioTrabajo.classList.add("selectorDeClase");
+                    espacioHogar.classList.add("selectorDeClase");
+            }
+            }
+        }
+    }
+   function mostrarOpcionesSegunClase2(valor) {
+       if(valor === "trabajo") {
+           console.log("trabajooooooooo")
+           espacioTrabajo2.classList.remove("selectorDeClase");
+           espacioHogar2.classList.add("selectorDeClase");
+       }else{
+           if(valor === "hogar") {
+               console.log("hogaaaaaaaaaaaaaaaaaar")
+               espacioTrabajo2.classList.add("selectorDeClase");
+               espacioHogar2.classList.remove("selectorDeClase");
+           } else{
+               if(valor === "parada"){
+                   espacioTrabajo2.classList.add("selectorDeClase");
+                   espacioHogar2.classList.add("selectorDeClase");
+               }
+           }
+       }
+   }
+
+
+
+
+</script>
 </body>
 </html>
