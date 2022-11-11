@@ -15,4 +15,9 @@ public class Parada extends Espacio{
   public Parada() {
 
   }
+
+  @Override
+  public int discriminante() {
+    return 3;
+  }
 }

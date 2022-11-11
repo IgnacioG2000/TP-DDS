@@ -26,6 +26,11 @@ public class Hogar extends Espacio{
 
   }
 
+  @Override
+  public int discriminante() {
+    return 2;
+  }
+
   public int getPiso() {
     return piso;
   }

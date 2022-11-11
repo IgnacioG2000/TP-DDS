@@ -1,6 +1,8 @@
 package com.disenio.mimagrupo06.presentacion;
 
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
@@ -65,10 +67,11 @@ public class MiembroController {
 
     Trayecto trayecto = new Trayecto();
     List<Espacio> espacios = repoEspacio.findAll();
-    Espacio partida = espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioPartida())).collect(Collectors.toList()).get(0);
-    Espacio llegada = espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioLlegada())).collect(Collectors.toList()).get(0);
+    Hogar partida = (Hogar) espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioPartida())).collect(Collectors.toList()).get(0);
+    EspacioDeTrabajo llegada = (EspacioDeTrabajo) espacios.stream().filter(espacio -> espacio.equals(trayectoDTO.getEspacioLlegada())).collect(Collectors.toList()).get(0);
     trayecto.setPartida(partida);
     trayecto.setLlegada(llegada);
+    int discriminantePartida = partida.discriminante();
 
     trayecto.setDiasUtilizados(trayectoDTO.getDiasUtilizados());
     trayecto.setFechaFin(trayectoDTO.getFechaFin());

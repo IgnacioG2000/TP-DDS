@@ -105,4 +105,6 @@ public abstract class Espacio {
     this.id = id;
   }
 
+  public abstract int discriminante();
+
 }

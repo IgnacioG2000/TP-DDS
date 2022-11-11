@@ -10,8 +10,6 @@ import java.util.Collection;
 public class TrayectoDTO {
 
   private String nombreArea;
-  private String discriminadorPartida;
-  private String discriminadorLlegada;
   private Espacio espacioLlegada;
   private Espacio espacioPartida;
   private Collection<Tramo> tramos;
@@ -73,21 +71,5 @@ public class TrayectoDTO {
 
   public void setDiasUtilizados(int diasUtilizados) {
     this.diasUtilizados = diasUtilizados;
-  }
-
-  public String getDiscriminadorPartida() {
-    return discriminadorPartida;
-  }
-
-  public void setDiscriminadorPartida(String discriminadorPartida) {
-    this.discriminadorPartida = discriminadorPartida;
-  }
-
-  public String getDiscriminadorLlegada() {
-    return discriminadorLlegada;
-  }
-
-  public void setDiscriminadorLlegada(String discriminadorLlegada) {
-    this.discriminadorLlegada = discriminadorLlegada;
   }
 }
