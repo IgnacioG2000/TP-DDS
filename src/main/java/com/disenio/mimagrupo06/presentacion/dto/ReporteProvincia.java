@@ -9,10 +9,19 @@ public class ReporteProvincia {
 
   @Id
   @GeneratedValue
-  private Long id;
+  private long id;
 
   private String provincia;
-  private String hc_total;
+  private Double hc_total;
+
+  public ReporteProvincia(String provincia, Double hc_total) {
+    this.provincia = provincia;
+    this.hc_total = hc_total;
+  }
+
+  public ReporteProvincia() {
+
+  }
 
   public String getProvincia() {
     return provincia;
@@ -22,11 +31,11 @@ public class ReporteProvincia {
     this.provincia = provincia;
   }
 
-  public String getHc_total() {
+  public Double getHc_total() {
     return hc_total;
   }
 
-  public void setHc_total(String hc_total) {
+  public void setHc_total(Double hc_total) {
     this.hc_total = hc_total;
   }
 

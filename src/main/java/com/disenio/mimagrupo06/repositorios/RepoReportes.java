@@ -11,11 +11,10 @@ import java.util.List;
 public interface RepoReportes extends CrudRepository<ReporteProvincia, Long> {
   ReporteProvincia findByProvincia(String provincia);
 
-  @Query(value = "SELECT p.nombre AS PROVINCIA, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
-      "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
-      "                         JOIN MunicipioSector m ON p.id = m.provincia.id" +
-      "                         LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
-      "  GROUP BY p.nombre")
+  @Query(value = "SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteProvincia(p.nombre, SUM(hc.huellaCarbono))" +
+                " FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
+                "                        JOIN MunicipioSector m ON p.id = m.provincia.id" +
+                "                        LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
+                "  GROUP BY p.nombre")
   List<ReporteProvincia> findAllHCPorSectorTerritorial();
-
 }
