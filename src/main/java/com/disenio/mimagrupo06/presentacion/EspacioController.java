@@ -4,29 +4,32 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Parada;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.presentacion.dto.EspacioDeTrabajoDTO;
 import com.disenio.mimagrupo06.presentacion.dto.HogarDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ParadaDTO;
+import com.disenio.mimagrupo06.presentacion.dto.TramosYEspaciosDTO;
 import com.disenio.mimagrupo06.repositorios.RepoEspacio;
 import com.disenio.mimagrupo06.repositorios.RepoMiembro;
 import com.disenio.mimagrupo06.repositorios.RepoPersona;
+import com.disenio.mimagrupo06.repositorios.RepoTramo;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
 public class EspacioController {
+
+    @Autowired
+    RepoTramo repoTramo;
     @Autowired
     RepoEspacio repoEspacio;
     @Autowired
@@ -34,6 +37,13 @@ public class EspacioController {
     @Autowired
     RepoMiembro repoMiembro;
 
+
+    @GetMapping("/tramosYEspacios")
+    public TramosYEspaciosDTO obtenerTramosYEspacios(@RequestHeader("Authorization") String idSesion){
+        Iterable<Tramo> listaTramos = repoTramo.findAll();
+        Iterable<Espacio> listaEspacio = repoEspacio.findAll();
+        return new TramosYEspaciosDTO(listaTramos, listaEspacio);
+    }
 
     @PostMapping("/registrarHogar")
     public ResponseEntity chequeoEspacio(@RequestHeader("Authorization") String idSesion, @RequestBody HogarDTO espacioDTO) {
