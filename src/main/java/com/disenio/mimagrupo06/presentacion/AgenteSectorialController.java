@@ -4,24 +4,29 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraH
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.domain.organizacion.OrganizacionService;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
+import com.disenio.mimagrupo06.repositorios.RepoArea;
 import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
+import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@RestController
+@CrossOrigin
 public class AgenteSectorialController {
   @Autowired
   RepoOrganizacion repoOrganizacion;
 
   @Autowired
   private RepoTA repoTA;
+
+  @Autowired
+  private RepoArea ra;
 
   @GetMapping("/calculadora/agenteSectorial/hcAnual/{anio}")
   public ResponseEntity calcularHCTotalAnio(@RequestHeader("Authorization") String idSesion, @PathVariable("anio") String anio){
@@ -33,6 +38,8 @@ public class AgenteSectorialController {
     if (agenteSectorial == null) {
       return ResponseEntity.status(404).build();
     }
+
+    agenteSectorial.setRa(ra);
 
     double resultado = agenteSectorial.calcularHuellaCarbonoPorSectorAnual(Integer.parseInt(anio));
 
@@ -52,6 +59,8 @@ public class AgenteSectorialController {
     if (agenteSectorial == null) {
       return ResponseEntity.status(404).build();
     }
+
+    agenteSectorial.setRa(ra);
 
     double resultado = agenteSectorial.calcularHuellaCarbonoPorSectorMensual(Integer.parseInt(anio), Integer.parseInt(mes));
 
