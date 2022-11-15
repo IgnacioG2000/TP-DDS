@@ -71,7 +71,7 @@
         type:'bar',
         data:{
             datasets: [{
-                label: 'HC total por provincia',
+                label: 'HC Total',
                 backgroundColor: ['#6bf1ab','#63d69f', '#438c6c', '#509c7f', '#1f794e', '#34444c', '#90CAF9', '#64B5F6', '#42A5F5', '#2196F3', '#0D47A1'],
                 borderColor: ['black'],
                 borderWidth:1
@@ -81,6 +81,12 @@
             scales:{
                 y:{
                     beginAtZero:true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'HC Total por Provincia',
                 }
             }
         }
