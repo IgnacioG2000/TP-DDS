@@ -10,12 +10,19 @@ import com.disenio.mimagrupo06.repositorios.RepoPersona;
 import com.disenio.mimagrupo06.repositorios.RepoUsuario;
 import com.disenio.mimagrupo06.repositorios.RepositorioUsuario;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -29,14 +36,18 @@ public class LoginController {
     RepoPersona repoPersona;
     @Autowired
     RepoMiembro repoMiembro;
+
+    //ESTO ESTA MAL VER COMO ARREGLARLO PRO FAVOR NO LO DEJEMOS ASI GRACIAS :) (lo hacemos solo para probar)
+    private final Handlebars handlebars = new Handlebars();
+
     public LoginController() {
     }
 
-    /*
+
     @GetMapping("/login")
     public ResponseEntity<String> login() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
-        //Template template = handlebars.compile("/templates/login");
+        Template template = handlebars.compile("/Template/login");
 
         Map<String, Object> model = new HashMap<>();
         //model.put("listamascotas", mascotas);
@@ -45,7 +56,8 @@ public class LoginController {
 
         return ResponseEntity.status(200).body(html);
     }
-    */
+
+
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) throws Exception {
 
@@ -64,7 +76,7 @@ public class LoginController {
         System.out.println(contrasenna);
         System.out.println(loginRequest);
 
-        String contraseniaHasheada = this.generarHash(contrasenna, this.getSalt());
+       String contraseniaHasheada = this.generarHash(contrasenna, this.getSalt());
 
         Usuario usuario = repoUsuario.findByUsuarioAndContraseniaHasheada(nombreUsuario, contraseniaHasheada);
         Persona personaSesion = repoPersona.findByUsuario(usuario);
