@@ -1,0 +1,28 @@
+.botonExistentes{
+    display:flex;
+    justify-content: center;
+    margin-left: 50px;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.botonNuevo{
+    display:flex;
+    justify-content: center;
+    margin-right: 50px;
+    color: #000000;
+    background-color: #f1e7c4;
+    border-color: #0d6efd;
+}
+.botones{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 1122px;
+}
+
+.botones div {
+
+}
