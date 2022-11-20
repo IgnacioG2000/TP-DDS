@@ -12,10 +12,10 @@ const tramoExistente = document.getElementById("tramoExistente")
 
 const medioDeTransporte = document.getElementById("medioTransporte");
 
-const servicioContratado = document.getElementById("servicioContratado")
-const noMotorizado = document.getElementById("noMotorizado")
-const transportePublico = document.getElementById("transportePublico")
-const vehiculoParticular = document.getElementById("vehiculoParticular")
+const servicioContratado = document.getElementById("divServicioContratado")
+const noMotorizado = document.getElementById("divNoMotorizado")
+const transportePublico = document.getElementById("divTransportePublico")
+const vehiculoParticular = document.getElementById("divVehiculoParticular")
 
 
 opcionesTramo.addEventListener('change', e=> {
