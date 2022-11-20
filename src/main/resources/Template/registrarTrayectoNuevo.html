@@ -315,7 +315,7 @@
 
         <div class= "hidden" id="espaciosExistentesLlegada" >
             <div class="col-md-6">
-                <label class="form-label">Seleccione un punto de partida existente</label>
+                <label class="form-label">Seleccione un punto de llegada existente</label>
                 <select multiple class="form-control" id="puntoLlegadaExistente">
                     <option>Llegada1</option>
                     <option>Llegada2</option>
@@ -324,19 +324,132 @@
             </div>
         </div>
 
-        <div id="registrar">
-            <br>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Siguiente</button>
-        </div>
 
     </div>
 
-
+    <div id="registrar">
+        <br>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Registrar Trayecto</button>
+    </div>
 </form>
 
 <form id="tramos" class="hidden">
 
-    <p> aca van a estar todos los tramos con su logica </p>
+    <h3> Cargar tramos </h3>
+
+    <div id="generalTramo">
+
+        <h5> ¿Querés usar un tramo existente o querés crear uno nuevo?</h5>
+        <div id="opcionesTramo">
+            <label for="tipoTramo" class="form-label"></label>
+            <select id="tipoTramo" class="form-select">
+                <option selected>Elegir...</option>
+                <option value="nuevo">Nuevo</option>
+                <option value="existente">Existente</option>
+            </select>
+        </div>
+
+        <div id="tramoNuevo" class = "hidden">
+            <div id="medioTransporteTramo">
+                <br>
+                <h5> Elegir medio de Transporte</h5>
+                <label for="medioTransporte" class="form-label"></label>
+                <select id="medioTransporte" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="servicioContratado">Servicio Contratado</option>
+                    <option value="transporteNoMotorizado">Transporte No Motorizado</option>
+                    <option value="transportePublico">Transporte publico</option>
+                    <option value="vehiculoParticular">Vehiculo particular</option>
+                </select>
+            </div>
+
+            <div class = "hidden">
+                <br>
+                <h5> Elegir tipo de servicio contratado</h5>
+                <label for="servicioContratado" class="form-label"></label>
+                <select id="servicioContratado" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="taxi">Taxi</option>
+                    <option value="remis">Remis</option>
+
+                </select>
+
+            </div>
+
+            <div class = "hidden">
+                <br>
+                <h5>Elegir tipo de no motorizado</h5>
+                <label for="noMotorizado" class="form-label"></label>
+                <select id="noMotorizado" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="aPie">A pie</option>
+                    <option value="bici">Bici</option>
+                    <option value="otros">Spawneo</option>
+
+                </select>
+
+            </div>
+
+            <div class="hidden">
+                <h5> Elegir tipo de transporte publico</h5>
+                <label for="transportePublico" class="form-label"></label>
+                <select id="transportePublico" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="subte">Subte</option>
+                    <option value="colectivo">Colectivo</option>
+                    <option value="tren">Tren</option>
+
+                </select>
+
+                <h5> Completar nombre del transporte pubico, por ejemplo: 7A</h5>
+                <div>
+                    <label for="nombreTransporte" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombreTransporte">
+                </div>
+
+            </div>
+
+            <div class="hidden">
+                <h5> Elegir tipo de vehiculo particular</h5>
+                <label for="vehiculoParticular" class="form-label"></label>
+                <select id="vehiculoParticular" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="auto">Auto</option>
+                    <option value="camioneta">Camioneta</option>
+                    <option value="moto">Moto</option>
+                </select>
+
+                <h5>Elegir tipo de combustible</h5>
+                <label for="tipoCombustible" class="form-label"></label>
+                <select id="tipoCombustible" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="nafta">Nafta</option>
+                    <option value="gnc">GNC</option>
+                    <option value="electrico">Electrico</option>
+                    <option value="gasoil">Gasoil</option>
+                </select>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+      <div>
+
+          <div id="agregarMasTramos">
+              <br>
+              <button class="w-100 btn btn-lg btn-primary">Agregar otro tramo</button>
+          </div>
+
+          <div id="tramosCompletos">
+              <br>
+              <button class="w-100 btn btn-lg btn-primary" type="submit">No mas tramos</button>
+          </div>
+          <br>
+
+    </div>
 
 </form>
 <!-- Footer-->
@@ -346,8 +459,8 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scriptTrayectos.js">
+    <script src="js/scriptTrayectos.js"></script>
+    <script src="js/scriptTramos.js"></script>
 
-</script>
 </body>
 </html>
