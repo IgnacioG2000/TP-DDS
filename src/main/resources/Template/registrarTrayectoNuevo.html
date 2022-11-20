@@ -42,14 +42,29 @@
     </div>
 </nav>
 <!-- Section-->
-<div class="formulario1">
+<form class="trayectos" id="trayectos">
+
+    <h1> Registrar trayecto </h1>
+
+    <div class="fecha">
+        <label class="">Fecha de Inicio</label>
+        <input type="date" id="startInicio" name="trip-start" value="2018-07-22" min="2018-01-01" max="2022-12-31">
+    </div>
+
+    <div class="fecha">
+        <label class="">Fecha de Fin</label>
+        <input type="date" id="startFin" name="trip-start" value="2018-07-22" min="2018-01-01" max="2022-12-31">
+    </div>
+    <div class="fecha">
+        <label class="">Cantidad de dias utilizado</label>
+        <input type="number" class="form-control" id="inputdiasUtilizados">
+    </div>
 
     <div class="partida" id="partida">
 
         <div class="col-md-6">
             <h3>Completar el punto de partida</h3>
         </div>
-
        <p>¿Desea crear un espacio nuevo o usar uno existente?</p>
         <div id="opcionesPartida">
             <label for="tipoPartida" class="form-label"></label>
@@ -110,10 +125,75 @@
 
             </div>
 
+            <div id="valoresComunesPartida">
+
+                <div class="col-md-6">
+                    <label for="inputLatitud1" class="form-label">Latitud</label>
+                    <input type="number" class="form-control" id="inputLatitud1">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputLongitud1" class="form-label">Longitud</label>
+                    <input type="number" class="form-control" id="inputLongitud1">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputProvincia1" class="form-label">Provincia</label>
+                    <input type="number" class="form-control" id="inputProvincia1">
+                </div>
+
+                <div class="col-6">
+                    <label for="inputMunicipio1" class="form-label">Municipio</label>
+                    <select id="inputMunicipio1" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="1">Municipio1</option>
+                        <option value="2">Municipio2</option>
+                        <option value="3">Municipio3</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputLocalidad1" class="form-label">Localidad</label>
+                    <select id="inputLocalidad1" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="1">Localidad1</option>
+                        <option value="2">Localidad2</option>
+                        <option value="3">Localidad3</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputDireccion1" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" id="inputDireccion1">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputNumero1" class="form-label">Numero</label>
+                    <input type="number" class="form-control" id="inputNumero1">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputCodigoPostal1" class="form-label">Codigo Postal</label>
+                    <input type="number" class="form-control" id="inputcodigoPostal1">
+                </div>
+
+
+            </div>
+
         </div>
 
+
         <div class= "hidden" id="espaciosExistentesPartida" >
-            <p> estoy en la opcion existentes</p>
+            <div class="col-md-6">
+                 <label class="form-label">Seleccione un punto de partida existente</label>
+                <select multiple class="form-control" id="puntoPartidaExistente">
+                    <option>Partida1</option>
+                    <option>Partida2</option>
+                    <option>Partida3</option>
+                    <option>Partida4</option>
+                    <option>Partida5</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -131,9 +211,6 @@
 
             </select>
         </div>
-
-
-
 
         <div class= "hidden" id="espacioNuevoLlegada">
 
@@ -184,17 +261,84 @@
 
         </div>
 
+            <div class="col-md-6">
+                <label for="inputLatitud2" class="form-label">Latitud</label>
+                <input type="number" class="form-control" id="inputLatitud2">
+            </div>
 
-        <div class= "hidden" id="espaciosExistentesLlegada" >
-            <p> estoy en la opcion existentes</p>
+            <div class="col-md-6">
+                <label for="inputLongitud2" class="form-label">Longitud</label>
+                <input type="number" class="form-control" id="inputLongitud2">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputProvincia2" class="form-label">Provincia</label>
+                <input type="number" class="form-control" id="inputProvincia2">
+            </div>
+
+            <div class="col-6">
+                <label for="inputMunicipio2" class="form-label">Municipio</label>
+                <select id="inputMunicipio2" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="1">Municipio1</option>
+                    <option value="2">Municipio2</option>
+                    <option value="3">Municipio3</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputLocalidad2" class="form-label">Localidad</label>
+                <select id="inputLocalidad2" class="form-select">
+                    <option selected>Elegir...</option>
+                    <option value="1">Localidad1</option>
+                    <option value="2">Localidad2</option>
+                    <option value="3">Localidad3</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputDireccion2" class="form-label">Direccion</label>
+                <input type="text" class="form-control" id="inputDireccion2">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputNumero2" class="form-label">Numero</label>
+                <input type="number" class="form-control" id="inputNumero2">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputCodigoPostal2" class="form-label">Codigo Postal</label>
+                <input type="number" class="form-control" id="inputcodigoPostal2">
+            </div>
+
         </div>
 
+        <div class= "hidden" id="espaciosExistentesLlegada" >
+            <div class="col-md-6">
+                <label class="form-label">Seleccione un punto de partida existente</label>
+                <select multiple class="form-control" id="puntoLlegadaExistente">
+                    <option>Llegada1</option>
+                    <option>Llegada2</option>
+                    <option>Llegada3</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="registrar">
+            <br>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Siguiente</button>
         </div>
 
     </div>
 
 
-</div>
+</form>
+
+<form id="tramos" class="hidden">
+
+    <p> aca van a estar todos los tramos con su logica </p>
+
+</form>
 <!-- Footer-->
 <footer class="py-5 bg-color1">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>

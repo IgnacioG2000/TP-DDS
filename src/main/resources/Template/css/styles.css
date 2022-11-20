@@ -1,3 +1,10 @@
+.trayectos {
+    padding: 20px 30px;
+    margin: 30px;
+    box-sizing: content-box;
+}
+
+
 .formulario1 {
     padding: 20px 30px;
     margin: 30px;
@@ -38,4 +45,8 @@
 
 .hidden{
     display: none
+}
+
+.fecha{
+
 }

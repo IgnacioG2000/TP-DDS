@@ -1,6 +1,7 @@
 const espacioSeleccionadoPartida = document.getElementById("tipoEspacioPartida")
 const espacioSeleccionadoLlegada = document.getElementById("tipoEspacioLlegada")
-
+const formularioTrayectos = document.getElementById("trayectos")
+const formularioTramos = document.getElementById("tramos")
 
 const opcionPartida = document.getElementById("tipoPartida");
 const opcionLlegada = document.getElementById("tipoLlegada");
@@ -21,6 +22,12 @@ function mostrarSegunRespuesta(valor, discriminador) {
         document.getElementById("espaciosExistentes" + discriminador).classList.remove("hidden")
     }
 }
+
+formularioTrayectos.addEventListener('submit', e=> {
+    e.preventDefault();
+    mostrarAgregarTramos();
+})
+
 
 
 opcionLlegada.addEventListener('change', e=> {
@@ -90,6 +97,13 @@ function mostrarOpcionesSegunClaseLlegada(valor) {
             }
         }
     }
+}
+
+function mostrarAgregarTramos() {
+    formularioTrayectos.classList.remove("trayectos");
+    formularioTrayectos.classList.add("hidden");
+    formularioTramos.classList.remove("hidden");
+    formularioTrayectos.classList.add("trayectos");
 }
 
 
