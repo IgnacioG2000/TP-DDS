@@ -1,6 +1,6 @@
 package com.disenio.mimagrupo06.presentacion;
 
-import com.disenio.mimagrupo06.presentacion.dto.ReporteProvincia;
+import com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO;
 import com.disenio.mimagrupo06.repositorios.RepoReportes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ public class ReportesController {
   private RepoReportes repoReportes;
 
   @GetMapping("/hc_provincia")
-  public ResponseEntity<List<ReporteProvincia>> obtenerHCPorProvincia(){
-    List<ReporteProvincia> result = repoReportes.findAllHCPorSectorTerritorial();
+  public ResponseEntity<List<ReporteProvinciaDTO>> obtenerHCPorProvincia(){
+    List<ReporteProvinciaDTO> result = repoReportes.findAllHCPorSectorTerritorial();
     return ResponseEntity.status(200).body(result);
   }
 
