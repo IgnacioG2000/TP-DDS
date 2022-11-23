@@ -12,11 +12,12 @@ const opcionesPartida = document.getElementById("opcionesPartida")
 const opcionesLlegada = document.getElementById("opcionesLlegada")
 
 
-function mostrarSegunRespuesta(valor, discriminador) {
+function mostrarSegunRespuestaTrayecto(valor, discriminador) {
 
 
     if(valor === "nuevo") {
     document.getElementById("espacioNuevo" + discriminador).classList.remove("hidden")
+      console.log("estoy en el nuevo")
         //mostrar el nuevo pedazo de html que permite agregar cosas
     }else {
         document.getElementById("espaciosExistentes" + discriminador).classList.remove("hidden")
@@ -33,13 +34,13 @@ formularioTrayectos.addEventListener('submit', e=> {
 opcionLlegada.addEventListener('change', e=> {
     e.preventDefault();
     opcionLlegada.classList.add("hidden");
-    mostrarSegunRespuesta(opcionLlegada.value, "Llegada");
+    mostrarSegunRespuestaTrayecto(opcionLlegada.value, "Llegada");
 })
 
 opcionPartida.addEventListener('change', e=> {
     e.preventDefault();
     opcionPartida.classList.add("hidden");
-    mostrarSegunRespuesta(opcionPartida.value, "Partida");
+    mostrarSegunRespuestaTrayecto(opcionPartida.value, "Partida");
 })
 
 espacioSeleccionadoPartida.addEventListener('change', e => {
