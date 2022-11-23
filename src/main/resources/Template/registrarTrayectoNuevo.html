@@ -350,6 +350,271 @@
         </div>
 
         <div id="tramoNuevo" class = "hidden">
+
+
+            <div class="partida" id="partidaTramo">
+
+                <div class="col-md-6">
+                    <h3>Completar el punto de partida</h3>
+                </div>
+                <p>¿Desea crear un espacio nuevo o usar uno existente?</p>
+                <div id="opcionesPartidaTramo">
+                    <label for="tipoPartidaTramo" class="form-label"></label>
+                    <select id="tipoPartidaTramo" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="nuevo">Nuevo</option>
+                        <option value="existente">Existente</option>
+                    </select>
+                </div>
+
+                <div class= "hidden" id="espacioNuevoPartidaTramo">
+
+                    <div>
+                        <label for="tipoEspacioPartidaTramo" class="form-label">Tipo de espacio</label>
+                        <select id="tipoEspacioPartidaTramo" class="form-select">
+                            <option selected>Elegir...</option>
+                            <option value="trabajo">Espacio de Trabajo</option>
+                            <option value="hogar">Hogar</option>
+                            <option value="parada">Parada</option>
+                        </select>
+                    </div>
+
+                    <div class="hidden" id="claseEspacioTrabajoPartidaTramo" >
+                        <div>
+                            <div>
+                                <label for="pisoTrabajoPartida" class="form-label">Piso</label>
+                                <input type="number" class="form-control" id="pisoTrabajoPartidaTramo">
+                            </div>
+                            <div>
+                                <label for="unidadPartida" class="form-label">Unidad</label>
+                                <input type="text" class="form-control" id="unidadPartidaTramo">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="hidden" id="claseHogarPartidaTramo">
+                        <div class="col-md-6">
+                            <div>
+                                <label for="pisoHogarPartida" class="form-label">Piso</label>
+                                <input type="number" class="form-control" id="pisoHogarPartidaTramo">
+                            </div>
+                            <div>
+                                <label for="departamentoPartida" class="form-label">Departamento</label>
+                                <input type="text" class="form-control" id="departamentoPartidaTramo">
+                            </div>
+                            <div>
+                                <label for="inputHogarPartidaTramo" class="form-label">Tipo de Hogar</label>
+                                <select id="inputHogarPartidaTramo" class="form-select">
+                                    <option selected>Elegir...</option>
+                                    <option value="1">Casa</option>
+                                    <option value="2">Departamento</option>
+                                    <option value="3">Residencia</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="valoresComunesPartidaTramo">
+
+                        <div class="col-md-6">
+                            <label for="inputLatitud1" class="form-label">Latitud</label>
+                            <input type="number" class="form-control" id="inputLatitudTramo">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputLongitud1" class="form-label">Longitud</label>
+                            <input type="number" class="form-control" id="inputLongitudTramo">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputProvincia1" class="form-label">Provincia</label>
+                            <input type="number" class="form-control" id="inputProvinciaTramo">
+                        </div>
+
+                        <div class="col-6">
+                            <label for="inputMunicipioTramo" class="form-label">Municipio</label>
+                            <select id="inputMunicipioTramo" class="form-select">
+                                <option selected>Elegir...</option>
+                                <option value="1">Municipio1</option>
+                                <option value="2">Municipio2</option>
+                                <option value="3">Municipio3</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputLocalidadTramo" class="form-label">Localidad</label>
+                            <select id="inputLocalidadTramo" class="form-select">
+                                <option selected>Elegir...</option>
+                                <option value="1">Localidad1</option>
+                                <option value="2">Localidad2</option>
+                                <option value="3">Localidad3</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputDireccion1" class="form-label">Direccion</label>
+                            <input type="text" class="form-control" id="inputDireccionTramo">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputNumero1" class="form-label">Numero</label>
+                            <input type="number" class="form-control" id="inputNumeroTramo">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputCodigoPostal1" class="form-label">Codigo Postal</label>
+                            <input type="number" class="form-control" id="inputcodigoPostalTramo">
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class= "hidden" id="espacioExistentesPartidaTramo" >
+                    <div class="col-md-6">
+                        <label class="form-label">Seleccione un punto de partida existente</label>
+                        <select multiple class="form-control" id="puntoPartidaExistenteTramo">
+                            <option>Partida1</option>
+                            <option>Partida2</option>
+                            <option>Partida3</option>
+                            <option>Partida4</option>
+                            <option>Partida5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="llegada" id="llegadaTramo">
+                <div>
+                    <h3> Completar el punto de llegada </h3>
+                </div>
+                <div id="opcionesLlegadaTramo">
+                    <p>¿Desea crear un espacio nuevo o usar uno existente?</p>
+                    <label for="tipoLlegadaTramo" class="form-label"></label>
+                    <select id="tipoLlegadaTramo" class="form-select">
+                        <option selected>Elegir...</option>
+                        <option value="nuevo">Nuevo</option>
+                        <option value="existente">Existente</option>
+
+                    </select>
+                </div>
+
+                <div class= "hidden" id="espacioNuevoLlegadaTramo">
+
+                    <div>
+                        <label for="tipoEspacioLlegadaTramo" class="form-label">Tipo de espacio</label>
+                        <select id="tipoEspacioLlegadaTramo" class="form-select">
+                            <option selected>Elegir...</option>
+                            <option value="trabajo">Espacio de Trabajo</option>
+                            <option value="hogar">Hogar</option>
+                            <option value="parada">Parada</option>
+                        </select>
+                    </div>
+
+                    <div class="hidden" id="claseEspacioTrabajoLlegadaTramo" >
+                        <div>
+                            <div>
+                                <label for="pisoTrabajoLlegada" class="form-label">Piso</label>
+                                <input type="number" class="form-control" id="pisoTrabajoLlegadaTramo">
+                            </div>
+                            <div>
+                                <label for="unidadLlegada" class="form-label">Unidad</label>
+                                <input type="text" class="form-control" id="unidadLlegadaTramo">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="hidden" id="claseHogarLlegadaTramo">
+                        <div class="col-md-6">
+                            <div>
+                                <label for="pisoHogarLlegada" class="form-label">Piso</label>
+                                <input type="number" class="form-control" id="pisoHogarLlegadaTramo">
+                            </div>
+                            <div>
+                                <label for="departamentoLlegadaTramo" class="form-label">Departamento</label>
+                                <input type="text" class="form-control" id="departamentoLlegadaTramo">
+                            </div>
+                            <div>
+                                <label for="inputHogarLlegadaTramo" class="form-label">Tipo de Hogar</label>
+                                <select id="inputHogarLlegadaTramo" class="form-select">
+                                    <option selected>Elegir...</option>
+                                    <option value="1">Casa</option>
+                                    <option value="2">Departamento</option>
+                                    <option value="3">Residencia</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputLatitudLlegadaTramo" class="form-label">Latitud</label>
+                        <input type="number" class="form-control" id="inputLatitudLlegadaTramo">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputLongitudLlegadaTramo" class="form-label">Longitud</label>
+                        <input type="number" class="form-control" id="inputLongitudLlegadaTramo">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputProvinciaLlegadaTramo" class="form-label">Provincia</label>
+                        <input type="number" class="form-control" id="inputProvinciaLlegadaTramo">
+                    </div>
+
+                    <div class="col-6">
+                        <label for="inputMunicipioLlegadaTramo" class="form-label">Municipio</label>
+                        <select id="inputMunicipioLlegadaTramo" class="form-select">
+                            <option selected>Elegir...</option>
+                            <option value="1">Municipio1</option>
+                            <option value="2">Municipio2</option>
+                            <option value="3">Municipio3</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputLocalidadLlegadaTramo" class="form-label">Localidad</label>
+                        <select id="inputLocalidadLlegadaTramo" class="form-select">
+                            <option selected>Elegir...</option>
+                            <option value="1">Localidad1</option>
+                            <option value="2">Localidad2</option>
+                            <option value="3">Localidad3</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputDireccionLlegadaTramo" class="form-label">Direccion</label>
+                        <input type="text" class="form-control" id="inputDireccionLlegadaTramo">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputNumeroLlegadaTramo" class="form-label">Numero</label>
+                        <input type="number" class="form-control" id="inputNumeroLlegadaTramo">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputCodigoPostalLlegadaTramo" class="form-label">Codigo Postal</label>
+                        <input type="number" class="form-control" id="inputCodigoPostalLlegadaTramo">
+                    </div>
+
+                </div>
+
+                <div class= "hidden" id="espacioExistentesLlegadaTramo" >
+                    <div class="col-md-6">
+                        <label class="form-label">Seleccione un punto de llegada existente</label>
+                        <select multiple class="form-control" id="puntoLlegadaExistenteTramo">
+                            <option>Llegada1</option>
+                            <option>Llegada2</option>
+                            <option>Llegada3</option>
+                        </select>
+                    </div>
+                </div>
+
+
             <div id="medioTransporteTramo">
                 <br>
                 <h5> Elegir medio de Transporte</h5>
@@ -362,6 +627,7 @@
                     <option value="vehiculoParticular">Vehiculo particular</option>
                 </select>
             </div>
+
 
             <div id="divServicioContratado" class = "hidden">
                 <br>
@@ -435,6 +701,12 @@
 
     </div>
 
+        <div id="tramoExistente">
+
+            <p> estamos en un tramo existente</p>
+
+        </div>
+
 
       <div>
 
@@ -448,9 +720,8 @@
               <button class="w-100 btn btn-lg btn-primary" type="submit">No mas tramos</button>
           </div>
           <br>
-
     </div>
-
+    </div>
 </form>
 <!-- Footer-->
 <footer class="py-5 bg-color1">

@@ -6,8 +6,6 @@ const formularioTramos = document.getElementById("tramos")
 const opcionPartida = document.getElementById("tipoPartida");
 const opcionLlegada = document.getElementById("tipoLlegada");
 
-
-
 const opcionesPartida = document.getElementById("opcionesPartida")
 const opcionesLlegada = document.getElementById("opcionesLlegada")
 
