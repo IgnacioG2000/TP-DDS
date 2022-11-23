@@ -2,8 +2,11 @@
 * Acá esta toda la logica referida a modificar la pantalla de tramos
 * */
 
+let n = 0
 const opcionesTramo = document.getElementById("tipoTramo")
 
+const partidaTramo = document.getElementById("partidaTramo")
+const llegadaTramo = document.getElementById("llegadaTramo")
 const tramoNuevos = document.getElementById("tramoNuevo")
 const tramoExistente = document.getElementById("tramoExistente")
 
@@ -111,6 +114,8 @@ function mostrarSegunRespuesta(opcion) {
 
     console.log(opcion)
     if(opcion === "nuevo") {
+        partidaTramo.classList.remove("hidden")
+        llegadaTramo.classList.remove("hidden")
         tramoNuevos.classList.remove("hidden");
         console.log("nuevito")
     }else {
@@ -146,6 +151,7 @@ function mostrarSegunRespuestaEspacioLlegadaTramo(valor) {
 
         espacioLlegadaTramoNuevo.classList.remove("hidden");
         espacioLlegadaTramoExistentes.classList.add("hidden");
+
         //oculto el existente y muestro el nuevo
 
 
@@ -158,8 +164,8 @@ function mostrarSegunRespuestaEspacioLlegadaTramo(valor) {
 
 function cargarNuevoTramo() {
     //Esta funcion se va a encargar de:
-    // 1. modificar el html para que se vayan mostrando los tramos que voy teniendo
-    // 2. va a empezar a armar el body
+    //armar los bodies
+    //mostar los trayectos ya cargados
 
     bodyPartida = definirBodyPartida(espacioPartidaTramoNuevo.value)
     bodyLlegada = definirBodyLlegada(espacioLlegadaTramoNuevo.value)
@@ -172,7 +178,29 @@ function cargarNuevoTramo() {
     }
     bodyTramos.push(bodyParcial)
     console.log(bodyTramos)
-    console.log(bodyTramos.length)
+
+    volverAEstadoDefault()
+    n++;
+
+}
+
+function volverAEstadoDefault() {
+
+    //1. agregar el divisor para que se vea un tramo agregado
+    let htmlNuevo = " <p> (si testean esto no se asusten, es meramente estetico, lo vamos a ver después) </p>";
+    tramosCargados.innerHTML = tramosCargados.innerHTML + htmlNuevo;
+    //2.  resetar los valores en las variables guardadas
+    document.getElementById("tramos")
+    opcionesTramo.classList.remove("hidden");
+    ocultarTodo();
+
+}
+
+function ocultarTodo() {
+
+    partidaTramo.classList.add("hidden")
+    llegadaTramo.classList.add("hidden")
+
 
 }
 
