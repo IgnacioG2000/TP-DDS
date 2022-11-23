@@ -161,8 +161,8 @@ function cargarNuevoTramo() {
     // 1. modificar el html para que se vayan mostrando los tramos que voy teniendo
     // 2. va a empezar a armar el body
 
-    bodyPartida = definirBodyPartida()
-    bodyLlegada = definirBodyLlegada()
+    bodyPartida = definirBodyPartida(espacioPartidaTramoNuevo.value)
+    bodyLlegada = definirBodyLlegada(espacioLlegadaTramoNuevo.value)
     bodyTransporte = definirBodyTransporte(medioDeTransporte.value)
 
     let bodyParcial = {
@@ -267,22 +267,124 @@ function mostrarOpcionesSegunClaseTramoLlegada(valor) {
 
 
 function definirBodyPartida(espacioSeleccionado) {
+    let claseAInicializar;
 
+    const latitudTramoPartida = document.getElementById("inputLatitudTramoPartida").value
+    const longitudTramoPartida = document.getElementById("inputLongitudTramoPartida").value
+    const provinciaTramoPartida = document.getElementById("inputProvinciaTramoPartida").value
+    const localidadTramoPartida = document.getElementById("inputMunicipioTramoPartida").value
+    const direccionTramoPartida = document.getElementById("inputDireccionTramoPartida").value
+    const numeroPartida = document.getElementById("inputNumeroTramoPartida").value
+    const codigoPostalPartida = document.getElementById("inputcodigoPostalTramoPartida").value
+    let bodyEspacioPartida;
+    if (espacioSeleccionado === "hogar") {
+        claseAInicializar = "hogar"
+        const valorHogar = document.getElementById("tipoEspacioPartidaTramo").value
+        bodyEspacioPartida = {
+            clase: claseAInicializar,
+            tipoEspacioLlegada: valorHogar,
+            latitud: latitudTramoPartida,
+            longitud: longitudTramoPartida,
+            localidad: localidadTramoPartida,
+            provincia: provinciaTramoPartida,
+            direccion: direccionTramoPartida,
+            numero: numeroPartida,
+            codigoPostal: codigoPostalPartida
 
+        }
+    }else if  (espacioSeleccionado === "trabajo"){
+        claseAInicializar = "trabajo"
+        const valorTrabajo = document.getElementById("tipoEspacioPartidaTramo").value
+        bodyEspacioPartida = {
+            clase: claseAInicializar,
+            tipoEspacioLlegada: valorTrabajo,
+            latitud: latitudTramoPartida,
+            longitud: longitudTramoPartida,
+            localidad: localidadTramoPartida,
+            provincia: provinciaTramoPartida,
+            direccion: direccionTramoPartida,
+            numero: numeroPartida,
+            codigoPostal: codigoPostalPartida
+
+        }
+    } else {
+        claseAInicializar = "parada"
+        const valorParada = document.getElementById("tipoEspacioPartidaTramo").value
+        bodyEspacioPartida = {
+            clase: claseAInicializar,
+            bodyEspacioPartida: valorParada,
+            latitud: latitudTramoPartida,
+            longitud: longitudTramoPartida,
+            localidad: localidadTramoPartida,
+            provincia: provinciaTramoPartida,
+            direccion: direccionTramoPartida,
+            numero: numeroPartida,
+            codigoPostal: codigoPostalPartida
+        }
+    }
+
+    return bodyEspacioPartida
 
 }
 
 function definirBodyLlegada(espacioSeleccionado) {
-    let claseAInicializar = "";
+    let claseAInicializar;
 
+    const latitudTramoLlegada = document.getElementById("inputLatitudLlegadaTramo").value
+    const longitudTramoLlegada = document.getElementById("inputLongitudLlegadaTramo").value
+    const provinciaTramoLlegada = document.getElementById("inputProvinciaLlegadaTramo").value
+    const localidadTramoLlegada = document.getElementById("inputMunicipioLlegadaTramo").value
+    const direccionTramoLlegada = document.getElementById("inputDireccionLlegadaTramo").value
+    const numeroLlegada = document.getElementById("inputNumeroLlegadaTramo").value
+    const codigoPostalLlegada = document.getElementById("inputCodigoPostalLlegadaTramo").value
+
+    let bodyEspacioLlegada;
     if (espacioSeleccionado === "hogar") {
         claseAInicializar = "hogar"
-        const valorHogar = document.getElementById("tipoEsp").value
-        bodyTransporteConstruido = {
+        const valorHogar = document.getElementById("tipoEspacioLlegadaTramo").value
+        bodyEspacioLlegada = {
             clase: claseAInicializar,
-            tipoServicioContratado: valorServicioContratado
+            tipoEspacioLlegada: valorHogar,
+            latitud: latitudTramoLlegada,
+            longitud: longitudTramoLlegada,
+            localidad: localidadTramoLlegada,
+            provincia: provinciaTramoLlegada,
+            direccion: direccionTramoLlegada,
+            numero: numeroLlegada,
+            codigoPostal: codigoPostalLlegada
+        }
+    }else if  (espacioSeleccionado === "trabajo"){
+       claseAInicializar = "trabajo"
+        const valorTrabajo = document.getElementById("tipoEspacioLlegadaTramo").value
+        bodyEspacioLlegada = {
+            clase: claseAInicializar,
+            tipoEspacioLlegada: valorTrabajo,
+            latitud: latitudTramoLlegada,
+            longitud: longitudTramoLlegada,
+            localidad: localidadTramoLlegada,
+            provincia: provinciaTramoLlegada,
+            direccion: direccionTramoLlegada,
+            numero: numeroLlegada,
+            codigoPostal: codigoPostalLlegada
+        }
+    } else {
+        claseAInicializar = "parada"
+        const valorParada = document.getElementById("tipoEspacioLlegadaTramo").value
+        bodyEspacioLlegada = {
+            clase: claseAInicializar,
+            tipoEspacioLlegada: valorParada,
+            latitud: latitudTramoLlegada,
+            latitud: latitudTramoLlegada,
+            longitud: longitudTramoLlegada,
+            localidad: localidadTramoLlegada,
+            provincia: provinciaTramoLlegada,
+            direccion: direccionTramoLlegada,
+            numero: numeroLlegada,
+            codigoPostal: codigoPostalLlegada
         }
     }
+
+    return bodyEspacioLlegada
 }
 
 
