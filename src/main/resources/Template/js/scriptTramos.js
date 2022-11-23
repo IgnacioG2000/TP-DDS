@@ -16,6 +16,12 @@ const espacioPartidaTramoExistentes = document.getElementById("espacioExistentes
 const espacioLlegadaTramoNuevo = document.getElementById("espacioNuevoLlegadaTramo")
 const espacioLlegadaTramoExistentes = document.getElementById("espacioExistentesLlegadaTramo")
 
+const tramosCargados = document.getElementById("tramosCargados");
+
+const botonAgregarNuevoTramo = document.getElementById("agregarMasTramos");
+
+const espacioSeleccionadoPartidaTramo = document.getElementById("tipoEspacioPartidaTramo")
+const espacioSeleccionadoLlegadaTramo = document.getElementById("tipoEspacioLlegadaTramo")
 
 // medios de transporte
 
@@ -26,6 +32,10 @@ const noMotorizado = document.getElementById("divNoMotorizado")
 const transportePublico = document.getElementById("divTransportePublico")
 const vehiculoParticular = document.getElementById("divVehiculoParticular")
 
+let bodyTramos =  []
+let bodyLlegada = "llegada"
+let bodyPartida = "partida"
+let bodyTransporte = "transporte"
 
 opcionesTramo.addEventListener('change', e=> {
     e.preventDefault();
@@ -46,6 +56,27 @@ opcionesTramoLlegada.addEventListener('change', e=> {
   e.preventDefault()
    mostrarSegunRespuestaEspacioLlegadaTramo(opcionesTramoLlegada.value)
 })
+
+botonAgregarNuevoTramo.addEventListener('click', e=> {
+    e.preventDefault();
+    console.log("aprete el boton para agregar un tramo nuevo")
+    cargarNuevoTramo();
+})
+
+
+espacioSeleccionadoPartidaTramo.addEventListener('change', e=> {
+    e.preventDefault();
+
+    console.log("espacio seleccionado partida tramo")
+    mostrarOpcionesSegunClaseTramoPartida(espacioSeleccionadoPartidaTramo.value);
+})
+
+espacioSeleccionadoLlegadaTramo.addEventListener('change', e=> {
+    e.preventDefault();
+    console.log("espacio seleccionado llegada tramo")
+    mostrarOpcionesSegunClaseTramoLlegada(espacioSeleccionadoLlegadaTramo.value);
+})
+
 
 function mostrarMedioTransporteSegunRespuesta(medioTransporteSeleccionado) {
     console.log(medioTransporteSeleccionado)
@@ -124,5 +155,135 @@ function mostrarSegunRespuestaEspacioLlegadaTramo(valor) {
         //oculto el nuevo y muestro el existete
     }
 }
+
+function cargarNuevoTramo() {
+    //Esta funcion se va a encargar de:
+    // 1. modificar el html para que se vayan mostrando los tramos que voy teniendo
+    // 2. va a empezar a armar el body
+
+    bodyPartida = definirBodyPartida()
+    bodyLlegada = definirBodyLlegada()
+    bodyTransporte = definirBodyTransporte(medioDeTransporte.value)
+
+    let bodyParcial = {
+        partida: bodyPartida,
+        llegada: bodyLlegada,
+        transporte: bodyTransporte
+    }
+    bodyTramos.push(bodyParcial)
+    console.log(bodyTramos)
+    console.log(bodyTramos.length)
+
+}
+
+function definirBodyTransporte(medioTransporteSeleccionado) {
+
+    let claseAInicializar = "";
+
+    if(medioTransporteSeleccionado === "servicioContratado") {
+        claseAInicializar = "servicioContratado"
+        const valorServicioContratado = document.getElementById("servicioContratado").value
+        bodyTransporte = {
+            clase: claseAInicializar,
+            tipoServicioContratado: valorServicioContratado
+        }
+
+    }else if (medioTransporteSeleccionado === "transporteNoMotorizado"){
+        claseAInicializar = "transporteNoMotorizado"
+        const valorNoMotorizado = document.getElementById("noMotorizado").value
+        bodyTransporte = {
+            clase: claseAInicializar,
+            tipoNoMotorizado: valorNoMotorizado
+        }
+
+    }else if (medioTransporteSeleccionado === "transportePublico"){
+        claseAInicializar = "transportePublico"
+        const tipoTransportePublico = document.getElementById("transportePublico").value
+        const valorLinea = document.getElementById("nombreTransporte")
+        bodyTransporte = {
+            clase: claseAInicializar,
+            tipoTransporte: tipoTransportePublico,
+            nombre: valorLinea
+        }
+    }else {
+        claseAInicializar = "vehiculoParticular"
+        const valorVehiculoParticular = document.getElementById("vehiculoParticular").value
+        const valortipoCombustible = document.getElementById("tipoCombustible").value
+        bodyTransporte = {
+            clase: claseAInicializar,
+            tipoVehiculoParticular: valorVehiculoParticular,
+            tipoCombustible: valortipoCombustible
+        }
+
+    }
+    return  bodyTransporte
+}
+
+const espacioTrabajoTramoPartida = document.getElementById("claseEspacioTrabajoPartidaTramo")
+const espacioHogarTramoPartida = document.getElementById("claseHogarPartidaTramo")
+
+
+function mostrarOpcionesSegunClaseTramoPartida(valor) {
+    if(valor === "trabajo") {
+        console.log("trabajooooooooo")
+        espacioTrabajoTramoPartida.classList.remove("hidden");
+        espacioHogarTramoPartida.classList.add("hidden");
+    }else{
+        if(valor === "hogar") {
+            console.log("hogaaaaaaaaaaaaaaaaaar")
+            espacioTrabajoTramoPartida.classList.add("hidden");
+            espacioHogarTramoPartida.classList.remove("hidden");
+        } else{
+            if(valor === "parada"){
+                espacioTrabajoTramoPartida.classList.add("hidden");
+                espacioHogarTramoPartida.classList.add("hidden");
+            }
+        }
+    }
+}
+
+const espacioTrabajoTramoLlegada = document.getElementById("claseEspacioTrabajoLlegadaTramo")
+const espacioHogarTramoLlegada = document.getElementById("claseHogarLlegadaTramo")
+
+function mostrarOpcionesSegunClaseTramoLlegada(valor) {
+    if(valor === "trabajo") {
+        console.log("trabajooooooooo")
+        espacioTrabajoTramoLlegada.classList.remove("hidden");
+        espacioHogarTramoLlegada.classList.add("hidden");
+    }else{
+        if(valor === "hogar") {
+            console.log("hogaaaaaaaaaaaaaaaaaar")
+            espacioTrabajoTramoLlegada.classList.add("hidden");
+            espacioHogarTramoLlegada.classList.remove("hidden");
+        } else{
+            if(valor === "parada"){
+                espacioTrabajoTramoLlegada.classList.add("hidden");
+                espacioHogarTramoLlegada.classList.add("hidden");
+            }
+        }
+    }
+}
+
+
+
+function definirBodyPartida(espacioSeleccionado) {
+
+
+
+}
+
+function definirBodyLlegada(espacioSeleccionado) {
+    let claseAInicializar = "";
+
+    if (espacioSeleccionado === "hogar") {
+        claseAInicializar = "hogar"
+        const valorHogar = document.getElementById("tipoEsp").value
+        bodyTransporteConstruido = {
+            clase: claseAInicializar,
+            tipoServicioContratado: valorServicioContratado
+        }
+    }
+}
+
 
 

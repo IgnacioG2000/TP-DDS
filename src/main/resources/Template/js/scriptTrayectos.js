@@ -9,6 +9,7 @@ const opcionLlegada = document.getElementById("tipoLlegada");
 const opcionesPartida = document.getElementById("opcionesPartida")
 const opcionesLlegada = document.getElementById("opcionesLlegada")
 
+const bodyParaElBack = {}
 
 function mostrarSegunRespuestaTrayecto(valor, discriminador) {
 
@@ -26,8 +27,6 @@ formularioTrayectos.addEventListener('submit', e=> {
     e.preventDefault();
     mostrarAgregarTramos();
 })
-
-
 
 opcionLlegada.addEventListener('change', e=> {
     e.preventDefault();
