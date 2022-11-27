@@ -455,8 +455,10 @@ function generarBodyTrayectos() {
 
     let bodyARetornar
 
-    let bodyLlegada = definirBodyLlegadaTrayecto(espacioSeleccionadoPartida.value)
-    let bodyPartida = definirBodyPartidaTrayecto(espacioSeleccionadoLlegada.value)
+    let bodyLlegada = definirBodyLlegadaTrayecto(espacioSeleccionadoLlegada.value)
+    console.log(bodyLlegada)
+    let bodyPartida = definirBodyPartidaTrayecto(espacioSeleccionadoPartida.value)
+    console.log(bodyPartida)
     let dias = document.getElementById("inputdiasUtilizados").value
     let fechaInicio = document.getElementById("startInicio").value
     let fechaFin = document.getElementById("startFin").value
