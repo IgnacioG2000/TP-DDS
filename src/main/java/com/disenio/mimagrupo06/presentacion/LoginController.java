@@ -44,7 +44,7 @@ public class LoginController {
     }
 
 
-    @GetMapping("/login")
+    @GetMapping("/login2")
     public ResponseEntity<String> login() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/login");
