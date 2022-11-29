@@ -125,6 +125,7 @@ function mostrarSegunRespuesta(opcion) {
         partidaTramo.classList.remove("hidden")
         llegadaTramo.classList.remove("hidden")
         tramoNuevos.classList.remove("hidden");
+        tramoExistente.classList.add("hidden");
         console.log("nuevito")
     } else {
         console.log("existente")
