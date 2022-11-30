@@ -448,7 +448,16 @@ function mandarDatosAlBack() {
     //esta funcion va a generar el body y mandarlo al back
 
     const bodyTrayectos = generarBodyTrayectos()
+    //fetch al back
 
+        // Se ejecuta la request
+    fetch('http://localhost:8080/registrarTrayectoNuevo', {
+        headers: {
+                "Content-Type": "application/json"
+        },
+            method: "POST",
+            body: bodyTrayectos
+        }).then()
 
 }
 

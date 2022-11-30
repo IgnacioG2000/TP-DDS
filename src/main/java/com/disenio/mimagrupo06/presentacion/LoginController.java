@@ -44,10 +44,23 @@ public class LoginController {
     }
 
 
-    @GetMapping("/login2")
+    @GetMapping("/login")
     public ResponseEntity<String> login() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/login");
+
+        Map<String, Object> model = new HashMap<>();
+        //model.put("listamascotas", mascotas);
+
+        String html = template.apply(model);
+
+        return ResponseEntity.status(200).body(html);
+    }
+
+    @GetMapping("/homeMiembro")
+    public ResponseEntity<String> homeMiembro() throws IOException {
+        //validar accion en capa modelo según roles o usuario asociados al idSesion
+        Template template = handlebars.compile("/Template/homeMiembro");
 
         Map<String, Object> model = new HashMap<>();
         //model.put("listamascotas", mascotas);

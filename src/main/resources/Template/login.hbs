@@ -17,16 +17,16 @@
 <body class="text-center">
 
 <main class="form-signin" >
-    <form id="appVue">
+    <form id="formLogin">
         <img class="mb-4" src="./imagenes/logo.png" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" v-model="username" id="username" placeholder="name">
+            <input type="text" class="form-control" id="username" placeholder="name">
             <label for="username">Usuario</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" v-model="password" id="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" placeholder="Password">
             <label for="password">Contraseña</label>
         </div>
 
@@ -35,7 +35,7 @@
                 <input type="checkbox" value="remember-me"> Recordar usuario
             </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" v-on:click="login" type="submit">Siguiente</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Siguiente</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2020–2022</p>
     </form>
 </main>
@@ -44,31 +44,95 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 <script>
-    var app = new Vue({
-        el: "#appVue",
-        data: {
-            username: "",
-            password: "",
-        },
-        methods: {
-            login: function () {
-                fetch("http://localhost:8080/login", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: this.username,
-                        password: this.password
-                    })
-                })
-                        .then(response => response.json())
-                        .then(datos => {
-                            localStorage.setItem("IDSESION", datos.idSesion) //guarda ID
-                        })
-            }
-        }
+
+    //Funciones relacionadas con el idSesion
+
+    const ID_SESION = "idSesion"
+    const guardarSesion = (idSesion) => localStorage.setItem(ID_SESION, idSesion)
+    const obtenerSesion = () => localStorage.getItem(ID_SESION)
+    const borrarSesion = () => localStorage.removeItem(ID_SESION)
+
+
+
+    //Funciones de redireccion entre páginas
+
+
+    document.getElementById("formLogin").addEventListener("submit", (e) => {
+        e.preventDefault() // Evitamos que el <form> cambie la URL
+        loginFunction()
     })
+
+    const loginFunction = async () => {
+        // Obtenemos los parametros del formulario
+        const form = document.getElementById("formLogin");
+        const username = form.username.value;
+        const password = form.password.value;
+        // Mandamos las credenciales al backend
+        const backendResponse = await loginAlBack(username, password)
+        // Obtenemos el idSesion (Podriamos mejorar el codigo y validar errores o que exista)
+        const idSesion = backendResponse.idSesion
+
+
+        //const tipoUsuario = backendResponse.tipoUsuario
+
+
+        // Guardamos en localStorage el idSesion del usuario
+        guardarSesion(idSesion)
+
+        // Redirigimos a la pantalla de delegaciones -> aca deberiamos cambiar a la quie relamente queremos que redirija
+        cambiarUrlSinIdSesion("homeMiembro")
+    }
+    const loginAlBack = async (username, password) => {
+        // Se arma el body en formato JSON (igual que en postman)
+        const body = {
+            username,
+            password
+        }
+        // Se ejecuta la request
+        const backResponse = await fetch('http://localhost:8080/login', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(body)
+        })
+        // Retornamos la respuesta del backend
+        return await backResponse.json()
+    }
+
+    function mostrarHome() {
+        fetch('http://localhost:8080/homeMiembro', {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "GET",
+        }).then()
+
+    }
+
+    const cambiarUrlSinIdSesion = (url = "/") => {
+
+        const idSesion = obtenerSesion()
+        if (!idSesion) {
+            window.location = "/login"
+        } else {
+            window.location = `/${url}`
+        }
+    }
+
+    const cambiarUrlConIdSesion = (url = "/") => {
+
+        const idSesion = obtenerSesion()
+        if (!idSesion) {
+            window.location = "/login"
+        } else {
+            window.location = `/${url}?sesion=${idSesion}`
+        }
+    }
+
+
+
 </script>
+
 </body>
 </html>
