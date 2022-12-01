@@ -69,7 +69,7 @@ public class InitData implements CommandLineRunner {
       if(ta.count() == 0) {
 
        //ca.cargarFE();
-       da.cargarDatos();
+      // da.cargarDatos();
 
         Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
         re.save(espacioOrigen);

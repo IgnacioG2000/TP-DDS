@@ -6,11 +6,18 @@ import com.disenio.mimagrupo06.presentacion.dto.LoginResponse;
 import com.disenio.mimagrupo06.repositorios.RepoUsuario;
 import com.disenio.mimagrupo06.repositorios.RepositorioUsuario;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -19,9 +26,24 @@ public class LoginController {
 
     @Autowired
     private RepoUsuario repoUsuario;
+    private final Handlebars handlebars = new Handlebars();
     public LoginController() {
     }
 
+
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login() throws IOException {
+        //validar accion en capa modelo según roles o usuario asociados al idSesion
+        Template template = handlebars.compile("/templates/login");
+
+        Map<String, Object> model = new HashMap<>();
+        //model.put("listamascotas", mascotas);
+
+        String html = template.apply(model);
+
+        return ResponseEntity.status(200).body(html);
+    }
     /*
     @GetMapping("/login")
     public ResponseEntity<String> login() throws IOException {

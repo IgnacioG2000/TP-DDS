@@ -6,20 +6,21 @@ import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import com.disenio.mimagrupo06.service.ExcelService;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
+@CrossOrigin
 
 public class ExcelController {
 
@@ -32,8 +33,22 @@ public class ExcelController {
   @Autowired
   private RepoTA repoTA;
 
+  private final Handlebars handlebars = new Handlebars();
+
+  public ExcelController() {
+  }
   @GetMapping("/cargar/mediciones")
-  public String index(){ return "registrarMediciones"; }
+  public ResponseEntity<String> mediciones() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/templates/registrarMediciones");
+
+    Map<String, Object> model = new HashMap<>();
+    //model.put("listamascotas", mascotas);
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
 
   @PostMapping("/upload")
   public ResponseEntity<?> uploadFile(@RequestHeader("Authorization") String idSesion, @RequestParam("file")MultipartFile file){
@@ -59,7 +74,8 @@ public class ExcelController {
     try {
       excelService.saveFile(file);
       transformador.cargarDatos(unaOrganizacion, excelService.obtenerPath(file));
-      excelService.deleteFile(file);
+      //excelService.deleteFile(file);
+     // repoOrganizacion.save(unaOrganizacion);
     } catch (IOException e){
       e.printStackTrace();
     }
