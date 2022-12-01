@@ -16,7 +16,11 @@ import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.organizacion.Clasificacion;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.domain.organizacion.TipoDeOrganizacion;
+import com.disenio.mimagrupo06.domain.sector.PaisSector;
+import com.disenio.mimagrupo06.domain.sector.ProvinciaSector;
+import com.disenio.mimagrupo06.domain.sector.Sector;
 import com.disenio.mimagrupo06.repositorios.*;
+import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +66,12 @@ public class InitData implements CommandLineRunner {
 
     @Autowired
     private RepoTrayecto rty;
+
+    @Autowired
+    private RepoProvinciaSector rprs;
+
+    @Autowired
+    private RepoPaisSector rps;
 
     @Override
     public void run(String... args) throws Exception {
@@ -141,7 +151,16 @@ public class InitData implements CommandLineRunner {
         Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
                  Clasificacion.MINISTERIO);
         organizacion.setUsuarioOrganizacion(usuarioGuido2);
+        organizacion.setSectores(Arrays.asList(area,area2,area4Ever21));
         ro.save(organizacion);
+
+        //AGENTE SECTORIAL
+        PaisSector paisSector = new PaisSector(9L,"ARGENTINA");
+        ProvinciaSector provinciaSector = new ProvinciaSector(168L,"BUENOS AIRES", paisSector);
+        AgenteSectorial agenteSectorial = new AgenteSectorial("Guido2002@gmail.com",
+            "contraCOntraKCRF1234", provinciaSector);
+        ru.save(agenteSectorial);
+
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
         TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);
