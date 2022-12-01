@@ -66,7 +66,7 @@ public class LoginController {
         Usuario usuario = (Usuario) atributosSesion.get("usuario");
         System.out.println("Obteniendo datos de: " + usuario);
 
-        int tipoUsuario = repoUsuario.findByUsuario(usuario.getUsuario()).getTipo();
+        int tipoUsuario = repoUsuario.findByUsuario(usuario.getUsuario()).getTipoUsuario();
         System.out.println("Tipo usuario: " + tipoUsuario);
         Template template = devolverTemplateSegunTipoUsuario(tipoUsuario);
 

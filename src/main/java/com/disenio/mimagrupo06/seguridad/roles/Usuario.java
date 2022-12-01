@@ -22,8 +22,8 @@ public abstract class Usuario {
   public ValidadorDeMetricas miValidador = new ValidadorDeMetricas();
   @Transient
   byte[] salt = getSalt();
-  @Transient
-  int tipo;
+
+  public int tipoUsuario;
 
   public Usuario(String usuario, String contrasenia) throws NoSuchAlgorithmException {
     String contraseniaValidada = miValidador.validarTodo(usuario, contrasenia);
@@ -89,12 +89,13 @@ public abstract class Usuario {
     this.id = id;
   }
 
-  public int getTipo() {
-    return tipo;
+
+
+  public int getTipoUsuario() {
+    return tipoUsuario;
   }
 
-
-  public void setTipo(int tipoNuevo) {
-    this.tipo = tipoNuevo;
+  public void setTipoUsuario(int tipoUsuario) {
+    this.tipoUsuario = tipoUsuario;
   }
 }

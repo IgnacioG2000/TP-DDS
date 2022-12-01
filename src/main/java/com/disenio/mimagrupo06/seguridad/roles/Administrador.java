@@ -10,7 +10,7 @@ public class Administrador extends Usuario {
 
   public Administrador(String usuario, String contrasenia) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
-    this.setTipo(2);
+    setTipoUsuario(2);
   }
 
   public Administrador() {
