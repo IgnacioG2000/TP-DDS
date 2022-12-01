@@ -66,3 +66,10 @@ const cambiarUrlConIdSesion = (url = "/") => {
         window.location = `/${url}?sesion=${idSesion}`
     }
 }
+
+function cerrarSesion() {
+    //borramos el idSesion y redirigimos al login
+    borrarSesion()
+    cambiarUrlSinIdSesion("login")
+
+}

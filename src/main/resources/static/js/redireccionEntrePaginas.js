@@ -4,3 +4,8 @@ document.getElementById("navRegistrarTrayecto").addEventListener('click', e=> {
 })
 
 
+document.getElementById("cerrarSesion").addEventListener('click', e=> {
+    e.preventDefault()
+    cerrarSesion()
+})
+

@@ -65,6 +65,7 @@ public class TrayectosController {
         return ResponseEntity.status(200).body(html);
     }
 
+    //aca necesitamos a los chicos del back xdxd
     @PostMapping("/registrarTrayectoExistente")
     public void recibirTrayectoExistente() throws IOException {
         System.out.println("Estoy recibiendo un trayecto existente");
