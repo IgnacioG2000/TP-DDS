@@ -19,6 +19,7 @@ public class AgenteSectorial extends Usuario {
   public AgenteSectorial(String usuario, String contrasenia,Sector sector) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
     this.sectorTerritorial = sector;
+    this.setTipo(3);
   }
 
   public AgenteSectorial() {

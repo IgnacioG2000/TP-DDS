@@ -10,6 +10,7 @@ public class UsuarioComun extends Usuario{
 
   public UsuarioComun(String usuario, String contrasenia) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
+    this.setTipo(1);
   }
 
   public UsuarioComun() {

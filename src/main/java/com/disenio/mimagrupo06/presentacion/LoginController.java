@@ -3,6 +3,7 @@ package com.disenio.mimagrupo06.presentacion;
 
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
+import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.presentacion.dto.LoginRequest;
 import com.disenio.mimagrupo06.presentacion.dto.LoginResponse;
 import com.disenio.mimagrupo06.repositorios.RepoMiembro;
@@ -37,7 +38,6 @@ public class LoginController {
     @Autowired
     RepoMiembro repoMiembro;
 
-    //ESTO ESTA MAL VER COMO ARREGLARLO PRO FAVOR NO LO DEJEMOS ASI GRACIAS :) (lo hacemos solo para probar)
     private final Handlebars handlebars = new Handlebars();
 
     public LoginController() {
@@ -57,10 +57,18 @@ public class LoginController {
         return ResponseEntity.status(200).body(html);
     }
 
-    @GetMapping("/homeMiembro")
-    public ResponseEntity<String> homeMiembro() throws IOException {
+    @GetMapping("/home")
+    public ResponseEntity<String> home(@RequestParam("sesion") String idSesion) throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
-        Template template = handlebars.compile("/Template/homeMiembro");
+
+        Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+
+        Usuario usuario = (Usuario) atributosSesion.get("usuario");
+        System.out.println("Obteniendo datos de: " + usuario);
+
+        int tipoUsuario = repoUsuario.findByUsuario(usuario.getUsuario()).getTipo();
+        System.out.println("Tipo usuario: " + tipoUsuario);
+        Template template = devolverTemplateSegunTipoUsuario(tipoUsuario);
 
         Map<String, Object> model = new HashMap<>();
         //model.put("listamascotas", mascotas);
@@ -68,6 +76,17 @@ public class LoginController {
         String html = template.apply(model);
 
         return ResponseEntity.status(200).body(html);
+    }
+
+    private Template devolverTemplateSegunTipoUsuario(int tipoUsuario) throws IOException {
+
+        if(tipoUsuario == 1) {
+            return handlebars.compile("/Template/homeMiembro");
+        } else if (tipoUsuario == 3) {
+            return handlebars.compile("/Template/homeAgenteSectorial");
+        } else  {
+            return handlebars.compile("/Template/homeOrganizacion");
+        }
     }
 
 
@@ -129,7 +148,6 @@ public class LoginController {
     }
 
     public static byte[] getSalt()  {
-        //SecureRandom secureRandom = new SecureRandom();
         byte[] salt = new byte[]{1, 2, 4, 8, 16, 32, 64, (byte) 128};
         //secureRandom.nextBytes(salt); // proxima semilla
         return salt;

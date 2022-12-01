@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepoUsuario extends CrudRepository<Usuario,Long> {
   Usuario findByUsuarioAndContraseniaHasheada(String usuario,String contraseniaHasheada);
+
+  Usuario findByUsuario(String usuario);
 }
