@@ -350,6 +350,8 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
             tipoEspacioLlegada: valorHogar,
             piso: pisoHogar,
             departamento: departamentoHogar,
+            pisoTrabajo: null,
+            unidad: null,
             tipoHogar: valorTipoHogar,
             latitud: latitudTramoPartida,
             longitud: longitudTramoPartida,
@@ -368,6 +370,8 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
         bodyEspacioPartida = {
             clase: claseAInicializar,
             tipoEspacioLlegada: valorTrabajo,
+            pisoDepartamento: null,
+            departamento: null,
             piso: pisoTrabajo,
             unidad: unidadTrabajo,
             latitud: latitudTramoPartida,
@@ -385,6 +389,10 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
         bodyEspacioPartida = {
             clase: claseAInicializar,
             bodyEspacioPartida: valorParada,
+            pisoDepartamento: null,
+            departamento: null,
+            pisoTrabajo: null,
+            unidad: null,
             latitud: latitudTramoPartida,
             longitud: longitudTramoPartida,
             localidad: localidadTramoPartida,
@@ -420,8 +428,10 @@ function definirBodyLlegadaTramo(espacioSeleccionado) {
         bodyEspacioLlegada = {
             clase: claseAInicializar,
             tipoEspacioLlegada: valorHogar,
-            piso: pisoHogar,
+            pisoDepartamento: pisoHogar,
             departamento: departamentoHogar,
+            pisoTrabajo: null,
+            unidad: null,
             tipoHogar: valorTipoHogar,
             latitud: latitudTramoLlegada,
             longitud: longitudTramoLlegada,
@@ -439,7 +449,9 @@ function definirBodyLlegadaTramo(espacioSeleccionado) {
         bodyEspacioLlegada = {
             clase: claseAInicializar,
             tipoEspacioLlegada: valorTrabajo,
-            piso: pisoTrabajo,
+            pisoDepartamento: null,
+            departamento: null,
+            pisoTrabajo: pisoTrabajo,
             unidad: unidadTrabajo,
             latitud: latitudTramoLlegada,
             longitud: longitudTramoLlegada,
@@ -455,7 +467,10 @@ function definirBodyLlegadaTramo(espacioSeleccionado) {
         bodyEspacioLlegada = {
             clase: claseAInicializar,
             tipoEspacioLlegada: valorParada,
-            latitud: latitudTramoLlegada,
+            pisoDepartamento: null,
+            departamento: null,
+            pisoTrabajo: null,
+            unidad: null,
             latitud: latitudTramoLlegada,
             longitud: longitudTramoLlegada,
             localidad: localidadTramoLlegada,
@@ -533,8 +548,10 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
         const valorTipoHogar = document.getElementById("inputHogarLlegada").value
         bodyInicializado = {
             clase: claseAInicializar,
-            piso: pisoHogar,
+            pisoDepartamento: pisoHogar,
             departamento: departamentoHogar,
+            pisoTrabajo: null,
+            unidad: null,
             tipoHogar: valorTipoHogar,
             latitud: latitudTrayectoLlegada,
             longitud: longitudTrayectoLlegada,
@@ -552,6 +569,8 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
         const unidadTrabajo = document.getElementById("unidadLlegada").value
         bodyInicializado = {
             clase: claseAInicializar,
+            pisoDepartamento: null,
+            departamento: null,
             piso: pisoTrabajo,
             unidad: unidadTrabajo,
             latitud: latitudTrayectoLlegada,
@@ -569,6 +588,10 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
         claseAInicializar = "parada"
         bodyInicializado = {
             clase: claseAInicializar,
+            pisoDepartamento: null,
+            departamento: null,
+            pisoTrabajo: null,
+            unidad: null,
             latitud: latitudTrayectoLlegada,
             longitud: longitudTrayectoLlegada,
             localidad: localidadTrayectoLlegada,
@@ -603,6 +626,8 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
         const valorTipoHogar = document.getElementById("inputHogarPartida").value
         bodyInicializado = {
             clase: claseAInicializar,
+            pisoTrabajo: null,
+            unidad: null,
             piso: pisoHogar,
             departamento: departamentoHogar,
             tipoHogar: valorTipoHogar,
@@ -622,6 +647,8 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
         const unidadTrabajo = document.getElementById("unidadPartida").value
         bodyInicializado = {
             clase: claseAInicializar,
+            pisoDepartamento: null,
+            departamento: null,
             piso: pisoTrabajo,
             unidad: unidadTrabajo,
             latitud: latitudTrayectoPartida,
@@ -636,6 +663,10 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
         claseAInicializar = "parada"
         bodyInicializado = {
             clase: claseAInicializar,
+            pisoDepartamento: null,
+            departamento: null,
+            pisoTrabajo: null,
+            unidad: null,
             latitud: latitudTrayectoPartida,
             longitud: longitudTrayectoPartida,
             localidad: localidadTrayectoPartida,
