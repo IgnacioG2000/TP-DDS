@@ -59,9 +59,8 @@
 </nav>
 <!-- Section-->
 <div class="botones">
-  <button class = "botonNuevo"> Nuevos </button>
-
-  <button class="botonExistentes"> Existentes </button>
+  <button id="botonNuevo" class = "botonNuevo"> Nuevos </button>
+  <button id = "botonExistente" class="botonExistentes"> Existentes </button>
 </div>
 
 
@@ -72,6 +71,22 @@
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="./js/redireccionEntrePaginas.js"></script>
+<script src="./js/funcionesComunes.js"></script>
+
+<script>
+    document.getElementById("botonNuevo").addEventListener('click', e=>{
+        e.preventDefault()
+        cambiarUrlSinIdSesion("registrarTrayectoNuevo")
+    })
+
+
+    document.getElementById("botonExistente").addEventListener('click', e => {
+        e.preventDefault()
+        cambiarUrlSinIdSesion("registrarTrayectoExistente")
+    })
+</script>
 <!-- Core theme JS-->
 </body>
 </html>
