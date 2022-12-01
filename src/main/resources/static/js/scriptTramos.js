@@ -2,7 +2,6 @@
 * Acá esta toda la logica referida a modificar la pantalla de tramos
 * */
 
-let n = 0
 const opcionesTramo = document.getElementById("tipoTramo")
 
 const partidaTramo = document.getElementById("partidaTramo")
@@ -189,15 +188,41 @@ function cargarNuevoTramo() {
     console.log(bodyTramos)
 
     volverAEstadoDefault()
-    n++;
 
+}
+
+function actualizarListaTramos() {
+
+    /*
+    * {
+        partida: bodyPartida,
+        llegada: bodyLlegada,
+        transporte: bodyTransporte
+    }
+    * */
+    let ultimoTramoAgregado = bodyTramos.at(-1)
+    let espacioPartida = ultimoTramoAgregado.partida
+    let espacioLlegada = ultimoTramoAgregado.llegada
+    let medioTransporte = ultimoTramoAgregado.transporte
+
+    let htmlNuevo = " <p>" + "Vas a ir desde" + espacioPartida.direccion + " " + espacioPartida.numero +
+        " hasta "  +  espacioLlegada.direccion
+        + espacioLlegada.numero + "en" + medioTransporte.tipoTransporte + "</p> <br>" ;
+    tramosCargados.innerHTML = tramosCargados.innerHTML + htmlNuevo;
+
+    console.log("--------------")
+    console.log(ultimoTramoAgregado)
+    console.log(espacioPartida.direccion)
+    console.log(espacioLlegada.direccion)
+    console.log(medioTransporte.tipoTransporte)
+    console.log("--------------")
 }
 
 function volverAEstadoDefault() {
 
     //1. agregar el divisor para que se vea un tramo agregado
-    let htmlNuevo = " <p> (si testean esto no se asusten, es meramente estetico, lo vamos a ver después) </p>";
-    tramosCargados.innerHTML = tramosCargados.innerHTML + htmlNuevo;
+
+    actualizarListaTramos()
     //2.  resetar los valores en las variables guardadas
     document.getElementById("tramos")
     opcionesTramo.classList.remove("hidden");
