@@ -7,12 +7,16 @@ import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,10 +28,53 @@ public class CalculadoraController {
   @Autowired
   private RepoTA repoTA;
 
+  private final Handlebars handlebars = new Handlebars();
+
+  public CalculadoraController() {
+  }
+
+
+  @GetMapping("/calculadora/organizacion/hcAnual")
+  public ResponseEntity<String> calculadoraAnual() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/templates/calculadoraHCAnualOrg");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/calculadora/organizacion/hcMensual")
+  public ResponseEntity<String> calculadoraMensual() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/templates/calculadoraHCMensualOrg");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("calculadora/resultado")
+  public ResponseEntity resultado() throws IOException {
+      Template template = handlebars.compile("/templates/resultadoCalculadoraHC");
+
+      Map<String, Object> model = new HashMap<>();
+
+
+      String html = template.apply(model);
+
+      return ResponseEntity.status(200).body(html);
+  }
+
   @GetMapping("/calculadora/organizacion/hcAnual/{anio}")
+  @ResponseBody
   public ResponseEntity calcularHCTotalAnio(@RequestHeader("Authorization") String idSesion, @PathVariable("anio") String anio){
     Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
-
+    System.out.println("ESTOY ACAAAAA");
     UsuarioOrganizacion usuarioOrganizacionSesion = (UsuarioOrganizacion) atributosSesion.get("usuario");
     System.out.println("usuario organizacion:" + usuarioOrganizacionSesion);
     Organizacion unaOrganizacion = repoOrganizacion.findByUsuarioOrganizacion(usuarioOrganizacionSesion);
