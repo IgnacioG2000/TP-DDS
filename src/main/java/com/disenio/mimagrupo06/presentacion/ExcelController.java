@@ -3,8 +3,6 @@ package com.disenio.mimagrupo06.presentacion;
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
-import com.disenio.mimagrupo06.repositorios.RepoConsumo;
-import com.disenio.mimagrupo06.repositorios.RepoDA;
 import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
@@ -14,7 +12,6 @@ import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,12 +33,6 @@ public class ExcelController {
 
   @Autowired
   private RepoTA repoTA;
-
-  @Autowired
-  private RepoDA repoDA;
-
-  @Autowired
-  private RepoConsumo repoConsumo;
 
   private final Handlebars handlebars = new Handlebars();
 
