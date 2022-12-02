@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RepoReportes extends CrudRepository<ReporteProvinciaDTO, Long> {
+public interface RepoReportesProvincia extends CrudRepository<ReporteProvinciaDTO, Long> {
   ReporteProvinciaDTO findByProvincia(String provincia);
 
   @Query(value = "SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO(p.nombre, SUM(hc.huellaCarbono))" +
@@ -16,7 +16,7 @@ public interface RepoReportes extends CrudRepository<ReporteProvinciaDTO, Long> 
                 "                        JOIN MunicipioSector m ON p.id = m.provincia.id" +
                 "                        LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
                 "  GROUP BY p.nombre")
-  List<ReporteProvinciaDTO> findAllHCPorSectorTerritorial();
+  List<ReporteProvinciaDTO> findAllHCPorProvincia();
 
   @Query(value = "SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO(p.nombre, m.nombre, SUM(hc.huellaCarbono))" +
                 "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
