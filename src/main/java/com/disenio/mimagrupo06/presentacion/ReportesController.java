@@ -1,6 +1,10 @@
 package com.disenio.mimagrupo06.presentacion;
 
+import com.disenio.mimagrupo06.presentacion.dto.ReporteMunicipioDTO;
+import com.disenio.mimagrupo06.presentacion.dto.ReporteOrganizacionDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO;
+import com.disenio.mimagrupo06.repositorios.RepoReportesMunicipio;
+import com.disenio.mimagrupo06.repositorios.RepoReportesOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoReportesProvincia;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
@@ -21,10 +25,17 @@ public class ReportesController {
 
   @Autowired
   private RepoReportesProvincia repoReportesProvincia;
+  @Autowired
+  private RepoReportesMunicipio repoReportesMunicipio;
+  @Autowired
+  private RepoReportesOrganizacion repoReportesOrganizacion;
+
 
   private final Handlebars handlebars = new Handlebars(); //TODO instanciar en constructor
 
-  @GetMapping(value = "/hc_provincia", produces = MediaType.TEXT_HTML_VALUE)
+  //REPORTES PROVINCIAS
+
+  @GetMapping(value = "/hc_total_provincia", produces = MediaType.TEXT_HTML_VALUE)
   public ResponseEntity<String> obtenerHCPorProvincia() throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteHCTotalProvincia");
@@ -49,4 +60,33 @@ public class ReportesController {
     List<ReporteProvinciaDTO> result = repoReportesProvincia.findAllEvolucionHCTotalDeUnaDeterminadaProvincia(nombre);
     return ResponseEntity.status(200).body(result);
   }
+
+  //REPORTES MUNICIPIOS
+
+  @GetMapping("/hc_total_municipio")
+  public ResponseEntity<List<ReporteMunicipioDTO>> obtenerHCPorMunicipio(){
+    List<ReporteMunicipioDTO> result = repoReportesMunicipio.findAllHCPorMunicipio();
+    return ResponseEntity.status(200).body(result);
+  }
+
+  @GetMapping("/evolucion_hc_municipio/{nombre}")
+  public ResponseEntity<List<ReporteMunicipioDTO>> obtenerEvolucionHCTotalDeUnMunicipio(@PathVariable String nombre){
+    List<ReporteMunicipioDTO> result = repoReportesMunicipio.findAllEvolucionHCTotalDeUnDeterminadoMunicipio(nombre);
+    return ResponseEntity.status(200).body(result);
+  }
+
+  //REPORTES ORGANIZACIONES
+
+  @GetMapping("/hc_total_tipo_organizacion")
+  public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerHCTotalPorTipoDeOrganizacion(){
+    List<ReporteOrganizacionDTO> result = repoReportesOrganizacion.findAllHCTotalPorTipoDeOrganizacion();
+    return ResponseEntity.status(200).body(result);
+  }
+
+  @GetMapping("/evolucion_hc_organizacion/{razon_social}")
+  public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerEvolucionHCDeUnaDeterminadaOrganizacion(@PathVariable String razon_social){
+    List<ReporteOrganizacionDTO> result = repoReportesOrganizacion.findAllEvolucionHCDeUnaDeterminadaOrganizacion(razon_social);
+    return ResponseEntity.status(200).body(result);
+  }
+
 }
