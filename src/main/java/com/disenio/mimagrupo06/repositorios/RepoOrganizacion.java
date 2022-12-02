@@ -63,7 +63,7 @@ public class RepoOrganizacion {
 
   public List<String> obtenerEvolucionHCDeUnaDeterminadaOrganizacion(String razonSocial){
 
-    String query = " SELECT o.id, o.razonSocial, hc.anio, SUM(hc.huellaCarbono) AS HC_TOTAL" +
+    String query = " SELECT o.razonSocial, hc.anio, SUM(hc.huellaCarbono) AS HC_TOTAL" +
         " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
         " WHERE o.razonSocial = :razonSocial" +
         " GROUP BY o.id, o.razonSocial, hc.anio";
