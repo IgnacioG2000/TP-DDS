@@ -8,11 +8,10 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 public class TrayectoDTO {
-
   private String nombreArea;
-  private Espacio espacioLlegada;
-  private Espacio espacioPartida;
-  private Collection<Tramo> tramos;
+  private EspacioDTO espacioLlegada;
+  private EspacioDTO espacioPartida;
+  private Collection<TramoDTO> tramos;
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
   private int diasUtilizados;
@@ -25,11 +24,11 @@ public class TrayectoDTO {
     this.nombreArea = nombreArea;
   }
 
-  public Collection<Tramo> getTramos() {
+  public Collection<TramoDTO> getTramos() {
     return tramos;
   }
 
-  public void setTramos(Collection<Tramo> tramos) {
+  public void setTramos(Collection<TramoDTO> tramos) {
     this.tramos = tramos;
   }
 
@@ -53,19 +52,19 @@ public class TrayectoDTO {
     return diasUtilizados;
   }
 
-  public Espacio getEspacioLlegada() {
+  public EspacioDTO getEspacioLlegada() {
     return espacioLlegada;
   }
 
-  public void setEspacioLlegada(Espacio espacioLlegada) {
+  public void setEspacioLlegada(EspacioDTO espacioLlegada) {
     this.espacioLlegada = espacioLlegada;
   }
 
-  public Espacio getEspacioPartida() {
+  public EspacioDTO getEspacioPartida() {
     return espacioPartida;
   }
 
-  public void setEspacioPartida(Espacio espacioPartida) {
+  public void setEspacioPartida(EspacioDTO espacioPartida) {
     this.espacioPartida = espacioPartida;
   }
 

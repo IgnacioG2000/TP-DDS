@@ -56,7 +56,7 @@ public class InitData implements CommandLineRunner {
             //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
             //ru.save(usuarioComun);
             UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
-            Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+            Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, 3, "Hola", TipoDeHogar.CASA);
             Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
             Miembro miembroGuido = new Miembro(personaGuido);
             Miembro miembroGuido2 = new Miembro(personaGuido);

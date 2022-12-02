@@ -57,6 +57,7 @@ public class MiembroController {
     return ResponseEntity.status(200).body(trayectosPendientesLista);
   }
 */
+  /*
   @PostMapping("/trayectos/nuevos")
   public ResponseEntity registrarTrayecto(@RequestHeader("Authorization") String idSesion, @RequestBody TrayectoDTO trayectoDTO) throws IOException {
 
@@ -86,8 +87,9 @@ public class MiembroController {
     miembroSesion.getArea().agregarVinculacion(trayecto);
     repoMiembro.save(miembroSesion);
     return ResponseEntity.status(201).body(trayecto);
-  }
 
+  }
+ */
   public Miembro encontrarMiembro(String idSesion, String nombreArea) {
 
     Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);

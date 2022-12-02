@@ -7,7 +7,9 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import javax.persistence.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Trayecto {
@@ -19,12 +21,12 @@ public class Trayecto {
   @ManyToOne
   private Espacio llegada;
   @ManyToMany
-  private Collection<Tramo> tramos;
+  private List<Tramo> tramos;
   private LocalDate fechaInicio;
   private LocalDate fechaFin;
   private int diasUtilizados;
 
-  public Trayecto(Espacio partida, Espacio llegada, Collection<Tramo> tramos, LocalDate fechaInicio, int diasUtilizados) {
+  public Trayecto(Espacio partida, Espacio llegada, List<Tramo> tramos, LocalDate fechaInicio, int diasUtilizados) {
     this.partida = partida;
     this.llegada = llegada;
     this.tramos = tramos;
@@ -52,11 +54,11 @@ public class Trayecto {
     this.llegada = llegada;
   }
 
-  public Collection<Tramo> getTramos() {
+  public List<Tramo> getTramos() {
     return tramos;
   }
 
-  public void setTramos(Collection<Tramo> tramos) {
+  public void setTramos(List<Tramo> tramos) {
     this.tramos = tramos;
   }
 
@@ -206,4 +208,7 @@ public class Trayecto {
     this.fechaFin = fechaFin;
   }
 
+  public void agregarTramo(Tramo tramo){
+    this.tramos.add(tramo);
+  }
 }

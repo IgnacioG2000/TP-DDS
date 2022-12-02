@@ -56,7 +56,7 @@ public class EspacioController {
             espacio = setEspaciosRegistradosEnArea.stream().filter(espa -> espa.equals(espacioDTO.getHogar())).collect(Collectors.toList()).get(0);
         } else {
             espacio = new Hogar(espacioDTO.getHogar().getLatitud(), espacioDTO.getHogar().getLongitud(), espacioDTO.getHogar().getProvincia(), espacioDTO.getHogar().getMunicipio(), espacioDTO.getHogar().getLocalidad(),
-                    espacioDTO.getHogar().getDireccion(), espacioDTO.getHogar().getNumero(), espacioDTO.getHogar().getCodigoPostal(), null, espacioDTO.getHogar().getPiso(), espacioDTO.getHogar().getDepartamento(), espacioDTO.getHogar().getTipoDeHogar());
+                    espacioDTO.getHogar().getDireccion(), espacioDTO.getHogar().getNumero(), espacioDTO.getHogar().getCodigoPostal(), espacioDTO.getHogar().getPiso(), espacioDTO.getHogar().getDepartamento(), espacioDTO.getHogar().getTipoDeHogar());
             repoEspacio.save(espacio);
         }
         return ResponseEntity.status(201).body(espacio);

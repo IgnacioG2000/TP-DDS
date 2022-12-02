@@ -41,11 +41,11 @@ public class CalculoHCTest {
   EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
   MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
   MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
-  Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+  Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, 3, "Hola", TipoDeHogar.CASA);
   UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
   Persona personaGuido = new Persona("Guido", "Serco",TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
   Miembro miembroGuido = new Miembro(personaGuido);
-  Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+  Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, 3, "Hola", TipoDeHogar.CASA);
   UsuarioComun usuarioTaylor = new UsuarioComun("Taylor1234", "djf8ree245");
   Persona personaTaylor = new Persona("Taylor", "Swift", TipoDocumento.DNI, "367789999", hogarTaylor, usuarioTaylor);
   Miembro miembroTaylor = new Miembro(personaTaylor);
