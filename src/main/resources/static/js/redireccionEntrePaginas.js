@@ -4,7 +4,7 @@ let tramosExistentesBack = {}
 
 document.getElementById("navRegistrarTrayecto").addEventListener('click', e=> {
     e.preventDefault()
-    pedirAlBack().then()
+    //pedirAlBack().then()
     cambiarUrlSinIdSesion("registrarTrayecto")
     //pedirle al back todo lo que tienen guardado
 

@@ -42,6 +42,7 @@ public class TrayectosController {
         return ResponseEntity.status(200).body(html);
     }
 
+
     @GetMapping("/registrarTrayectoNuevo")
     public ResponseEntity<String> registrarTrayectoNuevo() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
@@ -59,9 +60,9 @@ public class TrayectosController {
     public ResponseEntity<String> registrarTrayectoExistente() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/registrarTrayectoExistente");
-
+        List<Trayecto> listaTrayectos = repoTrayecto.findAll();
         Map<String, Object> model = new HashMap<>();
-        //model.put("listamascotas", mascotas);
+        model.put("Trayectos", listaTrayectos);
 
         String html = template.apply(model);
 
