@@ -10,10 +10,14 @@ import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +31,34 @@ public class AgenteSectorialController {
 
   @Autowired
   private RepoArea ra;
+
+  private Handlebars handlebars = new Handlebars();
+  public AgenteSectorialController(){
+
+  }
+  @GetMapping("/calculadora/agenteSectorial/hcAnual")
+  public ResponseEntity<String> calculadoraAnual() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/templates/calculadoraHCAnualAgente");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/calculadora/agenteSectorial/hcMensual")
+  public ResponseEntity<String> calculadoraMensual() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/templates/calculadoraHCMensualAgente");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
 
   @GetMapping("/calculadora/agenteSectorial/hcAnual/{anio}")
   public ResponseEntity calcularHCTotalAnio(@RequestHeader("Authorization") String idSesion, @PathVariable("anio") String anio){

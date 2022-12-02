@@ -80,6 +80,12 @@ public class InitData implements CommandLineRunner {
 
        //ca.cargarFE();
       // da.cargarDatos();
+      // AGENTE SECTORIAL
+        PaisSector paisSector = new PaisSector(9L,"ARGENTINA");
+        rps.save(paisSector);
+        ProvinciaSector provinciaSector = new ProvinciaSector(168L,"BUENOS AIRES", paisSector);
+        rprs.save(provinciaSector);
+
 
         Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
         re.save(espacioOrigen);
@@ -89,11 +95,17 @@ public class InitData implements CommandLineRunner {
         rmt.save(medioDeTransporte1);
         MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
         rmt.save(medioDeTransporte2);
+
         UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
         ru.save(usuarioGuido);
 
         UsuarioOrganizacion usuarioGuido2 = new UsuarioOrganizacion("Guido2001@gmail.com", "contraCOntraKCRF123");
         ru.save(usuarioGuido2);
+
+        AgenteSectorial agenteSectorial = new AgenteSectorial("Guido2002@gmail.com","contraCOntraKCRF1234", provinciaSector);
+        ru.save(agenteSectorial);
+
+
 
         Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
         re.save(hogarGuido);
@@ -153,13 +165,6 @@ public class InitData implements CommandLineRunner {
         organizacion.setUsuarioOrganizacion(usuarioGuido2);
         organizacion.setSectores(Arrays.asList(area,area2,area4Ever21));
         ro.save(organizacion);
-
-        //AGENTE SECTORIAL
-        PaisSector paisSector = new PaisSector(9L,"ARGENTINA");
-        ProvinciaSector provinciaSector = new ProvinciaSector(168L,"BUENOS AIRES", paisSector);
-        AgenteSectorial agenteSectorial = new AgenteSectorial("Guido2002@gmail.com",
-            "contraCOntraKCRF1234", provinciaSector);
-        ru.save(agenteSectorial);
 
 
         TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);

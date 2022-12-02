@@ -95,7 +95,7 @@
     const guardarHC = (valorHC) => localStorage.setItem(ID_KEY, valorHC)
     //let url = "/calculadora/organizacion/hcAnual/" +
     async function calcularhc(unAnio, unMes) {
-        let response = await fetch("/calculadora/organizacion/hcMensual/" + unAnio.toString() + "/" + unMes.toString(), {
+        let response = await fetch("/calculadora/agenteSectorial/hcMensual/" + unAnio.toString() + "/" + unMes.toString(), {
             method: "GET",
             headers: {
                 "Authorization": obtenerSesion(),
