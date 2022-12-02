@@ -85,10 +85,8 @@ public class ExcelController {
     try {
       excelService.saveFile(file);
       transformador.cargarDatos(unaOrganizacion, excelService.obtenerPath(file));
-      datoDeLaActividad = transformador.getDatosDeLaActividad();
-      datoDeLaActividad.forEach(datoDeLaActividad1 -> repoConsumo.save(datoDeLaActividad1.getConsumo()));
-      //excelService.deleteFile(file);
-      //repoOrganizacion.save(unaOrganizacion);
+      repoOrganizacion.save(unaOrganizacion);
+      excelService.deleteFile(file);
     } catch (IOException e){
       e.printStackTrace();
     }
