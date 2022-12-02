@@ -187,11 +187,13 @@
             <div class="col-md-6">
                  <label class="form-label">Seleccione un punto de partida existente</label>
                 <select multiple class="form-control" id="puntoPartidaExistente">
-                    <option>Partida1</option>
-                    <option>Partida2</option>
-                    <option>Partida3</option>
-                    <option>Partida4</option>
-                    <option>Partida5</option>
+
+                    {{#each Espacios}}
+                        <p> {{latitud}}</p>
+                        <p> {{longitud}}</p>
+                        <p> {{provincia}}</p>
+
+                    {{/each}}
                 </select>
             </div>
         </div>
@@ -317,9 +319,13 @@
             <div class="col-md-6">
                 <label class="form-label">Seleccione un punto de llegada existente</label>
                 <select multiple class="form-control" id="puntoLlegadaExistente">
-                    <option>Llegada1</option>
-                    <option>Llegada2</option>
-                    <option>Llegada3</option>
+
+                    {{#each Espacios}}
+                        <p> {{latitud}}</p>
+                        <p> {{longitud}}</p>
+                        <p> {{provincia}}</p>
+
+                    {{/each}}
                 </select>
             </div>
         </div>
@@ -484,11 +490,16 @@
                     <div class="col-md-6">
                         <label class="form-label">Seleccione un punto de partida existente</label>
                         <select multiple class="form-control" id="puntoPartidaExistenteTramo">
-                            <option>Partida1</option>
-                            <option>Partida2</option>
-                            <option>Partida3</option>
-                            <option>Partida4</option>
-                            <option>Partida5</option>
+
+                            {{#each Espacios}}
+                                <p> {{latitud}}</p>
+                                <p> {{longitud}}</p>
+                                <p> {{provincia}}</p>
+
+                            {{/each}}
+
+
+
                         </select>
                     </div>
                 </div>
@@ -614,9 +625,13 @@
                     <div class="col-md-6">
                         <label class="form-label">Seleccione un punto de llegada existente</label>
                         <select multiple class="form-control" id="puntoLlegadaExistenteTramo">
-                            <option>Llegada1</option>
-                            <option>Llegada2</option>
-                            <option>Llegada3</option>
+
+                            {{#each Espacios}}
+                                <p> {{latitud}}</p>
+                                <p> {{longitud}}</p>
+                                <p> {{provincia}}</p>
+
+                            {{/each}}
                         </select>
                     </div>
                 </div>
@@ -715,11 +730,14 @@
             <div class="col-md-6">
                 <label class="form-label">Seleccione un tramo existente</label>
                 <select multiple class="form-control" id="tramosExistentes">
-                    <option>Tramo1</option>
-                    <option>Tramo2</option>
-                    <option>Tramo3</option>
-                    <option>Tramo4</option>
-                    <option>Tramo5</option>
+
+                    {{#each Tramos}}
+                        <p> {{partida.direccion}}</p>
+                        <p> {{llegada.direccion}}</p>
+                        <p> {{transporte}}</p>
+
+                    {{/each}}
+
                 </select>
             </div>
 
