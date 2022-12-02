@@ -30,7 +30,7 @@ public class Organizacion {
   private Collection<Contacto> contactos;
   @Enumerated(EnumType.ORDINAL)
   private Clasificacion clasificacion;
-  @OneToMany
+  @OneToMany(cascade = {CascadeType.ALL})
   private Collection<DatoDeLaActividad> datoDeLaActividad;
   @Enumerated(EnumType.ORDINAL)
   private MedioNotificacion mediosNotificacion;

@@ -1,7 +1,10 @@
 package com.disenio.mimagrupo06.presentacion;
 
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
+import com.disenio.mimagrupo06.repositorios.RepoConsumo;
+import com.disenio.mimagrupo06.repositorios.RepoDA;
 import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoTA;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +36,12 @@ public class ExcelController {
 
   @Autowired
   private RepoTA repoTA;
+
+  @Autowired
+  private RepoDA repoDA;
+
+  @Autowired
+  private RepoConsumo repoConsumo;
 
   private final Handlebars handlebars = new Handlebars();
 
@@ -67,6 +77,7 @@ public class ExcelController {
     }
 
 
+    Collection<DatoDeLaActividad> datoDeLaActividad;
 
     if(file.isEmpty()){
       return new ResponseEntity<Object>("Seleccionar un archivo", HttpStatus.OK);
@@ -74,8 +85,10 @@ public class ExcelController {
     try {
       excelService.saveFile(file);
       transformador.cargarDatos(unaOrganizacion, excelService.obtenerPath(file));
+      datoDeLaActividad = transformador.getDatosDeLaActividad();
+      datoDeLaActividad.forEach(datoDeLaActividad1 -> repoConsumo.save(datoDeLaActividad1.getConsumo()));
       //excelService.deleteFile(file);
-     // repoOrganizacion.save(unaOrganizacion);
+      //repoOrganizacion.save(unaOrganizacion);
     } catch (IOException e){
       e.printStackTrace();
     }
