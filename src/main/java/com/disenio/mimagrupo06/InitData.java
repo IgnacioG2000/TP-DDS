@@ -5,19 +5,25 @@ import com.disenio.mimagrupo06.apiDistancia.Pais;
 import com.disenio.mimagrupo06.apiDistancia.ServicioApiDistancia;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.TipoActividad;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.TipoDeHogar;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.*;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte.*;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.miembro.TipoDocumento;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
+import com.disenio.mimagrupo06.domain.sector.PaisSector;
+import com.disenio.mimagrupo06.domain.sector.ProvinciaSector;
+import com.disenio.mimagrupo06.domain.sector.Sector;
 import com.disenio.mimagrupo06.repositorios.*;
+import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioComun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +51,15 @@ public class InitData implements CommandLineRunner {
     @Autowired
     private RepoArea ra;
 
+    @Autowired
+    private RepoTrayecto rt;
+
+    @Autowired
+    private RepoTramo rtr;
+
+    @Autowired
+    private RepoMedioDeTransporte rmt;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -56,6 +71,9 @@ public class InitData implements CommandLineRunner {
             //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
             //ru.save(usuarioComun);
             UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
+            ProvinciaSector sectorProvincial = new ProvinciaSector(null, "Buenos Aires", null);
+            AgenteSectorial agente = new AgenteSectorial("agente1010", "ASDKASDK1234", null);
+            ru.save(agente);
             Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
             Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
             Miembro miembroGuido = new Miembro(personaGuido);
@@ -73,6 +91,51 @@ public class InitData implements CommandLineRunner {
             Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
             ra.save(area);
             ra.save(area2);
+
+            MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
+            MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
+
+            rmt.save(medioDeTransporte1);
+            rmt.save(medioDeTransporte2);
+
+
+            Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+            re.save(hogarTaylor);
+            UsuarioComun usuarioTaylor = new UsuarioComun("Taylor1234", "djf8ree245");
+            Persona personaTaylor = new Persona("Taylor", "Swift", TipoDocumento.DNI, "367789999", hogarTaylor, usuarioTaylor);
+            Miembro miembroTaylor = new Miembro(personaTaylor);
+
+            ru.save(usuarioTaylor);
+            rp.save(personaTaylor);
+            rm.save(miembroTaylor);
+
+            UsuarioComun usuarioJake = new UsuarioComun("Jake_The_Taylor_Hater", "Taylor_hater_4_life");
+            Persona personaJake = new Persona("Jake", "Gyllenhaal", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioJake);
+            Miembro miembroJake = new Miembro(personaJake);
+
+            ru.save(usuarioJake);
+            rp.save(personaJake);
+            rm.save(miembroJake);
+
+            Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
+            Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992);
+
+            re.save(espacioOrigen);
+            re.save(espacioDestino);
+
+            Tramo tramo1 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
+            Tramo tramo2 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
+
+            rtr.save(tramo1);
+            rtr.save(tramo2);
+
+
+            Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
+            Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
+
+            rt.save(trayecto1);
+            rt.save(trayecto2);
+
 
             TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
             TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);

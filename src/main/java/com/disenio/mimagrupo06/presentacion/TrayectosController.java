@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,8 +22,10 @@ public class TrayectosController {
 
     private final Handlebars handlebars = new Handlebars();
     @GetMapping("/trayectos")
-    public ResponseEntity obtenerTrayectos(@RequestHeader("Authorization") String idSesion){
-        Iterable<Trayecto> listaTrayectos = repoTrayecto.findAll();
+    public ResponseEntity obtenerTrayectos(){
+        List<Trayecto> listaTrayectos = repoTrayecto.findAll();
+        System.out.println(listaTrayectos);
+
         return ResponseEntity.status(201).body(listaTrayectos);
     }
 
