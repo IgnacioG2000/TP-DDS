@@ -8,7 +8,7 @@ document.getElementById("navRegistrarTrayecto").addEventListener('click', e=> {
 function mandarAlBack() {
     fetch('http://localhost:8080/registrarTrayecto', {
         body: {
-            idSesion: localStorage.getItem(ID_SESION)
+            idSesion: obtenerSesion()
         },
         headers: {
             "Content-Type": "application/json"

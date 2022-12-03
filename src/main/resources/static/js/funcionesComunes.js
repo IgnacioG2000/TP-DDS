@@ -1,11 +1,13 @@
 //Funciones relacionadas con el idSesion
 
 const ID_SESION = "idSesion"
+const AREA_GUARDADA = "areaGuardada"
 const guardarSesion = (idSesion) => localStorage.setItem(ID_SESION, idSesion)
 const obtenerSesion = () => localStorage.getItem(ID_SESION)
 const borrarSesion = () => localStorage.removeItem(ID_SESION)
-
-
+const guardarArea = (areaGuardada) => localStorage.setItem(AREA_GUARDADA, areaGuardada)
+const obtenerArea = () => localStorage.getItem(AREA_GUARDADA)
+const borrarArea= () => localStorage.removeItem(AREA_GUARDADA)
 
 //Funciones de redireccion entre páginas
 

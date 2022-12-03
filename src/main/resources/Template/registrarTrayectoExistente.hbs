@@ -70,6 +70,14 @@
         </div>
     </section>
 </div>
+<div>
+    <div>
+        <div>
+            <button id= "botonFinal" type="button" class="btn btn-primary btn-lg">Enviar Trayecto</button>
+        </div>
+    </div>
+</div>
+
 <!-- Footer-->
 <footer class="py-5 bg-color1">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
@@ -80,11 +88,41 @@
 <script src="./js/funcionesComunes.js"></script>
 <script  src="./js/redireccionEntrePaginas.js"></script>
 <script>
-    let idSeleccionado
+    let idSeleccionado = null
     function guardarIdSeleccionado(id) {
         idSeleccionado = id
         alert(idSeleccionado)
     }
+
+    document.getElementById("botonFinal").addEventListener('click', e=> {
+        e.preventDefault()
+        if(idSeleccionado === null) {
+            alert("tenes que elegir un trayecto")
+        }else {
+            console.log("ahora le mando al back el siguiente id: " + idSeleccionado);
+            enviarTrayectoExistenteAlBack();
+            cambiarUrlConIdSesion("home")
+        }
+    })
+async function enviarTrayectoExistenteAlBack() {
+        let bodyExterno = {
+            idTrayecto: idSeleccionado,
+            area: obtenerArea(),
+            idSesion: obtenerSesion()
+        }
+    console.log(bodyExterno)
+    await fetch('http://localhost:8080/login', {
+        body: bodyExterno,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(this.body)
+
+    })
+
+}
+
 </script>
 </body>
 </html>
