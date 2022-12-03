@@ -1,13 +1,10 @@
 package com.disenio.mimagrupo06.presentacion.dto;
 
 
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
-
 import java.time.LocalDate;
 import java.util.Collection;
 
-public class TrayectoDTO {
+public class TrayectoNuevoDTO {
   private String nombreArea;
   private EspacioDTO espacioLlegada;
   private EspacioDTO espacioPartida;

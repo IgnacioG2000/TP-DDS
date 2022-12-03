@@ -1,22 +1,12 @@
 package com.disenio.mimagrupo06.presentacion;
 
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.EspacioDeTrabajo;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Hogar;
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
-import com.disenio.mimagrupo06.domain.organizacion.Area;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoDTO;
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
