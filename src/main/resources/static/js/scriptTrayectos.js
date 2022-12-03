@@ -8,6 +8,8 @@ const opcionLlegada = document.getElementById("tipoLlegada");
 
 const opcionesPartida = document.getElementById("opcionesPartida")
 const opcionesLlegada = document.getElementById("opcionesLlegada")
+let idEspacioPartida = null
+let idEspacioLlegada = null
 
 const bodyParaElBack = {}
 

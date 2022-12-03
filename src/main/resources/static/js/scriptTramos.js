@@ -345,7 +345,8 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
         const pisoHogar = document.getElementById("pisoHogarPartidaTramo").value
         const departamentoHogar = document.getElementById("departamentoPartidaTramo").value
         const valorTipoHogar = document.getElementById("inputHogarPartidaTramo").value
-        bodyEspacioPartida = {
+          bodyEspacioPartida = {
+            //id: idEspacioPartidTramo,
             clase: claseAInicializar,
             tipoEspacioLlegada: valorHogar,
             piso: pisoHogar,
@@ -364,10 +365,12 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
         }
     } else if (espacioSeleccionado === "trabajo") {
         claseAInicializar = "trabajo"
+
         const valorTrabajo = document.getElementById("tipoEspacioPartidaTramo").value
         const pisoTrabajo = document.getElementById("pisoTrabajoPartidaTramo").value
         const unidadTrabajo = document.getElementById("unidadPartidaTramo").value
         bodyEspacioPartida = {
+            //id: idEspacioPartidaTramo,
             clase: claseAInicializar,
             tipoEspacioLlegada: valorTrabajo,
             pisoDepartamento: null,
@@ -386,7 +389,9 @@ function definirBodyPartidaTramo(espacioSeleccionado) {
     } else {
         claseAInicializar = "parada"
         const valorParada = document.getElementById("tipoEspacioPartidaTramo").value
+
         bodyEspacioPartida = {
+           // id: idEspacioPartidaTramo,
             clase: claseAInicializar,
             bodyEspacioPartida: valorParada,
             pisoDepartamento: null,
@@ -420,6 +425,9 @@ function definirBodyLlegadaTramo(espacioSeleccionado) {
 
     let bodyEspacioLlegada;
     if (espacioSeleccionado === "hogar") {
+        if(opcionLlegada.value === "existente") {
+            idEspacioLlegada = document.getElementById("puntoLlegadaExistente").value
+        }
         claseAInicializar = "hogar"
         const valorHogar = document.getElementById("tipoEspacioLlegadaTramo").value
         const pisoHogar = document.getElementById("pisoHogarLlegadaTramo").value
@@ -542,11 +550,15 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
 
 
     if (espacioSeleccionado === "hogar") {
+        if(opcionLlegada.value === "existente") {
+            idEspacioLlegada = document.getElementById("puntoLlegadaExistente").value
+        }
         claseAInicializar = "hogar"
         const pisoHogar = document.getElementById("pisoHogarLlegada").value
         const departamentoHogar = document.getElementById("departamentoLlegada").value
         const valorTipoHogar = document.getElementById("inputHogarLlegada").value
         bodyInicializado = {
+            id: idEspacioLlegada,
             clase: claseAInicializar,
             pisoDepartamento: pisoHogar,
             departamento: departamentoHogar,
@@ -564,10 +576,14 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
 
         }
     } else if (espacioSeleccionado === "trabajo") {
+        if(opcionLlegada.value === "existente") {
+            idEspacioLlegada = document.getElementById("puntoLlegadaExistente").value
+        }
         claseAInicializar = "trabajo"
         const pisoTrabajo = document.getElementById("pisoTrabajoLlegada").value
         const unidadTrabajo = document.getElementById("unidadLlegada").value
         bodyInicializado = {
+            id: idEspacioLlegada,
             clase: claseAInicializar,
             pisoDepartamento: null,
             departamento: null,
@@ -585,8 +601,12 @@ function definirBodyLlegadaTrayecto(espacioSeleccionado) {
         }
 
     } else {
+        if(opcionLlegada.value === "existente") {
+            idEspacioLlegada = document.getElementById("puntoLlegadaExistente").value
+        }
         claseAInicializar = "parada"
         bodyInicializado = {
+            id: idEspacioLlegada,
             clase: claseAInicializar,
             pisoDepartamento: null,
             departamento: null,
@@ -620,11 +640,16 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
     const codigoPostalPartida = document.getElementById("inputcodigoPostal1").value
 
     if (espacioSeleccionado === "hogar") {
+
+        if(opcionPartida.value === "existente") {
+            idEspacioPartida = document.getElementById("puntoPartidaExistente").value
+        }
         claseAInicializar = "hogar"
         const pisoHogar = document.getElementById("pisoHogarPartida").value
         const departamentoHogar = document.getElementById("departamentoPartida").value
         const valorTipoHogar = document.getElementById("inputHogarPartida").value
         bodyInicializado = {
+            id: idEspacioPartida,
             clase: claseAInicializar,
             pisoTrabajo: null,
             unidad: null,
@@ -642,10 +667,15 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
 
         }
     } else if (espacioSeleccionado === "trabajo") {
+        if(opcionPartida.value === "existente") {
+            idEspacioPartida = document.getElementById("puntoPartidaExistente").value
+        }
+
         claseAInicializar = "trabajo"
         const pisoTrabajo = document.getElementById("pisoTrabajoPartida").value
         const unidadTrabajo = document.getElementById("unidadPartida").value
         bodyInicializado = {
+            id: idEspacioPartida,
             clase: claseAInicializar,
             pisoDepartamento: null,
             departamento: null,
@@ -660,8 +690,12 @@ function definirBodyPartidaTrayecto(espacioSeleccionado) {
             codigoPostal: numeroPartida
         }
     } else {
+        if(opcionPartida.value === "existente") {
+            idEspacioPartida = document.getElementById("puntoPartidaExistente").value
+        }
         claseAInicializar = "parada"
         bodyInicializado = {
+            id: idEspacioPartida,
             clase: claseAInicializar,
             pisoDepartamento: null,
             departamento: null,

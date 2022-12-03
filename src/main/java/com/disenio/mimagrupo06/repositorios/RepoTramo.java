@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface RepoTramo extends CrudRepository<Tramo, Long> {
-    List<Tramo> findAll();
+     List<Tramo> findAll();
 }
