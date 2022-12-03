@@ -1,19 +1,10 @@
 package com.disenio.mimagrupo06.presentacion;
 
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
-import com.disenio.mimagrupo06.domain.miembro.Persona;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoDTO;
-import com.disenio.mimagrupo06.repositorios.RepoMiembro;
-import com.disenio.mimagrupo06.repositorios.RepoPersona;
-import com.disenio.mimagrupo06.seguridad.roles.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public final class SesionManager {
 /*

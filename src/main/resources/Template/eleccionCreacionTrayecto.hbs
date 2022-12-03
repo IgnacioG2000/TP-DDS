@@ -53,7 +53,7 @@
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                     <input class="radio" type="radio" id="area" name="areas">
-                                    <label for="area" onclick=mostrarValor("{{nombre}}")> {{nombre}}</label>
+                                    <label for="area" onclick=guardarValor("{{nombre}}")> {{nombre}}</label>
                                 </div>
                             </div>
                         </div>
@@ -83,17 +83,15 @@
 <script src="./js/funcionesComunes.js"></script>
 
 <script>
-    let pasarDePagina = false
+    let areaElegida
     document.getElementById("botonNuevo").addEventListener('click', e=>{
         e.preventDefault()
-        console.log(document.getElementById("area").value)
         cambiarUrlSinIdSesion("registrarTrayectoNuevo")
     })
 
 
     document.getElementById("botonExistente").addEventListener('click', e => {
         e.preventDefault()
-        console.log(document.getElementById("area").value)
        cambiarUrlSinIdSesion("registrarTrayectoExistente")
 
 
@@ -101,12 +99,12 @@
     })
 
     document.getElementById("area").addEventListener('click', e => {
-        pasarDePagina = true
         console.log(document.getElementById("area").value)
     })
 
-    function mostrarValor(nombre){
-        console.log(nombre)
+    function guardarValor(nombre){
+        areaElegida = nombre
+        console.log(areaElegida)
     }
 
 </script>

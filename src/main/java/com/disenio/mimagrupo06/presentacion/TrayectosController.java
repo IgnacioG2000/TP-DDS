@@ -1,25 +1,26 @@
 package com.disenio.mimagrupo06.presentacion;
 
-import antlr.ASTNULLType;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
+import com.disenio.mimagrupo06.domain.miembro.Miembro;
+import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
-import com.disenio.mimagrupo06.repositorios.RepoEspacio;
-import com.disenio.mimagrupo06.repositorios.RepoTramo;
-import com.disenio.mimagrupo06.repositorios.RepoTrayecto;
+import com.disenio.mimagrupo06.presentacion.dto.TrayectoNuevoDTO;
+import com.disenio.mimagrupo06.presentacion.dto.TrayectoExistenteDTO;
+import com.disenio.mimagrupo06.repositorios.*;
+import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.reactive.AbstractReactiveTransactionManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -33,6 +34,12 @@ public class TrayectosController {
 
     @Autowired
     RepoEspacio repoEspacio;
+
+    @Autowired
+    RepoPersona repoPersona;
+
+    @Autowired
+    RepoMiembro repoMiembro;
 
     private final Handlebars handlebars = new Handlebars();
     @GetMapping("/trayectos")
@@ -52,20 +59,14 @@ public class TrayectosController {
     }
 
     @GetMapping("/registrarTrayecto")
-    //mandar tmb idSesion
-    public ResponseEntity<String> registrarTrayecto() throws IOException {
+    public ResponseEntity<String> registrarTrayecto(@RequestParam("sesion") String idSesion) throws IOException {
+
+        List<Area> areasDelUsuario = this.encontrarAreas(idSesion);
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
 
         Map<String, Object> model = new HashMap<>();
-        List<Area> areas = new ArrayList<>();
-
-        areas.add(new Area("Area1", null, null));
-        areas.add(new Area("Area2", null, null));
-        areas.add(new Area("Area3", null, null));
-        areas.add(new Area("Area4", null, null));
-
-        model.put("areas", areas);
+        model.put("areas", areasDelUsuario);
 
         String html = template.apply(model);
 
@@ -103,14 +104,28 @@ public class TrayectosController {
 
     //aca necesitamos a los chicos del back xdxd
     @PostMapping("/registrarTrayectoExistente")
-    public void recibirTrayectoExistente() throws IOException {
+    public void recibirTrayectoExistente(@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
         System.out.println("Estoy recibiendo un trayecto existente");
     }
 
     @PostMapping("/registrarTrayectoNuevo")
-    public void recibirTrayectoNuevo() throws IOException {
+    public void recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoDTO) throws IOException {
 
         System.out.println("estoy recibiendo un trayecto nuevo");
 
+    }
+
+    public List<Area> encontrarAreas(String idSesion) {
+
+        Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+        Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+        Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+        List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+
+        List<Area> areasDeSesion = miembrosDeSesion.stream()
+                .map(miembro -> miembro.getArea())
+                .collect(Collectors.toList());
+
+        return  areasDeSesion;
     }
 }
