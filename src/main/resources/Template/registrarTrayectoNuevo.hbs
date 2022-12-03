@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Registrar trayecto</title>
+
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="./imagenes/logo.png" />
     <!-- Bootstrap icons-->
@@ -186,15 +187,14 @@
         <div class= "hidden" id="espaciosExistentesPartida" >
             <div class="col-md-6">
                  <label class="form-label">Seleccione un punto de partida existente</label>
-                <select multiple class="form-control" id="puntoPartidaExistente">
 
-                    {{#each Espacios}}
-                        <p> {{latitud}}</p>
-                        <p> {{longitud}}</p>
-                        <p> {{provincia}}</p>
-
+                <select id="puntoPartidaExistente">
+                    <option value="" selected="selected">Elegir</option>
+                    {{#each espacios}}
+                        <option value='{{id}}'>{{direccion}}   {{numero}}</option>
                     {{/each}}
                 </select>
+
             </div>
         </div>
     </div>
@@ -318,13 +318,10 @@
         <div class= "hidden" id="espaciosExistentesLlegada" >
             <div class="col-md-6">
                 <label class="form-label">Seleccione un punto de llegada existente</label>
-                <select multiple class="form-control" id="puntoLlegadaExistente">
-
-                    {{#each Espacios}}
-                        <p> {{latitud}}</p>
-                        <p> {{longitud}}</p>
-                        <p> {{provincia}}</p>
-
+                <select id="puntoLlegadaExistente">
+                    <option value="" selected="selected">Elegir</option>
+                    {{#each espacios}}
+                        <option value='{{id}}'>{{direccion}}   {{numero}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -489,14 +486,12 @@
                 <div class= "hidden" id="espacioExistentesPartidaTramo" >
                     <div class="col-md-6">
                         <label class="form-label">Seleccione un punto de partida existente</label>
-                        <select multiple class="form-control" id="puntoPartidaExistenteTramo">
-
-                            {{#each Espacios}}
-                                <p> {{latitud}}</p>
-                                <p> {{longitud}}</p>
-                                <p> {{provincia}}</p>
-
+                        <select id="puntoPartidaExistenteTramo">
+                            <option value="" selected="selected">Elegir</option>
+                            {{#each espacios}}
+                                <option value='{{id}}'>{{direccion}}   {{numero}}</option>
                             {{/each}}
+                        </select>
 
 
 
@@ -624,13 +619,10 @@
                 <div class= "hidden" id="espacioExistentesLlegadaTramo" >
                     <div class="col-md-6">
                         <label class="form-label">Seleccione un punto de llegada existente</label>
-                        <select multiple class="form-control" id="puntoLlegadaExistenteTramo">
-
-                            {{#each Espacios}}
-                                <p> {{latitud}}</p>
-                                <p> {{longitud}}</p>
-                                <p> {{provincia}}</p>
-
+                        <select id="puntoPartidaExistenteTramo">
+                            <option value="" selected="selected">Elegir</option>
+                            {{#each espacios}}
+                                <option value='{{id}}'>{{direccion}}   {{numero}}</option>
                             {{/each}}
                         </select>
                     </div>

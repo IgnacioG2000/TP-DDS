@@ -79,10 +79,10 @@ public class TrayectosController {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/registrarTrayectoNuevo");
 
-        List<Tramo> tramos = repoTramo.findAll();
+        //List<Tramo> tramos = repoTramo.findAll();
         List<Espacio> espacios = repoEspacio.findAll();
         Map<String, Object> model = new HashMap<>();
-        model.put("tramos", tramos);
+        //model.put("tramos", tramos);
         model.put("espacios", espacios);
         String html = template.apply(model);
 

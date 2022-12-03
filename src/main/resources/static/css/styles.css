@@ -75,7 +75,7 @@ input[type='radio']:checked:after {
     border: 2px solid white;
 }
 
-.btn-primary {
+.botonRegistroExistente {
     color: #000;
     background-color: #adc7ec;
     border-color: #0d6efd;
