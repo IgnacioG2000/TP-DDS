@@ -43,6 +43,28 @@
     </div>
 </nav>
 <!-- Section-->
+<section class="h-100" style="background-color: #ffffff">
+    <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10">
+                {{#each areas}}
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <input class="radio" type="radio" id="area" name="areas">
+                                    <label for="area" onclick=mostrarValor("{{nombre}}")> {{nombre}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <div class="botones">
   <button id="botonNuevo" class = "botonNuevo"> Nuevos </button>
   <button id = "botonExistente" class="botonExistentes"> Existentes </button>
@@ -61,16 +83,32 @@
 <script src="./js/funcionesComunes.js"></script>
 
 <script>
+    let pasarDePagina = false
     document.getElementById("botonNuevo").addEventListener('click', e=>{
         e.preventDefault()
+        console.log(document.getElementById("area").value)
         cambiarUrlSinIdSesion("registrarTrayectoNuevo")
     })
 
 
     document.getElementById("botonExistente").addEventListener('click', e => {
         e.preventDefault()
-        cambiarUrlSinIdSesion("registrarTrayectoExistente")
+        console.log(document.getElementById("area").value)
+       cambiarUrlSinIdSesion("registrarTrayectoExistente")
+
+
+
     })
+
+    document.getElementById("area").addEventListener('click', e => {
+        pasarDePagina = true
+        console.log(document.getElementById("area").value)
+    })
+
+    function mostrarValor(nombre){
+        console.log(nombre)
+    }
+
 </script>
 <!-- Core theme JS-->
 </body>

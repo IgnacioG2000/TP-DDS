@@ -48,19 +48,18 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-10">
                     {{#each Trayectos}}
-                        <div class="card rounded-3 mb-4" id="{{id}}">
+                        <div class="card rounded-3 mb-4">
                             <div class="card-body p-4">
                                 <div class="row d-flex justify-content-between align-items-center">
                                     <div class="col-md-3 col-lg-3 col-xl-3">
                                         <p class="lead fw-normal mb-2">Trayecto</p>
                                         <p><span class="text-muted">Direccion Partida: </span>{{partida.direccion}} <span class="text-muted"></span></p>
                                         <p><span class="text-muted">Direccion Partida: </span>{{llegada.direccion}} <span class="text-muted"></span></p>
-                                        <p id="idDelBack" value= {{id}} ><span class="text-muted">id: </span>{{id}} <span class="text-muted"></span></p>
                                         <p><span class="text-muted">Fecha Inicio: </span>{{fechaInicio}} <span class="text-muted"></span></p>
                                         <p><span class="text-muted">Fecha Fin: </span>{{fechaFin}} <span class="text-muted"></span></p>
                                         <p><span class="text-muted">Dias Utilizados: </span>{{diasUtilizados}} <span class="text-muted"></span></p>
                                         <input type="radio" id="boton">
-                                        <label for="boton" onclick=clickeado()> Elegir trayecto</label>
+                                        <label for="boton" onclick=guardarIdSeleccionado({{id}})> Elegir trayecto</label>
                                     </div>
                                 </div>
                             </div>
@@ -81,8 +80,10 @@
 <script src="./js/funcionesComunes.js"></script>
 <script  src="./js/redireccionEntrePaginas.js"></script>
 <script>
-    function clickeado(event) {
-        alert(event.target.id)
+    let idSeleccionado
+    function guardarIdSeleccionado(id) {
+        idSeleccionado = id
+        alert(idSeleccionado)
     }
 </script>
 </body>

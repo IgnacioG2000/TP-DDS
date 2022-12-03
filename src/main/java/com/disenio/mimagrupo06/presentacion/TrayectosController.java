@@ -4,6 +4,7 @@ import antlr.ASTNULLType;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
+import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.repositorios.RepoEspacio;
 import com.disenio.mimagrupo06.repositorios.RepoTramo;
 import com.disenio.mimagrupo06.repositorios.RepoTrayecto;
@@ -11,6 +12,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.reactive.AbstractReactiveTransactionManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -50,12 +52,20 @@ public class TrayectosController {
     }
 
     @GetMapping("/registrarTrayecto")
+    //mandar tmb idSesion
     public ResponseEntity<String> registrarTrayecto() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
 
         Map<String, Object> model = new HashMap<>();
-        //model.put("listamascotas", mascotas);
+        List<Area> areas = new ArrayList<>();
+
+        areas.add(new Area("Area1", null, null));
+        areas.add(new Area("Area2", null, null));
+        areas.add(new Area("Area3", null, null));
+        areas.add(new Area("Area4", null, null));
+
+        model.put("areas", areas);
 
         String html = template.apply(model);
 
@@ -79,13 +89,13 @@ public class TrayectosController {
     }
 
     @GetMapping("/registrarTrayectoExistente")
+    //mandar el area y el idSesion como body
     public ResponseEntity<String> registrarTrayectoExistente() throws IOException {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/registrarTrayectoExistente");
         List<Trayecto> listaTrayectos = repoTrayecto.findAll();
         Map<String, Object> model = new HashMap<>();
         model.put("Trayectos", listaTrayectos);
-
         String html = template.apply(model);
 
         return ResponseEntity.status(200).body(html);
