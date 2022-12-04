@@ -6,9 +6,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
-import com.disenio.mimagrupo06.presentacion.dto.TramoDTO;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoNuevoDTO;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoExistenteDTO;
+import com.disenio.mimagrupo06.presentacion.dto.*;
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import com.github.jknack.handlebars.Handlebars;
@@ -180,89 +178,103 @@ public class TrayectosController {
         repoTrayecto.save(trayectoNuevo);
 
         miembroSesion.getArea().agregarVinculacion(trayectoNuevo);
-        //repoMiembro.save(miembroSesion);
         repoArea.save(miembroSesion.getArea());
 
         //return ResponseEntity.status(201).body(trayectoNuevo);
 
     }
 
+
     private void agregarTramos(TramoDTO tramoDTO, List<Tramo> listaTramos, Miembro miembroSesion) throws IOException {
-        if(tramoDTO.getId() == null) {/*
-            Tramo tramo = new Tramo();
-            if(tramoDTO.getLlegada().getClase().equals("hogar")){
-                Hogar hogar = new Hogar(tramoDTO.getLlegada().getLatitud(),tramoDTO.getLlegada().getLongitud(),tramoDTO.getLlegada().getProvincia(),tramoDTO.getLlegada().getMunicipio(),tramoDTO.getLlegada().getLocalidad(),
-                    tramoDTO.getLlegada().getDireccion(),tramoDTO.getLlegada().getNumero(),tramoDTO.getLlegada().getCodigoPostal(),tramoDTO.getLlegada().getPisoDepartamento(),tramoDTO.getLlegada().getDepartamento(),
-                    tramoDTO.getLlegada().getTipoDeHogar());
-                repoHogar.save(hogar);
-                tramo.setLlegada(hogar);
-            }else{
-                if(tramoDTO.getLlegada().getClase().equals("trabajo")){
-                    EspacioDeTrabajo espacioDeTrabajo = new EspacioDeTrabajo(tramoDTO.getLlegada().getLatitud(),tramoDTO.getLlegada().getLongitud(),tramoDTO.getLlegada().getProvincia(),tramoDTO.getLlegada().getMunicipio(),tramoDTO.getLlegada().getLocalidad(),
-                        tramoDTO.getLlegada().getDireccion(),tramoDTO.getLlegada().getNumero(),tramoDTO.getLlegada().getCodigoPostal(),tramoDTO.getLlegada().getPisoDepartamento(),tramoDTO.getLlegada().getUnidad());
-                    repoEspacioTrabajo.save(espacioDeTrabajo);
-                    tramo.setLlegada(espacioDeTrabajo);
+        if(tramoDTO.getId() == null) {
+
+            Espacio espacioPartida = null;
+            Espacio espacioLlegada = null;
+            EspacioDTO espacioLlegadaDTO = tramoDTO.getLlegada();
+            EspacioDTO espacioPartidaDTO = tramoDTO.getPartida();
+
+            if(espacioLlegadaDTO.getId() == null){
+                if(tramoDTO.getLlegada().getClase().equals("hogar")){
+                    espacioLlegada = new Hogar(espacioLlegadaDTO.getLatitud(), espacioLlegadaDTO.getLongitud(), espacioLlegadaDTO.getProvincia(), espacioLlegadaDTO.getMunicipio(), espacioLlegadaDTO.getLocalidad(),
+                            espacioLlegadaDTO.getDireccion(), espacioLlegadaDTO.getNumero(), espacioLlegadaDTO.getCodigoPostal(), espacioLlegadaDTO.getPisoDepartamento(), espacioLlegadaDTO.getDepartamento(),
+                            espacioLlegadaDTO.getTipoDeHogar());
+                    repoEspacio.save(espacioLlegada);
                 }else{
-                    if(tramoDTO.getLlegada().getClase().equals("parada")){
-                        Parada parada = new Parada(tramoDTO.getLlegada().getLatitud(),tramoDTO.getLlegada().getLongitud(),tramoDTO.getLlegada().getProvincia(),tramoDTO.getLlegada().getMunicipio(),tramoDTO.getLlegada().getLocalidad(),
-                            tramoDTO.getLlegada().getDireccion(),tramoDTO.getLlegada().getNumero(),tramoDTO.getLlegada().getCodigoPostal());
-                        repoParada.save(parada);
-                        tramo.setLlegada(parada);
+                    if(espacioLlegadaDTO.getClase().equals("trabajo")){
+                        espacioLlegada = new EspacioDeTrabajo(espacioLlegadaDTO.getLatitud(), espacioLlegadaDTO.getLongitud(), espacioLlegadaDTO.getProvincia(), espacioLlegadaDTO.getMunicipio(), espacioLlegadaDTO.getLocalidad(),
+                                espacioLlegadaDTO.getDireccion(), espacioLlegadaDTO.getNumero(), espacioLlegadaDTO.getCodigoPostal(), espacioLlegadaDTO.getPisoDepartamento(), espacioLlegadaDTO.getUnidad());
+                        repoEspacio.save(espacioLlegada);
+                    }else{
+                        if(espacioLlegadaDTO.getClase().equals("parada")){
+                            espacioLlegada = new Parada(espacioLlegadaDTO.getLatitud(), espacioLlegadaDTO.getLongitud(), espacioLlegadaDTO.getProvincia(), espacioLlegadaDTO.getMunicipio(), espacioLlegadaDTO.getLocalidad(),
+                                    espacioLlegadaDTO.getDireccion(), espacioLlegadaDTO.getNumero(), espacioLlegadaDTO.getCodigoPostal());
+                            repoEspacio.save(espacioLlegada);
+                        }
                     }
                 }
+            }else{
+                espacioLlegada = repoEspacio.findById(espacioLlegadaDTO.getId()).get();
             }
 
-            if(tramoDTO.getPartida().getClase().equals("hogar")){
-                Hogar hogar = new Hogar(tramoDTO.getPartida().getLatitud(),tramoDTO.getPartida().getLongitud(),tramoDTO.getPartida().getProvincia(),tramoDTO.getPartida().getMunicipio(),tramoDTO.getPartida().getLocalidad(),
-                    tramoDTO.getPartida().getDireccion(),tramoDTO.getPartida().getNumero(),tramoDTO.getPartida().getCodigoPostal(),tramoDTO.getPartida().getPisoDepartamento(),tramoDTO.getPartida().getDepartamento(),
-                    tramoDTO.getPartida().getTipoDeHogar());
-                repoHogar.save(hogar);
-                tramo.setPartida(hogar);
-            }else{
-                if(tramoDTO.getPartida().getClase().equals("trabajo")){
-                    EspacioDeTrabajo espacioDeTrabajo = new EspacioDeTrabajo(tramoDTO.getPartida().getLatitud(),tramoDTO.getPartida().getLongitud(),tramoDTO.getPartida().getProvincia(),tramoDTO.getPartida().getMunicipio(),tramoDTO.getPartida().getLocalidad(),
-                        tramoDTO.getPartida().getDireccion(),tramoDTO.getPartida().getNumero(),tramoDTO.getPartida().getCodigoPostal(),tramoDTO.getPartida().getPisoDepartamento(),tramoDTO.getPartida().getUnidad());
-                    repoEspacioTrabajo.save(espacioDeTrabajo);
-                    tramo.setPartida(espacioDeTrabajo);
+            if(espacioPartidaDTO.getId() == null){
+                if(tramoDTO.getLlegada().getClase().equals("hogar")){
+                    espacioPartida = new Hogar(espacioPartidaDTO.getLatitud(), espacioPartidaDTO.getLongitud(), espacioPartidaDTO.getProvincia(), espacioPartidaDTO.getMunicipio(), espacioPartidaDTO.getLocalidad(),
+                            espacioPartidaDTO.getDireccion(), espacioPartidaDTO.getNumero(), espacioPartidaDTO.getCodigoPostal(), espacioPartidaDTO.getPisoDepartamento(), espacioPartidaDTO.getDepartamento(),
+                            espacioPartidaDTO.getTipoDeHogar());
+                    repoEspacio.save(espacioPartida);
                 }else{
-                    if(tramoDTO.getPartida().getClase().equals("parada")){
-                        Parada parada = new Parada(tramoDTO.getPartida().getLatitud(),tramoDTO.getPartida().getLongitud(),tramoDTO.getPartida().getProvincia(),tramoDTO.getPartida().getMunicipio(),tramoDTO.getPartida().getLocalidad(),
-                            tramoDTO.getPartida().getDireccion(),tramoDTO.getPartida().getNumero(),tramoDTO.getPartida().getCodigoPostal());
-                        repoParada.save(parada);
-                        tramo.setPartida(parada);
+                    if(espacioPartidaDTO.getClase().equals("trabajo")){
+                        espacioPartida = new EspacioDeTrabajo(espacioPartidaDTO.getLatitud(), espacioPartidaDTO.getLongitud(), espacioPartidaDTO.getProvincia(), espacioPartidaDTO.getMunicipio(), espacioPartidaDTO.getLocalidad(),
+                                espacioPartidaDTO.getDireccion(), espacioPartidaDTO.getNumero(), espacioPartidaDTO.getCodigoPostal(), espacioPartidaDTO.getPisoDepartamento(), espacioPartidaDTO.getUnidad());
+                        repoEspacio.save(espacioPartida);
+                    }else{
+                        if(espacioPartidaDTO.getClase().equals("parada")){
+                            espacioPartida = new Parada(espacioPartidaDTO.getLatitud(), espacioPartidaDTO.getLongitud(), espacioPartidaDTO.getProvincia(), espacioPartidaDTO.getMunicipio(), espacioPartidaDTO.getLocalidad(),
+                                    espacioPartidaDTO.getDireccion(), espacioPartidaDTO.getNumero(), espacioPartidaDTO.getCodigoPostal());
+                            repoEspacio.save(espacioPartida);
+                        }
                     }
                 }
+            }else{
+                espacioPartida = repoEspacio.findById(espacioPartidaDTO.getId()).get();
             }
 
-            this.settearMedioDeTransporte(tramoDTO,tramo);
+
+            MedioDeTransporte medioDeTransporte = this.settearMedioDeTransporte(tramoDTO.getTransporte());
+
+
             List<Miembro> miembros =new ArrayList<Miembro>();
             miembros.add(miembroSesion);
-            tramo.setMiembros(miembros);
-            repoTramos.save(tramo);
-            trayecto.setTramos(Arrays.asList(tramo));
-            //trayecto.agregarTramo(tramo);
-            repoMiembro.save(miembroSesion);
-            repoTrayecto.save(trayecto);*/
+
+
+            Tramo tramoNuevo = new Tramo(espacioPartida, espacioLlegada, medioDeTransporte, miembros);
+            repoTramos.save(tramoNuevo);
+
+            listaTramos.add(tramoNuevo);
+
         }else{
             Tramo tramo =repoTramos.findById(tramoDTO.getId()).get();
             listaTramos.add(tramo);
         }
     }
 
-    private void settearMedioDeTransporte(TramoDTO tramoDTO, Tramo tramo) throws IOException {
-        if(tramoDTO.getTransporte().getId() == null){
-            if(tramoDTO.getTransporte().getClaseAInicializar().equals("servicioContratado")){
-                ServicioContratado servicioContratado = new ServicioContratado(tramoDTO.getTransporte().getTipoServicioContratado());
+    private MedioDeTransporte settearMedioDeTransporte(MedioDeTransporteDTO medioDeTransporteDTO) throws IOException {
+
+        MedioDeTransporte medioDeTransporte = null;
+
+        if(medioDeTransporteDTO.getId() == null){/*
+            if(medioDeTransporteDTO.getClaseAInicializar().equals("servicioContratado")){
+                ServicioContratado servicioContratado = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
                 repoMedioTransporte.save(servicioContratado);
                 tramo.setTransporte(servicioContratado);
             }else{
-                if(tramoDTO.getTransporte().getClaseAInicializar().equals("transporteNoMotorizado")){
-                    TransporteNoMotorizado transporteNoMotorizado = new TransporteNoMotorizado(tramoDTO.getTransporte().getTipoNoMotorizado());
+                if(medioDeTransporteDTO.getClaseAInicializar().equals("transporteNoMotorizado")){
+                    TransporteNoMotorizado transporteNoMotorizado = new TransporteNoMotorizado(medioDeTransporteDTO.getTipoNoMotorizado());
                     repoMedioTransporte.save(transporteNoMotorizado);
                     tramo.setTransporte(transporteNoMotorizado);
                 }else{
-                    if(tramoDTO.getTransporte().getClaseAInicializar().equals("transportePublico")){
-                        TransportePublico transportePublico = new TransportePublico(tramoDTO.getTransporte().getTipoTransporte(),tramoDTO.getTransporte().getNombre());
+                    if(medioDeTransporteDTO.getClaseAInicializar().equals("transportePublico")){
+                        TransportePublico transportePublico = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
                         repoMedioTransporte.save(transportePublico);
                         tramo.setTransporte(transportePublico);
                     }else{
@@ -273,11 +285,12 @@ public class TrayectosController {
                         }
                     }
                 }
-            }
+            }*/
         }else {
-            MedioDeTransporte medio = repoMedioTransporte.findById(tramoDTO.getTransporte().getId()).get();
-            tramo.setTransporte(medio);
+            medioDeTransporte = repoMedioTransporte.findById(medioDeTransporteDTO.getId()).get();
         }
+
+        return medioDeTransporte;
     }
 
     public Miembro encontrarMiembro(String idSesion, String nombreArea) {

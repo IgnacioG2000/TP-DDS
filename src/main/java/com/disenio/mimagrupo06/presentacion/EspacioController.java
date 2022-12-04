@@ -97,6 +97,7 @@ public class EspacioController {
         return ResponseEntity.status(201).body(espacio);
     }
 
+
     public Miembro encontrarMiembro(String idSesion, String nombreArea) {
 
         Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
