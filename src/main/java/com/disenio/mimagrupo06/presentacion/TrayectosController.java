@@ -98,7 +98,6 @@ public class TrayectosController {
 
         Miembro miembroSesion = this.encontrarMiembro(trayectoNuevoDTO.getIdSesion(), trayectoNuevoDTO.getNombreArea());
 
-        //creamos referencias para datos de trayectoNuevo
         Espacio espacioPartida = this.getEspacio(trayectoNuevoDTO.getEspacioPartida());
         Espacio espacioLlegada = this.getEspacio(trayectoNuevoDTO.getEspacioLlegada());
 
@@ -111,14 +110,12 @@ public class TrayectosController {
             }
         });
 
-        //iniciamos datos base trayecto nuevo
+
         Trayecto trayectoNuevo = new Trayecto(espacioPartida, espacioLlegada, listaTramosTrayectoNuevo, trayectoNuevoDTO.getFechaInicio(), trayectoNuevoDTO.getDiasUtilizados());
         repoTrayecto.save(trayectoNuevo);
 
         miembroSesion.getArea().agregarVinculacion(trayectoNuevo);
         repoArea.save(miembroSesion.getArea());
-
-        //return ResponseEntity.status(201).body(trayectoNuevo);
 
     }
 
@@ -150,26 +147,27 @@ public class TrayectosController {
 
         Espacio espacio = null;
 
-
         if(espacioDTO.getId() == null){
-            if(espacioDTO.getClase().equals("hogar")){
-                espacio = new Hogar(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
-                        espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal(), espacioDTO.getPisoDepartamento(), espacioDTO.getDepartamento(),
-                        espacioDTO.getTipoDeHogar());
-                repoEspacio.save(espacio);
-            }else{
-                if(espacioDTO.getClase().equals("trabajo")){
+            switch(espacioDTO.getClase()){
+                case "hogar":{
+                    espacio = new Hogar(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
+                            espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal(), espacioDTO.getPisoDepartamento(), espacioDTO.getDepartamento(),
+                            espacioDTO.getTipoDeHogar());
+                    break;
+                }
+                case "trabajo":{
                     espacio = new EspacioDeTrabajo(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
                             espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal(), espacioDTO.getPisoDepartamento(), espacioDTO.getUnidad());
-                    repoEspacio.save(espacio);
-                }else{
-                    if(espacioDTO.getClase().equals("parada")){
-                        espacio = new Parada(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
-                                espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal());
-                        repoEspacio.save(espacio);
-                    }
+                    break;
+                }
+                case "parada":{
+                    espacio = new Parada(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
+                            espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal());
+                    break;
                 }
             }
+            repoEspacio.save(espacio);
+
         }else{
             espacio = repoEspacio.findById(espacioDTO.getId()).get();
         }
@@ -182,46 +180,33 @@ public class TrayectosController {
         MedioDeTransporte medioDeTransporte = null;
 
         if(medioDeTransporteDTO.getId() == null){
-            if(medioDeTransporteDTO.getClaseAInicializar().equals("servicioContratado")){
-                medioDeTransporte = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
-                repoMedioTransporte.save(medioDeTransporte);
-            }else{
-                if(medioDeTransporteDTO.getClaseAInicializar().equals("transporteNoMotorizado")){
+            switch(medioDeTransporteDTO.getClaseAInicializar()){
+                case "servicioContratado":{
+                    medioDeTransporte = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
+                    break;
+                }
+                case "transporteNoMotorizado":{
                     medioDeTransporte = new TransporteNoMotorizado(medioDeTransporteDTO.getTipoNoMotorizado());
-                    repoMedioTransporte.save(medioDeTransporte);
-                }else{
-                    if(medioDeTransporteDTO.getClaseAInicializar().equals("transportePublico")){
-                        medioDeTransporte = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
-                        repoMedioTransporte.save(medioDeTransporte);
-                    }else{
-                        if(medioDeTransporteDTO.getClaseAInicializar().equals("vehiculoParticular")){
-                            medioDeTransporte = new VehiculoParticular(medioDeTransporteDTO.getTipoVehiculoParticular(), medioDeTransporteDTO.getTipoCombustible());
-                            repoMedioTransporte.save(medioDeTransporte);
-                        }
-                    }
+                    break;
+                }
+                case "transportePublico":{
+                    medioDeTransporte = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
+                    break;
+                }
+                case "vehiculoParticular":{
+                    medioDeTransporte = new VehiculoParticular(medioDeTransporteDTO.getTipoVehiculoParticular(), medioDeTransporteDTO.getTipoCombustible());
+                    break;
                 }
             }
+            repoMedioTransporte.save(medioDeTransporte);
+
         }else {
             medioDeTransporte = repoMedioTransporte.findById(medioDeTransporteDTO.getId()).get();
         }
 
         return medioDeTransporte;
     }
-/*
-    public TipoServicioContratado getTipoServicioContratado(String tipoServicio){
-        TipoServicioContratado tipoServicioContratado = null;
-        switch (tipoServicio){
-            case"TAXI":{
-                tipoServicioContratado = TipoServicioContratado.TAXI;
-                break;
-            }
-            case"REMIS":{
-                tipoServicioContratado = TipoServicioContratado.REMIS;
-                break;
-            }
-        }
-        return tipoServicioContratado;
-    }*/
+
 
     public Miembro encontrarMiembro(String idSesion, String nombreArea) {
 
