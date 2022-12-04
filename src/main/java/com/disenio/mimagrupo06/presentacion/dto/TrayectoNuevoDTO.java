@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 public class TrayectoNuevoDTO {
+  private String idSesion;
   private String nombreArea;
   private EspacioDTO espacioLlegada;
   private EspacioDTO espacioPartida;
@@ -67,5 +68,13 @@ public class TrayectoNuevoDTO {
 
   public void setDiasUtilizados(int diasUtilizados) {
     this.diasUtilizados = diasUtilizados;
+  }
+
+  public String getIdSesion() {
+    return idSesion;
+  }
+
+  public void setIdSesion(String idSesion) {
+    this.idSesion = idSesion;
   }
 }

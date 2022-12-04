@@ -17,14 +17,14 @@ public class Trayecto {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   @ManyToOne
-  private Espacio partida;
+  private Espacio partida;//
   @ManyToOne
-  private Espacio llegada;
+  private Espacio llegada;//
   @ManyToMany
-  private List<Tramo> tramos;
-  private LocalDate fechaInicio;
+  private List<Tramo> tramos;//
+  private LocalDate fechaInicio;//
   private LocalDate fechaFin;
-  private int diasUtilizados;
+  private int diasUtilizados;//
 
   public Trayecto(Espacio partida, Espacio llegada, List<Tramo> tramos, LocalDate fechaInicio, int diasUtilizados) {
     this.partida = partida;

@@ -90,8 +90,20 @@ public class TrayectosController {
 
         return ResponseEntity.status(200).body(html);
     }
+    //recibo idsesion y area y devuelvo trayectos pertenecientes a esta area (tmbn devolvemos area o se lo puede guardar en local storage?)
+    /*@GetMapping("/registrarTrayectoExistente")
+    public ResponseEntity<List<Trayecto>> registrarTrayectoExistente() throws IOException {
+        //validar accion en capa modelo según roles o usuario asociados al idSesion
+        Template template = handlebars.compile("/Template/registrarTrayectoExistente");
 
-    //aca necesitamos a los chicos del back xdxd
+        Map<String, Object> model = new HashMap<>();
+        //model.put("listamascotas", mascotas);
+
+        String html = template.apply(model);
+
+        return ResponseEntity.status(200).body(html);
+    }*/
+
     @PostMapping("/registrarTrayectoExistente")
     public void recibirTrayectoExistente(@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
         Miembro miembroSesion = this.encontrarMiembro(trayectoExistenteDTO.getIdSesion(), trayectoExistenteDTO.getArea());
@@ -102,17 +114,16 @@ public class TrayectosController {
     }
 
     @PostMapping("/registrarTrayectoNuevo")
-    public ResponseEntity recibirTrayectoNuevo(@RequestHeader("Authorization") String idSesion, @RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
+    public ResponseEntity recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
 
-        Miembro miembroSesion = this.encontrarMiembro(idSesion, trayectoNuevoDTO.getNombreArea());
+        Miembro miembroSesion = this.encontrarMiembro(trayectoNuevoDTO.getIdSesion(), trayectoNuevoDTO.getNombreArea());
         if (miembroSesion == null) {
             return ResponseEntity.status(404).build();
         }
         Trayecto trayectoNuevo = new Trayecto();
         trayectoNuevo.setFechaInicio(trayectoNuevoDTO.getFechaInicio());
-        trayectoNuevo.setFechaFin(trayectoNuevoDTO.getFechaFin());
+        //trayectoNuevo.setFechaFin(trayectoNuevoDTO.getFechaFin());
         trayectoNuevo.setDiasUtilizados(trayectoNuevoDTO.getDiasUtilizados());
-        repoTrayecto.save(trayectoNuevo);
         if(trayectoNuevoDTO.getEspacioLlegada().getId() == null){
             if(trayectoNuevoDTO.getEspacioLlegada().getClase().equals("hogar")){
                 Hogar hogar = new Hogar(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
@@ -167,7 +178,7 @@ public class TrayectosController {
             trayectoNuevo.setPartida(partida);
         }
 
-        if(trayectoNuevoDTO.getTramos() != null) {
+        //if(trayectoNuevoDTO.getTramos() != null) {
             trayectoNuevoDTO.getTramos().stream().forEach(tramoDTO -> {
                 try {
                     this.crearTramos(tramoDTO, trayectoNuevo, miembroSesion);
@@ -175,12 +186,14 @@ public class TrayectosController {
                     e.printStackTrace();
                 }
             });
-        }else{
+        /*}else{
             trayectoNuevo.setTramos(new ArrayList<Tramo>());
-        }
+        }*/
+        repoTrayecto.save(trayectoNuevo);
 
         miembroSesion.getArea().agregarVinculacion(trayectoNuevo);
-        repoMiembro.save(miembroSesion);
+        //repoMiembro.save(miembroSesion);
+        repoArea.save(miembroSesion.getArea());
 
         return ResponseEntity.status(201).body(trayectoNuevo);
 

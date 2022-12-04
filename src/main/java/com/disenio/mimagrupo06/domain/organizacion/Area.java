@@ -23,10 +23,10 @@ public class Area {
   @ManyToOne
   private EspacioDeTrabajo espacioDeTrabajo;
   @OneToMany
-  @JoinColumn(name = "area_id")
+  @JoinColumn(name = "area_id_registrado")
   private Collection<Trayecto> trayectosRegistados;
   @OneToMany
-  @JoinColumn(name = "area_id")
+  @JoinColumn(name = "area_id_pendiente")
   private Collection<Trayecto> trayectosPendientes;
 
   public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo) {
