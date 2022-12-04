@@ -262,35 +262,46 @@ public class TrayectosController {
 
         MedioDeTransporte medioDeTransporte = null;
 
-        if(medioDeTransporteDTO.getId() == null){/*
+        if(medioDeTransporteDTO.getId() == null){
             if(medioDeTransporteDTO.getClaseAInicializar().equals("servicioContratado")){
-                ServicioContratado servicioContratado = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
-                repoMedioTransporte.save(servicioContratado);
-                tramo.setTransporte(servicioContratado);
+                medioDeTransporte = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
+                repoMedioTransporte.save(medioDeTransporte);
             }else{
                 if(medioDeTransporteDTO.getClaseAInicializar().equals("transporteNoMotorizado")){
-                    TransporteNoMotorizado transporteNoMotorizado = new TransporteNoMotorizado(medioDeTransporteDTO.getTipoNoMotorizado());
-                    repoMedioTransporte.save(transporteNoMotorizado);
-                    tramo.setTransporte(transporteNoMotorizado);
+                    medioDeTransporte = new TransporteNoMotorizado(medioDeTransporteDTO.getTipoNoMotorizado());
+                    repoMedioTransporte.save(medioDeTransporte);
                 }else{
                     if(medioDeTransporteDTO.getClaseAInicializar().equals("transportePublico")){
-                        TransportePublico transportePublico = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
-                        repoMedioTransporte.save(transportePublico);
-                        tramo.setTransporte(transportePublico);
+                        medioDeTransporte = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
+                        repoMedioTransporte.save(medioDeTransporte);
                     }else{
-                        if(tramoDTO.getTransporte().getClaseAInicializar().equals("vehiculoParticular")){
-                            VehiculoParticular vehiculoParticular = new VehiculoParticular(tramoDTO.getTransporte().getTipoVehiculoParticular(),tramoDTO.getTransporte().getTipoCombustible());
-                            repoMedioTransporte.save(vehiculoParticular);
-                            tramo.setTransporte(vehiculoParticular);
+                        if(medioDeTransporteDTO.getClaseAInicializar().equals("vehiculoParticular")){
+                            medioDeTransporte = new VehiculoParticular(medioDeTransporteDTO.getTipoVehiculoParticular(), medioDeTransporteDTO.getTipoCombustible());
+                            repoMedioTransporte.save(medioDeTransporte);
                         }
                     }
                 }
-            }*/
+            }
         }else {
             medioDeTransporte = repoMedioTransporte.findById(medioDeTransporteDTO.getId()).get();
         }
 
         return medioDeTransporte;
+    }
+
+    public TipoServicioContratado getTipoServicioContratado(String tipoServicio){
+        TipoServicioContratado tipoServicioContratado = null;
+        switch (tipoServicio){
+            case"TAXI":{
+                tipoServicioContratado = TipoServicioContratado.TAXI;
+                break;
+            }
+            case"REMIS":{
+                tipoServicioContratado = TipoServicioContratado.REMIS;
+                break;
+            }
+        }
+        return tipoServicioContratado;
     }
 
     public Miembro encontrarMiembro(String idSesion, String nombreArea) {
