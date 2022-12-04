@@ -38,12 +38,6 @@ public class TrayectosController {
     RepoMiembro repoMiembro;
     @Autowired
     RepoMedioTransporte repoMedioTransporte;
-    @Autowired
-    RepoHogar repoHogar;
-    @Autowired
-    RepoEspacioTrabajo repoEspacioTrabajo;
-    @Autowired
-    RepoParada repoParada;
 
     private final Handlebars handlebars = new Handlebars();
     @GetMapping("/trayectos")
@@ -114,93 +108,87 @@ public class TrayectosController {
     }
 
     @PostMapping("/registrarTrayectoNuevo")
-    public ResponseEntity recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
+    public void recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
 
         Miembro miembroSesion = this.encontrarMiembro(trayectoNuevoDTO.getIdSesion(), trayectoNuevoDTO.getNombreArea());
-        if (miembroSesion == null) {
+        /*if (miembroSesion == null) {
             return ResponseEntity.status(404).build();
-        }
-        Trayecto trayectoNuevo = new Trayecto();
-        trayectoNuevo.setFechaInicio(trayectoNuevoDTO.getFechaInicio());
-        //trayectoNuevo.setFechaFin(trayectoNuevoDTO.getFechaFin());
-        trayectoNuevo.setDiasUtilizados(trayectoNuevoDTO.getDiasUtilizados());
+        }*/
+
+        //creamos referencias para datos de trayectoNuevo
+        Espacio espacioPartida = null;
+        Espacio espacioLlegada = null;
+        List<Tramo> listaTramosTrayectoNuevo = new ArrayList<Tramo>();
+
         if(trayectoNuevoDTO.getEspacioLlegada().getId() == null){
             if(trayectoNuevoDTO.getEspacioLlegada().getClase().equals("hogar")){
-                Hogar hogar = new Hogar(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
+                espacioLlegada = new Hogar(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
                     trayectoNuevoDTO.getEspacioLlegada().getDireccion(), trayectoNuevoDTO.getEspacioLlegada().getNumero(), trayectoNuevoDTO.getEspacioLlegada().getCodigoPostal(), trayectoNuevoDTO.getEspacioLlegada().getPisoDepartamento(), trayectoNuevoDTO.getEspacioLlegada().getDepartamento(),
                     trayectoNuevoDTO.getEspacioLlegada().getTipoDeHogar());
-                repoHogar.save(hogar);
-                trayectoNuevo.setLlegada(hogar);
+                repoEspacio.save(espacioLlegada);
             }else{
                 if(trayectoNuevoDTO.getEspacioLlegada().getClase().equals("trabajo")){
-                    EspacioDeTrabajo espacioDeTrabajo = new EspacioDeTrabajo(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
+                    espacioLlegada = new EspacioDeTrabajo(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
                         trayectoNuevoDTO.getEspacioLlegada().getDireccion(), trayectoNuevoDTO.getEspacioLlegada().getNumero(), trayectoNuevoDTO.getEspacioLlegada().getCodigoPostal(), trayectoNuevoDTO.getEspacioLlegada().getPisoDepartamento(), trayectoNuevoDTO.getEspacioLlegada().getUnidad());
-                    repoEspacioTrabajo.save(espacioDeTrabajo);
-                    trayectoNuevo.setLlegada(espacioDeTrabajo);
+                    repoEspacio.save(espacioLlegada);
                 }else{
                     if(trayectoNuevoDTO.getEspacioLlegada().getClase().equals("parada")){
-                        Parada parada = new Parada(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
+                        espacioLlegada = new Parada(trayectoNuevoDTO.getEspacioLlegada().getLatitud(), trayectoNuevoDTO.getEspacioLlegada().getLongitud(), trayectoNuevoDTO.getEspacioLlegada().getProvincia(), trayectoNuevoDTO.getEspacioLlegada().getMunicipio(), trayectoNuevoDTO.getEspacioLlegada().getLocalidad(),
                             trayectoNuevoDTO.getEspacioLlegada().getDireccion(), trayectoNuevoDTO.getEspacioLlegada().getNumero(), trayectoNuevoDTO.getEspacioLlegada().getCodigoPostal());
-                        repoParada.save(parada);
-                        trayectoNuevo.setLlegada(parada);
+                        repoEspacio.save(espacioLlegada);
                     }
                 }
             }
         }else{
-            Espacio llegada = repoEspacio.findById(trayectoNuevoDTO.getEspacioLlegada().getId()).get();
-            trayectoNuevo.setLlegada(llegada);
+            espacioLlegada = repoEspacio.findById(trayectoNuevoDTO.getEspacioLlegada().getId()).get();
         }
 
         if(trayectoNuevoDTO.getEspacioPartida().getId() == null){
             if(trayectoNuevoDTO.getEspacioPartida().getClase().equals("hogar")){
-                Hogar hogar = new Hogar(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
+                espacioPartida = new Hogar(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
                     trayectoNuevoDTO.getEspacioPartida().getDireccion(), trayectoNuevoDTO.getEspacioPartida().getNumero(), trayectoNuevoDTO.getEspacioPartida().getCodigoPostal(), trayectoNuevoDTO.getEspacioPartida().getPisoDepartamento(), trayectoNuevoDTO.getEspacioPartida().getDepartamento(),
                     trayectoNuevoDTO.getEspacioPartida().getTipoDeHogar());
-                repoHogar.save(hogar);
-                trayectoNuevo.setPartida(hogar);
+                repoEspacio.save(espacioPartida);
             }else{
                 if(trayectoNuevoDTO.getEspacioPartida().getClase().equals("trabajo")){
-                    EspacioDeTrabajo espacioDeTrabajo = new EspacioDeTrabajo(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
+                    espacioPartida = new EspacioDeTrabajo(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
                         trayectoNuevoDTO.getEspacioPartida().getDireccion(), trayectoNuevoDTO.getEspacioPartida().getNumero(), trayectoNuevoDTO.getEspacioPartida().getCodigoPostal(), trayectoNuevoDTO.getEspacioPartida().getPisoDepartamento(), trayectoNuevoDTO.getEspacioPartida().getUnidad());
-                    repoEspacioTrabajo.save(espacioDeTrabajo);
-                    trayectoNuevo.setPartida(espacioDeTrabajo);
+                    repoEspacio.save(espacioPartida);
                 }else{
                     if(trayectoNuevoDTO.getEspacioPartida().getClase().equals("parada")){
-                        Parada parada = new Parada(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
+                        espacioPartida = new Parada(trayectoNuevoDTO.getEspacioPartida().getLatitud(), trayectoNuevoDTO.getEspacioPartida().getLongitud(), trayectoNuevoDTO.getEspacioPartida().getProvincia(), trayectoNuevoDTO.getEspacioPartida().getMunicipio(), trayectoNuevoDTO.getEspacioPartida().getLocalidad(),
                             trayectoNuevoDTO.getEspacioPartida().getDireccion(), trayectoNuevoDTO.getEspacioPartida().getNumero(), trayectoNuevoDTO.getEspacioPartida().getCodigoPostal());
-                        repoParada.save(parada);
-                        trayectoNuevo.setPartida(parada);
+                        repoEspacio.save(espacioPartida);
                     }
                 }
             }
         }else{
-            Espacio partida = repoEspacio.findById(trayectoNuevoDTO.getEspacioPartida().getId()).get();
-            trayectoNuevo.setPartida(partida);
+            espacioPartida = repoEspacio.findById(trayectoNuevoDTO.getEspacioPartida().getId()).get();
         }
 
-        //if(trayectoNuevoDTO.getTramos() != null) {
-            trayectoNuevoDTO.getTramos().stream().forEach(tramoDTO -> {
-                try {
-                    this.crearTramos(tramoDTO, trayectoNuevo, miembroSesion);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        /*}else{
-            trayectoNuevo.setTramos(new ArrayList<Tramo>());
-        }*/
+
+        trayectoNuevoDTO.getTramos().stream().forEach(tramoDTO -> {
+            try {
+                this.agregarTramos(tramoDTO, listaTramosTrayectoNuevo, miembroSesion);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        //iniciamos datos base trayecto nuevo
+        Trayecto trayectoNuevo = new Trayecto(espacioPartida, espacioLlegada, listaTramosTrayectoNuevo, trayectoNuevoDTO.getFechaInicio(), trayectoNuevoDTO.getDiasUtilizados());
         repoTrayecto.save(trayectoNuevo);
 
         miembroSesion.getArea().agregarVinculacion(trayectoNuevo);
         //repoMiembro.save(miembroSesion);
         repoArea.save(miembroSesion.getArea());
 
-        return ResponseEntity.status(201).body(trayectoNuevo);
+        //return ResponseEntity.status(201).body(trayectoNuevo);
 
     }
 
-    private void crearTramos(TramoDTO tramoDTO, Trayecto trayecto,Miembro miembroSesion) throws IOException {
-        if(tramoDTO.getId() == null) {
+    private void agregarTramos(TramoDTO tramoDTO, List<Tramo> listaTramos, Miembro miembroSesion) throws IOException {
+        if(tramoDTO.getId() == null) {/*
             Tramo tramo = new Tramo();
             if(tramoDTO.getLlegada().getClase().equals("hogar")){
                 Hogar hogar = new Hogar(tramoDTO.getLlegada().getLatitud(),tramoDTO.getLlegada().getLongitud(),tramoDTO.getLlegada().getProvincia(),tramoDTO.getLlegada().getMunicipio(),tramoDTO.getLlegada().getLocalidad(),
@@ -254,11 +242,10 @@ public class TrayectosController {
             trayecto.setTramos(Arrays.asList(tramo));
             //trayecto.agregarTramo(tramo);
             repoMiembro.save(miembroSesion);
-            repoTrayecto.save(trayecto);
+            repoTrayecto.save(trayecto);*/
         }else{
             Tramo tramo =repoTramos.findById(tramoDTO.getId()).get();
-            trayecto.agregarTramo(tramo);
-            repoTrayecto.save(trayecto);
+            listaTramos.add(tramo);
         }
     }
 
