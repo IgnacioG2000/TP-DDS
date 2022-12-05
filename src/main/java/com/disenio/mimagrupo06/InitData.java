@@ -66,7 +66,7 @@ public class InitData implements CommandLineRunner {
         if(ta.count() == 0) {
 
             //ca.cargarFE();
-            da.cargarDatos();
+            //da.cargarDatos();
 
             //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
             //ru.save(usuarioComun);

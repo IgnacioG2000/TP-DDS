@@ -31,10 +31,10 @@ public class TrayectosController {
     RepoTrayecto repoTrayecto;
 
     @Autowired
-    RepoTramo repoTramo;
+    RepoEspacio repoEspacio;
 
     @Autowired
-    RepoEspacio repoEspacio;
+    RepoTramo repoTramo;
 
     @Autowired
     RepoPersona repoPersona;
@@ -80,13 +80,16 @@ public class TrayectosController {
         //validar accion en capa modelo según roles o usuario asociados al idSesion
         Template template = handlebars.compile("/Template/registrarTrayectoNuevo");
 
+        List<Tramo> tramos = repoTramo.findAll();
+        //System.out.println("el tamanio de la lista de tramos es: " + tramos.size() + "\n");
+
         List<Espacio> espacios = repoEspacio.findAll();
-        System.out.println("el tamanio de la lista de erspacios es: " + espacios.size() + "\n");
-        //List<Tramo> tramos = repoTramo.findAll();
-        // System.out.println("el tamanio de la lista de tramos es: " + tramos.size() + "\n");
+        System.out.println("el tamanio de la lista de espacios es: " + espacios.size() + "\n");
+
         Map<String, Object> model = new HashMap<>();
+        model.put("tramos", tramos);
         model.put("espacios", espacios);
-       // model.put("tramos", tramos);
+
 
         String html = template.apply(model);
 

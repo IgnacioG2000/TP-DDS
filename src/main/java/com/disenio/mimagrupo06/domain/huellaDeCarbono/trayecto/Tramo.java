@@ -19,6 +19,7 @@ public class Tramo {
   @ManyToOne
   private Espacio llegada;
   @ManyToOne
+  //@JoinColumn(name = "tramo_id")
   private MedioDeTransporte transporte;
   @ManyToMany
   private Collection<Miembro> miembros;

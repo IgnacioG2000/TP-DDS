@@ -724,11 +724,9 @@
                 <select multiple class="form-control" id="tramosExistentes">
 
                     {{#each tramos}}
-                        <p> {{partida.direccion}}</p>
-                        <p> {{llegada.direccion}}</p>
-                        <p> {{transporte}}</p>
-
+                        <option value='{{id}}'>{{partida.direccion}}  {{llegada.direccion}}  {{transporte.id}}</option>
                     {{/each}}
+
 
                 </select>
             </div>
