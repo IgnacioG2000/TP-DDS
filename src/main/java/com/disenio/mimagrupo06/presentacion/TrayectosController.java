@@ -49,15 +49,8 @@ public class TrayectosController {
     }
 
     @GetMapping("/registrarTrayecto")
-    public ResponseEntity<String> registrarTrayecto() throws IOException {
-        //validar accion en capa modelo según roles o usuario asociados al idSesion
-        Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
-
-        Map<String, Object> model = new HashMap<>();
-        //model.put("listamascotas", mascotas);
-
-        String html = template.apply(model);
-
+    public ResponseEntity<String> registrarTrayecto(@RequestHeader("Authorization") String idSesion) throws IOException {
+        String html = this.trayectoService.registrarTrayecto(idSesion);
         return ResponseEntity.status(200).body(html);
     }
 

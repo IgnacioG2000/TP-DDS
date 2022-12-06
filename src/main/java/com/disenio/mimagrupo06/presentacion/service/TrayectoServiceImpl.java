@@ -9,17 +9,22 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
+import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.presentacion.SesionManager;
 import com.disenio.mimagrupo06.presentacion.dto.*;
 
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,6 +44,21 @@ public class TrayectoServiceImpl implements TrayectoService{
   RepoMiembro repoMiembro;
   @Autowired
   RepoMedioTransporte repoMedioTransporte;
+
+  private final Handlebars handlebars = new Handlebars();
+
+  @Override
+  public String registrarTrayecto(String idSesion) throws IOException {
+
+    List<Area> areasDelUsuario = this.encontrarAreas(idSesion);
+    System.out.println("Voy a registrar un trayecto para un usuario con " + areasDelUsuario.size() + " areas asociadas");
+
+    Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
+    Map<String, Object> model = new HashMap<>();
+    model.put("areas", areasDelUsuario);
+
+    return template.apply(model);
+  }
 
   @Override
   public void registrarTrayectoNuevo(String idSesion,TrayectoNuevoDTO trayectoNuevoDTO){
@@ -90,19 +110,32 @@ public class TrayectoServiceImpl implements TrayectoService{
     return  miembrosDeSesionConArea.get(0);
   }
 */
-public Miembro encontrarMiembro(String idSesion, String nombreArea) {
+  public List<Area> encontrarAreas(String idSesion) {
 
-  Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
-  Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
-  Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
-  List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+    Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+    Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+    Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
 
-  List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
-      .filter(miembro -> mismaArea(miembro,nombreArea))
-      .collect(Collectors.toList());
+    List<Area> areasDeSesion = miembrosDeSesion.stream()
+            .map(miembro -> miembro.getArea())
+            .collect(Collectors.toList());
 
-  return  miembrosDeSesionConArea.get(0);
-}
+    return  areasDeSesion;
+  }
+  public Miembro encontrarMiembro(String idSesion, String nombreArea) {
+
+    Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
+    Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
+    Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
+    List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
+
+    List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
+        .filter(miembro -> mismaArea(miembro,nombreArea))
+        .collect(Collectors.toList());
+
+    return  miembrosDeSesionConArea.get(0);
+  }
 
   private void agregarTramos(TramoDTO tramoDTO, List<Tramo> listaTramos, Miembro miembroSesion) throws IOException {
     if(tramoDTO.getId() == null) {
