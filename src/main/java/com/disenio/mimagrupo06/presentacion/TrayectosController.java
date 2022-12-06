@@ -7,6 +7,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.presentacion.dto.*;
+import com.disenio.mimagrupo06.presentacion.service.TrayectoService;
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import com.github.jknack.handlebars.Handlebars;
@@ -36,8 +37,11 @@ public class TrayectosController {
     RepoMiembro repoMiembro;
     @Autowired
     RepoMedioTransporte repoMedioTransporte;
+    @Autowired
+    TrayectoService trayectoService;
 
     private final Handlebars handlebars = new Handlebars();
+
     @GetMapping("/trayectos")
     public ResponseEntity obtenerTrayectos(@RequestHeader("Authorization") String idSesion){
         Iterable<Trayecto> listaTrayectos = repoTrayecto.findAll();
@@ -85,141 +89,13 @@ public class TrayectosController {
 
 
     @PostMapping("/registrarTrayectoExistente")
-    public void recibirTrayectoExistente(@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
-        Miembro miembroSesion = this.encontrarMiembro(trayectoExistenteDTO.getIdSesion(), trayectoExistenteDTO.getArea());
-        System.out.println("Estoy recibiendo un trayecto existente");
-        Trayecto trayecto = repoTrayecto.findById(trayectoExistenteDTO.getIdTrayecto()).get();
-        trayecto.getTramos().forEach(tramo -> tramo.agregarMiembro(miembroSesion));
-        repoTrayecto.save(trayecto);
+    public void recibirTrayectoExistente(@RequestHeader("Authorization") String idSesion,@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
+        this.trayectoService.registrarTrayectoExistente(idSesion,trayectoExistenteDTO);
     }
-
+//Queda pasamos porque en realidad acá tendríamos que tener lo de responseEntity para enviar como salió el request, pero despues lo vemos
     @PostMapping("/registrarTrayectoNuevo")
-    public void recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
-
-        Miembro miembroSesion = this.encontrarMiembro(trayectoNuevoDTO.getIdSesion(), trayectoNuevoDTO.getNombreArea());
-
-        Espacio espacioPartida = this.getEspacio(trayectoNuevoDTO.getEspacioPartida());
-        Espacio espacioLlegada = this.getEspacio(trayectoNuevoDTO.getEspacioLlegada());
-
-        List<Tramo> listaTramosTrayectoNuevo = new ArrayList<Tramo>();
-        trayectoNuevoDTO.getTramos().stream().forEach(tramoDTO -> {
-            try {
-                this.agregarTramos(tramoDTO, listaTramosTrayectoNuevo, miembroSesion);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-
-        Trayecto trayectoNuevo = new Trayecto(espacioPartida, espacioLlegada, listaTramosTrayectoNuevo, trayectoNuevoDTO.getFechaInicio(), trayectoNuevoDTO.getDiasUtilizados());
-        repoTrayecto.save(trayectoNuevo);
-
-        miembroSesion.getArea().agregarVinculacion(trayectoNuevo);
-        repoArea.save(miembroSesion.getArea());
-
-    }
-
-
-    private void agregarTramos(TramoDTO tramoDTO, List<Tramo> listaTramos, Miembro miembroSesion) throws IOException {
-        if(tramoDTO.getId() == null) {
-
-            Espacio espacioPartida = this.getEspacio(tramoDTO.getPartida());
-            Espacio espacioLlegada = this.getEspacio(tramoDTO.getLlegada());
-
-            MedioDeTransporte medioDeTransporte = this.getMedioDeTransporte(tramoDTO.getTransporte());
-
-            List<Miembro> miembros =new ArrayList<Miembro>();
-            miembros.add(miembroSesion);
-
-
-            Tramo tramoNuevo = new Tramo(espacioPartida, espacioLlegada, medioDeTransporte, miembros);
-            repoTramos.save(tramoNuevo);
-
-            listaTramos.add(tramoNuevo);
-
-        }else{
-            Tramo tramo =repoTramos.findById(tramoDTO.getId()).get();
-            listaTramos.add(tramo);
-        }
-    }
-
-    private Espacio getEspacio(EspacioDTO espacioDTO){
-
-        Espacio espacio = null;
-
-        if(espacioDTO.getId() == null){
-            switch(espacioDTO.getClase()){
-                case "hogar":{
-                    espacio = new Hogar(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
-                            espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal(), espacioDTO.getPisoDepartamento(), espacioDTO.getDepartamento(),
-                            espacioDTO.getTipoDeHogar());
-                    break;
-                }
-                case "trabajo":{
-                    espacio = new EspacioDeTrabajo(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
-                            espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal(), espacioDTO.getPisoDepartamento(), espacioDTO.getUnidad());
-                    break;
-                }
-                case "parada":{
-                    espacio = new Parada(espacioDTO.getLatitud(), espacioDTO.getLongitud(), espacioDTO.getProvincia(), espacioDTO.getMunicipio(), espacioDTO.getLocalidad(),
-                            espacioDTO.getDireccion(), espacioDTO.getNumero(), espacioDTO.getCodigoPostal());
-                    break;
-                }
-            }
-            repoEspacio.save(espacio);
-
-        }else{
-            espacio = repoEspacio.findById(espacioDTO.getId()).get();
-        }
-
-        return espacio;
-    }
-
-    private MedioDeTransporte getMedioDeTransporte(MedioDeTransporteDTO medioDeTransporteDTO) throws IOException {
-
-        MedioDeTransporte medioDeTransporte = null;
-
-        if(medioDeTransporteDTO.getId() == null){
-            switch(medioDeTransporteDTO.getClaseAInicializar()){
-                case "servicioContratado":{
-                    medioDeTransporte = new ServicioContratado(medioDeTransporteDTO.getTipoServicioContratado());
-                    break;
-                }
-                case "transporteNoMotorizado":{
-                    medioDeTransporte = new TransporteNoMotorizado(medioDeTransporteDTO.getTipoNoMotorizado());
-                    break;
-                }
-                case "transportePublico":{
-                    medioDeTransporte = new TransportePublico(medioDeTransporteDTO.getTipoTransporte(),medioDeTransporteDTO.getNombre());
-                    break;
-                }
-                case "vehiculoParticular":{
-                    medioDeTransporte = new VehiculoParticular(medioDeTransporteDTO.getTipoVehiculoParticular(), medioDeTransporteDTO.getTipoCombustible());
-                    break;
-                }
-            }
-            repoMedioTransporte.save(medioDeTransporte);
-
-        }else {
-            medioDeTransporte = repoMedioTransporte.findById(medioDeTransporteDTO.getId()).get();
-        }
-
-        return medioDeTransporte;
-    }
-
-
-    public Miembro encontrarMiembro(String idSesion, String nombreArea) {
-
-        Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
-        Usuario usuarioSesion = (Usuario) atributosSesion.get("usuario");
-        Persona personaSesion = repoPersona.findByUsuario(usuarioSesion);
-        List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion);
-
-        List<Miembro> miembrosDeSesionConArea = miembrosDeSesion.stream()
-            .filter(miembro -> mismaArea(miembro,nombreArea))
-            .collect(Collectors.toList());
-
-        return  miembrosDeSesionConArea.get(0);
+    public void recibirTrayectoNuevo(@RequestHeader("Authorization") String idSesion,@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
+        this.trayectoService.registrarTrayectoNuevo(idSesion,trayectoNuevoDTO);
     }
 
     private boolean mismaArea(Miembro miembro, String nombreArea){
