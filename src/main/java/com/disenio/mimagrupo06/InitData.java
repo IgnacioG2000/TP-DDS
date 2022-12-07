@@ -93,11 +93,6 @@ public class InitData implements CommandLineRunner {
             re.save(espacioOrigen);
             re.save(espacioTrabajoArea);
 
-            Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
-            Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
-            ra.save(area);
-            ra.save(area2);
-
             MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
             MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
             rmt.save(medioDeTransporte1);
@@ -113,6 +108,11 @@ public class InitData implements CommandLineRunner {
             rt.save(trayecto1);
             rt.save(trayecto2);
 
+            Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+            Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
+            area.agregarVinculacion(trayecto1);
+            ra.save(area);
+            ra.save(area2);
 
             TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
             TipoActividad dieselGasoil = new TipoActividad("DieselGasoil", "lt",7);

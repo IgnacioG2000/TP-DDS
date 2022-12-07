@@ -67,15 +67,10 @@ public class TrayectosController {
         return ResponseEntity.status(200).body(html);
     }
 
-    @GetMapping("/registrarTrayectoExistente")
-    public ResponseEntity<String> registrarTrayectoExistente() throws IOException {
-        //validar accion en capa modelo según roles o usuario asociados al idSesion
-        Template template = handlebars.compile("/Template/registrarTrayectoExistente");
+    @PostMapping("/renderizarRegistroExistente")
+    public ResponseEntity<String> renderizarRegistroExistente(@RequestHeader("Authorization") String idSesion, @RequestBody AreasDTO area) throws IOException {
 
-        Map<String, Object> model = new HashMap<>();
-        //model.put("listamascotas", mascotas);
-
-        String html = template.apply(model);
+        String html = this.trayectoService.renderizarRegistroExistente(idSesion, area.getArea());
 
         return ResponseEntity.status(200).body(html);
     }

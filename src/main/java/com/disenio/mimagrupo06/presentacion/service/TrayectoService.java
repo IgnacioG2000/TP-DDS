@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.io.IOException;
 
 public interface TrayectoService {
-  public String registrarTrayecto(String idSesion) throws IOException;
-  public void registrarTrayectoNuevo(String idSesion,TrayectoNuevoDTO trayectoNuevoDTO);
-  public void registrarTrayectoExistente(String idSesion,TrayectoExistenteDTO trayectoExistenteDTO);
+   String registrarTrayecto(String idSesion) throws IOException;
+   String renderizarRegistroExistente(String idSesion, String areas) throws IOException;
+   void registrarTrayectoNuevo(String idSesion,TrayectoNuevoDTO trayectoNuevoDTO);
+   void registrarTrayectoExistente(String idSesion,TrayectoExistenteDTO trayectoExistenteDTO);
 }

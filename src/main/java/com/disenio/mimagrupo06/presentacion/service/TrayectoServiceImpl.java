@@ -23,10 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 @Service
 public class TrayectoServiceImpl implements TrayectoService{
@@ -56,6 +53,20 @@ public class TrayectoServiceImpl implements TrayectoService{
     Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
     Map<String, Object> model = new HashMap<>();
     model.put("areas", areasDelUsuario);
+
+    return template.apply(model);
+  }
+
+  @Override
+  public String renderizarRegistroExistente(String idSesion, String area) throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/Template/registrarTrayectoExistente");
+    Area areaSolicitada = repoArea.findByNombre(area);
+    System.out.println("Voy a buscar los trayecto para el area con nombre " + areaSolicitada.getNombre());
+    Collection<Trayecto> listaTrayectosDelArea = areaSolicitada.getTrayectosPendientes();
+    System.out.println("La cantidad de trayectos asociados al area es de " + listaTrayectosDelArea.size());
+    Map<String, Object> model = new HashMap<>();
+    model.put("Trayectos", listaTrayectosDelArea);
 
     return template.apply(model);
   }
