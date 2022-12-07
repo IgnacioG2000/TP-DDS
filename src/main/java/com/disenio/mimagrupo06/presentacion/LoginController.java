@@ -110,18 +110,18 @@ public class LoginController {
 
        String contraseniaHasheada = this.generarHash(contrasenna, this.getSalt());
 
-        Usuario usuario = repoUsuario.findByUsuarioAndContraseniaHasheada(nombreUsuario, contraseniaHasheada);
+        Usuario usuario = repoUsuario.findByUsuarioAndContraseniaHasheada(nombreUsuario, contraseniaHasheada);/*
         Persona personaSesion = repoPersona.findByUsuario(usuario);
         List<Miembro> miembrosDeSesion = repoMiembro.findAllByPersona(personaSesion).stream().collect(Collectors.toList());
         System.out.println("cantidad de miembros asociados al usuario ingresado: " + miembrosDeSesion.size());
         List<String> nombresAreasDelMiembro = miembrosDeSesion.stream().map(miembro -> miembro.getArea().getNombre()).collect(Collectors.toList());
-
+*/
         if (usuario != null) {
 
             SesionManager sesionManager = SesionManager.get();
             System.out.println(sesionManager);
             String idSesion = sesionManager.crearSesion("usuario",usuario);
-            return new LoginResponse(idSesion, nombresAreasDelMiembro);
+            return new LoginResponse(idSesion);
         }
 
 //        sesionManager.agregarAtributo("fechaInicio", new Date());

@@ -1,13 +1,14 @@
 package com.disenio.mimagrupo06.presentacion;
 
-import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.*;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte.*;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.domain.miembro.Miembro;
 import com.disenio.mimagrupo06.domain.miembro.Persona;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoNuevoDTO;
-import com.disenio.mimagrupo06.presentacion.dto.TrayectoExistenteDTO;
+import com.disenio.mimagrupo06.presentacion.dto.*;
+import com.disenio.mimagrupo06.presentacion.service.TrayectoService;
 import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.Usuario;
 import com.github.jknack.handlebars.Handlebars;
@@ -17,60 +18,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
 public class TrayectosController {
-
+    @Autowired
+    RepoArea repoArea;
+    @Autowired
+    RepoPersona repoPersona;
     @Autowired
     RepoTrayecto repoTrayecto;
-
+    @Autowired
+    RepoTramos repoTramos;
     @Autowired
     RepoEspacio repoEspacio;
-
+    @Autowired
+    RepoMiembro repoMiembro;
+    @Autowired
+    RepoMedioTransporte repoMedioTransporte;
+    @Autowired
+    TrayectoService trayectoService;
     @Autowired
     RepoTramo repoTramo;
 
-    @Autowired
-    RepoPersona repoPersona;
-
-    @Autowired
-    RepoMiembro repoMiembro;
 
     private final Handlebars handlebars = new Handlebars();
-    @GetMapping("/trayectos")
-    public ResponseEntity obtenerTrayectos(){
-        List<Trayecto> listaTrayectos = repoTrayecto.findAll();
-        System.out.println(listaTrayectos);
-
-        return ResponseEntity.status(201).body(listaTrayectos);
-    }
-
-    @GetMapping("/espacios")
-    public ResponseEntity obtenerTramos(){
-        List<Trayecto> listaTrayectos = repoTrayecto.findAll();
-        System.out.println(listaTrayectos);
-
-        return ResponseEntity.status(201).body(listaTrayectos);
-    }
 
     @GetMapping("/registrarTrayecto")
-    public ResponseEntity<String> registrarTrayecto(@RequestParam("sesion") String idSesion) throws IOException {
-
-        List<Area> areasDelUsuario = this.encontrarAreas(idSesion);
-        //validar accion en capa modelo según roles o usuario asociados al idSesion
-        Template template = handlebars.compile("/Template/eleccionCreacionTrayecto");
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("areas", areasDelUsuario);
-
-        String html = template.apply(model);
-
+    public ResponseEntity<String> registrarTrayecto(@RequestHeader("Authorization") String idSesion) throws IOException {
+        String html = this.trayectoService.registrarTrayecto(idSesion);
         return ResponseEntity.status(200).body(html);
     }
 
@@ -96,30 +74,25 @@ public class TrayectosController {
         return ResponseEntity.status(200).body(html);
     }
 
-    @GetMapping("/registrarTrayectoExistente")
-    //mandar el area y el idSesion como body
-    public ResponseEntity<String> registrarTrayectoExistente() throws IOException {
-        //validar accion en capa modelo según roles o usuario asociados al idSesion
-        Template template = handlebars.compile("/Template/registrarTrayectoExistente");
-        List<Trayecto> listaTrayectos = repoTrayecto.findAll();
-        Map<String, Object> model = new HashMap<>();
-        model.put("Trayectos", listaTrayectos);
-        String html = template.apply(model);
-
+    @PostMapping("/renderizarRegistroExistente")
+    public ResponseEntity<String> renderizarRegistroExistente(@RequestHeader("Authorization") String idSesion, @RequestBody AreasDTO area) throws IOException {
+        String html = this.trayectoService.renderizarRegistroExistente(idSesion, area.getArea());
         return ResponseEntity.status(200).body(html);
     }
 
-    //aca necesitamos a los chicos del back xdxd
+
     @PostMapping("/registrarTrayectoExistente")
-    public void recibirTrayectoExistente(@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
-        System.out.println("Estoy recibiendo un trayecto existente");
+    public void recibirTrayectoExistente(@RequestHeader("Authorization") String idSesion,@RequestBody TrayectoExistenteDTO trayectoExistenteDTO) throws IOException {
+        this.trayectoService.registrarTrayectoExistente(idSesion,trayectoExistenteDTO);
+    }
+//Queda pasamos porque en realidad acá tendríamos que tener lo de responseEntity para enviar como salió el request, pero despues lo vemos
+    @PostMapping("/registrarTrayectoNuevo")
+    public void recibirTrayectoNuevo(@RequestHeader("Authorization") String idSesion,@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
+        this.trayectoService.registrarTrayectoNuevo(idSesion,trayectoNuevoDTO);
     }
 
-    @PostMapping("/registrarTrayectoNuevo")
-    public void recibirTrayectoNuevo(@RequestBody TrayectoNuevoDTO trayectoDTO) throws IOException {
-
-        System.out.println("estoy recibiendo un trayecto nuevo");
-
+    private boolean mismaArea(Miembro miembro, String nombreArea){
+        return miembro.getArea().getNombre().equals(nombreArea);
     }
 
     public List<Area> encontrarAreas(String idSesion) {

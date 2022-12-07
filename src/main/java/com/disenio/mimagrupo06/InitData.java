@@ -53,28 +53,27 @@ public class InitData implements CommandLineRunner {
 
     @Autowired
     private RepoTrayecto rt;
+    
+    @Autowired
+    private RepoMedioTransporte rmt;
 
     @Autowired
     private RepoTramo rtr;
 
-    @Autowired
-    private RepoMedioDeTransporte rmt;
 
     @Override
     public void run(String... args) throws Exception {
 
         if(ta.count() == 0) {
 
-            //ca.cargarFE();
             //da.cargarDatos();
 
-            //UsuarioComun usuarioComun = new UsuarioComun("hola", "ConTra Muy Bu3na");
-            //ru.save(usuarioComun);
-            UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
             ProvinciaSector sectorProvincial = new ProvinciaSector(null, "Buenos Aires", null);
             AgenteSectorial agente = new AgenteSectorial("agente1010", "ASDKASDK1234", null);
             ru.save(agente);
-            Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+
+            Hogar hogarGuido = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, 3, "Hola", TipoDeHogar.CASA);
+            UsuarioComun usuarioGuido = new UsuarioComun("Guido2000", "contraCOntraKCRF123");
             Persona personaGuido = new Persona("Guido", "Serco", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioGuido);
             Miembro miembroGuido = new Miembro(personaGuido);
             Miembro miembroGuido2 = new Miembro(personaGuido);
@@ -83,28 +82,12 @@ public class InitData implements CommandLineRunner {
             rp.save(personaGuido);
             rm.save(miembroGuido2);
             rm.save(miembroGuido);
-            //rm.save(miembroGuido2);
 
-            EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
-            re.save(espacioTrabajoArea);
-            Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
-            Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
-            ra.save(area);
-            ra.save(area2);
-
-            MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
-            MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
-
-            rmt.save(medioDeTransporte1);
-            rmt.save(medioDeTransporte2);
-
-
-            Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, "unbarrio", 3, "Hola", TipoDeHogar.CASA);
+            Hogar hogarTaylor = new Hogar(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "unaCalle", "Alturacalle", 1992, 3, "Hola", TipoDeHogar.CASA);
             re.save(hogarTaylor);
             UsuarioComun usuarioTaylor = new UsuarioComun("Taylor1234", "djf8ree245");
             Persona personaTaylor = new Persona("Taylor", "Swift", TipoDocumento.DNI, "367789999", hogarTaylor, usuarioTaylor);
             Miembro miembroTaylor = new Miembro(personaTaylor);
-
             ru.save(usuarioTaylor);
             rp.save(personaTaylor);
             rm.save(miembroTaylor);
@@ -112,29 +95,35 @@ public class InitData implements CommandLineRunner {
             UsuarioComun usuarioJake = new UsuarioComun("Jake_The_Taylor_Hater", "Taylor_hater_4_life");
             Persona personaJake = new Persona("Jake", "Gyllenhaal", TipoDocumento.DNI, "4256565656", hogarGuido, usuarioJake);
             Miembro miembroJake = new Miembro(personaJake);
-
             ru.save(usuarioJake);
             rp.save(personaJake);
             rm.save(miembroJake);
 
-            Espacio espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
-            Espacio espacioDestino = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992);
-
+            Parada espacioOrigen = new Parada(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "maipu", "100", 1992);
+            EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
             re.save(espacioOrigen);
-            re.save(espacioDestino);
+            re.save(espacioTrabajoArea);
 
-            Tramo tramo1 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte1, Arrays.asList(miembroGuido));
-            Tramo tramo2 = new Tramo(espacioOrigen, espacioDestino, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
+            MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
+            MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
+            rmt.save(medioDeTransporte1);
+            rmt.save(medioDeTransporte2);
 
+            Tramo tramo1 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte1, Arrays.asList(miembroGuido));
+            Tramo tramo2 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
             rtr.save(tramo1);
             rtr.save(tramo2);
 
-
-            Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
-            Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioDestino,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
-
+            Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
+            Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
             rt.save(trayecto1);
             rt.save(trayecto2);
+
+            Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+            Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
+            area.agregarVinculacion(trayecto1);
+            ra.save(area);
+            ra.save(area2);
 
 
             TipoActividad gasNatural = new TipoActividad("Gas Natural", "m3",10);
@@ -168,28 +157,3 @@ public class InitData implements CommandLineRunner {
 
     }
 }
-/* JSON para controller de Miembro en agregar trayecto
-{
-    "nombreArea":"Area1",
-    "latitudPartida": 100,
-    "longitudPartida":100,
-    "provinciaPartida": "aaa",
-    "municipioPartida": "bbb",
-    "localidadPartida": "ccc",
-    "direccionPartida": "ddd",
-    "numeroPartida":"555",
-    "codigoPostalPartida":"1414",
-    "latitudLlegada": 500,
-    "longitudLlegada": 800,
-    "provinciaLlegada":"eee",
-    "municipioLlegada": "fff",
-    "localidadLlegada":"ggg",
-    "direccionLlegada":"hhh",
-    "numeroLlegada":"5",
-    "codigoPostalLlegada": 147,
-    "tramos":null,
-    "fechaInicio": "2022-04-19",
-    "fechaFin": "2022-10-19",
-    "diasUtilizados": 4
-    }
-*/

@@ -23,7 +23,7 @@ public class Miembro {
   private Persona persona;
   @ManyToOne
   private Area area;
-  @OneToMany
+  @OneToMany(cascade = {CascadeType.ALL})
   @JoinColumn(name = "miembro_id")
   private List<ValorHCMensual> valorHCMensuales;
 
