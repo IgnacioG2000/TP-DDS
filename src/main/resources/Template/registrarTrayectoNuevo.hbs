@@ -30,7 +30,7 @@
         </div>
         <div class="nav1" id="navbarSupportedContent1">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 flex-end">
-                <li class="nav-item"><a class="nav-link active" aria-current="page">Cerrar Sesión</a></li>
+                <li class="nav-item"><a class="nav-link" id="cerrarSesion" aria-current="page">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
@@ -736,7 +736,7 @@
 
           <div id="tramosCompletos">
               <br>
-              <button class="w-100 btn btn-lg btn-primary" type="submit">Finalizar carga trayectos</button>
+              <button class="w-100 btn btn-lg btn-primary" id="finalizarCargaTrayectos" type="submit">Finalizar carga trayectos</button>
           </div>
           <br>
     </div>
@@ -761,6 +761,13 @@
     document.getElementById("cerrarSesion").addEventListener('click', e=> {
         e.preventDefault()
         cerrarSesion()
+    })
+
+    document.getElementById("finalizarCargaTrayectos").addEventListener('submit', e=> {
+        e.preventDefault()
+        //pedirAlBack().then()
+        cambiarUrlSinIdSesion("home")
+
     })
 </script>
 
