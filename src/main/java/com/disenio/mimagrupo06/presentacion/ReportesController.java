@@ -35,58 +35,134 @@ public class ReportesController {
 
   //REPORTES PROVINCIAS
 
+  @GetMapping("/hc_provincia_back")
+  public ResponseEntity<List<ReporteProvinciaDTO>> obtenerHCPorProvincia(){
+    List<ReporteProvinciaDTO> result = repoReportesProvincia.findAllHCPorProvincia();
+    return ResponseEntity.status(200).body(result);
+  }
+
   @GetMapping(value = "/hc_total_provincia", produces = MediaType.TEXT_HTML_VALUE)
-  public ResponseEntity<String> obtenerHCPorProvincia() throws IOException {
+  public ResponseEntity<String> obtenerHCPorProvinciaHand() throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteHCTotalProvincia");
 
-    List<ReporteProvinciaDTO> result = repoReportesProvincia.findAllHCPorProvincia();
     Map<String, Object> model = new HashMap<>();
-    model.put("resultado", result);
 
     String html = template.apply(model);
 
     return ResponseEntity.status(200).body(html);
   }
 
-  @GetMapping("/composicion_hc_provincia/{nombre}")
+  @GetMapping("/composicion_hc_provincia_back/{nombre}")
   public ResponseEntity<List<ReporteProvinciaDTO>> obtenerComposicionHCTotalDeUnaProvincia(@PathVariable String nombre){
     List<ReporteProvinciaDTO> result = repoReportesProvincia.findAllComposicionHCTotalDeUnaDeterminadaProvincia(nombre);
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping("/evolucion_hc_provincia/{nombre}")
+  @GetMapping(value = "/composicion_hc_provincia/{nombre}", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerComposicionHCTotalDeUnaProvinciaHand() throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteComposicionProvincia");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/evolucion_hc_provincia_back/{nombre}")
   public ResponseEntity<List<ReporteProvinciaDTO>> obtenerEvolucionHCTotalDeUnaProvincia(@PathVariable String nombre){
     List<ReporteProvinciaDTO> result = repoReportesProvincia.findAllEvolucionHCTotalDeUnaDeterminadaProvincia(nombre);
     return ResponseEntity.status(200).body(result);
   }
 
+  @GetMapping(value = "/evolucion_hc_provincia/{nombre}", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnaProvinciaHand(@PathVariable String nombre) throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCProvincia");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
   //REPORTES MUNICIPIOS
 
-  @GetMapping("/hc_total_municipio")
+  @GetMapping("/hc_total_municipio_back")
   public ResponseEntity<List<ReporteMunicipioDTO>> obtenerHCPorMunicipio(){
     List<ReporteMunicipioDTO> result = repoReportesMunicipio.findAllHCPorMunicipio();
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping("/evolucion_hc_municipio/{nombre}")
+  @GetMapping(value = "/hc_total_municipio", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerHCPorMunicipioHand() throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteHCTotalMunicipio");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/evolucion_hc_municipio_back/{nombre}")
   public ResponseEntity<List<ReporteMunicipioDTO>> obtenerEvolucionHCTotalDeUnMunicipio(@PathVariable String nombre){
     List<ReporteMunicipioDTO> result = repoReportesMunicipio.findAllEvolucionHCTotalDeUnDeterminadoMunicipio(nombre);
     return ResponseEntity.status(200).body(result);
   }
 
+  @GetMapping(value = "/evolucion_hc_municipio/{nombre}")
+  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnMunicipioHand(@PathVariable String nombre) throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCMunicipio");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
   //REPORTES ORGANIZACIONES
 
-  @GetMapping("/hc_total_tipo_organizacion")
+  @GetMapping("/hc_total_tipo_organizacion_back")
   public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerHCTotalPorTipoDeOrganizacion(){
     List<ReporteOrganizacionDTO> result = repoReportesOrganizacion.findAllHCTotalPorTipoDeOrganizacion();
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping("/evolucion_hc_organizacion/{razon_social}")
+  @GetMapping(value = "/hc_total_tipo_organizacion")
+  public ResponseEntity<String> obtenerHCTotalPorTipoDeOrganizacionHand() throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteHCTotalPorTipoDeOrganizacion");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/evolucion_hc_organizacion_back/{razon_social}")
   public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerEvolucionHCDeUnaDeterminadaOrganizacion(@PathVariable String razon_social){
     List<ReporteOrganizacionDTO> result = repoReportesOrganizacion.findAllEvolucionHCDeUnaDeterminadaOrganizacion(razon_social);
     return ResponseEntity.status(200).body(result);
+  }
+
+  @GetMapping(value = "/evolucion_hc_organizacion/{razon_social}")
+  public ResponseEntity<String> obtenerEvolucionHCDeUnaDeterminadaOrganizacionHand(@PathVariable String razon_social) throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCDeUnaDeterminadaOrganizacion");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
   }
 
 }
