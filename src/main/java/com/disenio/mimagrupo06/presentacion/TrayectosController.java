@@ -74,6 +74,20 @@ public class TrayectosController {
         return ResponseEntity.status(200).body(html);
     }
 
+    @GetMapping("/registrarTrayectoExistente")
+    //mandar el area y el idSesion como body
+    public ResponseEntity<String> registrarTrayectoExistente() throws IOException {
+        //validar accion en capa modelo según roles o usuario asociados al idSesion
+        Template template = handlebars.compile("/Template/registrarTrayectoExistente");
+        Iterable<Trayecto> listaTrayectos = repoTrayecto.findAll();
+        Map<String, Object> model = new HashMap<>();
+        model.put("Trayectos", listaTrayectos);
+
+        String html = template.apply(model);
+
+        return ResponseEntity.status(200).body(html);
+    }
+
     @PostMapping("/renderizarRegistroExistente")
     public ResponseEntity<String> renderizarRegistroExistente(@RequestHeader("Authorization") String idSesion, @RequestBody AreasDTO area) throws IOException {
         String html = this.trayectoService.renderizarRegistroExistente(idSesion, area.getArea());
