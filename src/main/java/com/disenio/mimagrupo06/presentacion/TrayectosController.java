@@ -47,7 +47,7 @@ public class TrayectosController {
     private final Handlebars handlebars = new Handlebars();
 
     @GetMapping("/registrarTrayecto")
-    public ResponseEntity<String> registrarTrayecto(@RequestHeader("Authorization") String idSesion) throws IOException {
+    public ResponseEntity<String> registrarTrayecto(@RequestParam("sesion") String idSesion) throws IOException {
         String html = this.trayectoService.registrarTrayecto(idSesion);
         return ResponseEntity.status(200).body(html);
     }
