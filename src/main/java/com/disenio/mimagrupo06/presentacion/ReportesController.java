@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,12 +60,13 @@ public class ReportesController {
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping(value = "/composicion_hc_provincia/{nombre}", produces = MediaType.TEXT_HTML_VALUE)
-  public ResponseEntity<String> obtenerComposicionHCTotalDeUnaProvinciaHand() throws IOException {
+  @GetMapping(value = "/composicion_hc_provincia", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerComposicionHCTotalDeUnaProvinciaHand(@RequestParam String nombre) throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteComposicionProvincia");
 
     Map<String, Object> model = new HashMap<>();
+    model.put("nombre", nombre);
 
     String html = template.apply(model);
 
@@ -77,8 +79,8 @@ public class ReportesController {
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping(value = "/evolucion_hc_provincia/{nombre}", produces = MediaType.TEXT_HTML_VALUE)
-  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnaProvinciaHand(@PathVariable String nombre) throws IOException {
+  @GetMapping(value = "/evolucion_hc_provincia", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnaProvinciaHand(@RequestParam String nombre) throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCProvincia");
 
@@ -115,8 +117,8 @@ public class ReportesController {
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping(value = "/evolucion_hc_municipio/{nombre}")
-  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnMunicipioHand(@PathVariable String nombre) throws IOException {
+  @GetMapping(value = "/evolucion_hc_municipio")
+  public ResponseEntity<String> obtenerEvolucionHCTotalDeUnMunicipioHand(@RequestParam String nombre) throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCMunicipio");
 
@@ -153,8 +155,8 @@ public class ReportesController {
     return ResponseEntity.status(200).body(result);
   }
 
-  @GetMapping(value = "/evolucion_hc_organizacion/{razon_social}")
-  public ResponseEntity<String> obtenerEvolucionHCDeUnaDeterminadaOrganizacionHand(@PathVariable String razon_social) throws IOException {
+  @GetMapping(value = "/evolucion_hc_organizacion")
+  public ResponseEntity<String> obtenerEvolucionHCDeUnaDeterminadaOrganizacionHand(@RequestParam String razon_social) throws IOException {
 
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCDeUnaDeterminadaOrganizacion");
 
