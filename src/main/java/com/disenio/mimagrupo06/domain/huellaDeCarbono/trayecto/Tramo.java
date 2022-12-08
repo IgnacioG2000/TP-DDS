@@ -18,8 +18,8 @@ public class Tramo {
   private Espacio partida;
   @ManyToOne
   private Espacio llegada;
-  @ManyToOne//(fetch = FetchType.LAZY)
-  //@JoinColumn(name = "tramo_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "tramo_id")
   private MedioDeTransporte transporte;
   @ManyToMany
   private Collection<Miembro> miembros;
