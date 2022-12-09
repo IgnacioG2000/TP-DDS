@@ -70,7 +70,9 @@ botonAgregarNuevoTramo.addEventListener('click', e => {
 botonFinalizarCarga.addEventListener('click', e => {
     e.preventDefault();
     console.log("aprete el boton para finalizar la carga de tramos")
-    mandarDatosAlBack();
+    const callback = () => cambiarUrlConIdSesion("home");
+    mandarDatosAlBack(callback);
+
 })
 
 
@@ -503,7 +505,7 @@ function definirBodyLlegadaTramo(espacioSeleccionado) {
     return bodyEspacioLlegada
 }
 
-function mandarDatosAlBack() {
+function mandarDatosAlBack(callbackAEjecutarThen) {
     //esta funcion va a generar el body y mandarlo al back
 
     const bodyTrayectos = generarBodyTrayectos()
@@ -517,7 +519,7 @@ function mandarDatosAlBack() {
         },
             method: "POST",
             body: JSON.stringify(bodyTrayectos)
-        }).then()
+        }).then(callbackAEjecutarThen)
 
 }
 
