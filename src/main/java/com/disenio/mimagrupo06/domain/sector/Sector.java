@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "tipo_st",discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Sector {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
