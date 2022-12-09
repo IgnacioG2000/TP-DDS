@@ -1,10 +1,3 @@
-.trayectos {
-    padding: 20px 30px;
-    margin: 30px;
-    box-sizing: content-box;
-}
-
-
 .formulario1 {
     padding: 20px 30px;
     margin: 30px;
@@ -41,45 +34,4 @@
 
 .bg-color4 {
     background-color: #47ae73;
-}
-
-.hidden{
-    display: none
-}
-
-input[type='radio']:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #d1d3d1;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
-input[type='radio']:checked:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #ffa500;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
-.botonRegistroExistente {
-    color: #000;
-    background-color: #adc7ec;
-    border-color: #0d6efd;
-    position: absolute;
-    top: 100px;
-    right: 100px;
 }

@@ -4,6 +4,7 @@ import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface RepoOrganizacion extends CrudRepository<Organizacion, Long> {
   //List<Organizacion> findAByUsuario();

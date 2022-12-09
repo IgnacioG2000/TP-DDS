@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Reporte</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="./imagenes/logo.png" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/scrollGraph.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-color3">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!">
+            <img src="./imagenes/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Impacto Ambiental
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link" href="#about">Aceptar vinculacion</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownHC" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ejecutar calculadora HC</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownHC">
+                        <li><a class="dropdown-item" href="#!">Anual</a></li>
+                        <!--<li><hr class="dropdown-divider" /></li>-->
+                        <li><a class="dropdown-item" href="#!">Mensual</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Visualizar</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Reportes</a></li>
+                        <!--<li><hr class="dropdown-divider" /></li>-->
+                        <li><a class="dropdown-item" href="#!">Recomendaciones</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown1" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registrar</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Mediciones</a></li>
+                        <li><a class="dropdown-item" href="#!">Area</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="nav1" id="navbarSupportedContent1">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 flex-end">
+                <li class="nav-item"><a class="nav-link active" aria-current="page">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Section-->
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="chartWrapper">
+    <div class="chartAreaWrapper">
+        <div class="chartAreaWrapper2">
+            <canvas id="chart-Test" height="300" width="1200"></canvas>
+        </div>
+    </div>
+    <canvas id="axis-Test" height="300" width="0"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    $(document).ready(function() {
+
+        function generateLabels() {
+            var chartLabels = [];
+            for (x = 0; x < 100; x++) {
+                chartLabels.push("Label" + x);
+            }
+            return chartLabels;
+        }
+
+        function generateData() {
+            var chartData = [];
+            for (x = 0; x < 100; x++) {
+                chartData.push(Math.floor((Math.random() * 100) + 1));
+            }
+            return chartData;
+        }
+
+        function addData(numData, chart) {
+            for (var i = 0; i < numData; i++) {
+                chart.data.datasets[0].data.push(Math.random() * 100);
+                chart.data.labels.push("Label" + i);
+                var newwidth = $('.chartAreaWrapper2').width() + 60;
+                $('.chartAreaWrapper2').width(newwidth);
+            }
+        }
+
+        var chartData = {
+            labels: generateLabels(),
+            datasets: [{
+                label: "Test Data Set",
+                data: generateData()
+            }]
+        };
+
+
+
+        $(function() {
+            var rectangleSet = false;
+
+            var canvasTest = $('#chart-Test');
+            var chartTest = new Chart(canvasTest, {
+                type: 'bar',
+                data: chartData,
+                maintainAspectRatio: false,
+                responsive: true,
+                options: {
+                    tooltips: {
+                        titleFontSize: 0,
+                        titleMarginBottom: 0,
+                        bodyFontSize: 12
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                display: false
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                fontSize: 12,
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        onComplete: function() {
+                            if (!rectangleSet) {
+                                var scale = window.devicePixelRatio;
+
+                                var sourceCanvas = chartTest.chart.canvas;
+                                var copyWidth = chartTest.scales['y-axis-0'].width - 10;
+                                var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+
+                                var targetCtx = document.getElementById("axis-Test").getContext("2d");
+
+                                targetCtx.scale(scale, scale);
+                                targetCtx.canvas.width = copyWidth * scale;
+                                targetCtx.canvas.height = copyHeight * scale;
+
+                                targetCtx.canvas.style.width = `${copyWidth}px`;
+                                targetCtx.canvas.style.height = `${copyHeight}px`;
+                                targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
+
+                                var sourceCtx = sourceCanvas.getContext('2d');
+
+                                // Normalize coordinate system to use css pixels.
+
+                                sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
+                                rectangleSet = true;
+                            }
+                        },
+                        onProgress: function() {
+                            if (rectangleSet === true) {
+                                var copyWidth = chartTest.scales['y-axis-0'].width;
+                                var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+
+                                var sourceCtx = chartTest.chart.canvas.getContext('2d');
+                                sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
+                            }
+                        }
+                    }
+                }
+            });
+            addData(5, chartTest);
+        });
+    });
+
+    /*
+  var ctx = document.getElementById('myChart')
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: generateData(),
+      maintainAspectRatio: false,
+      responsive: true,
+      options: {
+          tooltips: {
+              titleFontSize: 0,
+              titleMarginBottom: 0,
+              bodyFontSize: 12
+          },
+          legend: {
+              display: false
+          },
+          scales: {
+              xAxes: [{
+                  ticks: {
+                      fontSize: 12,
+                      display: false
+                  }
+              }],
+              yAxes: [{
+                  ticks: {
+                      fontSize: 12,
+                      beginAtZero: true
+                  }
+              }]
+          },
+          animation: {
+              onComplete: function () {
+                  if (!rectangleSet) {
+                      var scale = window.devicePixelRatio;
+
+                      var sourceCanvas = chartTest.chart.canvas;
+                      var copyWidth = chartTest.scales['y-axis-0'].width - 10;
+                      var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+
+                      var targetCtx = document.getElementById("axis-Test").getContext("2d");
+
+                      targetCtx.scale(scale, scale);
+                      targetCtx.canvas.width = copyWidth * scale;
+                      targetCtx.canvas.height = copyHeight * scale;
+
+                      targetCtx.canvas.style.width = `${copyWidth}px`;
+                      targetCtx.canvas.style.height = `${copyHeight}px`;
+                      targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
+
+                      var sourceCtx = sourceCanvas.getContext('2d');
+
+                      // Normalize coordinate system to use css pixels.
+
+                      sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
+                      rectangleSet = true;
+                  }
+              },
+              onProgress: function () {
+                  if (rectangleSet === true) {
+                      var copyWidth = chartTest.scales['y-axis-0'].width;
+                      var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+
+                      var sourceCtx = chartTest.chart.canvas.getContext('2d');
+                      sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
+                  }
+              }
+          }
+      }
+  });
+
+      function generateLabels() {
+          var chartLabels = [];
+          for (x = 0; x < 100; x++) {
+              chartLabels.push("Label" + x);
+          }
+          return chartLabels;
+      }
+
+      function generateData() {
+          var chartData = [];
+          for (x = 0; x < 100; x++) {
+              chartData.push(Math.floor((Math.random() * 100) + 1));
+          }
+          return chartData;
+      }
+
+      function addData(numData, chart) {
+          for (var i = 0; i < numData; i++) {
+              chart.data.datasets[0].data.push(Math.random() * 100);
+              chart.data.labels.push("Label" + i);
+              var newwidth = $('.chartAreaWrapper2').width() + 60;
+              $('.chartAreaWrapper2').width(newwidth);
+          }
+      }
+
+      var chartData = {
+          labels: generateLabels(),
+          datasets: [{
+              label: "Test Data Set",
+              data: generateData()
+          }]
+      };
+
+        addData(5, myChart);*/
+
+  /*let url = 'http://localhost:8080/composicion_hc_provincia_back/{{nombre}}'
+  fetch(url)
+          .then( response => response.json() )
+          .then( datos => mostrar(datos) )
+          .catch( error => console.log(error) )
+
+
+  const mostrar = (reporteProvincia) =>{
+    reporteProvincia.forEach(provincia => {
+      myChart.data['labels'].push(provincia.municipio)
+      myChart.data['datasets'][0].data.push(2)
+      myChart.update()
+    });
+    console.log(myChart.data)
+  }*/
+
+</script>
+
+<!-- Footer-->
+<footer class="py-5 bg-color1 fixed-bottom">
+  <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>
