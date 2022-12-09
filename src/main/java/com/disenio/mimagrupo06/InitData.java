@@ -148,22 +148,30 @@ public class InitData implements CommandLineRunner {
         EspacioDeTrabajo espacioTrabajoArea = new EspacioDeTrabajo(1.0, 1.0, "BUENOS AIRES", "ADOLFO ALSINA", "CARHUE", "O'Higgins", "200", 1992,2, "A");
         re.save(espacioTrabajoArea);
         Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
+        area.solicitudMiembro(miembroGuido2);
         ra.save(area);
-        Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
-        ra.save(area2);
+
+        miembroGuido2.setAreaPendiente(area);
+        rm.save(miembroGuido2);
+        //Area area2 = new Area("Area2", Arrays.asList(miembroGuido2), espacioTrabajoArea);
+        //ra.save(area2);
         Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroTaylor,miembroJake), espacioTrabajoArea);
-        miembroJake.setArea(area4Ever21);
-        miembroTaylor.setArea(area4Ever21);
         area4Ever21.agregarVinculacion(trayecto2);
         area4Ever21.agregarVinculacion(trayecto3);
         area4Ever21.aceptarVinculacion(trayecto2);
         area4Ever21.aceptarVinculacion(trayecto3);
         ra.save(area4Ever21);
 
+        miembroJake.setArea(area4Ever21);
+        rm.save(miembroJake);
+        miembroTaylor.setArea(area4Ever21);
+        rm.save(miembroTaylor);
+
         Organizacion organizacion = new Organizacion("Nueva Seguro", TipoDeOrganizacion.EMPRESA, Arrays.asList(area4Ever21),
                  Clasificacion.MINISTERIO);
         organizacion.setUsuarioOrganizacion(usuarioGuido2);
-        organizacion.setSectores(Arrays.asList(area,area2,area4Ever21));
+        //organizacion.setSectores(Arrays.asList(area,area2,area4Ever21));
+          organizacion.setSectores(Arrays.asList(area,area4Ever21));
         ro.save(organizacion);
 
 

@@ -23,6 +23,10 @@ public class Miembro {
   private Persona persona;
   @ManyToOne
   private Area area;
+
+  @OneToOne
+  @JoinColumn(name = "area_pend_id")
+  private Area areaPendiente;
   @OneToMany(cascade = {CascadeType.ALL})
   @JoinColumn(name = "miembro_id")
   private List<ValorHCMensual> valorHCMensuales;
@@ -50,6 +54,9 @@ public class Miembro {
 
   public void setArea(Area area) {
     this.area = area;
+  }
+  public void setAreaPendiente(Area area) {
+    this.areaPendiente = area;
   }
 /*
   public void cargarTrayecto(Trayecto trayecto){
