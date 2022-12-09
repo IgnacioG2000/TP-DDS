@@ -1,6 +1,7 @@
 package com.disenio.mimagrupo06.repositorios;
 
 import com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RepoReportesProvincia extends CrudRepository<ReporteProvinciaDTO, Long> {
-  ReporteProvinciaDTO findByProvincia(String provincia);
+
+  List<ReporteProvinciaDTO> findAll();
 
   @Query(value = "SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO(p.nombre, SUM(hc.huellaCarbono))" +
                 " FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +

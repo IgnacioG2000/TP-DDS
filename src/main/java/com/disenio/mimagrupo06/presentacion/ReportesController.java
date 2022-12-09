@@ -1,8 +1,10 @@
 package com.disenio.mimagrupo06.presentacion;
 
+import com.disenio.mimagrupo06.domain.sector.ProvinciaSector;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteMunicipioDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteOrganizacionDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO;
+import com.disenio.mimagrupo06.repositorios.RepoProvinciaSector;
 import com.disenio.mimagrupo06.repositorios.RepoReportesMunicipio;
 import com.disenio.mimagrupo06.repositorios.RepoReportesOrganizacion;
 import com.disenio.mimagrupo06.repositorios.RepoReportesProvincia;
@@ -30,6 +32,8 @@ public class ReportesController {
   private RepoReportesMunicipio repoReportesMunicipio;
   @Autowired
   private RepoReportesOrganizacion repoReportesOrganizacion;
+  @Autowired
+  private RepoProvinciaSector repoProvinciaSector;
 
 
   private final Handlebars handlebars = new Handlebars(); //TODO instanciar en constructor
@@ -42,6 +46,36 @@ public class ReportesController {
     Template template = handlebars.compile("/Template/reporteHCTotalSectorTerritorial");
 
     Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping(value = "/generar_reporte_evolucion", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> generarReporteEvolucion() throws IOException {
+
+    List<ProvinciaSector> provincia = repoProvinciaSector.findAll();
+
+    Template template = handlebars.compile("/Template/reporteEvolucionHCTotal");
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("provincia", provincia);
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping(value = "/generar_reporte_composicion", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> generarReporteComposicion() throws IOException {
+
+    List<ProvinciaSector> provincia = repoProvinciaSector.findAll();
+
+    Template template = handlebars.compile("/Template/reporteComposicion");
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("provincia", provincia);
 
     String html = template.apply(model);
 

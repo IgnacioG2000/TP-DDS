@@ -11,6 +11,8 @@ import java.util.List;
 public interface RepoProvinciaSector extends CrudRepository<ProvinciaSector, Long> {
     ProvinciaSector findByProvinciaCodigo(Long provinciaCodigo);
 
+    List<ProvinciaSector> findAll();
+
     @Query(value = "SELECT p.nombre AS PROVINCIA, COALESCE(SUM(hc.huellaCarbono), 0) AS HC_TOTAL" +
         "  FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
         "                         JOIN MunicipioSector m ON p.id = m.provincia.id" +
