@@ -57,22 +57,21 @@
     </div>
 </nav>
 <!-- Section-->
-<div class="formulario1">
+<div class="formulario1" id="form">
     <div class="rendered-form">
         <div class="">
             <h1 access="false" id="control-8071773">Reporte HC Total - Sector Territorial</h1></div>
         <br>
         <div class="formbuilder-select form-group field-select-1666388825021">
-            <label for="select-1666388825021" class="formbuilder-select-label">Seleccionar Sector</label>
-            <select class="form-control" name="select-1666388825021" id="select-1666388825021">
-                <option value="Sector1" selected="true" id="select-1666388825021-0">Sector 1</option>
-                <option value="Sector2" id="select-1666388825021-1">Sector 2</option>
-                <option value="Sector3" id="select-1666388825021-2">Sector 3</option>
+            <label for="sectorTerritorial" class="formbuilder-select-label">Seleccionar Sector</label>
+            <select class="form-control" name="sectorTerritorial" id="sectorTerritorial">
+                <option value="Provincia" selected="true" id="select-1666388825021-0">Provincia</option>
+                <option value="Municipio" id="select-1666388825021-1">Municipio</option>
             </select>
         </div>
         <br>
         <div class="formbuilder-button form-group field-button-1666388854444">
-            <button type="button" class="btn-success btn" name="button-1666388854444" access="false" style="success" id="button-1666388854444">Generar Reporte</button>
+            <button type="button" class="btn-success btn" name="button-1666388854444" access="false" style="success" id="botonGenerar">Generar Reporte</button>
         </div>
     </div>
 </div>
@@ -84,5 +83,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
+
+<script>
+
+    const sectorTerritorial = document.getElementById("sectorTerritorial");
+    const botonGenerar = document.getElementById("botonGenerar");-
+
+    botonGenerar.addEventListener('click', e => {
+        e.preventDefault();
+        const sectorElegido = sectorTerritorial.value
+
+        if (sectorElegido == 'Provincia') {
+            window.location = "/hc_total_provincia"
+        }
+        else {
+            window.location = "/hc_total_municipio"
+        }
+    })
+
+</script>
+
 </body>
 </html>

@@ -34,6 +34,20 @@ public class ReportesController {
 
   private final Handlebars handlebars = new Handlebars(); //TODO instanciar en constructor
 
+  //REPORTES INICIALES
+
+  @GetMapping(value = "/generar_reporte_hc_total", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> generarReporteHCTotal() throws IOException {
+
+    Template template = handlebars.compile("/Template/reporteHCTotalSectorTerritorial");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
   //REPORTES PROVINCIAS
 
   @GetMapping("/hc_provincia_back")
