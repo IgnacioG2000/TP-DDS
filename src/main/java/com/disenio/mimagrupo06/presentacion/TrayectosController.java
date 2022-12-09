@@ -110,9 +110,6 @@ public class TrayectosController {
 //Queda pasamos porque en realidad acá tendríamos que tener lo de responseEntity para enviar como salió el request, pero despues lo vemos
     @PostMapping("/registrarTrayectoNuevo")
     public void recibirTrayectoNuevo(@RequestHeader("Authorization") String idSesion,@RequestBody TrayectoNuevoDTO trayectoNuevoDTO) throws IOException {
-        System.out.println("estoy recibiendo el tratecto nuevo, que tiene la siguiente configuracion:");
-        System.out.println(trayectoNuevoDTO.getEspacioPartida().getDireccion() +  trayectoNuevoDTO.getEspacioPartida().getNumero());
-        System.out.println(trayectoNuevoDTO.getEspacioLlegada().getDireccion() +trayectoNuevoDTO.getEspacioLlegada().getNumero());
         this.trayectoService.registrarTrayectoNuevo(idSesion,trayectoNuevoDTO);
     }
 
