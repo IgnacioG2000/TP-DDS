@@ -105,12 +105,6 @@ public class TrayectosController {
 
     @PostMapping("/registrarTrayectoExistente")
     public void recibirTrayectoExistente(@RequestBody TrayectoExistenteDTO te) throws IOException {
-        System.out.println("----------------");
-        System.out.println("hola, le hice un fetch a registrarTrayectoExistente");
-        System.out.println("------------------" + "\n");
-        System.out.println(te.getIdSesion()+ "\n");
-        System.out.println(te.getIdTrayecto()+ "\n");
-        System.out.println(te.getArea()+ "\n");
         this.trayectoService.registrarTrayectoExistente(te.getIdSesion(),te);
     }
 //Queda pasamos porque en realidad acá tendríamos que tener lo de responseEntity para enviar como salió el request, pero despues lo vemos
