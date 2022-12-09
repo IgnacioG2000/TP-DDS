@@ -98,7 +98,6 @@
             .then( datos => mostrar(datos) )
             .catch( error => console.log(error) )
 
-
     const mostrar = (reporteProvincia) =>{
         reporteProvincia.forEach(provincia => {
             myChart.data['labels'].push(provincia.provincia)

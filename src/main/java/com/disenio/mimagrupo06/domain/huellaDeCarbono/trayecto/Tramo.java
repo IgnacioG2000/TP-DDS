@@ -36,7 +36,7 @@ public class Tramo {
       this.miembros = miembros;
     }
     //Todo: descomentar
-    //distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
+    distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
   }
 
   public Tramo(){

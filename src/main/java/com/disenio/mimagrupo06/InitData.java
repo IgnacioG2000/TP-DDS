@@ -67,7 +67,7 @@ public class InitData implements CommandLineRunner {
 
         if(ta.count() == 0) {
 
-            //da.cargarDatos();
+            da.cargarDatos();
 
             ProvinciaSector sectorProvincial = new ProvinciaSector(null, "Buenos Aires", null);
             AgenteSectorial agente = new AgenteSectorial("agente1010", "ASDKASDK1234", null);
