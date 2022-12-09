@@ -27,6 +27,18 @@ public class Miembro {
   @JoinColumn(name = "miembro_id")
   private List<ValorHCMensual> valorHCMensuales;
 
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "tramo_id", referencedColumnName = "id")
+  private Collection<Tramo> tramos;
+
+  public Collection<Tramo> getTramos() {
+    return tramos;
+  }
+
+  public void setTramos(Collection<Tramo> tramos) {
+    this.tramos = tramos;
+  }
+
   public Miembro(Persona persona) {
     this.persona = persona;
     this.valorHCMensuales = new ArrayList<>();

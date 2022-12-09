@@ -1,5 +1,7 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.medioDeTransporte;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Tramo;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,19 @@ public abstract class MedioDeTransporte {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
   protected double factorEmision;
+
+  @OneToOne(mappedBy = "transporte")
+  protected Tramo tramo;
+
+  public Tramo getTramo() {
+    return tramo;
+  }
+
+  public void setTramo(Tramo tramos) {
+    this.tramo = tramos;
+  }
 
   public MedioDeTransporte() {
   }

@@ -6,6 +6,16 @@ public class TrayectoExistenteDTO {
     private String area;
     private Long idTrayecto;
 
+    private String idSesion;
+
+    public String getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(String idSesion) {
+        this.idSesion = idSesion;
+    }
+
     public String getArea() {
         return area;
     }

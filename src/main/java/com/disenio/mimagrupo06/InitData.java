@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 @Component
 public class InitData implements CommandLineRunner {
@@ -113,6 +114,10 @@ public class InitData implements CommandLineRunner {
             Tramo tramo2 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
             rtr.save(tramo1);
             rtr.save(tramo2);
+
+            System.out.println("..................");
+            Collection<Tramo> tramos = rtr.findAll();
+
 
             Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
             Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);

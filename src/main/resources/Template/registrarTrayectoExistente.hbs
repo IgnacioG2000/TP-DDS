@@ -98,19 +98,23 @@
         }
     })
 async function enviarTrayectoExistenteAlBack() {
-        let bodyExterno = {
-            idTrayecto: idSeleccionado,
-            area: obtenerArea(),
-            idSesion: obtenerSesion()
+
+
+        body = {
+         area: obtenerArea(),
+         idTrayecto: idSeleccionado,
+         idSesion: obtenerSesion()
         }
-    console.log(bodyExterno)
-    await fetch('http://localhost:8080/login', {
-        body: bodyExterno,
+
+    console.log(body)
+
+    await fetch('http://localhost:8080/registrarTrayectoExistente', {
+
         headers: {
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify(this.body)
+        body: JSON.stringify(body)
 
     })
 
