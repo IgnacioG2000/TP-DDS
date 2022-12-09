@@ -18,10 +18,13 @@ public class Tramo {
   private Espacio partida;
   @ManyToOne
   private Espacio llegada;
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tramo_id")
+
+  @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+  @JoinColumn(name = "transporte_id", referencedColumnName = "id")
   private MedioDeTransporte transporte;
-  @ManyToMany
+
+  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @JoinColumn(name = "miembro_id", referencedColumnName = "id")
   private Collection<Miembro> miembros;
   private double distancia;
 
@@ -32,7 +35,8 @@ public class Tramo {
     if(miembros.size() == 1 || transporte.puedoSerCompartido()) {
       this.miembros = miembros;
     }
-    distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
+    //Todo: descomentar
+    //distancia =  ServicioApiDistancia.getInstancia().obtenerDistancia(partida, llegada);
   }
 
   public Tramo(){

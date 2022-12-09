@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo",discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "tipo_st",discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Usuario {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
