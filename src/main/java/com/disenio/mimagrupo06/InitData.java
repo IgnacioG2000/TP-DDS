@@ -115,10 +115,6 @@ public class InitData implements CommandLineRunner {
             rtr.save(tramo1);
             rtr.save(tramo2);
 
-            System.out.println("..................");
-            Collection<Tramo> tramos = rtr.findAll();
-
-
             Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
             Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
             rt.save(trayecto1);
