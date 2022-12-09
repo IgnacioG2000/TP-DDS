@@ -193,14 +193,8 @@ function cargarNuevoTramo() {
 
 function actualizarListaTramos() {
 
-    /*
-    * {
-        partida: bodyPartida,
-        llegada: bodyLlegada,
-        transporte: bodyTransporte
-    }
-    * */
     let ultimoTramoAgregado = bodyTramos.at(-1)
+    console.log(ultimoTramoAgregado)
     let espacioPartida = ultimoTramoAgregado.partida
     let espacioLlegada = ultimoTramoAgregado.llegada
     let medioTransporte = ultimoTramoAgregado.transporte
@@ -222,7 +216,7 @@ function volverAEstadoDefault() {
 
     //1. agregar el divisor para que se vea un tramo agregado
 
-    actualizarListaTramos()
+    //actualizarListaTramos()
     //2.  resetar los valores en las variables guardadas
     document.getElementById("tramos")
     opcionesTramo.classList.remove("hidden");
