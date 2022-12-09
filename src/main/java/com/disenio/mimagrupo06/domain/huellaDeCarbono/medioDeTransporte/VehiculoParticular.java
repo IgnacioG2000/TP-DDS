@@ -20,6 +20,7 @@ public class VehiculoParticular extends MedioDeTransporte {
     this.tipoVehiculo = tipoVehiculo;
     this.tipoCombustible = tipoCombustible;
     this.factorEmision = ArchivoConfig.obtenerFEVehiculoParticular();
+    nombreAMostrar = tipoVehiculo.toString() + " " + tipoCombustible.toString() ;
   }
 
   public VehiculoParticular() {

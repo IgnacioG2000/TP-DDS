@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 public class TrayectoNuevoDTO {
+
+
   private String nombreArea;
   private EspacioDTO espacioLlegada;
   private EspacioDTO espacioPartida;

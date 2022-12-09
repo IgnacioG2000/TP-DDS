@@ -17,6 +17,7 @@ public class TransportePublico extends MedioDeTransporte{
     this.tipo = tipo;
     this.nombre = nombre;
     this.factorEmision = ArchivoConfig.obtenerFETrasnportePublico();
+    nombreAMostrar = tipo + " " + nombre;
   }
 
   public TransportePublico() {

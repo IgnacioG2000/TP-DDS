@@ -15,6 +15,7 @@ public class ServicioContratado extends MedioDeTransporte{
   public ServicioContratado(TipoServicioContratado tipo) throws IOException {
     this.tipo = tipo;
     this.factorEmision = ArchivoConfig.obtenerFEServicioContratado();
+    nombreAMostrar = tipo.toString();
   }
 
   public ServicioContratado() {

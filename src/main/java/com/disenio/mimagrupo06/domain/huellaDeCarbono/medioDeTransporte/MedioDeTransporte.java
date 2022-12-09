@@ -17,6 +17,16 @@ public abstract class MedioDeTransporte {
   @OneToOne(mappedBy = "transporte")
   protected Tramo tramo;
 
+  protected String nombreAMostrar;
+
+  public String getNombreAMostrar() {
+    return nombreAMostrar;
+  }
+
+  public void setNombreAMostrar(String nombreAMostrar) {
+    this.nombreAMostrar = nombreAMostrar;
+  }
+
   public Tramo getTramo() {
     return tramo;
   }

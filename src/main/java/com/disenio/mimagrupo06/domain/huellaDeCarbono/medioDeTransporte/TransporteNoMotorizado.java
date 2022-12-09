@@ -17,6 +17,7 @@ public class TransporteNoMotorizado extends MedioDeTransporte {
   public TransporteNoMotorizado(TipoNoMotorizado tipoNoMotorizado) throws IOException {
     this.tipoNoMotorizado = tipoNoMotorizado;
     this.factorEmision = ArchivoConfig.obtenerFENoMotorizados();
+    nombreAMostrar = tipoNoMotorizado.toString();
   }
 
   public TransporteNoMotorizado() {

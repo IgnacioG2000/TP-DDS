@@ -179,11 +179,28 @@ function cargarNuevoTramo() {
     bodyLlegada = definirBodyLlegadaTramo(espacioLlegadaTramoNuevo.value)
     bodyTransporte = definirBodyTransporte(medioDeTransporte.value)
 
-    let bodyParcial = {
-        partida: bodyPartida,
-        llegada: bodyLlegada,
-        transporte: bodyTransporte
+
+    if(document.getElementById("tipoTramo").value === "nuevo"){
+        bodyParcial = {
+
+                id: null,
+                partida: bodyPartida,
+                llegada: bodyLlegada,
+                transporte: bodyTransporte
+
     }
+    }
+    else {
+    bodyParcial = {
+            id: parseInt(document.getElementById("tramosExistentes").value),
+            partida: null,
+            llegada: null,
+            transporte: null
+        }
+    }
+
+    console.log(bodyParcial)
+
     bodyTramos.push(bodyParcial)
     console.log(bodyTramos)
 

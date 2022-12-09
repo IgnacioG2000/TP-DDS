@@ -66,6 +66,9 @@ public class TrayectosController {
 
         Map<String, Object> model = new HashMap<>();
         model.put("tramos", tramos);
+        for (Tramo tramo : tramos) {
+            System.out.println(tramo.getTransporte() + "\n");
+        }
         model.put("espacios", espacios);
 
 
