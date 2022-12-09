@@ -246,7 +246,7 @@ function definirBodyTransporte(medioTransporteSeleccionado) {
         claseAInicializar = "servicioContratado"
         const valorServicioContratado = document.getElementById("servicioContratado").value
         bodyTransporte = {
-            clase: claseAInicializar,
+            claseAInicializar: claseAInicializar,
             tipoServicioContratado: valorServicioContratado
         }
 
@@ -254,16 +254,16 @@ function definirBodyTransporte(medioTransporteSeleccionado) {
         claseAInicializar = "transporteNoMotorizado"
         const valorNoMotorizado = document.getElementById("noMotorizado").value
         bodyTransporte = {
-            clase: claseAInicializar,
+            claseAInicializar: claseAInicializar,
             tipoNoMotorizado: valorNoMotorizado
         }
 
     } else if (medioTransporteSeleccionado === "transportePublico") {
         claseAInicializar = "transportePublico"
         const tipoTransportePublico = document.getElementById("transportePublico").value
-        const valorLinea = document.getElementById("nombreTransporte")
+        const valorLinea = document.getElementById("nombreTransporte").value
         bodyTransporte = {
-            clase: claseAInicializar,
+            claseAInicializar: claseAInicializar,
             tipoTransporte: tipoTransportePublico,
             nombre: valorLinea
         }
@@ -272,7 +272,7 @@ function definirBodyTransporte(medioTransporteSeleccionado) {
         const valorVehiculoParticular = document.getElementById("vehiculoParticular").value
         const valortipoCombustible = document.getElementById("tipoCombustible").value
         bodyTransporte = {
-            clase: claseAInicializar,
+            claseAInicializar: claseAInicializar,
             tipoVehiculoParticular: valorVehiculoParticular,
             tipoCombustible: valortipoCombustible
         }
@@ -501,17 +501,16 @@ function mandarDatosAlBack() {
         // Se ejecuta la request
     fetch('http://localhost:8080/registrarTrayectoNuevo', {
         headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("idSesion")
         },
             method: "POST",
-            body: bodyTrayectos
+            body: JSON.stringify(bodyTrayectos)
         }).then()
 
 }
 
 function generarBodyTrayectos() {
-
-    let bodyARetornar
 
     let bodyLlegada = definirBodyLlegadaTrayecto(espacioSeleccionadoLlegada.value)
     console.log(bodyLlegada)
@@ -521,11 +520,12 @@ function generarBodyTrayectos() {
     let fechaInicio = document.getElementById("startInicio").value
     let fechaFin = document.getElementById("startFin").value
 
-    bodyARetornar = {
-        llegada: bodyLlegada,
-        partida: bodyPartida,
+    const bodyARetornar = {
+        nombreArea: obtenerArea(),
+        espacioLlegada: bodyLlegada,
+        espacioPartida: bodyPartida,
         tramos: bodyTramos,
-        diasAUtilizar: dias,
+        diasUtilizados: dias,
         fechaInicio: fechaInicio,
         fechaFin: fechaFin
     }
