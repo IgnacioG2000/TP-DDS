@@ -7,12 +7,12 @@ import javax.persistence.*;
 @Entity
 public class DatoDeLaActividad {
   private String actividad;
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   private TipoActividad tipoActividad;
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.ALL})
   private Consumo consumo;
   private String periodoDeImputacion;
 

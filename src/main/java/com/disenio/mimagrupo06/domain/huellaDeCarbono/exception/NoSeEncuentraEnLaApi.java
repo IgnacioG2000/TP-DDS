@@ -1,4 +1,4 @@
-package com.disenio.mimagrupo06.exception;
+package com.disenio.mimagrupo06.domain.huellaDeCarbono.exception;
 
 import java.util.NoSuchElementException;
 

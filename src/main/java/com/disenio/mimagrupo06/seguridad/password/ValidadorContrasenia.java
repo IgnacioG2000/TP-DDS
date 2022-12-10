@@ -1,5 +1,5 @@
 package com.disenio.mimagrupo06.seguridad.password;
-import com.disenio.mimagrupo06.exception.ContraseniaInvalidaException;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.exception.ContraseniaInvalidaException;
 
 
 public abstract class ValidadorContrasenia {
