@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/scrollGraph.css" rel="stylesheet" />
 </head>
 <body>
 <!-- Navigation-->
@@ -62,259 +61,62 @@
 <br>
 <br>
 <br>
-
-
-<div class="chartWrapper">
-    <div class="chartAreaWrapper">
-        <div class="chartAreaWrapper2">
-            <canvas id="chart-Test" height="300" width="1200"></canvas>
-        </div>
-    </div>
-    <canvas id="axis-Test" height="300" width="0"></canvas>
-</div>
+<canvas id="myChart" style="position: relative; height: 40vh; width: 80vw;"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-
-    $(document).ready(function() {
-
-        function generateLabels() {
-            var chartLabels = [];
-            for (x = 0; x < 100; x++) {
-                chartLabels.push("Label" + x);
-            }
-            return chartLabels;
-        }
-
-        function generateData() {
-            var chartData = [];
-            for (x = 0; x < 100; x++) {
-                chartData.push(Math.floor((Math.random() * 100) + 1));
-            }
-            return chartData;
-        }
-
-        function addData(numData, chart) {
-            for (var i = 0; i < numData; i++) {
-                chart.data.datasets[0].data.push(Math.random() * 100);
-                chart.data.labels.push("Label" + i);
-                var newwidth = $('.chartAreaWrapper2').width() + 60;
-                $('.chartAreaWrapper2').width(newwidth);
-            }
-        }
-
-        var chartData = {
-            labels: generateLabels(),
+    var ctx = document.getElementById('myChart')
+    var myChart = new Chart(ctx, {
+        type:'bar',
+        data:{
+            labels: [],
             datasets: [{
-                label: "Test Data Set",
-                data: generateData()
+                data: [],
+                label: 'HC Total',
+                backgroundColor: ['#6bf1ab','#63d69f', '#438c6c', '#509c7f', '#1f794e', '#34444c', '#90CAF9', '#64B5F6', '#42A5F5', '#2196F3', '#0D47A1'],
+                borderColor: ['black'],
+                borderWidth:1
             }]
-        };
-
-
-
-        $(function() {
-            var rectangleSet = false;
-
-            var canvasTest = $('#chart-Test');
-            var chartTest = new Chart(canvasTest, {
-                type: 'bar',
-                data: chartData,
-                maintainAspectRatio: false,
-                responsive: true,
-                options: {
-                    tooltips: {
-                        titleFontSize: 0,
-                        titleMarginBottom: 0,
-                        bodyFontSize: 12
-                    },
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                fontSize: 12,
-                                display: false
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                fontSize: 12,
-                                beginAtZero: true
-                            }
-                        }]
-                    },
-                    animation: {
-                        onComplete: function() {
-                            if (!rectangleSet) {
-                                var scale = window.devicePixelRatio;
-
-                                var sourceCanvas = chartTest.chart.canvas;
-                                var copyWidth = chartTest.scales['y-axis-0'].width - 10;
-                                var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-
-                                var targetCtx = document.getElementById("axis-Test").getContext("2d");
-
-                                targetCtx.scale(scale, scale);
-                                targetCtx.canvas.width = copyWidth * scale;
-                                targetCtx.canvas.height = copyHeight * scale;
-
-                                targetCtx.canvas.style.width = `${copyWidth}px`;
-                                targetCtx.canvas.style.height = `${copyHeight}px`;
-                                targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
-
-                                var sourceCtx = sourceCanvas.getContext('2d');
-
-                                // Normalize coordinate system to use css pixels.
-
-                                sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
-                                rectangleSet = true;
-                            }
-                        },
-                        onProgress: function() {
-                            if (rectangleSet === true) {
-                                var copyWidth = chartTest.scales['y-axis-0'].width;
-                                var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-
-                                var sourceCtx = chartTest.chart.canvas.getContext('2d');
-                                sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
-                            }
-                        }
+        },
+        options:{
+            indexAxis: 'y',
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        padding: 20
                     }
+                }],
+                x:{
+                    beginAtZero:true
                 }
-            });
-            addData(5, chartTest);
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Composición HC ({{nombre}})',
+                }
+            }
+        }
+    })
+    let url = 'http://localhost:8080/composicion_hc_provincia_back/{{nombre}}'
+    fetch(url)
+            .then( response => response.json() )
+            .then( datos => mostrar(datos) )
+            .catch( error => console.log(error) )
+    const mostrar = (reporteProvincia) =>{
+        reporteProvincia.forEach(provincia => {
+            myChart.data['labels'].push(provincia.municipio)
+            myChart.data['datasets'][0].data.push(2)
+            myChart.update()
         });
-    });
-
-    /*
-  var ctx = document.getElementById('myChart')
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: generateData(),
-      maintainAspectRatio: false,
-      responsive: true,
-      options: {
-          tooltips: {
-              titleFontSize: 0,
-              titleMarginBottom: 0,
-              bodyFontSize: 12
-          },
-          legend: {
-              display: false
-          },
-          scales: {
-              xAxes: [{
-                  ticks: {
-                      fontSize: 12,
-                      display: false
-                  }
-              }],
-              yAxes: [{
-                  ticks: {
-                      fontSize: 12,
-                      beginAtZero: true
-                  }
-              }]
-          },
-          animation: {
-              onComplete: function () {
-                  if (!rectangleSet) {
-                      var scale = window.devicePixelRatio;
-
-                      var sourceCanvas = chartTest.chart.canvas;
-                      var copyWidth = chartTest.scales['y-axis-0'].width - 10;
-                      var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-
-                      var targetCtx = document.getElementById("axis-Test").getContext("2d");
-
-                      targetCtx.scale(scale, scale);
-                      targetCtx.canvas.width = copyWidth * scale;
-                      targetCtx.canvas.height = copyHeight * scale;
-
-                      targetCtx.canvas.style.width = `${copyWidth}px`;
-                      targetCtx.canvas.style.height = `${copyHeight}px`;
-                      targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
-
-                      var sourceCtx = sourceCanvas.getContext('2d');
-
-                      // Normalize coordinate system to use css pixels.
-
-                      sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
-                      rectangleSet = true;
-                  }
-              },
-              onProgress: function () {
-                  if (rectangleSet === true) {
-                      var copyWidth = chartTest.scales['y-axis-0'].width;
-                      var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-
-                      var sourceCtx = chartTest.chart.canvas.getContext('2d');
-                      sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
-                  }
-              }
-          }
-      }
-  });
-
-      function generateLabels() {
-          var chartLabels = [];
-          for (x = 0; x < 100; x++) {
-              chartLabels.push("Label" + x);
-          }
-          return chartLabels;
-      }
-
-      function generateData() {
-          var chartData = [];
-          for (x = 0; x < 100; x++) {
-              chartData.push(Math.floor((Math.random() * 100) + 1));
-          }
-          return chartData;
-      }
-
-      function addData(numData, chart) {
-          for (var i = 0; i < numData; i++) {
-              chart.data.datasets[0].data.push(Math.random() * 100);
-              chart.data.labels.push("Label" + i);
-              var newwidth = $('.chartAreaWrapper2').width() + 60;
-              $('.chartAreaWrapper2').width(newwidth);
-          }
-      }
-
-      var chartData = {
-          labels: generateLabels(),
-          datasets: [{
-              label: "Test Data Set",
-              data: generateData()
-          }]
-      };
-
-        addData(5, myChart);*/
-
-  /*let url = 'http://localhost:8080/composicion_hc_provincia_back/{{nombre}}'
-  fetch(url)
-          .then( response => response.json() )
-          .then( datos => mostrar(datos) )
-          .catch( error => console.log(error) )
-
-
-  const mostrar = (reporteProvincia) =>{
-    reporteProvincia.forEach(provincia => {
-      myChart.data['labels'].push(provincia.municipio)
-      myChart.data['datasets'][0].data.push(2)
-      myChart.update()
-    });
-    console.log(myChart.data)
-  }*/
-
+        console.log(myChart.data)
+    }
 </script>
 
 <!-- Footer-->
 <footer class="py-5 bg-color1 fixed-bottom">
-  <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

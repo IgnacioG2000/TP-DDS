@@ -2,6 +2,7 @@ package com.disenio.mimagrupo06.presentacion;
 
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.domain.sector.MunicipioSector;
+import com.disenio.mimagrupo06.domain.sector.PaisSector;
 import com.disenio.mimagrupo06.domain.sector.ProvinciaSector;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteMunicipioDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteOrganizacionDTO;
@@ -34,6 +35,8 @@ public class ReportesController {
   private RepoReportesOrganizacion repoReportesOrganizacion;
   @Autowired
   private RepoReportesPais repoReportesPais;
+  @Autowired
+  private RepoPaisSector repoPaisSector;
   @Autowired
   private RepoProvinciaSector repoProvinciaSector;
   @Autowired
@@ -81,13 +84,13 @@ public class ReportesController {
   public ResponseEntity<String> generarReporteComposicion() throws IOException {
 
     List<ProvinciaSector> provincia = repoProvinciaSector.findAll();
-    List<Organizacion> organizacion = repoOrganizacion.findAll();
+    List<PaisSector> pais = repoPaisSector.findAll();
 
     Template template = handlebars.compile("/Template/reporteComposicion");
 
     Map<String, Object> model = new HashMap<>();
     model.put("provincia", provincia);
-    model.put("organizacion", organizacion);
+    model.put("pais", pais);
 
     String html = template.apply(model);
 
@@ -105,7 +108,7 @@ public class ReportesController {
   @GetMapping(value = "/composicion_hc_pais", produces = MediaType.TEXT_HTML_VALUE)
   public ResponseEntity<String> obtenerComposicionHCTotalDeUnPaisHand(@RequestParam String nombre) throws IOException {
 
-    Template template = handlebars.compile("/Template/resultadoReporteComposicionPais");
+    Template template = handlebars.compile("/Template/resultadoReporteComposicionHCPais");
 
     Map<String, Object> model = new HashMap<>();
     model.put("nombre", nombre);
@@ -166,6 +169,7 @@ public class ReportesController {
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCProvincia");
 
     Map<String, Object> model = new HashMap<>();
+    model.put("nombre", nombre);
 
     String html = template.apply(model);
 
@@ -204,6 +208,7 @@ public class ReportesController {
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCMunicipio");
 
     Map<String, Object> model = new HashMap<>();
+    model.put("nombre", nombre);
 
     String html = template.apply(model);
 

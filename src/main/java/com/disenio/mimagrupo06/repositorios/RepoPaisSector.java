@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface RepoPaisSector extends CrudRepository<PaisSector, Long> {
+  List<PaisSector> findAll();
+
   @Query(value="SELECT p.nombre, p.id FROM PaisSector p WHERE p.id = ?1")
   List<PaisSector> findAllById(Long id);
 

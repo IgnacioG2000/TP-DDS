@@ -86,21 +86,21 @@
             plugins: {
                 title: {
                     display: true,
-                    text: 'HC Total por Provincia',
+                    text: 'Composición HC ({{nombre}})',
                 }
             }
         }
     })
 
-    let url = 'http://localhost:8080/composicion_hc_pais_back'
+    let url = 'http://localhost:8080/composicion_hc_pais_back/{{nombre}}'
     fetch(url)
             .then( response => response.json() )
             .then( datos => mostrar(datos) )
             .catch( error => console.log(error) )
 
-    const mostrar = (reporteProvincia) =>{
-        reporteProvincia.forEach(provincia => {
-            myChart.data['labels'].push(provincia.provincia)
+    const mostrar = (reportePais) =>{
+        reportePais.forEach(pais => {
+            myChart.data['labels'].push(pais.provincia)
             myChart.data['datasets'][0].data.push(2)
             myChart.update()
         });

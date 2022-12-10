@@ -114,11 +114,11 @@
 
                 if (opcionElegida == 'Provincia') {
                     selectProvincia.classList.remove("hidden");
-                    selectOrganizacion.classList.add("hidden");
+                    selectPais.classList.add("hidden");
                 }
                 else {
                     selectProvincia.classList.add("hidden");
-                    selectOrganizacion.classList.remove("hidden");
+                    selectPais.classList.remove("hidden");
                 }
             }
     )
@@ -131,7 +131,7 @@
             window.location = "/composicion_hc_provincia?nombre=" + provincia.value
         }
         else {
-            //window.location = "/composicion_hc_organizacion?nombre=" + organizacion.value
+            window.location = "/composicion_hc_pais?nombre=" + pais.value
         }
     })
 
