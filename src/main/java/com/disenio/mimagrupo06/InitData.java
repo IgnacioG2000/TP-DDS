@@ -133,17 +133,17 @@ public class InitData implements CommandLineRunner {
 
             Tramo tramo1 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte1, Arrays.asList(miembroGuido));
             Tramo tramo2 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte2, Arrays.asList(miembroTaylor,miembroJake));
-            Tramo tramo3 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte2, Arrays.asList(miembroTaylor));
+            //Tramo tramo3 = new Tramo(espacioOrigen, espacioTrabajoArea, medioDeTransporte2, Arrays.asList(miembroTaylor));
             rtr.save(tramo1);
             rtr.save(tramo2);
-            rtr.save(tramo3);
+            //rtr.save(tramo3);
 
             Trayecto trayecto1 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo1), LocalDate.of(2021, 1, 1),5);
             Trayecto trayecto2 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo2), LocalDate.of(2021, 1, 1),3);
-            Trayecto trayecto3 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo3), LocalDate.of(2021, 1, 1),2);
+            //Trayecto trayecto3 = new Trayecto(espacioOrigen,espacioTrabajoArea,Arrays.asList(tramo3), LocalDate.of(2021, 1, 1),2);
             rt.save(trayecto1);
             rt.save(trayecto2);
-            rt.save(trayecto3);
+            //rt.save(trayecto3);
 
             Area area = new Area("Area1", Arrays.asList(miembroGuido), espacioTrabajoArea);
             area.solicitudMiembro(miembroTaylor);
@@ -157,9 +157,9 @@ public class InitData implements CommandLineRunner {
 
             Area area4Ever21 = new Area("Area4Ever21", Arrays.asList(miembroJake), espacioTrabajoArea);
             area4Ever21.agregarVinculacion(trayecto2);
-            area4Ever21.agregarVinculacion(trayecto3);
+            //area4Ever21.agregarVinculacion(trayecto3);
             area4Ever21.aceptarVinculacion(trayecto2);
-            area4Ever21.aceptarVinculacion(trayecto3);
+            //area4Ever21.aceptarVinculacion(trayecto3);
             ra.save(area4Ever21);
 
             miembroJake.setArea(area4Ever21);
