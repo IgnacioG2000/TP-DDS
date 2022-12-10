@@ -14,6 +14,8 @@ package "miembro" #DDDDDD {
     class Miembro {
     -persona: Persona
     -area: Area
+    -areaPendiente: Area
+    -tramos: [Tramo]
     -valoresHCMensuales: [ValorHCMensualMiembro]
 
 
@@ -79,30 +81,42 @@ package "organizacion" #DDDDDD {
     -sectores: [Area]
     -contactos: [Contacto]
     -medioNotificacion: MedioNotificacion
-    -datosDeLaActividad:  DatoDeLaActividad]]
+    -datosDeLaActividad: [DatoDeLaActividad]
     -valoresMensuales:[ValorHCMensualOrganizacion]
+    -organizacionService: OrganizacionService
+    -usuario: usuarioOrganizacion
 
     +double calcularHuellaCarbonoTotalAnio(int)
     +double calcularHuellaCarbonoTotalMensual(int, int)
     +boolean tieneArea(Area)
-    +void EnviarRecomendacion()
+    +void enviarRecomendacion()
+    }
+
+    class OrganizacionService {
+    -transformador: Transformador
+    -calculadoraHCActividad: CalculadoraHCActividad
+
+    +void cargarDatosActividad(String, Organizacion)
+    +double calcularHuellaCarbonoTotalAnio(int, Organizacion)
+    +double calcularHuellaCarbonoTotalMensual(int, int, Organizacion)
     }
 
     class Area {
     -nombre: String
     -miembros: [Miembro]
+    -miembrosPendientes: [Miembro]
     -ubicacion: EspacioDeTrabajo
     -trayectosRegistrados: [Trayecto]
+    -trayectosPendientes: [Trayecto]
 
-    +void registrarMiembro(Miembro)
     +void aceptarVinculacion(Trayecto)
-    +void agregarVinculacion(Trayecto)
     +double calcularHuellaCarbonoTotalAreaAnual(int)
     +double calcularHuellaCarbonoTotalAreaMensual(int, int)
     +double calcularHuellaCarbonoPromedioMiembroMensual(int, int)
     +double calcularHuellaCarbonoPromedioMiembroAnual(int)
     +Collection<Trayecto> getTrayectosDelMiembro(Miembro)
     +boolean perteneceSector(Sector)
+    +void vincularTrabajador(Miembro)
     }
 
     enum Clasificacion {
@@ -253,9 +267,8 @@ package "huellaDeCarbono" #DDDDDD {
 
     package "CalculadoraHC" {
         class CalculadoraHCActividad {
-        -instance: CalculadoraHCActividad
+        -tiposActividad: [TipoActividad]
 
-        -CalculadoraHCActividad getCalculadoraHCActividad()
         -TipoActividad obtenerTipoActividad DatoDeLaActividad)
         +double calcularHuellaCarbonoLogProdRes(Collection DatoDeLaActividad>)
         +double calcularHuellaCarbonoCombElec DatoDeLaActividad)
@@ -278,17 +291,16 @@ package "huellaDeCarbono" #DDDDDD {
         }
 
          class ValorHCMensualOrganizacion{
-                -anio: int
-                -mes: int
-                -huellaCarbono: double
+         -anio: int
+         -mes: int
+         -huellaCarbono: double
          }
 
          class ValorHCMensualSector {
          -anio: int
          -mes: int
          -huellaCarbono: double
-
-
+         -sector: Sector
          }
     }
 
@@ -482,28 +494,36 @@ package "roles" #DDDDDD {
     class UsuarioComun extends Usuario {
 
     }
+
+    class UsuarioOrganizacion extends Usuario {
+
+    }
 }
 
 Miembro ..> Trayecto
 Miembro --> Persona
-Miembro --> Area
+Miembro --> "2" Area
 Miembro --> "*" ValorHCMensualMiembro
 
+
 Area --> EspacioDeTrabajo
-Area --> "*" Miembro
-Area --> "*" Trayecto
-Area ..> ManejadorTrayectos : <<instance>>
+Area --> "2*" Miembro
+Area --> "2*" Trayecto
 
 Organizacion --> "*" DatoDeLaActividad
 Organizacion --> "*" Area
 Organizacion --> TipoOrganizacion
 Organizacion --> Clasificacion
 Organizacion --> "*" Contacto
-Organizacion ..> CalculadoraHCActividad: <<uses>>
 Organizacion ..> Transformador
 Organizacion --> MedioNotificacion
 Organizacion ..> ManejadorEvento
 Organizacion --> "*" ValorHCMensualOrganizacion
+Organizacion --> OrganizacionService
+Organizacion --> Usuario
+
+OrganizacionService --> Transformador
+OrganizacionService --> CalculadoraHCActividad
 
 Trayecto --> "2" Espacio
 Trayecto --> "*" Tramo
@@ -556,8 +576,7 @@ Persona --> Hogar
 Persona --> Usuario
 Persona --> TipoDocumento
 
-CalculadoraHCActividad ..> TipoActividad
-CalculadoraHCActividad --> CalculadoraHCActividad
+CalculadoraHCActividad --> "*" TipoActividad
 
 Notificador ..> Notificacion
 Notificador ..> Contacto
