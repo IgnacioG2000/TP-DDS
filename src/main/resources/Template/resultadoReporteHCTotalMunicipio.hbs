@@ -61,6 +61,8 @@
 <br>
 <br>
 <br>
+<div style="width:1480px;height:420px;overflow-y:scroll;overflow-x:scroll;">
+    <p style="width:120%;">
 <canvas id="myChart" style="position: relative; height: 40vh; width: 80vw;"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -81,7 +83,10 @@
       scales:{
         y:{
           beginAtZero:true
-        }
+        },
+          xAxes: [{
+              barPercentage: 1
+          }]
       },
       plugins: {
         title: {
@@ -109,7 +114,8 @@
   }
 
 </script>
-
+    </p>
+</div>
 <!-- Footer-->
 <footer class="py-5 bg-color1 fixed-bottom">
   <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
