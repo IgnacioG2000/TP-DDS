@@ -17,9 +17,15 @@ public class Area {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String nombre;
+
   @OneToMany
   @JoinColumn(name = "area_id")
   private Collection<Miembro> miembros;
+
+  @OneToMany
+  @JoinColumn(name = "area_pend_id")
+  private Collection<Miembro> miembrosPend;
+
   @ManyToOne
   private EspacioDeTrabajo espacioDeTrabajo;
   @OneToMany
@@ -32,6 +38,7 @@ public class Area {
   public Area(String nombre, Collection<Miembro> miembros, EspacioDeTrabajo espacioDeTrabajo) {
     this.nombre = nombre;
     this.miembros = miembros;
+    this.miembrosPend = new ArrayList<>();
     this.espacioDeTrabajo = espacioDeTrabajo;
     this.trayectosRegistados = new ArrayList<>();
     this.trayectosPendientes = new ArrayList<>();
@@ -120,6 +127,25 @@ public class Area {
   public boolean perteneceSector(Sector sector) {
     return espacioDeTrabajo.getProvincia().equals(sector.getNombre())
         || espacioDeTrabajo.getMunicipio().equals(sector.getNombre()) && espacioDeTrabajo.getProvincia().equals(sector.nombreProvincia());
+  }
+
+  public Collection<Miembro> getMiembrosPend() {
+    return miembrosPend;
+  }
+
+  public void solicitudMiembro(Miembro miembro){
+    this.miembrosPend.add(miembro);
+  }
+  public void vincularTrabajador(Miembro miembro){
+    this.miembrosPend.remove(miembro);
+    registrarMiembro(miembro);
+  }
+  public void rechazarTrabajador(Miembro miembro){
+    this.miembrosPend.remove(miembro);
+  }
+
+  public void setMiembrosPend(Collection<Miembro> miembrosPend) {
+    this.miembrosPend = miembrosPend;
   }
 
   public Long getId() {

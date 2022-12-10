@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class RepoOrganizacion1 {
-  private Collection<Organizacion> organizaciones;
+  private Collection<Organizacion> organizaciones = new ArrayList<>();
 
   private static final RepoOrganizacion1 INSTANCE = new RepoOrganizacion1();
 

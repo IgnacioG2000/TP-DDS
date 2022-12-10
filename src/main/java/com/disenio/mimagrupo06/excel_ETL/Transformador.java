@@ -41,6 +41,7 @@ public class Transformador {
     try {
       //conseguimos el path del proyecto
       Path path = Paths.get("");
+
       String directoryName = path.toAbsolutePath().toString();
 
       //conseguimos abrir el excel con el path del mismo dentro del proyecto

@@ -1,19 +1,16 @@
 package com.disenio.mimagrupo06.apiDistancia;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.espacio.Espacio;
-import com.disenio.mimagrupo06.exception.NoSeEncuentraEnLaApi;
-import com.disenio.mimagrupo06.exception.NoSePuedeCalcularDistancia;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.exception.NoSeEncuentraEnLaApi;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.exception.NoSePuedeCalcularDistancia;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;

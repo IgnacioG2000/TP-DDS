@@ -15,14 +15,22 @@
 	<description>TP-ANUAL-DDS-2022</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>com.github.jknack</groupId> <!--templating engine elegido-->
+			<artifactId>handlebars</artifactId>
+			<version>4.3.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.uqbar-project</groupId>
 			<artifactId>jpa-java8-extras</artifactId>
 			<version>1.0-alpha-1</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.github.jknack</groupId> <!--templating engine elegido-->
@@ -147,7 +155,10 @@
 			<version>1.4.7</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 	</dependencies>
 

@@ -3,6 +3,7 @@ package com.disenio.mimagrupo06.domain.organizacion;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 
 public class OrganizacionService {
