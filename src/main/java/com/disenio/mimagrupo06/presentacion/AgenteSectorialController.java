@@ -4,10 +4,7 @@ import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraH
 import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
 import com.disenio.mimagrupo06.domain.organizacion.OrganizacionService;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
-import com.disenio.mimagrupo06.repositorios.RepoArea;
-import com.disenio.mimagrupo06.repositorios.RepoOrganizacion;
-import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
-import com.disenio.mimagrupo06.repositorios.RepoTA;
+import com.disenio.mimagrupo06.repositorios.*;
 import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 import com.disenio.mimagrupo06.seguridad.roles.UsuarioOrganizacion;
 import com.github.jknack.handlebars.Handlebars;
@@ -31,6 +28,9 @@ public class AgenteSectorialController {
 
   @Autowired
   private RepoArea ra;
+
+  @Autowired
+  private RepoUsuario ru;
 
   private Handlebars handlebars = new Handlebars();
   public AgenteSectorialController(){
@@ -76,7 +76,7 @@ public class AgenteSectorialController {
     double resultado = agenteSectorial.calcularHuellaCarbonoPorSectorAnual(Integer.parseInt(anio));
 
     System.out.println("Resultado = " + resultado);;
-
+    ru.save(agenteSectorial);
     return ResponseEntity.status(200).body(resultado);
   }
 
@@ -94,10 +94,11 @@ public class AgenteSectorialController {
 
     agenteSectorial.setRa(ra);
 
+
     double resultado = agenteSectorial.calcularHuellaCarbonoPorSectorMensual(Integer.parseInt(anio), Integer.parseInt(mes));
 
     System.out.println("Resultado = " + resultado);;
-
+    ru.save(agenteSectorial);
     return ResponseEntity.status(200).body(resultado);
   }
 }
