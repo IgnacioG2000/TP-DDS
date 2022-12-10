@@ -504,7 +504,7 @@ Miembro ..> Trayecto
 Miembro --> Persona
 Miembro --> "2" Area
 Miembro --> "*" ValorHCMensualMiembro
-
+Miembro ..> ManejadorTrayectos
 
 Area --> EspacioDeTrabajo
 Area --> "2*" Miembro

@@ -68,6 +68,24 @@ class TokenInterceptor {
 + Response intercept(Chain)
 }
 
+class DatosAPI {
+-ps: RepoPaisSector
+-rps: RepoProvinciaSector
+-ms: RepoMunicipioSector
+-ls: RepoLocalidadSector
+-provincias: [Provincia]
+-municipios: [Municipio]
+-localidades: [Localidad]
+
++List<Provincia> obtenerProvincias()
++List<Localidad> obtenerLocalidades()
++List<Municipio> obtenerMunicipios()
+-void persistirPaises()
+-void persistirProvincias()
+-void persistirMunicipios()
+-void persistirLocalidades()
+}
+
 class ServicioApiDistancia {
 - instance: ServicioApiDistancia
 - retrofit : Retrofit
@@ -84,6 +102,10 @@ class ServicioApiDistancia {
 - String obtenerIdPais()
 - String obtenerIdLocalidad(String, String, String)
 }
+
+DatosAPI --> "*" Provincia
+DatosAPI --> "*" Municipio
+DatosAPI --> "*" Localidad
 
 ApiDistancia -- Pais
 ApiDistancia -- Provincia
