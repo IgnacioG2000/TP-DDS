@@ -57,39 +57,58 @@
     </div>
 </nav>
 <!-- Section-->
-<div class="formulario1">
-    <div class="rendered-form">
-        <div class="">
-            <h1 access="false" id="control-2188050">Reporte - Composición HC</h1></div>
-        <div class="col-md-6">
-            <label class="form-label">Seleccione el tipo de composicion que desea obtener:</label>
-            <select name="SectorXOrganizacion" id="SectorXOrganizacion">
-                <option value="Pais">Pais</option>
-                <option value="Provincia">Provincia</option>
-            </select>
-            <div id="selectPais" class="hidden">
-                <label class="form-label">Seleccione el pais:</label>
-                <select name="pais" id="pais">
-                    {{#each pais}}
-                        <option value='{{nombre}}'>{{nombre}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div id="selectProvincia" class="hidden">
-                <label class="form-label">Seleccione la provincia:</label>
-                <select name="provincia" id="provincia">
-                    {{#each provincia}}
-                        <option value='{{nombre}}'>{{nombre}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-        <br>
-        <div class="formbuilder-button form-group field-button-1666388854444">
-            <button type="button" class="btn-success btn" name="button-1666388854444" access="false" id="botonGenerar">Generar Reporte</button>
-        </div>
-    </div>
-</div>
+<br>
+<br>
+<br>
+<br>
+<canvas id="myChart" style="position: relative; height: 40vh; width: 80vw;"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var ctx = document.getElementById('myChart')
+    var myChart = new Chart(ctx, {
+        type:'bar',
+        data:{
+            datasets: [{
+                label: 'HC Total',
+                backgroundColor: ['#6bf1ab','#63d69f', '#438c6c', '#509c7f', '#1f794e', '#34444c', '#90CAF9', '#64B5F6', '#42A5F5', '#2196F3', '#0D47A1'],
+                borderColor: ['black'],
+                borderWidth:1
+            }]
+        },
+        options:{
+            scales:{
+                y:{
+                    beginAtZero:true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'HC Total por Provincia',
+                }
+            }
+        }
+    })
+
+    let url = 'http://localhost:8080/composicion_hc_pais_back'
+    fetch(url)
+            .then( response => response.json() )
+            .then( datos => mostrar(datos) )
+            .catch( error => console.log(error) )
+
+    const mostrar = (reporteProvincia) =>{
+        reporteProvincia.forEach(provincia => {
+            myChart.data['labels'].push(provincia.provincia)
+            myChart.data['datasets'][0].data.push(2)
+            myChart.update()
+        });
+        console.log(myChart.data)
+    }
+
+</script>
+
 <!-- Footer-->
 <footer class="py-5 bg-color1 fixed-bottom">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
@@ -98,44 +117,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
-
-<script>
-
-    const opcion = document.getElementById("SectorXOrganizacion");
-    const botonGenerar = document.getElementById("botonGenerar");
-    const selectProvincia = document.getElementById("selectProvincia");
-    const selectPais = document.getElementById("selectPais");
-    const provincia = document.getElementById("provincia");
-    const pais = document.getElementById("pais");
-
-    opcion.addEventListener('change', e => {
-                e.preventDefault();
-                const opcionElegida = opcion.value;
-
-                if (opcionElegida == 'Provincia') {
-                    selectProvincia.classList.remove("hidden");
-                    selectOrganizacion.classList.add("hidden");
-                }
-                else {
-                    selectProvincia.classList.add("hidden");
-                    selectOrganizacion.classList.remove("hidden");
-                }
-            }
-    )
-
-    botonGenerar.addEventListener('click', e => {
-        e.preventDefault();
-        const opcionElegida = opcion.value;
-
-        if (opcionElegida == 'Provincia') {
-            window.location = "/composicion_hc_provincia?nombre=" + provincia.value
-        }
-        else {
-            //window.location = "/composicion_hc_organizacion?nombre=" + organizacion.value
-        }
-    })
-
-</script>
-
 </body>
 </html>

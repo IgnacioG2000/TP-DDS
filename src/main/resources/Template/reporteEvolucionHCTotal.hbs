@@ -62,19 +62,36 @@
     <div class="">
       <h1 access="false" id="control-2188050">Reporte - Evolución HC</h1></div>
     <div class="col-md-6">
-      <label class="form-label">Seleccione la evolución que desea obtener:</label>
+      <label class="form-label">Seleccione el tipo de evolución que desea obtener:</label>
       <select name="SectorXOrganizacion" id="SectorXOrganizacion">
-        <optgroup label="Provincia">
-            {{#each provincia}}
-                <option value='{{nombre}}'>{{nombre}}</option>
-            {{/each}}
-        </optgroup>
-        <optgroup label="Organizacion">
-          <option value="Organizacion1">Organización 1</option>
-          <option value="Organizacion2">Organización 2</option>
-          <option value="Organizacion3">Organización 3</option>
-        </optgroup>
+          <option value="Provincia">Provincia</option>
+          <option value="Municipio">Municipio</option>
+          <option value="Organizacion">Organizacion</option>
       </select>
+        <div id="selectProvincia" class="hidden">
+            <label class="form-label">Seleccione la provincia:</label>
+            <select name="provincia" id="provincia">
+                    {{#each provincia}}
+                        <option value='{{nombre}}'>{{nombre}}</option>
+                    {{/each}}
+            </select>
+        </div>
+        <div id="selectMunicipio" class="hidden">
+            <label class="form-label">Seleccione el municipio:</label>
+            <select name="municipio" id="municipio">
+                {{#each municipio}}
+                    <option value='{{nombre}}'>{{nombre}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div id="selectOrganizacion" class="hidden">
+            <label class="form-label">Seleccione la organizacion:</label>
+            <select name="organizacion" id="organizacion">
+                {{#each organizacion}}
+                    <option value='{{nombre}}'>{{nombre}}</option>
+                {{/each}}
+            </select>
+        </div>
     </div>
       <br>
       <div class="formbuilder-button form-group field-button-1666388854444">
@@ -93,15 +110,55 @@
 <script>
 
     const opcion = document.getElementById("SectorXOrganizacion");
-    const label = document.getElementById("SectorXOrganizacion");
     const botonGenerar = document.getElementById("botonGenerar");
+    const selectProvincia = document.getElementById("selectProvincia");
+    const selectMunicipio = document.getElementById("selectMunicipio");
+    const selectOrganizacion = document.getElementById("selectOrganizacion");
+    const provincia = document.getElementById("provincia");
+    const municipio = document.getElementById("municipio");
+    const organizacion = document.getElementById("organizacion");
 
-            botonGenerar.addEventListener('click', e => {
-                e.preventDefault();
-                const opcionElegida = opcion.value
+    opcion.addEventListener('change', e => {
+        e.preventDefault();
+        const opcionElegida = opcion.value;
 
-                window.location = "/evolucion_hc_provincia?nombre=" + opcionElegida
-            })
+        if (opcionElegida == 'Provincia') {
+            selectProvincia.classList.remove("hidden");
+            selectMunicipio.classList.add("hidden");
+            selectOrganizacion.classList.add("hidden");
+        }
+        else {
+            if (opcionElegida == 'Municipio') {
+                selectProvincia.classList.add("hidden");
+                selectMunicipio.classList.remove("hidden");
+                selectOrganizacion.classList.add("hidden");
+            }
+            else {
+                selectProvincia.classList.add("hidden");
+                selectMunicipio.classList.add("hidden");
+                selectOrganizacion.classList.remove("hidden");
+            }
+        }
+
+        }
+    )
+
+    botonGenerar.addEventListener('click', e => {
+        e.preventDefault();
+        const opcionElegida = opcion.value;
+
+        if (opcionElegida == 'Provincia') {
+            window.location = "/evolucion_hc_provincia?nombre=" + provincia.value
+        }
+        else {
+            if (opcionElegida == 'Municipio') {
+                window.location = "/evolucion_hc_municipio?nombre=" + municipio.value
+            }
+            else {
+                //window.location = "/evolucion_hc_organizacion?nombre=" + organizacion.value
+            }
+        }
+    })
 
 </script>
 </body>

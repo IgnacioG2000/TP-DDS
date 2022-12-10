@@ -1,13 +1,13 @@
 package com.disenio.mimagrupo06.presentacion;
 
+import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+import com.disenio.mimagrupo06.domain.sector.MunicipioSector;
 import com.disenio.mimagrupo06.domain.sector.ProvinciaSector;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteMunicipioDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteOrganizacionDTO;
+import com.disenio.mimagrupo06.presentacion.dto.ReportePaisDTO;
 import com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO;
-import com.disenio.mimagrupo06.repositorios.RepoProvinciaSector;
-import com.disenio.mimagrupo06.repositorios.RepoReportesMunicipio;
-import com.disenio.mimagrupo06.repositorios.RepoReportesOrganizacion;
-import com.disenio.mimagrupo06.repositorios.RepoReportesProvincia;
+import com.disenio.mimagrupo06.repositorios.*;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,13 @@ public class ReportesController {
   @Autowired
   private RepoReportesOrganizacion repoReportesOrganizacion;
   @Autowired
+  private RepoReportesPais repoReportesPais;
+  @Autowired
   private RepoProvinciaSector repoProvinciaSector;
+  @Autowired
+  private RepoMunicipioSector repoMunicipioSector;
+  @Autowired
+  private RepoOrganizacion repoOrganizacion;
 
 
   private final Handlebars handlebars = new Handlebars(); //TODO instanciar en constructor
@@ -56,11 +62,15 @@ public class ReportesController {
   public ResponseEntity<String> generarReporteEvolucion() throws IOException {
 
     List<ProvinciaSector> provincia = repoProvinciaSector.findAll();
+    List<MunicipioSector> municipio = repoMunicipioSector.findAll();
+    List<Organizacion> organizacion = repoOrganizacion.findAll();
 
     Template template = handlebars.compile("/Template/reporteEvolucionHCTotal");
 
     Map<String, Object> model = new HashMap<>();
     model.put("provincia", provincia);
+    model.put("municipio", municipio);
+    model.put("organizacion", organizacion);
 
     String html = template.apply(model);
 
@@ -71,11 +81,34 @@ public class ReportesController {
   public ResponseEntity<String> generarReporteComposicion() throws IOException {
 
     List<ProvinciaSector> provincia = repoProvinciaSector.findAll();
+    List<Organizacion> organizacion = repoOrganizacion.findAll();
 
     Template template = handlebars.compile("/Template/reporteComposicion");
 
     Map<String, Object> model = new HashMap<>();
     model.put("provincia", provincia);
+    model.put("organizacion", organizacion);
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  //REPORTES PAIS
+
+  @GetMapping("/composicion_hc_pais_back/{nombre}")
+  public ResponseEntity<List<ReportePaisDTO>> obtenerComposicionHCTotalDeUnPais(@PathVariable String nombre){
+    List<ReportePaisDTO> result = repoReportesPais.findAllComposicionHCTotalDeUnDeterminadPais(nombre);
+    return ResponseEntity.status(200).body(result);
+  }
+
+  @GetMapping(value = "/composicion_hc_pais", produces = MediaType.TEXT_HTML_VALUE)
+  public ResponseEntity<String> obtenerComposicionHCTotalDeUnPaisHand(@RequestParam String nombre) throws IOException {
+
+    Template template = handlebars.compile("/Template/resultadoReporteComposicionPais");
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("nombre", nombre);
 
     String html = template.apply(model);
 

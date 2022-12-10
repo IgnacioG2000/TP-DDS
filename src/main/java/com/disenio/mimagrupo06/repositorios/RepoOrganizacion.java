@@ -8,4 +8,5 @@ import java.util.stream.Collectors;
 
 public interface RepoOrganizacion extends CrudRepository<Organizacion, Long> {
   //List<Organizacion> findAByUsuario();
+  List<Organizacion> findAll();
 }
