@@ -17,8 +17,9 @@ public interface RepoReportesOrganizacion extends CrudRepository<ReporteOrganiza
   List<ReporteOrganizacionDTO> findAllHCTotalPorTipoDeOrganizacion();
 
   @Query(value = " SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteOrganizacionDTO(o.razonSocial, hc.anio, SUM(hc.huellaCarbono))" +
-                 " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.id" +
-                 " WHERE o.razonSocial = :razonSocial" +
-                 " GROUP BY o.razonSocial, hc.anio")
+                 " FROM Organizacion o LEFT JOIN ValorHCMensualOrganizacion hc ON o.id = hc.organizacion.id" +
+                 " WHERE o.razonSocial LIKE :razonSocial" +
+                 " GROUP BY o.razonSocial, hc.anio" +
+                 " ORDER BY hc.anio")
   List<ReporteOrganizacionDTO> findAllEvolucionHCDeUnaDeterminadaOrganizacion(String razonSocial);
 }

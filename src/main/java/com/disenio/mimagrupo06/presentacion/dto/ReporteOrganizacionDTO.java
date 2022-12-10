@@ -70,4 +70,12 @@ public class ReporteOrganizacionDTO {
   public void setHc_total(Double hc_total) {
     this.hc_total = hc_total;
   }
+
+  public Integer getAnio() {
+    return anio;
+  }
+
+  public void setAnio(Integer anio) {
+    this.anio = anio;
+  }
 }

@@ -217,7 +217,7 @@ public class ReportesController {
 
   //REPORTES ORGANIZACIONES
 
-  @GetMapping("/hc_total_tipo_organizacion_back")
+  /*@GetMapping("/hc_total_tipo_organizacion_back")
   public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerHCTotalPorTipoDeOrganizacion(){
     List<ReporteOrganizacionDTO> result = repoReportesOrganizacion.findAllHCTotalPorTipoDeOrganizacion();
     return ResponseEntity.status(200).body(result);
@@ -233,7 +233,7 @@ public class ReportesController {
     String html = template.apply(model);
 
     return ResponseEntity.status(200).body(html);
-  }
+  }*/
 
   @GetMapping("/evolucion_hc_organizacion_back/{razon_social}")
   public ResponseEntity<List<ReporteOrganizacionDTO>> obtenerEvolucionHCDeUnaDeterminadaOrganizacion(@PathVariable String razon_social){
@@ -247,6 +247,7 @@ public class ReportesController {
     Template template = handlebars.compile("/Template/resultadoReporteEvolucionHCDeUnaDeterminadaOrganizacion");
 
     Map<String, Object> model = new HashMap<>();
+    model.put("razon_social", razon_social);
 
     String html = template.apply(model);
 

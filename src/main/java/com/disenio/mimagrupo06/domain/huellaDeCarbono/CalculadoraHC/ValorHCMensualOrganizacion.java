@@ -1,9 +1,8 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.disenio.mimagrupo06.domain.organizacion.Organizacion;
+
+import javax.persistence.*;
 
 @Entity
 public class ValorHCMensualOrganizacion {
@@ -13,6 +12,8 @@ public class ValorHCMensualOrganizacion {
   int anio;
   int mes;
   double huellaCarbono;
+  @ManyToOne
+  public Organizacion organizacion;
 
   public ValorHCMensualOrganizacion(int anio, int mes, double huellaCarbono) {
     this.anio = anio;

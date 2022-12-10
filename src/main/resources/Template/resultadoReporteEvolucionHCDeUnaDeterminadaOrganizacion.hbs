@@ -99,13 +99,13 @@
       plugins: {
         title: {
           display: true,
-          text: 'Evolución HC',
+          text: 'Evolución HC ({{razon_social}})',
         }
       }
     }
   })
 
-  let url = 'http://localhost:8080/evolucion_hc_organizacion_back'
+  let url = 'http://localhost:8080/evolucion_hc_organizacion_back/{{razon_social}}'
   fetch(url)
           .then( response => response.json() )
           .then( datos => mostrar(datos) )
