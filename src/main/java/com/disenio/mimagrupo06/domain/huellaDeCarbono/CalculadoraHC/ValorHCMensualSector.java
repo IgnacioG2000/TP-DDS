@@ -65,4 +65,20 @@ public class ValorHCMensualSector {
   public void setHuellaCarbono(double huellaCarbono) {
     this.huellaCarbono = huellaCarbono;
   }
+
+  public Sector getSector() {
+    return sector;
+  }
+
+  public void setSector(Sector sector) {
+    this.sector = sector;
+  }
+
+  public AgenteSectorial getAgenteSectorial() {
+    return agenteSectorial;
+  }
+
+  public void setAgenteSectorial(AgenteSectorial agenteSectorial) {
+    this.agenteSectorial = agenteSectorial;
+  }
 }

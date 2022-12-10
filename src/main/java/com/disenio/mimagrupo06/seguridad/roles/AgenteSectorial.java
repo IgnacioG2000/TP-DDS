@@ -25,8 +25,9 @@ public class AgenteSectorial extends Usuario {
   @Transient
   private RepoArea ra;
 
-  @OneToMany(cascade = {CascadeType.ALL}) // TODO Agregue esto
-  private List<ValorHCMensualSector> valoresHCMensualSector;
+  @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) // TODO Agregue esto
+  @JoinColumn(name = "sector_id")
+  private List<ValorHCMensualSector> valoresHCMensualSector = new ArrayList<>();
 
   public RepoArea getRa() {
     return ra;
@@ -39,7 +40,6 @@ public class AgenteSectorial extends Usuario {
   public AgenteSectorial(String usuario, String contrasenia, Sector sector) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
     this.sectorTerritorial = sector;
-    this.valoresHCMensualSector = new ArrayList<>(); // TODO Agregue esta lista
 
     setTipoUsuario(3);
   }
