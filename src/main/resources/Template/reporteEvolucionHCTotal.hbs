@@ -88,7 +88,7 @@
             <label class="form-label">Seleccione la organizacion:</label>
             <select name="organizacion" id="organizacion">
                 {{#each organizacion}}
-                    <option value='{{nombre}}'>{{nombre}}</option>
+                    <option value='{{razonSocial}}'>{{razonSocial}}</option>
                 {{/each}}
             </select>
         </div>
@@ -155,7 +155,7 @@
                 window.location = "/evolucion_hc_municipio?nombre=" + municipio.value
             }
             else {
-                //window.location = "/evolucion_hc_organizacion?nombre=" + organizacion.value
+                window.location = "/evolucion_hc_organizacion?razon_social=" + organizacion.value
             }
         }
     })
