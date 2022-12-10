@@ -77,10 +77,10 @@
     const myChart = new Chart(ctx, {
         type:'line',
         data:{
-            labels: ['2017', '2018', '2019', '2020', '2021', '2022'],
+            labels: [],
             datasets: [{
                 label: 'HC Total',
-                data: [17,13,22,3,10,6],
+                data: [],
                 backgroundColor: gradient,
                 borderColor: ['black'],
                 borderWidth:1,
@@ -103,8 +103,7 @@
         }
     })
 
-    /*
-    let url = 'http://localhost:8080/hc_provincia_back/{{nombre}}'
+    let url = 'http://localhost:8080/evolucion_hc_provincia_back/{{nombre}}'
     fetch(url)
             .then( response => response.json() )
             .then( datos => mostrar(datos) )
@@ -113,12 +112,14 @@
 
     const mostrar = (reporteProvincia) =>{
         reporteProvincia.forEach(provincia => {
-            myChart.data['labels'].push(provincia.provincia)
-            myChart.data['datasets'][0].data.push(2)
-            myChart.update()
+            if(provincia.anio != null) {
+                myChart.data['labels'].push(provincia.anio)
+                myChart.data['datasets'][0].data.push(provincia.hc_total)
+                myChart.update()
+            }
         });
         console.log(myChart.data)
-    }*/
+    }
 
 </script>
 

@@ -79,7 +79,7 @@ public class InitData implements CommandLineRunner {
 
         if(ta.count() == 0) {
 
-            //da.cargarDatos();
+            da.cargarDatos();
 
             PaisSector paisSector = new PaisSector(9L,"ARGENTINA");
             rps.save(paisSector);

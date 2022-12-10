@@ -30,9 +30,9 @@ public interface RepoReportesProvincia extends CrudRepository<ReporteProvinciaDT
 
   @Query(value = " SELECT NEW com.disenio.mimagrupo06.presentacion.dto.ReporteProvinciaDTO(p.nombre, hc.anio, SUM(hc.huellaCarbono))" +
                   " FROM ProvinciaSector p JOIN PaisSector ps ON p.pais.id = ps.id" +
-                  "                        JOIN MunicipioSector m ON p.id = m.provincia.id" +
                   "                        LEFT JOIN ValorHCMensualSector hc ON p.id = hc.sector.id" +
                   " WHERE p.nombre = :nombre" +
-                  " GROUP BY p.nombre, hc.anio")
+                  " GROUP BY p.nombre, hc.anio" +
+                  " ORDER BY hc.anio")
   List<ReporteProvinciaDTO> findAllEvolucionHCTotalDeUnaDeterminadaProvincia(String nombre);
 }
