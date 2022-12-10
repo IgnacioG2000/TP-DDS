@@ -1,7 +1,10 @@
 package com.disenio.mimagrupo06.domain.organizacion;
 
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.CalculadoraHCActividad;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualMiembro;
 import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualOrganizacion;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.ManejadorTrayectos;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.trayecto.Trayecto;
 import com.disenio.mimagrupo06.excel_ETL.DatoDeLaActividad;
 import com.disenio.mimagrupo06.excel_ETL.Transformador;
 import com.disenio.mimagrupo06.notificadores.ManejadorEvento;
@@ -12,9 +15,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Organizacion {
@@ -38,7 +43,7 @@ public class Organizacion {
   private MedioNotificacion mediosNotificacion;
   @Transient
   private OrganizacionService organizacionService;
-  @OneToMany(cascade = {CascadeType.ALL}) // Chequear
+  @OneToMany(cascade = {CascadeType.ALL})
   @JoinColumn(name = "organizacion_id")
   private List<ValorHCMensualOrganizacion> valoresHCMensualOrganizacion;
 
@@ -97,7 +102,24 @@ public class Organizacion {
   }
 
   public double calcularHuellaCarbonoTotalAnio(int anio) {
-    return organizacionService.calcularHuellaCarbonoTotalAnio(anio,this);
+    //Conseguir anio
+    int meses;
+
+    //conseguir cantidad de meses de dicho anio
+    if(anio != LocalDate.now().getYear()){
+      meses = 12;
+    }else{
+      meses = LocalDate.now().getMonthValue()-1;
+    }
+
+    double hcOrg=0.0;
+
+    for(int i =1; i<=meses;i++){
+      hcOrg += this.calcularHuellaCarbonoTotalMensual(anio,i);
+    }
+
+    return hcOrg;
+//    return organizacionService.calcularHuellaCarbonoTotalAnio(anio,this);
 
   }
 
@@ -115,8 +137,31 @@ public class Organizacion {
     this.datoDeLaActividad = datoDeLaActividad;
   }
 
+  private void agregarHCMensual(int anio, int mes, Double hcOrg) {
+    ValorHCMensualOrganizacion valorHC = new ValorHCMensualOrganizacion(anio, mes, hcOrg);
+    valoresHCMensualOrganizacion.add(valorHC);
+  }
+
   public double calcularHuellaCarbonoTotalMensual(int anio, int mes) {
-    return organizacionService.calcularHuellaCarbonoTotalMensual(anio,mes,this);
+    double hcOrg;
+    if(valoresHCMensualOrganizacion.stream().noneMatch(valorHCMensualOrg -> valorHCMensualOrg.soyMes(anio,mes))) {
+      if(anio <= LocalDate.now().getYear()){
+        hcOrg = organizacionService.calcularHuellaCarbonoTotalMensual(anio,mes,this);
+        agregarHCMensual(anio, mes, hcOrg);
+      } else {
+        hcOrg = 0;
+      }
+
+
+    }else{
+      hcOrg = valoresHCMensualOrganizacion
+              .stream()
+              .filter(valorHCMensualOrg -> valorHCMensualOrg.soyMes(anio,mes))
+              .collect(Collectors.toList())
+              .get(0)
+              .getHuellaCarbono();
+    }
+    return hcOrg;
   }
 
   public boolean tieneArea(Area area) {

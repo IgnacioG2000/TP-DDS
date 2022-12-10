@@ -1,6 +1,7 @@
 package com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC;
 
 import com.disenio.mimagrupo06.domain.sector.Sector;
+import com.disenio.mimagrupo06.seguridad.roles.AgenteSectorial;
 
 import javax.persistence.*;
 
@@ -14,19 +15,23 @@ public class ValorHCMensualSector {
   double huellaCarbono;
   @ManyToOne
   public Sector sector;
+  @OneToOne // TODO agregue el agente acaa
+  public AgenteSectorial agenteSectorial;
 
-  public ValorHCMensualSector(int anio, int mes, double huellaCarbono) {
+  public ValorHCMensualSector(int anio, int mes, double huellaCarbono, Sector sector, AgenteSectorial agenteSectorial) {
     this.anio = anio;
     this.mes = mes;
     this.huellaCarbono = huellaCarbono;
+    this.sector = sector;
+    this.agenteSectorial = agenteSectorial; // TODO Agregue esto
   }
 
   public ValorHCMensualSector() {
 
   }
-
-  public boolean soyMes(int otroAnio, int otroMes) {
-    return otroAnio == anio && otroMes == mes;
+  // TODO Ver funcion soy mes
+  public boolean soyMes(int otroAnio, int otroMes, Sector sect,AgenteSectorial agente) {
+    return otroAnio == anio && otroMes == mes && agenteSectorial == agente && sector == sect;
   }
 
   public double getHuellaCarbono() {
