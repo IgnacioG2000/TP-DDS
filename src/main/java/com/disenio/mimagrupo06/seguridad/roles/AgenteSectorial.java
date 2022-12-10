@@ -1,5 +1,7 @@
 package com.disenio.mimagrupo06.seguridad.roles;
 
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualOrganizacion;
+import com.disenio.mimagrupo06.domain.huellaDeCarbono.CalculadoraHC.ValorHCMensualSector;
 import com.disenio.mimagrupo06.domain.organizacion.Area;
 import com.disenio.mimagrupo06.domain.sector.Sector;
 import com.disenio.mimagrupo06.repositorios.RepoArea;
@@ -8,11 +10,10 @@ import com.disenio.mimagrupo06.repositorios.RepoOrganizacion1;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,9 @@ public class AgenteSectorial extends Usuario {
   private Sector sectorTerritorial;
   @Transient
   private RepoArea ra;
+
+  @OneToMany(cascade = {CascadeType.ALL}) // TODO Agregue esto
+  private List<ValorHCMensualSector> valoresHCMensualSector;
 
   public RepoArea getRa() {
     return ra;
@@ -35,6 +39,8 @@ public class AgenteSectorial extends Usuario {
   public AgenteSectorial(String usuario, String contrasenia, Sector sector) throws NoSuchAlgorithmException {
     super(usuario, contrasenia);
     this.sectorTerritorial = sector;
+    this.valoresHCMensualSector = new ArrayList<>(); // TODO Agregue esta lista
+
     setTipoUsuario(3);
   }
 
@@ -46,8 +52,32 @@ public class AgenteSectorial extends Usuario {
     return sectorTerritorial;
   }
 
+  private void agregarHCMensual(int anio, int mes, Double hcSector) {
+    ValorHCMensualSector valorHC = new ValorHCMensualSector(anio, mes, hcSector, this.sectorTerritorial, this);
+    this.valoresHCMensualSector.add(valorHC);
+  }
+
   public double calcularHuellaCarbonoPorSectorAnual(int anio) {
     List<Area> listaAreas = ra.findAll();
+
+    //Conseguir anio
+    int meses;
+
+    //conseguir cantidad de meses de dicho anio
+    if(anio != LocalDate.now().getYear()){
+      meses = 12;
+    }else{
+      meses = LocalDate.now().getMonthValue()-1;
+    }
+
+    double hcSector=0.0;
+
+    for(int i =1; i<=meses;i++){
+      hcSector += this.calcularHuellaCarbonoPorSectorMensual(anio,i);
+    }
+
+    return hcSector;
+  /*
     double hcPorSector = listaAreas
         .stream()
         .filter(area -> area.perteneceSector(sectorTerritorial))
@@ -55,19 +85,37 @@ public class AgenteSectorial extends Usuario {
         .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaAnual(anio))
         .sum();
 
-    return hcPorSector;
+    return hcPorSector;*/
   }
-
+  // TODO CAMBIE ESTE METODO Y EL DE ABAJO
   public double calcularHuellaCarbonoPorSectorMensual(int anio, int mes) {
     List<Area> listaAreas = ra.findAll();
-    double hcPorSector = listaAreas
-        .stream()
-        .filter(area -> area.perteneceSector(sectorTerritorial))
-        .collect(Collectors.toList())
-        .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes))
-        .sum();
 
-    return hcPorSector;
+    double hcSector;
+    if(valoresHCMensualSector.stream().noneMatch(valorHCMensualSector -> valorHCMensualSector.soyMes(anio,mes, this.sectorTerritorial, this))) {
+      if(anio <= LocalDate.now().getYear()){
+        hcSector = listaAreas
+                .stream()
+                .filter(area -> area.perteneceSector(sectorTerritorial))
+                .collect(Collectors.toList())
+                .stream().mapToDouble(area -> area.calcularHuellaCarbonoTotalAreaMensual(anio, mes))
+                .sum();
+        agregarHCMensual(anio, mes, hcSector);
+      } else {
+        hcSector = 0;
+      }
+
+
+    }else{
+      hcSector = valoresHCMensualSector
+              .stream()
+              .filter(valorHCMensualSector -> valorHCMensualSector.soyMes(anio,mes, this.sectorTerritorial, this))
+              .collect(Collectors.toList())
+              .get(0)
+              .getHuellaCarbono();
+    }
+    return hcSector;
+
   }
 
   public void setSectorTerritorial(Sector sectorTerritorial) {
