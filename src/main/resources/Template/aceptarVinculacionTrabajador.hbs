@@ -91,8 +91,6 @@
 <script src="/js/funcionesComunes.js"></script>
 
 <script>
-    const ID_SESION = "idSesion"
-    const obtenerSesion = () => localStorage.getItem(ID_SESION)
 
     async function vincular(idM) {
         let response = await fetch("/vincular/" + idM.toString(), {
