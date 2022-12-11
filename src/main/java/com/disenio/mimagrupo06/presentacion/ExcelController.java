@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-
 public class ExcelController {
 
   @Autowired
@@ -38,13 +37,12 @@ public class ExcelController {
 
   public ExcelController() {
   }
-  @GetMapping("/cargar/mediciones")
+  @GetMapping("/registrar/mediciones")
   public ResponseEntity<String> mediciones() throws IOException {
     //validar accion en capa modelo según roles o usuario asociados al idSesion
     Template template = handlebars.compile("/Template/registrarMediciones");
 
     Map<String, Object> model = new HashMap<>();
-    //model.put("listamascotas", mascotas);
 
     String html = template.apply(model);
 

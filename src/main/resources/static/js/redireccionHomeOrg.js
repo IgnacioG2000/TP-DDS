@@ -6,6 +6,13 @@ document.getElementById("navVinculaciones").addEventListener('click', e=> {
 
 })
 
+document.getElementById("navMediciones").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlConIdSesion("registrar/mediciones")
+
+})
+
 document.getElementById("navAnual").addEventListener('click', e=> {
     e.preventDefault()
     //pedirAlBack().then()

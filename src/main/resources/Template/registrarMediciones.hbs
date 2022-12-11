@@ -23,35 +23,30 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="#about">Aceptar vinculacion</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownHC" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ejecutar calculadora HC</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownHC">
-                        <li><a class="dropdown-item" href="#!">Anual</a></li>
+                    <a class="nav-link dropdown-toggle" id="navCalculadoraHC" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ejecutar calculadora HC</a>
+                    <ul class="dropdown-menu" aria-labelledby="navCalculadoraHC">
+                        <li><a class="dropdown-item" id="navAnual" href="#!">Anual</a></li>
                         <!--<li><hr class="dropdown-divider" /></li>-->
-                        <li><a class="dropdown-item" href="#!">Mensual</a></li>
+                        <li><a class="dropdown-item" id="navMensual" href="#!">Mensual</a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a class="nav-link" id="navVinculaciones" href="#about">Gestionar Vinculaciones</a></li>
+                <li class="nav-item"><a class="nav-link" id="navMediciones" href="#about">Registrar Mediciones</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Visualizar</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Reportes</a></li>
+                    <a class="nav-link dropdown-toggle" id="navReportes" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
+                    <ul class="dropdown-menu" aria-labelledby="navReportes">
+                        <li><a class="dropdown-item" id="navHCTotal" href="#!">HC Total</a></li>
                         <!--<li><hr class="dropdown-divider" /></li>-->
-                        <li><a class="dropdown-item" href="#!">Recomendaciones</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown1" href="#shop" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registrar</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Mediciones</a></li>
-                        <li><a class="dropdown-item" href="#!">Area</a></li>
+                        <li><a class="dropdown-item" id="navEvolucionHC" href="#!">Evolución HC</a></li>
+                        <li><a class="dropdown-item" id="navComposicionHC" href="#!">Composición HC</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="nav1" id="navbarSupportedContent1">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 flex-end">
-                <li class="nav-item"><a class="nav-link active" aria-current="page">Cerrar Sesión</a></li>
+                <li class="nav-item"><a class="nav-link" id="cerrarSesion" aria-current="page">Cerrar Sesión</a></li>
             </ul>
         </div>
     </div>
@@ -61,7 +56,6 @@
 <!-- HTML5 Input Form Elements
 <input id="fileupload" type="file" name="fileupload" />
 <button id="upload-button" onclick="uploadFile()"> Upload </button>-->
-
 <div class="formulario1">
     <h1> Registrar una medición</h1>
 
@@ -81,10 +75,12 @@
 <footer class="py-5 bg-color1 fixed-bottom">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mi Impacto Ambiental 2022</p></div>
 </footer>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scripts.js"></script>
+<script src="/js/redireccionHomeOrg.js"></script>
+<script src="/js/funcionesComunes.js"></script>
 
 <script>
     document.getElementById("formExcel").addEventListener("submit", (e) => {
@@ -107,30 +103,23 @@
     }
 
     <!-- Ajax JavaScript File Upload to Spring Boot Logic -->
-        async function uploadFile() {
+    async function uploadFile() {
         let formData = new FormData();
         formData.append("file", fileupload.files[0]);
         let response = await fetch('/upload', {
-        method: "POST",
-        headers: {
-        "Authorization": obtenerSesion(),
-        },
+            method: "POST",
+            headers: {
+                "Authorization": obtenerSesion(),
+            },
 
-        body: formData
-    });
+            body: formData
+        });
 
         if (response.status == 200) {
-        alert("Archivo subido correctamente.");
-    }}
-
-
-
+            alert("Archivo subido correctamente.");
+        }}
 
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
 
 </body>
 </html>
