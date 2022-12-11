@@ -31,7 +31,7 @@ public class ValorHCMensualSector {
   }
   // TODO Ver funcion soy mes
   public boolean soyMes(int otroAnio, int otroMes, Sector sect,AgenteSectorial agente) {
-    return otroAnio == anio && otroMes == mes && agenteSectorial == agente && sector == sect;
+    return otroAnio == this.anio && otroMes == this.mes && sect.getId() == this.sector.getId() && agente.getId() == this.agenteSectorial.getId();
   }
 
   public double getHuellaCarbono() {
