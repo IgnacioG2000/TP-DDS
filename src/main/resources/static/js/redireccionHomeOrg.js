@@ -1,8 +1,22 @@
 
-document.getElementById("navRegistrarTrayecto").addEventListener('click', e=> {
+document.getElementById("navAceptarVinculacion").addEventListener('click', e=> {
     e.preventDefault()
     //pedirAlBack().then()
-    cambiarUrlConIdSesion("registrarTrayecto")
+    //cambiarUrlConIdSesion("registrarTrayecto")
+
+})
+
+document.getElementById("navAnual").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlSinIdSesion("calculadora/organizacion/hcAnual")
+
+})
+
+document.getElementById("navMensual").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlSinIdSesion("calculadora/organizacion/hcMensual")
 
 })
 

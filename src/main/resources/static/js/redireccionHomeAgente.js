@@ -1,8 +1,15 @@
 
-document.getElementById("navRegistrarTrayecto").addEventListener('click', e=> {
+document.getElementById("navAnual").addEventListener('click', e=> {
     e.preventDefault()
     //pedirAlBack().then()
-    cambiarUrlConIdSesion("registrarTrayecto")
+    cambiarUrlSinIdSesion("calculadora/agenteSectorial/hcAnual")
+
+})
+
+document.getElementById("navMensual").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlSinIdSesion("calculadora/agenteSectorial/hcMensual")
 
 })
 
