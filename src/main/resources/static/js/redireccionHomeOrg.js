@@ -1,8 +1,8 @@
 
-document.getElementById("navAceptarVinculacion").addEventListener('click', e=> {
+document.getElementById("navVinculaciones").addEventListener('click', e=> {
     e.preventDefault()
     //pedirAlBack().then()
-    //cambiarUrlConIdSesion("registrarTrayecto")
+    cambiarUrlConIdSesion("gestionar/vinculaciones")
 
 })
 

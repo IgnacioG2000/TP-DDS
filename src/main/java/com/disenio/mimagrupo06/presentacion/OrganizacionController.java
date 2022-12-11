@@ -39,7 +39,7 @@ public class OrganizacionController {
 
 
   @GetMapping("/gestionar/vinculaciones")
-  public ResponseEntity<String> miembrosPendientes(@RequestParam("Authorization") String idSesion) throws IOException{
+  public ResponseEntity<String> miembrosPendientes(@RequestParam("sesion") String idSesion) throws IOException{
     Template template = handlebars.compile("/Template/aceptarVinculacionTrabajador");
 
       Map<String, Object> atributosSesion = SesionManager.get().obtenerAtributos(idSesion);
