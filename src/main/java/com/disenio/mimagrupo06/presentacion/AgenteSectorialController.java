@@ -101,4 +101,28 @@ public class AgenteSectorialController {
     ru.save(agenteSectorial);
     return ResponseEntity.status(200).body(resultado);
   }
+
+  @GetMapping("/recomendaciones")
+  public ResponseEntity<String> mostrarRecomendaciones() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/Template/recomendaciones");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
+
+  @GetMapping("/recomendaciones/comingSoon")
+  public ResponseEntity<String> mostrarRecomendacion() throws IOException {
+    //validar accion en capa modelo según roles o usuario asociados al idSesion
+    Template template = handlebars.compile("/Template/comingSoon");
+
+    Map<String, Object> model = new HashMap<>();
+
+    String html = template.apply(model);
+
+    return ResponseEntity.status(200).body(html);
+  }
 }

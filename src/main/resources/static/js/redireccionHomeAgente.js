@@ -34,6 +34,13 @@ document.getElementById("navComposicionHC").addEventListener('click', e=> {
 
 })
 
+document.getElementById("navRecomendaciones").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlSinIdSesion("recomendaciones")
+
+})
+
 function mandarAlBack() {
     fetch('http://localhost:8080/registrarTrayecto', {
         body: {
