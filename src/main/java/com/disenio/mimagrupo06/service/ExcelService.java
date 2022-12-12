@@ -13,7 +13,7 @@ public class ExcelService {
 //.//src//main//resources//files//
   //private String upload_folder = "/src/main/resources/files/";
   //src//main//java//com//disenio//mimagrupo06//excel_ETL//
-  private String upload_folder = "./src/main/resources/files/";
+  private String upload_folder = "./src/main/resources/";
 
   public void saveFile(MultipartFile file) throws IOException{
     if(!file.isEmpty()){
@@ -26,7 +26,7 @@ public class ExcelService {
   }
 
   public String obtenerPath(MultipartFile file){
-    return "./src/main/resources/files/" + file.getOriginalFilename();
+    return file.getOriginalFilename();
   }
 
   public void deleteFile(MultipartFile file) throws IOException{

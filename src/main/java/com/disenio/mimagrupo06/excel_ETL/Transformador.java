@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,6 +30,7 @@ public class Transformador {
 
   private Collection<DatoDeLaActividad> datoDeLaActividad;
   private RepoTA ta;
+
 /*
   @Bean
   public Transformador transformador() {
@@ -38,14 +40,19 @@ public class Transformador {
 */
   public void cargarDatos(Organizacion org, String pathParcial)
   {
+
     try {
+
+      FileResourceUtils app = new FileResourceUtils();
+
       //conseguimos el path del proyecto
       Path path = Paths.get("");
 
       String directoryName = path.toAbsolutePath().toString();
 
       //conseguimos abrir el excel con el path del mismo dentro del proyecto
-      FileInputStream file = new FileInputStream(new File( directoryName + pathParcial));
+      //FileInputStream file = new FileInputStream(new File( directoryName + pathParcial));
+      InputStream file = app.getFileFromResourceAsStream(pathParcial);
 
       //Create Workbook instance holding reference to .xls file
       HSSFWorkbook workbook = new HSSFWorkbook(file);
