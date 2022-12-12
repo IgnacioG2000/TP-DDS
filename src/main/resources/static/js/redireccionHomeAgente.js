@@ -59,3 +59,8 @@ document.getElementById("cerrarSesion").addEventListener('click', e=> {
     cerrarSesion()
 })
 
+document.getElementById("navHome").addEventListener('click', e=> {
+    e.preventDefault()
+    //pedirAlBack().then()
+    cambiarUrlConIdSesion("home")
+})
