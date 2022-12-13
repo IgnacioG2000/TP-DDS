@@ -126,7 +126,7 @@ public class InitData implements CommandLineRunner {
             re.save(espacioOrigen);
             re.save(espacioTrabajoArea);
 
-            MedioDeTransporte medioDeTransporte1 = new TransportePublico(TipoTransportePublico.TREN, "Tren Roca" );
+            MedioDeTransporte medioDeTransporte1 = new ServicioContratado(TipoServicioContratado.TAXI);
             MedioDeTransporte medioDeTransporte2 = new VehiculoParticular(TipoVehiculo.AUTO,TipoCombustible.NAFTA);
             rmt.save(medioDeTransporte1);
             rmt.save(medioDeTransporte2);
