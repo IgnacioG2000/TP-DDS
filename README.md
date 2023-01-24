@@ -9,6 +9,7 @@
 |Añaños, Matías| [@matyy-a](https://github.com/matyy-a) |
 |D'Alessio Poisson, Julia| [@juliadp](https://github.com/juliadp) |
 |Flores Maquera, Juan Alberto| [@jfloresmaquera](https://github.com/jfloresmaquera) |
+|García, Ignacio| [@IgnacioG2000](https://github.com/IgnacioG2000) |
 |Kaner Loy, Camila| [@Ckanerloy](https://github.com/Ckanerloy) |
 |Magnelli, Mercedes| [@mercedesmagnelli](https://github.com/mercedesmagnelli) |
 |Putrino, Rodrigo| [@Rodri-Putrino](https://github.com/Rodri-Putrino) |
